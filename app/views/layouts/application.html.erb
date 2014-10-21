@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A web interface for use of assessment engine">
+    <meta name="author" content="Yaelle Chaudy - UWS">
+
+	  <title>EngAGe - <%= yield :title %> </title>
+
+	  <%= stylesheet_link_tag    "application", :media => "all" %>
+	  <%= javascript_include_tag "application" %>
+	  <%= csrf_meta_tags %>
+    <%= favicon_link_tag 'favicon.ico' %>
+
+    <script type="text/javascript">
+      function clickTab1() {
+        $(this).tab('show')
+      }
+
+      $('#tab2 a').click(function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+      })
+
+      $('#tab1 a').click(function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+      })
+    </script>
+
+</head>
+<body>
+
+	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <%= link_to "EngAGe", root_path, :class => "navbar-brand" %>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-book"></span> Learn <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><%= link_to "Documentation", documentation_doc_path %></li>
+                <li><%= link_to "Tutorials", documentation_tutorial_path %></li>
+                <li><a href="api.html">API</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-tower"></span> Serious Games <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><%= link_to "Create", new_serious_game_path %></li>
+                <li><%= link_to "Manage", serious_games_path %></li>
+              </ul>
+            </li>
+            <li><a href="LA.html"><span class="glyphicon glyphicon-stats"></span> Learning Analytics</a></li>
+            <li><a href="about.html"><span class="glyphicon glyphicon-info-sign"></span> About</a></li>
+          </ul>
+          <!--<form class="navbar-form navbar-right">
+            <div class="form-group">
+              <input type="text" placeholder="Email" class="form-control input-sm">
+            </div>
+            <div class="form-group">
+              <input type="password" placeholder="Password" class="form-control input-sm">
+            </div>
+            <button type="submit" class="btn btn-info btn-sm">Sign in</button>
+          </form>-->
+        </div><!--/.navbar-collapse -->
+      </div>
+    </div>
+
+    <% if content_for?(:notmain) %>
+      <div class="banner2">
+        <table width="80%" align="center" border="0">
+          <tr><td align="center"><%= image_tag "logo2.png", alt:"logo", size: "150x130" %></td>
+              <td align="center"><h2>EngAGe </h2><h3>An Engine for Assessment in Serious Games</h3></td></tr>
+        </table>
+      </div>
+    <% end %>
+
+	  <%= yield %>
+
+	<footer>
+        <div align="center">&copy; Ya&euml;lle Chaudy - <a href="http://uws.ac.uk"> University of the West of Scotland </a> - 2013</div>
+    </footer>
+
+</body>
+</html>
+

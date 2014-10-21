@@ -1,0 +1,9 @@
+body {
+    padding-top: 70px;
+}
+
+#print {
+    width : 24 px;
+    height : 24 px;
+    background : url("sprite.png") - 168 px 0;
+}

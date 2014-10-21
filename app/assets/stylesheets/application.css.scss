@@ -1,0 +1,195 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require_tree .
+ */
+
+body
+{
+	background-image: url("img/lightGreen.jpg");
+}
+
+.container p
+{
+	text-align: justify;
+}
+
+.banner
+{
+	background-image: url("img/lightGreen50.png");
+	/*background-color: #608020;*/
+	padding-top: 60px;
+	padding-bottom: 10px;
+	/*text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;*/
+	color: black;
+
+}
+
+.banner2
+{
+	background-image: url("img/lightGreen.jpg");
+	/*background-color: #608020;*/
+	padding-top: 0px;
+	padding-bottom: 10px;
+	/*text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;*/
+	color: #004000;
+
+}
+
+.banner h1
+{
+	color: #004000;
+	font-weight: bold;
+	font-size: 30pt;
+	text-shadow: 0px 1px 2px grey;
+}
+
+.bgWhite
+{
+	background-image: url(img/whiteOpacity50.png);
+}
+
+.banner2 h2
+{
+	font-weight: bold;
+	font-size: 22pt;
+	text-shadow: 0px 1px 2px #00a060;
+}
+
+.banner2 h3
+{
+	color: #004020;
+	font-size: 18pt;
+	text-shadow: 0px 1px 1px #00a060;
+}
+
+.YellowBg
+{
+	background-image: url(img/bg2.png);
+	padding-top: 10px;
+	padding-right: 10px;
+	padding-left: 10px;	
+	margin-bottom: 1em;
+}
+
+.WhiteBg
+{
+	background-image: url(img/ricepaper.png);
+}
+
+.learningOutcomes li
+{
+	list-style: none;
+	background: url(img/valid.png) no-repeat left 0.5em;
+	padding: 0.5em 1.75em 0.5em 1.75em;
+}
+
+.code-container
+{
+	background-color: grey;
+}
+
+.keyWdCompulsory
+{
+	font-weight: bold;
+	color: darkblue;
+}
+.keyWdOptional
+{
+	font-weight: bold;
+	color: darkblue;
+}
+.keyWdType
+{
+	font-weight: bold;
+	color: teal;
+}
+.inputString
+{
+	font-style: italic;
+	color: #d14;
+}
+.keyWdChar
+{
+	font-weight: bold;	
+}
+.inputInt
+{
+	color: teal;	
+}
+.inputBoolean
+{
+	color: teal;	
+}
+.comments
+{
+	color: grey;
+	font-style: italic;
+}
+
+.SG_Illustration
+{
+	text-align: center;
+}
+
+.codeContainer
+{
+	background: #EEE url(img/code_grey.png) no-repeat left top;
+	padding: 0.7em 0.7em 0.2em 48px;
+}
+
+.bnfContainer
+{
+	background: #bfe7e7 url(img/bnf_blue.png) no-repeat left top;
+	padding: 0.7em 0.7em 0.2em 48px;
+	margin-bottom: 1em;
+	margin-left: 0;
+}
+
+.returnContainer
+{
+	background: #e0ff76 url(img/return_green.png) no-repeat left top;
+	padding: 0.7em 0.7em 0.2em 48px;
+	margin-bottom: 1em;
+	margin-left: 0;
+}
+
+.mainText
+{
+	background-color: white;
+}
+
+.mainText h4
+{
+	padding-top: 15px;
+}
+
+footer
+{
+	color: black;
+}
+
+footer a 
+{
+	color: darkblue;
+}
+
+footer a:visited
+{
+	color: darkblue;
+}
+
+.editor {
+  width: 800px;
+  height: 700px;
+  margin-left: 75px;
+  border: 2px;
+}

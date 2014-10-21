@@ -1,0 +1,651 @@
+<% content_for :title do %>
+  Documentation
+<% end %>
+
+<% content_for :notmain do %>
+  True
+<% end %>
+
+<div class="mainText container">
+	<h2>Documentation</h2>
+      <p>So you decided to use EngAGe to perform the assessment in your serious game? Great! You can read the following documentation to learn how to do so, or see it in action with our <a href="tutos.html"> tutorial</a> if you'd rather learn by doing!</p>
+
+      <div style="padding-left: 50px">
+        <h3>Getting Started</h3>
+          <a href="#gettingStarting"> The configuration file </a>
+          <p>Everything you need to know about the writting of configuration file.</p>
+          
+        <h3>Making the most of your options</h3>
+          <a href="#webServices"> The web services available for you </a>
+          <p>Learn about all the services offered by EngAGe, from the assessment of a player's action to the triggering of feedback or the list of common mistakes.</p>
+          <a href="#LA">The learning analytics</a>
+          <p>Once your game is up and running, collect data and go to your game's dashboard for further learning analytics and start bettering your game.</p>
+      </div>
+
+      <span id="gettingStarting"></span>
+      <hr/>
+
+      <h3>The configuration file</h3>
+      <div class="row YellowBg">
+          <p>In this section we will cover everything you need to know about the configuration file, you will learn how to:</p>
+        <div class="col-lg-9">
+            <ul class="learningOutcomes">
+              <li>Define your Serious Game</li>
+              <li>Describe a typical Player</li>
+              <li>Specify the Learning Outcomes</li>
+              <li>Build an evidence model of Actions</li>
+              <li>Create Feedback and a model for it to be triggered</li>
+            </ul>
+            <br/>
+        </div>
+        <div class="col-lg-3 WhiteBg">
+          <p><h5><b>Table of Content</b></h5>
+          <ul>
+            <li><a href="#SG">1. Serious Game</a></li>
+            <li><a href="#Player">2. Player</a></li>
+            <li><a href="#LO">3. Learning outcomes</a></li>
+            <li><a href="#Fdbck">4. Feedback messages</a></li>
+            <li><a href="#Actions">5. Evidence model</a></li>
+            <li><a href="#FdbckModel">6. Feedback model</a></li>
+            <li><a href="#Cl">7. Conclusion</a></li>
+          </ul></p>
+        </div>
+      </div>
+
+      <p>The configuration file is to be written using our own Domain Specific Language, in the following code examples, all bold words are key words of the language. Every section is closed using the DSL's keyword <code>End</code>. The definition of the DSL is given using the BNF format and the visual diagram is available on request.</p>
+
+
+      <h4 id="SG">1. Serious Game</h4>
+
+      <p>In the first section of the configuration, you need to describe your serious game, while most parameters are optional, you do need to provide at least a name and your developer id. </p>
+
+      <div class="bnfContainer">
+        <pre class="pre-scrollable">serious-game ::= 'Serious-game' 
+  'SGname:' StringLiteral 
+  'SGdeveloper:' Integer
+  ( 'SGdesc:' StringLiteral )?
+  ( 'SGageRange:' Integer '-' Integer )?
+  ( 'SGlanguage:' CharCode CharCode )?
+  ( 'SGcountry:' CharCode CharCode )?
+  ( 'SGgenre:' StringLiteral )?
+  ( 'SGsubject:' StringLiteral )?
+  ( 'SGpublic:' Boolean )?
+'End'</pre>
+
+        <button type="button" class="btn btn-xs" data-toggle="collapse" data-target="#imgBNF-SG">
+          Show/Hide the diagram
+        </button>
+
+        <div id="imgBNF-SG" class="collapse"><p><br/>
+        	<%= image_tag "BNF/serious-game.png" %></p></div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+          <table class="table table-hover table-bordered table-striped">
+            <tr><th>Parameter</th><th>Description</th><th>Compulsory or optional</th><th>Input value format</th></tr>
+            <tr><td><code><span class="keyWdCompulsory">SGname</span></code></td><td>Name of the game</td><td>Compulsory</td><td>String</td></tr>
+            <tr><td><code><span class="keyWdCompulsory">SGdeveloper</span></code></td><td>Id of the developer</td><td>Compulsory</td><td>Integer</td></tr>
+            <tr><td><code><span class="keyWdOptional">SGdesc</span></code></td><td>Description of the game</td><td>Optional</td><td>String</td></tr>
+            <tr><td><code><span class="keyWdOptional">SGageRange</span></code></td><td>Age range of the game's players</td><td>Optional</td><td>Int-Int</td></tr>
+            <tr><td><code><span class="keyWdOptional">SGlanguage</span></code></td><td>Language of the game</td><td>Optional</td><td>2 characters (following the <a href="http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">ISO 639-1</a> code)</td></tr>
+            <tr><td><code><span class="keyWdOptional">SGcountry</span></code></td><td>Country in which the game was developped</td><td>Optional</td><td>2 characters (following the <a href="http://en.wikipedia.org/wiki/ISO_3166-1">ISO 3166-1</a> code)</td></tr>
+            <tr><td><code><span class="keyWdOptional">SGgenre</span></code></td><td>Genre of the game</td><td>Optional</td><td>String</td></tr>
+            <tr><td><code><span class="keyWdOptional">SGsubject</span></code></td><td>Subject of the game</td><td>Optional</td><td>String</td></tr>
+            <tr><td><code><span class="keyWdOptional">SGpublic</span></code></td><td>Whether the game is free to use by anyone</td><td>Optional</td><td>Boolean (default value is true)</td></tr>
+          </table>
+        </div>
+        <div class="col-md-1"></div></div>
+
+        <h5><b>Example</b></h5>
+
+      <div class="codeContainer">
+      <pre rel="Serious Game" class="pre-scrollable"><code><span class="keyWdCompulsory">Serious-game</span>
+  <span class="keyWdCompulsory">SGname:</span> <span class="inputString">"My Serious Game"</span>
+  <span class="keyWdCompulsory">SGdeveloper:</span> <span class="inputInt">1234</span>
+  <span class="keyWdOptional">SGdesc:</span> <span class="inputString">"A small description of my serious game"</span>
+  <span class="keyWdOptional">SGageRange:</span> <span class="inputInt">6</span>-<span class="inputInt">99</span>
+  <span class="keyWdOptional">SGlanguage:</span> EN
+  <span class="keyWdOptional">SGcountry:</span> UK
+  <span class="keyWdOptional">SGgenre:</span> <span class="inputString">"platform"</span>
+  <span class="keyWdOptional">SGsubject:</span> <span class="inputString">"Language, French"</span>
+  <span class="keyWdOptional">SGpublic:</span> <span class="inputBoolean">true</span>
+<span class="keyWdCompulsory">End</span></code></pre></div>
+    
+    
+
+
+
+      <h4 id="Player">2. The player</h4>
+
+      <p>In the second section, totally optional, you can define a player. This is an important step as the data you define here will be available in the learning analytics page, but you will also need to provide the engine with this data where starting a gameplay. You can define as many parameters as you want but there are only a limited number of types available, they are detailed on the table bellow.</p>
+
+      <div class="bnfContainer">
+        <pre class="pre-scrollable">player ::= 'Player' 
+  ( Identifier ':' Type )+
+'End'
+
+Type ::= 'String' | 'Int' | 'Char' | 'Bool' | 'Float' | 'Text'</pre>
+
+<button type="button" class="btn btn-xs" data-toggle="collapse" data-target="#imgBNF-player">
+  Show/Hide the diagram
+</button>
+
+<div id="imgBNF-player" class="collapse"><p><br/>
+	<%= image_tag "BNF/player.png" %></p></div>
+</div>
+
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+          <table class="table table-hover table-bordered table-striped">
+            <tr><th>Type</th><th>Description</th></tr>
+            <tr><td><code><span class="keyWdType">Int</span></code></td><td>Integer</td></tr>
+            <tr><td><code><span class="keyWdType">Float</span></code></td><td>Float</td></tr>
+            <tr><td><code><span class="keyWdType">String</span></code></td><td>Character String</td></tr>
+            <tr><td><code><span class="keyWdType">Text</span></code></td><td>Longer text (>200 characters)</td></tr>
+            <tr><td><code><span class="keyWdType">Char</span></code></td><td>Character</td></tr>
+            <tr><td><code><span class="keyWdType">Bool</span></code></td><td>Boolean</td></tr>
+          </table>
+        </div>
+        <div class="col-md-1"></div></div>
+
+
+      <p><i><span class="glyphicon glyphicon-warning-sign"></span> Be careful, it is your responsability to check that you are allowed to store the information, especially when working with children (see children data policy rules).</i></p>
+
+         <h5><b>Example</b></h5>
+
+      <div class="codeContainer">
+      <pre rel="Player" class="pre-scrollable"><code><span class="keyWdOptional">Player</span>
+  name: <span class="keyWdType">String</span>
+  age: <span class="keyWdType">Int</span>
+  gender: <span class="keyWdType">Char</span>
+<span class="keyWdOptional">End</span></code></pre></div>
+
+
+
+
+      <h4 id="LO">3. Learning Outcomes</h4>
+
+      <p>When you want to create a serious game, the first thing you need to ask yourself is : <i>"What will the player learn from using my game?"</i>. That is the definition of your learning outcomes. For each learning outcome of the game, you need to give at least an identificator for further referral in the configuration file. You can also define a description and a starting value. </p>
+
+      <div class="bnfContainer">
+        <pre class="pre-scrollable">learning-outcomes ::= 'Learning-outcomes' 
+  ( Identifier (StringLiteral)? (Int)? )+
+'End'</pre>
+
+<button type="button" class="btn btn-xs" data-toggle="collapse" data-target="#imgBNF-LO">
+  Show/Hide the diagram
+</button>
+
+<div id="imgBNF-LO" class="collapse"><p><br/>
+	<%= image_tag "BNF/learning-outcomes.png" %></p></div>
+</div>
+
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+          <table class="table table-hover table-bordered table-striped">
+            <tr><th>Parameter</th><th>Compuslory or optional</th><th>Input value format</th></tr>
+            <tr><td>Identifier of the outcome</td><td>Compuslory</td><td>String that contains only alphanumerical characters, '-' or '_'</td></tr>
+            <tr><td>Description of the outcome</td><td>Optional</td><td>String</td></tr>
+            <tr><td>Starting value for the outcome score</td><td>Optional, default value is 0</td><td>Int</td></tr>
+          </table>
+        </div>
+        <div class="col-md-1"></div></div>
+
+
+      <h5><b>Example</b></h5>
+      <div class="codeContainer">
+      <pre rel="Learning-Outcomes" class="pre-scrollable"><code><span class="keyWdCompulsory">Learning-outcomes</span>
+  myOutcome1 <span class="inputString">"A description of my outcome1"</span><span class="inputInt"> 0</span>
+  myOutcome2 <span class="inputString">"A description of my outcome2"</span><span class="inputInt"> 10</span>
+<span class="keyWdCompulsory">End</span></code></pre></div>
+
+
+      <h4 id="Fdbck">4. Feedback messages</h4>
+
+      <p>The next section of the configuration file is optional, but we strongly advise that you use it. You should describe there all the feedback that can be triggered by your game. A feedback is described with at least an identificator for further referral, but can also have a message, a type and a finality character.</p>
+
+
+      <div class="bnfContainer">
+        <pre class="pre-scrollable">feedback-messages ::= 'Feedback-messages' 
+  ( Identifier StringLiteral (TypeFeedback)? )+
+'End'
+
+TypeFeedback ::= 'positive' | 'negative' | 'neutral' | 'badge' | 'hint'</pre>
+
+<button type="button" class="btn btn-xs" data-toggle="collapse" data-target="#imgBNF-Fdbk">
+  Show/Hide the diagram
+</button>
+
+<div id="imgBNF-Fdbk" class="collapse"><p><br/>
+	<%= image_tag "BNF/feedback-messages.png" %></p></div>
+</div>
+
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+          <table class="table table-hover table-bordered table-striped">
+            <tr><th>Parameter</th><th>Compuslory or optional</th><th>Input value format</th></tr>
+            <tr><td>Identificator of feedback</td><td>Compuslory</td><td>Alphanumerical string</td></tr>
+            <tr><td>Message of feedback</td><td>Compuslory</td><td>String<br/>Square brackets can be used to retrieve parameters of the action that triggered the feedback.</td></tr>
+            <tr><td>Type of feedback</td><td>Optional, default value is <span class="keyWdType">neutral</span></td><td><span class="keyWdType">positive</span>, <span class="keyWdType">negative</span>, <span class="keyWdType">neutral</span>, <span class="keyWdType">badge</span> or <span class="keyWdType">hint</span></td></tr>
+          </table>
+        </div>
+        <div class="col-md-1"></div></div>
+
+      <h5><b>Example</b></h5>
+      <div class="codeContainer">
+      <pre class="pre-scrollable"><code><span class="keyWdCompulsory">Feedback-messages</span>
+  myFeedback1 <span class="inputString">"Well done, correct answer!" </span><span class="keyWdType">positive</span>
+  myFeedback2 <span class="inputString">"Not quite! [param1] did not go with [param2]. Try again!" </span><span class="keyWdType">negative</span>
+  myBadge <span class="inputString">"Congratulations! You earn the level 1 badge!" </span><span class="keyWdType">badge </span>
+<span class="keyWdCompulsory">End</span></code></pre></div>
+
+
+      <h4 id="Actions">5. Evidence model</h4>
+
+      <p>Once you know what you want the player to learn, you need to define how you are going to assess that the learning goals are met. And you do that by defining the evidence model of your game. This model lists all the meaningful actions of your game, the parameters they take and the consequences that choices have on the outcomes scores. Fortunatly, you don't have to write every single choice possible: the DSL's key word <b><i>others</i></b> helps you finishing your task.</p>
+      <p>You can also associate feedback to a particular action, that way, during the gameplay, the player's choices would trigger feedback. Feedback is also shown in the <a href="#FinalAssessment"> debriefing phase</a>, the final summative self assessment. That means that even if you don't want feedback to be shown in real time to the user, you would benefit from setting up a rule for it, ignoring the trigger during the gameplay but displaying it in the final report. </p>
+
+      <div class="bnfContainer">
+      <pre class="pre-scrollable">evidence-model ::= 'Evidence-model' 
+  ( Action Consequence+ When 'End')+
+'End'
+
+Action ::= Identifier '(' (Type Identifier)* ')'
+
+Consequence ::= (Id-LearningOutcome '->')? ('+'|'-') Int
+  ((value (',' value)*)+ | 'others')
+'End'
+
+When ::= 'When' 
+  (('any'|'all') '(' ('+'|'-') Int? ')' ':' Id-Feedback)+
+'End'
+
+Type ::= 'String' | 'Int' | 'Char' | 'Bool' | 'Float' | 'Text'</pre>
+
+<button type="button" class="btn btn-xs" data-toggle="collapse" data-target="#imgBNF-EvidenceModel">
+  Show/Hide the diagram
+</button>
+
+
+
+<div id="imgBNF-EvidenceModel" class="collapse">
+    <p><br/><%= image_tag "BNF/evidence-model.png" %></p>
+    <p><b>Action: </b><br/><%= image_tag "BNF/Action.png" %></p>
+    <p><b>Consequence:</b><br/><%= image_tag "BNF/Consequence.png" %></p>
+    <p><b>When:</b><br/><%= image_tag "BNF/When.png" %></p>
+</div>
+</div>
+
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+          <table class="table table-hover table-bordered table-striped">
+            <tr><th>Parameter</th><th>Description</th></tr>
+            <tr><td>Action</td><td>an Alphanumerical string to identify the action and then the list of the parameters it takes (if any)</td></tr>
+            <tr><td>Consequence</td><td>Optional specification of the outcome (if none are specified, all the scores are updated) and points to be added or subtracted  to its score.<br/>List of possible values of the parameters are then entered, following the same order as in the definition of the action.<br/>The keyword <span class="keyWdType">others</span> could be used instead of the list of values and as a final item for an action.</td></tr>
+            <tr><td>When</td><td>Optional, specify the cases (if any) where a feedback should be triggered.</td><td></td></tr>
+          </table>
+        </div>
+        <div class="col-md-1"></div></div>
+
+      <h5><b>Example</b></h5>
+      <div class="codeContainer">
+      <pre rel="evidenceModel" class="pre-scrollable"><code><span class="keyWdCompulsory">Evidence-model</span>
+  translation (<span class="keyWdType">String</span> english, <span class="keyWdType">String</span> french)
+    vocabulary <span class="keyWdChar">-></span> <span class="inputInt">+1</span>
+      Dog, Chien
+      Cat, Chat
+    <span class="keyWdCompulsory">End</span>
+    vocabulary <span class="keyWdChar">-></span> <span class="inputInt">+2</span>
+      Seagull, Mouette
+      Eagle, Aigle
+    <span class="keyWdCompulsory">End</span>
+    vocabulary <span class="keyWdChar">-></span> <span class="inputInt">-1</span>
+      <span class="keyWdType">others</span>
+    <span class="keyWdCompulsory">End</span>
+    <span class="keyWdOptional">When</span>
+      <span class="comments">// for any positive point obtained, correct-translation feedback is triggered </span>
+      <span class="keyWdType">any</span>(<span class="inputInt">+</span>) : correct-translation
+      <span class="comments">// for any negative point obtained, wrong-translation feedback is triggered </span>
+      <span class="keyWdType">any</span>(<span class="inputInt">-</span>) : wrong-translation
+      <span class="comments">// when all translations are correct, the engine triggers the final feedback </span>
+      <span class="keyWdType">all</span>(<span class="inputInt">+</span>) : game-over
+    <span class="keyWdCompulsory">End</span>
+  <span class="keyWdCompulsory">End</span>
+<span class="keyWdCompulsory">End</span></code></pre></div>
+
+      <h4 id="FdbckModel">6. Feedback Model</h4>
+
+      <p>A player's action is one way to trigger a feedback, the DSL allows you to define two others. The inactivity one allows you to trigger a feedback if the player hasn't done anything for a certian amount of time (in seconds); the player might need help playing the game. The second one is linked to a learning outcome score, it triggers a feedback if the player's score is bellow (or over) a limit.</p>
+
+      <div class="bnfContainer">
+      <pre class="pre-scrollable">feedback-model ::= 'Feedback-model' 
+  (('inactivity' ('<'|'>') Int 'sec' | Id-outcome ('<'|'>') Int) ':' Id-feedback)+
+'End'</pre>
+
+<button type="button" class="btn btn-xs" data-toggle="collapse" data-target="#imgBNF-FeedbackModel">
+  Show/Hide the diagram
+</button>
+
+
+
+<div id="imgBNF-FeedbackModel" class="collapse">
+    <p><br/><%= image_tag "BNF/feedback-model.png" %></p>
+</div>
+</div>
+
+      <div class="codeContainer">
+      <pre rel="feedbackModel" class="pre-scrollable"><code><span class="keyWdCompulsory">feedbackModel</span>
+  <span class="keyWdType">inactivity <span class="keyWdType"> > </span> </span><span class="inputInt">30</span><span class="keyWdType"> sec </span>: user-confused
+  myOutcome<span class="keyWdType"> < </span><span class="inputInt"> -5 </span>: user-needsHelp
+  myOutcome<span class="keyWdType"> > </span><span class="inputInt"> 25 </span>: myBadge
+<span class="keyWdCompulsory">End</span></code></pre></div>
+
+      <h4 id="Cl">7. Conclusion</h4>
+
+      <p>To summarise, here is the squeletton of a configuration file, you can just copy it and use it for your own game.</p>
+
+      <div class="codeContainer">
+      <pre rel="Squeletton" class="pre-scrollable"><code><span class="keyWdCompulsory">Serious-game</span>
+  <span class="comments">/* Describe your serious game here giving 
+   SGname : a name (alphanumerical String)
+   SGdeveloper : your id (int)
+   SGdesc : a description (optional String)
+   SGageRange : an age range (optional, int-int)
+   SGlanguage : a language (optional, String, use the ISO 639-1 code)
+   SGcountry : a country (optional, String, use the ISO 3166-1 code) 
+   SGgenre : a genre (optional, String)
+   SGsubject : a subject (optional, String)
+   SGpublic : public option (optional, Boolean) */</span>
+<span class="keyWdCompulsory">End</span>
+
+<span class="keyWdOptional">Player</span>
+  <span class="comments">/* Describe a typical player's characteristics using the following model: "characteristic : type"
+   Types can be Char, String, Text, Int, Float, Bool */
+<span class="keyWdOptional">End</span>
+
+<span class="keyWdCompulsory">Learning-outcomes</span>
+  <span class="comments">/* Define a learning outcome giving:
+   an id (alphanumerical String)
+   a description (optional String)
+   starting value (optional integer, default is 0) */</span>
+<span class="keyWdCompulsory">End</span>
+
+<span class="keyWdCompulsory">Feedback-messages</span>
+  <span class="comments">/* Define your feedback messages to be triggered giving:
+   an id (alphanumerical String)
+   a message (String)
+   a type (optional, positive, negative, neutral, badge or hint) */</span>
+<span class="keyWdCompulsory">End</span>
+
+<span class="keyWdCompulsory">Evidence-model</span>
+  <span class="comments">/* Define your meaningful actions and the consequences for them
+   action-name(type1 param1, type2 param2...)
+     id-learningOutcome -> (optional if only one learning outcome) +/- nbPoints
+       valueParam1, valueParam2 ... OR 'others'
+     'When' section to define feedback triggered */
+<span class="keyWdCompulsory">End</span>
+
+<span class="keyWdCompulsory">Feedback-model</span>
+  <span class="comments">/* inactivity or outcome feedback */ </span>
+<span class="keyWdCompulsory">End</span></code></pre></div>
+<br/>
+<p>For a configuration file editor with syntax highlighting, visit the <a href="createSG">creation page</a> of this interface and set up a new serious game then start using the engine.</p>
+      <span id="webServices"></span>
+      <hr/>
+
+        <h3>The web services available for you</h3>
+        <div class="row YellowBg">
+          <p>In this section, you will learn how to use the web services to perform the assessment of your game. At the end you will know how to:</p>
+        <div class="col-lg-9">
+            <ul class="learningOutcomes">
+              <li>Create a new Game-Play</li>
+              <li>Assess a player's action</li>
+              <li>Adapt your game to the player</li>
+              <li>Get a final report for your debriefing phase</li>
+            </ul>
+            <br/>
+        </div>
+        <div class="col-lg-3 WhiteBg">
+          <p><h5><b>Table of Content</b></h5>
+          <ul>
+            <li><a href="#GP">1. Creation of a GamePlay</a></li>
+            <li><a href="#Assessment">2. Assessment of a player's action</a></li>
+            <li><a href="#Adaptivity">3. Adaptivity</a></li>
+            <li><a href="#FinalAssessment">4. Debriefing phase</a></li>
+          </ul></p>
+        </div>
+      </div>
+
+            <p>Once you create a serious game in the database, you will be given an id, you will need this id to refer, during the game play, to your configuration file. All the functions available for you are web services hosted at "146.191.107.189:8080".</p>
+
+        <div align="center"><%= image_tag "underconstruction.png" %></div>
+
+          <p align="center"><i>Due to changes in the web services, this section is currently under construction, please check again after the 28th of October 2014. <br/>In the meantime, you can email <a href="mailto:yaelle.chaudy@uws.ac.uk"> Ya&euml;lle </a> with your questions.</i></p>
+
+<!--
+      <h4 id="GP"><b>1. Creation of a new Game-play</b></h4>
+      <p>When a player starts playing your game, you need to tell the engine to set up a new gameplay. That way, new scores will be set for your learning outcomes and the player's actions will be associated to them. In order to create a new gameplay, you need to invoke the <code>create_GamePlay</code> web service that take one integer parameter, the id of your serious game. Use the following code examples to invoke the web services.</p>
+      <p>In successful, the web service returns the id of the gameplay created, save it as this id is a parameter of all the following functions.</p>
+
+      <script type="text/javascript">
+      function clickTab1() {
+        $(this).tab('show')
+      }
+
+      $('#tab2 a').click(function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+      })
+
+      $('#tab1 a').click(function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+      })
+    </script>
+
+      <div class="codeContainer tabbable">
+        <ul class="nav nav-tabs" id="tab1" onClick="clickTab1()">
+          <li class="active"><a href="#javaExample1" data-toggle="tab">Java</a></li>
+          <li><a href="#cppExample1">C++</a></li>
+          <li><a href="#flashExample1">ActionScript</a></li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane active" id="javaExample1">
+            <pre class="pre-scrollable"><code>create_GamePlay in Java</code></pre>
+          </div>
+          <div class="tab-pane" id="cppExample1">
+            <pre class="pre-scrollable"><code>create_GamePlay in C++</code></pre>
+          </div>
+          <div class="tab-pane" id="flashExample1">
+            <pre class="pre-scrollable"><code>create_GamePlay in Flash</code></pre>
+          </div>
+        </div>
+
+      </div>
+
+      <h4 id="Assessment"><b>2. Assessment of a player's action </b></h4>
+      <p>During the gameplay, you will want to assess every player's action, you can do so by invoking the <code>assess</code> web service, you need to give two parameters, a string action (formatted as <code>[action]<b>(</b>[parameters separated by commas]<b>)</b></code>) and an integer, id of the gameplay (saved previously).</p>
+      <p>The function updates the gameplay's scores for the learning outcomes and returns the feedback triggered by the action (if any). If you wish to use the feedback, you will need to interpret the xml returned.</p>
+
+      <div class="returnContainer">
+        <b>Return format</b>
+        <pre class="pre-scrollable"><code>&lt;feedback-list&gt;
+  &lt;feedback final=[true|false] type=[positive|negative|neutral]&gt;
+    &lt;name&gt;[feedback-name]&lt;/name&gt;
+    &lt;message&gt;[feedback-message]&lt;/message&gt;
+  &lt;/feedack&gt;
+  ...
+&lt;/feedack-list&gt;</code></pre>
+      </div>
+
+      <div class="codeContainer">
+        <ul class="nav nav-tabs" id="tab2">
+          <li class="active"><a href="#javaExample2" data-toggle="tab">Java</a></li>
+          <li><a href="#cppExample2">C++</a></li>
+          <li><a href="#flashExample2">ActionScript</a></li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane active" id="javaExample2">
+            <pre class="pre-scrollable"><code>assess in Java</code></pre>
+          </div>
+          <div class="tab-pane" id="cppExample2">
+            <pre class="pre-scrollable"><code>assess in C++</code></pre>
+          </div>
+          <div class="tab-pane" id="flashExample2">
+            <pre class="pre-scrollable"><code>assess in Flash</code></pre>
+          </div>
+        </div>
+      </div>
+
+
+      <h4 id="Adaptivity"><b>3. Adaptivity of your game</b></h4>
+      <p>The EngAGe assessment engine stores every action the player does during the gameplay. This allows you to browse the log and get the most common mistakes or right choices. This data is meant to help you build a game that adapts to the player. </p>
+      <p>Three actions are available, <code>getLog</code>, <code>getNegative</code> and <code>getPositive</code>. They all take two compulsory parameters, an integer id of the gameplay and a string action, you can also specify an integer, number of result wanted, the engine will return the most recent.</p>
+
+      <div class="returnContainer">
+        <b>Return format</b>
+        <pre class="pre-scrollable"><code>&lt;log action=[action-id]&gt;
+  &lt;action&gt;
+    &lt;time&gt;[time action was performed]&lt;/time&gt;
+    &lt;parameters&gt;
+      &lt;param name=[param1-name]&gt;[param1-value]&lt;/param&gt;
+      ...
+    &lt;/parameters&gt;
+    &lt;learning-outcome&gt;[outcome-id]&lt;/learning-outcome&gt;
+    &lt;points&gt;[points given to outcome]&lt;/points&gt;
+  &lt;/action&gt;
+  ...
+&lt;/log&gt;</code></pre>
+      </div>
+
+<div class="codeContainer">
+        <ul class="nav nav-tabs" id="tab3">
+          <li class="active"><a href="#javaExample3" data-toggle="tab">Java</a></li>
+          <li><a href="#cppExample3">C++</a></li>
+          <li><a href="#flashExample3">ActionScript</a></li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane active" id="javaExample3">
+            <pre class="pre-scrollable"><code>getLog in Java</code></pre>
+          </div>
+          <div class="tab-pane" id="cppExample3">
+            <pre class="pre-scrollable"><code>getLog in C++</code></pre>
+          </div>
+          <div class="tab-pane" id="flashExample3">
+            <pre class="pre-scrollable"><code>getLog in Flash</code></pre>
+          </div>
+        </div>
+      </div>
+
+
+      <h4 id="FinalAssessment"><b>4. Debriefing phase</b></h4>
+
+      <p>At the end of the gameplay, or the end of a level, it is good practice to have a debriefing phase with the learner. This phase allows the player to reflects on his/her learning and provides a environment for self-assessment. The assessment engine offers a web service to retrieve all relevant information to make the debriefing process very quick and easy. Just call <code>get_FinalAssessment</code> with the corresponding gameplay id to get the log of every action performed by the player along with the consequences it had on the learning outcomes and the feedback triggered. You can then display this information to the learner.</p>
+
+      <div class="returnContainer">
+        <b>Return format</b>
+        <pre class="pre-scrollable"><code>&lt;final-assessment&gt;
+  &lt;starting-state&gt;
+    &lt;learning-outcome&gt;
+      &lt;name&gt;[learningOutcome-name]&lt;/name&gt;
+      &lt;description&gt;[learningOutcome-description]&lt;/description&gt;
+      &lt;value&gt;[learningOutcome-value]&lt;/value&gt;
+    &lt;/learning-outcome&gt;
+    ...
+  &lt;/starting-state&gt;
+
+  &lt;action&gt;
+    &lt;time&gt;[time action was performed]&lt;/time&gt;
+    &lt;parameters&gt;
+      &lt;param name=[param1-name]&gt;[param1-value]&lt;/param&gt;
+      ...
+    &lt;/parameters&gt;
+    &lt;learning-outcome&gt;[outcome-id]&lt;/learning-outcome&gt;
+    &lt;points&gt;[points given to outcome]&lt;/points&gt;
+    &lt;feedback-triggered&gt;
+      &lt;feedback final=[true|false] type=[positive|negative|neutral]&gt;
+        &lt;name&gt;[feedback-name]&lt;/name&gt;
+        &lt;message&gt;[feedback-message]&lt;/message&gt;
+      &lt;/feedack&gt;
+      ...
+    &lt;/feedback-triggered&gt;
+  &lt;/action&gt;
+  ...
+&lt;/final-assessment&gt;</code></pre>
+      </div>
+
+      <div class="codeContainer">
+        <ul class="nav nav-tabs" id="tab4">
+          <li class="active"><a href="#javaExample4" data-toggle="tab">Java</a></li>
+          <li><a href="#cppExample4">C++</a></li>
+          <li><a href="#flashExample4">ActionScript</a></li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane active" id="javaExample4">
+            <pre class="pre-scrollable"><code>get_FinalAssessment in Java</code></pre>
+          </div>
+          <div class="tab-pane" id="cppExample4">
+            <pre class="pre-scrollable"><code>get_FinalAssessment in C++</code></pre>
+          </div>
+          <div class="tab-pane" id="flashExample4">
+            <pre class="pre-scrollable"><code>get_FinalAssessment in Flash</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <span id="LA"></span>
+      <hr/>
+      <br/>
+      <br/>
+-->
+        <h3>The learning analytics</h3>
+        <div class="row YellowBg">
+        	<p>Welcome to the final section of the documentation. Now that you know how to define your assessment and perform it, you might want to get data about the how many time your game has been played, who played it, for how long, what mistakes they often make... All of this data is available in your dashboard. Read the following documentation to learn more about:</p>
+        <div class="col-lg-9">
+          
+            <ul class="learningOutcomes">
+              <li>The overview</li>
+              <li>Your refining options</li>
+              <li>Data about time</li>
+              <li>Data about actions</li>
+              <li>Data about feedback triggered</li>
+            </ul>
+        </div>
+        <div class="col-lg-3 WhiteBg">
+          <p><h5><b>Table of Content</b></h5>
+          <ul>
+            <li><a href="#Overview">1. Overview</a></li>
+            <li><a href="#Refine">2. Refinement</a></li>
+            <li><a href="#Time">3. Time</a></li>
+            <li><a href="#Actions">4. Actions</a></li>
+            <li><a href="#Feedback">5. Feedback</a></li>
+            <li><a href="#Cl3">6. Conclusion</a></li>
+          </ul></p>
+        </div>
+      </div>
+      <!--
+            <h4 id="Overview"><b>1. Overview</b></h4>
+            <h4 id="Refine"><b>2. Refinement </b></h4>
+            <h4 id="Time"><b>3. Time</b></h4>
+            <h4 id="Actions"><b>4. Actions</b></h4>
+            <h4 id="Feedback"><b>5. Feedback</b></h4>
+            <h4 id="Cl3"><b>6. Conclusion</b></h4>
+      -->
+
+          <div align="center"><%= image_tag "underconstruction.png" %></div>
+
+          <p><i>Due to changes in the interface, this section is currently under construction, please check again after the 28th of October 2014.</i></p>
+
+          <!-- 
+          <h4><b>Overview</b></h4>
+          <h4><b>Refining options</b></h4>
+          <h4><b>Time</b></h4>
+          <h4><b>Actions</b></h4>
+          <h4><b>Feedback triggered</b></h4>-->
+</div>

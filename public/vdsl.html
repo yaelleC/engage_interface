@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="EnGAge">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <link rel="stylesheet" href="assets/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/bootstrap/dist/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="assets/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/main.css">
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">EngAGe</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">Settings</a></li>
+                <li><a href="#">Profile</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid" ng-controller="GameCtrl">
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">Serious Game for {{ config.seriousGame.name}}</div>
+            <div class="panel-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="inputSgName" class="col-sm-2 control-label">Name</label>
+
+                        <div class="col-sm-10">
+                            <input
+                                    ng-model="config.seriousGame.name"
+                                    required
+                                    type="text"
+                                    class="form-control"
+                                    id="inputSgName"
+                                    placeholder="Name for your serious game">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputSgDesc" class="col-sm-2 control-label">Desc</label>
+
+                        <div class="col-sm-10">
+                            <textarea
+                                    ng-model="config.seriousGame.description"
+                                    id="inputSgDesc"
+                                    class="form-control"
+                                    placeholder="Description"
+                                    rows="5">
+                            </textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputSgAgeRangeMin" class="col-sm-2 control-label">Age min</label>
+
+                        <div class="col-sm-10">
+                            <input
+                                    ng-model="config.seriousGame.ageMin"
+                                    required
+                                    type="number"
+                                    min="0"
+                                    class="form-control"
+                                    id="inputSgAgeRangeMin"
+                                    placeholder="min">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputSgAgeRangeMax" class="col-sm-2 control-label">Age max</label>
+
+                        <div class="col-sm-10">
+                            <input
+                                    ng-model="config.seriousGame.ageMax"
+                                    required
+                                    type="number"
+                                    class="form-control"
+                                    id="inputSgAgeRangeMax"
+                                    placeholder="max">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="selectCountry" class="col-sm-2 control-label">Country</label>
+
+                        <div class="col-sm-10">
+                            <select id="selectCountry"
+                                    class="form-control"
+                                    ng-model="config.seriousGame.country"
+                                    ng-options="country.code as country.name for country in countries">
+                                <option value="">-- Select Country --</option>
+                                <option value="FR">France</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="selectLanguage" class="col-sm-2 control-label">Language</label>
+
+                        <div class="col-sm-10">
+                            <select id="selectLanguage"
+                                    class="form-control"
+                                    ng-model="config.seriousGame.lang"
+                                    ng-options="language.code as language.name for language in languages">
+                                <option value="">-- Select Language --</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">Player</div>
+            <div class="panel-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group" ng-repeat="param in config.player">
+                        <div class="col-md-3">
+                            <input f type="text" class="form-control" ng-model="param.name" placeholder=""/>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" ng-model="param.type">
+                                <option value="String">String</option>
+                                <option value="Int">Integer</option>
+                                <option value="Char">Char</option>
+                                <option value="Bool">Boolean</option>
+                            </select>
+                        </div>
+                        <div class="col-md-1">
+                            <button type="button" class="btn btn-sm btn-danger fa fa-minus"
+                                    ng-click="remPlayer($index)"></button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <button type="button" class="btn btn-primary fa fa-plus" ng-click="addPlayer()"> Add
+                                characteristic
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+<div class="col-md-8">
+    <svg width="900" height="100%" border="1">
+        <def>
+            <path id="fa-arrows"
+                  d="M1792 896q0 26-19 45l-256 256q-19 19-45 19t-45-19-19-45v-128h-384v384h128q26 0 45 19t19 45-19 45l-256 256q-19 19-45 19t-45-19l-256-256q-19-19-19-45t19-45 45-19h128v-384h-384v128q0 26-19 45t-45 19-45-19l-256-256q-19-19-19-45t19-45l256-256q19-19 45-19t45 19 19 45v128h384v-384h-128q-26 0-45-19t-19-45 19-45l256-256q19-19 45-19t45 19l256 256q19 19 19 45t-19 45-45 19h-128v384h384v-128q0-26 19-45t45-19 45 19l256 256q19 19 19 45z"/>
+        </def>
+        <!--Arrows assessment-learningOutcome-->
+        <g ng-repeat="em in config.evidenceModels">
+            <line
+                    x1="{{em.x + 100}}"
+                    y1="{{em.y}}"
+                    x2="{{config.learningOutcomes[em.mark.learningOutcome].x + 100 }}"
+                    y2="{{config.learningOutcomes[em.mark.learningOutcome].y + 70}}"
+                    stroke="black"
+                    stroke-width="2">
+
+            </line>
+        </g>
+        <!--Arrows inactivity-feedback-->
+        <g ng-repeat="if in config.inactivityFeedback">
+            <line
+                    x1="{{if.x + 100}}"
+                    y1="{{if.y}}"
+                    x2="{{config.feedback[if.feedback].x + 100 }}"
+                    y2="{{config.feedback[if.feedback].y + 70}}"
+                    class="fa fa-minus"
+                    stroke="black"
+                    stroke-width="2">
+
+            </line>
+        </g>
+        <!--Arrows assessment-feedback-->
+        <g ng-repeat="em in config.evidenceModels">
+            <g ng-repeat="fb in em.feedback">
+                <line
+                        x1="{{em.x + 100}}"
+                        y1="{{em.y + 70}}"
+                        x2="{{config.feedback[fb].x + 100 }}"
+                        y2="{{config.feedback[fb].y}}"
+                        stroke="black"
+                        stroke-width="2"
+                        style="stroke-dasharray:9, 5"></line>
+            </g>
+        </g>
+        <g>
+            <!--Arrows learningOutcome-feedback-->
+            <g ng-repeat="(name, lo) in config.learningOutcomes">
+                <g ng-repeat="fb in lo.feedbackTriggered">
+                    <line
+                            x1="{{lo.x + 100}}"
+                            y1="{{lo.y + 70}}"
+                            x2="{{config.feedback[fb.feedback].x + 100 }}"
+                            y2="{{config.feedback[fb.feedback].y}}"
+                            stroke="black"
+                            stroke-width="2"
+                            style="stroke-dasharray:9, 5"></line>
+                </g>
+            </g>
+        </g>
+        <!--Learning outcome boxes-->
+        <g eag-box
+           ng-repeat="(name, lo) in config.learningOutcomes"
+           x="lo.x"
+           y="lo.y"
+           color="DarkCyan"
+           title="{{name}}"
+           ng-click="selectObj('learningOutcome', lo)"></g>
+        <!--Evidence model boxes-->
+        <g eag-box
+           ng-repeat="em in config.evidenceModels"
+           x="em.x"
+           y="em.y"
+           color="YellowGreen"
+           title="{{em.action}}"
+           ng-click="selectObj('evidenceModel', em)"></g>
+        <!--Feedback boxes-->
+        <g eag-box
+           ng-repeat="(name, fb) in config.feedback"
+           x="fb.x"
+           y="fb.y"
+           color="Orange"
+           title="{{name}}"
+           ng-click="selectObj('feedback', fb)"></g>
+        <!--Inactivity Feedback boxes-->
+        <g eag-box
+           ng-repeat="if in config.inactivityFeedback"
+           x="if.x"
+           y="if.y"
+           color="Red"
+           title="{{if.limit + ' sec'}}"
+           ng-click="selectObj('inactivityFeedback', if)"></g>
+
+    </svg>
+</div>
+<div class="col-md-4">
+<div class="panel-group" id="accordion">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#toolkit">
+                Toolkit
+            </a>
+        </h4>
+    </div>
+    <div id="toolkit" class="panel-collapse collapse">
+        <div class="panel-body">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h4>Learning Outcome</h4>
+
+                    <p>Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
+                        blandit.</p>
+
+                    <form class="form-inline" name="formAddLearningOutcome" role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" required ng-model="loName" placeholder="Outcome Name">
+                        </div>
+                        <button type="submit" class="btn btn-default" ng-disabled="formAddLearningOutcome.$invalid"
+                                ng-click="addLearningOutcome(loName)">Add
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h4>Assessment</h4>
+
+                    <p>Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
+                        blandit.</p>
+                    <form class="form-inline" name="formAssessment" role="form">
+                        <div class="form-group">
+                            <select name="newAssessment"
+                                    class="form-control"
+                                    id="newAssessment"
+                                    ng-model="newAssessment"
+                                    ng-options="k for k in ['associate_CountryCapital']" required>
+                                <option value="">--Select Assessment--</option>
+                                    </select>
+                        </div>
+                        <button type="submit" class="btn btn-default" ng-disabled="formAssessment.$invalid"
+                                ng-click="addAssessment(newAssessment)">Add
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h4>Feedback</h4>
+
+                    <p>Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
+                        blandit.</p>
+
+                    <form class="form-inline" name="formFeedback" role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" required ng-model="feedback" placeholder="Feedback Name">
+                        </div>
+                        <button type="submit" class="btn btn-default" ng-disabled="formFeedback.$invalid"
+                                ng-click="addFeedback(newFeedback)">Add
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h4>Inactivity Feedback</h4>
+
+                    <p>Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
+                        blandit.</p>
+
+                    <form class="form-inline" name="formInactivityFeedback" role="form">
+                        <div class="form-group">
+                            <select name="newInactivityFeedback"
+                                    class="form-control"
+                                    id="newInactivityFeedback"
+                                    ng-model="newInactivityFeedback"
+                                    ng-options="key as key for (key, value) in config.feedback" required>
+                                <option value="">--Select Feedback--</option>
+                                    </select>
+                        </div>
+                        <button type="submit" class="btn btn-default" ng-disabled="formInactivityFeedback.$invalid"
+                                ng-click="addInactivityFeedback(newInactivityFeedback)">Add
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#selection">
+                Edit Selection
+            </a>
+        </h4>
+    </div>
+    <div id="selection" class="panel-collapse collapse" ng-if="selection">
+        <div class="panel-body" ng-switch on="selectionType">
+            <div ng-switch-when="learningOutcome">
+                <form role="form">
+                    <div class="form-group">
+                        <label for="learningOutcomeDescription">description</label>
+                        <textarea id="learningOutcomeDescription" class="form-control" rows="4"
+                                  ng-model="selection.desc"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="loValue">value</label>
+
+                        <div class="form-group">
+                            <input id="loValue" type="number" ng-model="selection.value"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Feedback</label>
+
+                        <div class="form-group" ng-repeat="fb in selection.feedbackTriggered">
+                            <select name="feedback"
+                                    id="feedback"
+                                    ng-model="fb.feedback"
+                                    ng-options="key as key for (key, value) in config.feedback"></select>
+                            <span>if</span>
+                            <select ng-model="fb.sign">
+                                <option value="<">Inferior</option>
+                                <option value=">">Superior</option>
+                                <option value="=">Equal</option>
+                            </select>
+                            <span>to</span>
+                            <input type="number" ng-model="fb.limit"/>
+                            <button class="btn-danger fa fa-minus"></button>
+                        </div>
+                        <button class="btn-primary fa fa-plus">Add feedback</button>
+                    </div>
+                </form>
+            </div>
+            <div ng-switch-when="evidenceModel">
+                <form role="form">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <table>
+                                <thead>
+                                <th ng-repeat="(k, v) in selection.params">{{k}}</th>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="value in selection.values">
+                                    <td ng-repeat="(k,v) in value" ng-switch on="selection.params[k]">
+                                        <input type="text" ng-switch-when="String" ng-model="v"/>
+                                        <input type="number" ng-switch-when="Int" ng-model="v"/>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="emLearningOutcome">Learning Outcome</label>
+
+                        <div class="form-group">
+                            <select name="emLearningOutcome"
+                                    id="emLearningOutcome"
+                                    ng-model="selection.mark.learningOutcome"
+                                    ng-options="name as name for (name, lo) in config.learningOutcomes"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="emMark">Mark</label>
+
+                        <div class="form-group">
+                            <input type="number" id="emMark" ng-model="selection.mark.mark"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="feedback">triggers</label>
+
+                        <div class="form-group" ng-repeat="fb in selection.feedback">
+                            <select name="feedbacdk"
+                                    ng-model="selection.feedback[$index]"
+                                    ng-options="key as key for (key, value) in config.feedback"></select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div ng-switch-when="feedback">
+                <form role="form">
+                    <div class="form-group">
+                        <label for="fbMessage">message</label>
+                        <textarea
+                                name="fbMessage"
+                                id="fbMessage"
+                                rows="4"
+                                class="form-control"
+                                ng-model="selection.message"></textarea>
+
+                    </div>
+                    <div class="form-group">
+                        <label>type</label>
+
+                        <div class="form-group">
+                            <input type="radio" ng-model="selection.type" value="POSITIVE"> positive <br/>
+                            <input type="radio" ng-model="selection.type" value="NEGATIVE"> negative <br/>
+                            <input type="radio" ng-model="selection.type" value="NEUTRAL"> neutral <br/>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div ng-switch-when="inactivityFeedback">
+                <form role="form">
+                    <div class="form-group">
+                        <label for="fbMessage">limit</label>
+
+                        <div class="form-group">
+                            <input type="number" ng-model="selection.limit"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>if</label>
+
+                        <div class="form-group">
+                            <select ng-model="selection.sign">
+                                <option value="<">Inferior</option>
+                                <option value=">">Superior</option>
+                                <option value="=">Equal</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>trigger</label>
+
+                        <div class="form-group">
+                            <select name="feedback"
+                                    ng-model="selection.feedback"
+                                    ng-options="key as key for (key, value) in config.feedback"></select>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div ng-switch-default></div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="assets/jquery/dist/jquery.js"></script>
+<script src="assets/jquery-ui/ui/jquery-ui.js"></script>
+<script src="assets/jquery-ui/ui/jquery.ui.draggable.js"></script>
+<script src="assets/jquery-ui/ui/jquery.ui.droppable.js"></script>
+<script src="assets/angular/angular.min.js"></script>
+<script src="assets/angular-resource/angular-resource.min.js"></script>
+<script src="assets/bootstrap/dist/js/bootstrap.js"></script>
+<script src="assets/languages.js"></script>
+<script src="assets/countries.js"></script>
+<script src="assets/app.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,2 @@
+module SeriousGamesHelper
+end

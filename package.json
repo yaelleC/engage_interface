@@ -1,0 +1,14 @@
+{
+    "name": "EngAGe",
+    "version": "0.0.0",
+    "description": "Visual User Interface for EnGAge teachers",
+    "main": "app.js",
+    "scripts": {
+        "start": "rails server -p 80 -d"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "grunt": "^0.4.4",
+        "bower": "^1.3.3"
+    }
+}

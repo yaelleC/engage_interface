@@ -1,0 +1,228 @@
+ <% content_for :title do %>
+  Tutorial
+<% end %>
+
+<% content_for :notmain do %>
+  True
+<% end %>
+
+ <div class="container mainText">
+      <h2>Tutorial</h2>
+      <p>Welcome to our interactive tutorial, in a few steps, you will learn how to define and implement the assessment of a very simple serious game.</p>
+
+      <h3>Our Serious Game : GeoFall</h3>
+      <p>Here is our serious game, a very simple game to learn european capitals, for now, the graphics and the game logic are implemented, but it desperatly lack assessment, see by yourself:</p>
+
+      <div class="SG_Illustration">
+        <%= image_tag "SG/SG1.gif", alt: "SG without assessment" %>
+      </div>
+
+      <div align="center">
+        <div id="cr-stage"></div> 
+      </div>
+
+      <script src="Game_Geography/lib/crafty.js"></script>
+      <script src="Game_Geography/src/components.js"></script>
+      <script src="Game_Geography/src/game.js"></script>
+      <script>
+       // window.addEventListener('load', Game.start); 
+      </script>
+
+      <h3>The configuration file</h3>
+
+      <p>Our Domain Specific Language is used to write the configuration file, you can find more information about it in the <a href="documentation.html#gettingStarting"></a>documentation section.</p>
+
+      <h4>Serious Game</h4>
+
+
+      <div class="codeContainer">
+      <pre rel="Serious Game" class="pre-scrollable"><code><span class="keyWdCompulsory">Serious-game</span>
+  <span class="keyWdCompulsory">name:</span> <span class="inputString">"GeoFall"</span>
+  <span class="keyWdOptional">desc:</span> <span class="inputString">"A small serious game for learning european capitals"</span>
+  <span class="keyWdOptional">ageRange:</span> 10-99
+  <span class="keyWdOptional">language:</span> EN
+<span class="keyWdCompulsory">End</span></code></pre></div>
+
+      <p>The first section of the configuration describes your serious game. In our case, the name is <i>GeoFall</i> and we also want to provide a small description (<i>A small serious game for learning european capitals</i>), an age range for our players (<i>10 to 99 years old</i>), the language displayed by the game (<i>EN</i>, for english). </p>
+
+
+
+      <h4>The player</h4>
+
+      <div class="codeContainer">
+      <pre rel="Player" class="pre-scrollable"><code><span class="keyWdOptional">Player</span>
+  gender: <span class="keyWdType">Char</span>
+  age: <span class="keyWdType">Int</span>
+  country: <span class="keyWdType">String</span>
+<span class="keyWdOptional">End</span></code></pre></div>
+
+      <p>The second section defines a player, the parameters entered here will be available in the learning analytics page. We are insterested in knowing who is the most successfull at finding capitals (in terms of gender, age and country), we therefore want to define 3 parameters to our players, a gender (of type Char, but we will only have 'm' and 'f'), an age (of type integer) and a country (of type String).</p>
+
+      <h4>Learning Outcomes</h4>
+
+      <div class="codeContainer">
+      <pre rel="Learning-Outcomes" class="pre-scrollable"><code><span class="keyWdCompulsory">Learning-outcomes</span>
+  european-capitals <span class="inputString">"Associate a capital to the right country"</span>
+<span class="keyWdCompulsory">End</span></code></pre></div>
+
+      <p><i>"What will the player learn from using my game?"</i>, that is what needs to be defined in the third section of the configuration file. Here, we have only one learning outcome, we want the player to know the european capitals. For this learning outcome, we give an identifier (<i>european-capitals</i>), a description (<i>"Associate a capital to the right country"</i>) we leave the starting value parameter blank as the default value (<i>0</i>) is good for us.</p>
+
+      <h4>Evidence model</h4>
+
+      <div class="codeContainer">
+      <pre rel="evidenceModel" class="pre-scrollable"><code><span class="keyWdCompulsory">Evidence-model</span>
+  associate-CountyCapital (<span class="keyWdType">String</span> country, <span class="keyWdType">String</span> capital)
+    <span class="comments">// for this action, The consequences are: </span> 
+    <span class="inputInt">+1</span>
+      UK, London
+      Italy, Rome
+      Spain, Madrid
+      France, Paris
+      Ireland, Dublin
+    <span class="keyWdCompulsory">End</span>
+    <span class="inputInt">+2</span>
+      Norway, Oslo
+      Sweden, Stockholm
+      Greece, Athens
+      Austria, Vienna
+    <span class="keyWdCompulsory">End</span>
+    <span class="inputInt">+3</span>
+      Poland, Warsaw
+    <span class="keyWdCompulsory">End</span>
+    <span class="inputInt">-1</span>
+      <span class="comments">// in all other cases </span>
+      <span class="keyWdType">others</span>
+    <span class="keyWdCompulsory">End</span>
+  <span class="keyWdCompulsory">End</span>
+<span class="keyWdCompulsory">End</span></code></pre></div>
+
+      <p>On the forth section, you define the assessment logic, the evidence model. In our example we have only one action possible, the player has to associate a capital with a country, we will call it <i>associate-CountyCapital</i> and it takes two parameters, one String <i>country</i> and an other String <i>capital</i>. If the association is correct, 1 point is given to the player for the learning outcome <i>european-capitals</i>, if the association is incorrect, a penalty of -1 is applied. We will also define harder associations that will bring more points (+2 for Norway, Sweden, Greece and Austria and +3 for Poland). As we have only one learning outcome in our game, we don't have to specify it when stating the points.</p>
+
+      <h4>Feedback</h4>
+
+      <p>Now, we would also like to give formative feedback to the user. In the configuration file, feedback rules can be set up.</p>
+
+      <div class="codeContainer">
+      <pre rel="ActionFeedback" class="pre-scrollable"><code><span class="keyWdCompulsory">Evidence-model</span>
+  associate-CountyCapital (<span class="keyWdType">String</span> country, <span class="keyWdType">String</span> capital) 
+    <span class="comments">// ... points associated to actions </span>
+    <span class="keyWdOptional">When</span>
+      <span class="comments">// for any positive point obtained, correct-match feedback is triggered </span>
+      <span class="keyWdType">any</span>(<span class="inputInt">+</span>) : correct-match
+      <span class="comments">// for any negative point obtained, wrong-match feedback is triggered </span>
+      <span class="keyWdType">any</span>(<span class="inputInt">-</span>) : wrong-match
+    <span class="keyWdCompulsory">End</span>
+  <span class="keyWdCompulsory">End</span>
+<span class="keyWdCompulsory">End</span></code></pre></div>
+
+      <p>In our case, we define two kind of feedback associated with our action, a positive one, for a correct match, and a negative one for an incorrect match. That is done in the evidence model, in the targetted action section, here.</p>
+
+
+      <div class="codeContainer">
+      <pre rel="feedbackModel" class="pre-scrollable"><code><span class="keyWdCompulsory">Feedback-model</span>
+  <span class="comments">// inactivity feedback, number of seconds without any action </span>
+  <span class="keyWdType">inactivity over </span><span class="inputInt">30</span><span class="keyWdType"> sec </span>: user-confused
+  <span class="comments">// outcome feedback, when the score associated to the learning outcome goes beyond a limit </span>
+  european-capitals<span class="keyWdType"> < </span><span class="inputInt"> -5 </span>: user-needsHelp
+<span class="keyWdCompulsory">End</span></code></pre></div>
+      <p>In a separate section, at the end, we also define a feedback to be triggered in case of a long inactivity (30 seconds): the player might need help playing the game, and a last one associated to the learning outcome: the player might need help with the content of the game.</p>
+
+      <p>We're almost done here, the feedback referenced here just need to be specified in the appropriate section. This is done just after the learning outcomes. </p>
+
+
+      <div class="codeContainer">
+      <pre rel="Feedback-messages" class="pre-scrollable"><code><span class="keyWdCompulsory">Feedback-messages</span>
+  <span class="comments">// here we define four feedback messages to be triggered giving:
+  // an id (String)
+  // a message (optional String)
+  // a type (optional, 'positive', 'negative' or 'neutral')</span>
+  correct-match <span class="inputString">"Well done! [capital] is indeed the capital of [country]."</span> <span class="keyWdType">positive </span>
+  wrong-match <span class="inputString">"Sorry! [capital] is not the capital of [country]."</span> <span class="keyWdType">negative </span>
+  user-confused <span class="inputString">
+    "Are you okay? Use the right and left arrows to select a cloud and then press the upper arrow to jump when you're sure about your answer."</span> 
+  user-needsHelp <span class="inputString">
+    "Hum... Do you need help? You might need to revise a little bit your geography. Clic here for a quick overview of europ's capitals."</span> 
+<span class="keyWdCompulsory">End</span></code></pre></div>
+
+<p> Note that you can use squared braquets to retrieve a parameter sent (for instance "[capital]" would return the capital chosen at the time the feedback is triggered), of course, that would only work for feedback associated to an action, not the inactivity or learning outcome ones.</p>
+
+      <h4>Conclusion</h4>
+      
+      <p>To summarise, here is the complete configuration file for our GeoFall game:</p>
+
+      <div class="codeContainer">
+      <pre rel="configFile" class="pre-scrollable"><code><span class="keyWdCompulsory">Serious-game</span>
+  <span class="keyWdCompulsory">name:</span> <span class="inputString">"GeoFall"</span>
+  <span class="keyWdOptional">desc:</span> <span class="inputString">"A small serious game for learning european capitals"</span>
+  <span class="keyWdOptional">ageRange:</span> 10-99
+  <span class="keyWdOptional">language:</span> EN
+<span class="keyWdCompulsory">End</span>
+
+<span class="keyWdOptional">Player</span>
+  gender: <span class="keyWdType">Char</span>
+  age: <span class="keyWdType">Int</span>
+  country: <span class="keyWdType">String</span>
+<span class="keyWdOptional">End</span>
+
+<span class="keyWdCompulsory">Learning-outcomes</span>
+  <span class="comments">// here we define a learning outcome giving:
+  // an id (alphanumerical String)
+  // a description (optional String)
+  // starting value (optional integer, default is 0) </span>
+  european-capitals <span class="inputString">"Associate a capital to the right country"</span>
+<span class="keyWdCompulsory">End</span>
+
+<span class="keyWdCompulsory">Feedback-messages</span>
+  <span class="comments">// here we define four feedback messages to be triggered giving:
+  // an id (alphanumerical String)
+  // a message (optional String)
+  // a type (optional, 'positive', 'negative' or 'neutral')</span>
+  correct-match <span class="inputString">"Well done! [capital] is indeed the capital of [country]."</span> <span class="keyWdType">positive </span>
+  wrong-match <span class="inputString">"Sorry! [capital] is not the capital of [country]."</span> <span class="keyWdType">negative </span>
+  user-confused <span class="inputString">
+    "Are you okay? Use the right and left arrows to select a cloud and then press the upper arrow to jump when you're sure about your answer."</span> 
+  user-needsHelp <span class="inputString">
+    "Hum... Do you need help? You might need to revise a little bit your geography. Clic here for a quick overview of europ's capitals."</span> 
+<span class="keyWdCompulsory">End</span>
+
+<span class="keyWdCompulsory">Evidence-model</span>
+  associate-CountyCapital (<span class="keyWdType">String</span> country, <span class="keyWdType">String</span> capital)
+    <span class="comments">// for this action, The consequences are: </span> 
+    european-capitals <span class="keyWdChar">-></span> <span class="inputInt">+1</span>
+      UK, London
+      Italy, Rome
+      Spain, Madrid
+      France, Paris
+      Ireland, Dublin
+    <span class="keyWdCompulsory">End</span>
+    european-capitals <span class="keyWdChar">-></span> <span class="inputInt">+2</span>
+      Norway, Oslo
+      Sweden, Stockholm
+      Greece, Athens
+      Austria, Vienna
+    <span class="keyWdCompulsory">End</span>
+    european-capitals <span class="keyWdChar">-></span> <span class="inputInt">+3</span>
+      Poland, Warsaw
+    <span class="keyWdCompulsory">End</span>
+    european-capitals <span class="keyWdChar">-></span> <span class="inputInt">-1</span>
+      <span class="comments">// in all other cases </span>
+      <span class="keyWdType">others</span>
+    <span class="keyWdCompulsory">End</span>
+    <span class="keyWdOptional">When</span>
+      <span class="comments">// for any positive point obtained, correct-match feedback is triggered </span>
+      <span class="keyWdType">any</span>(<span class="inputInt">+</span>) : correct-match
+      <span class="comments">// for any negative point obtained, wrong-match feedback is triggered </span>
+      <span class="keyWdType">any</span>(<span class="inputInt">-</span>) : wrong-match
+    <span class="keyWdCompulsory">End</span>
+  <span class="keyWdCompulsory">End</span>
+<span class="keyWdCompulsory">End</span>
+
+<span class="keyWdCompulsory">Feedback-model</span>
+  <span class="comments">// inactivity feedback, number of seconds without any action </span>
+  <span class="keyWdType">inactivity over </span><span class="inputInt">30</span><span class="keyWdType"> sec </span>: user-confused
+  <span class="comments">// outcome feedback, when the score associated to the learning outcome goes beyond a limit </span>
+  european-capitals<span class="keyWdType"> < </span><span class="inputInt"> -5 </span>: user-needsHelp
+<span class="keyWdCompulsory">End</span></code></pre></div>
+
+</div>
+<br/>

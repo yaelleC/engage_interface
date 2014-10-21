@@ -1,0 +1,54 @@
+{
+    "learningOutcomes": {
+        "EuropeanCapital": {
+            "x": 300,
+            "y": 25,
+            "limit": {"":12}
+        }
+    },
+    "assessments": [
+        {
+            "x": 25,
+            "y": 120,
+            "name": "AssociateCountryCapital",
+            "learningOutcome": "EuropeanCapital",
+            "feedbacks" : ["CorrectAnswer"]
+        },
+        {
+            "x": 280,
+            "y": 120,
+            "name": "AssociateCountryCapital",
+            "learningOutcome": "EuropeanCapital",
+            "feedbacks" : ["CorrectAnswer"]
+        },
+        {
+            "x": 535,
+            "y": 120,
+            "name": "AssociateCountryCapital",
+            "learningOutcome": "EuropeanCapital",
+            "feedbacks" : ["IncorrectAnswer"]
+        }
+    ],
+    "inactivity":[{
+        "limit":1,
+        "feedback": "CorrectAnswer"
+    }],
+    "feedbacks": {
+        "CorrectAnswer": {
+            "x": 85,
+            "y": 320
+        },
+        "IncorrectAnswer": {
+            "x": 285,
+            "y": 320
+        },
+        "UserConfused": {
+            "x": 485,
+            "y": 320
+        },
+        "HelpNeeded": {
+            "x": 685,
+            "y": 320
+        }
+    }
+}

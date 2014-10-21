@@ -1,0 +1,21 @@
+{
+  "name": "EngAGe",
+  "version": "0.0.0",
+  "authors": [
+    "yaelle.chaudy@uws.co.uk"
+  ],
+  "description": "Visual Interface for teachers",
+  "main": "app.js",
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "~3.1.1",
+    "select2": "~3.4.8",
+    "fontawesome": "~4.0.3",
+    "angular-resource": "~1.2.16",
+    "angular": "~1.2.16",
+    "jquery-ui": "~1.10.4"
+  },
+  "devDependencies": {
+    "angular": "~1.2.16"
+  }
+}

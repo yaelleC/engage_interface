@@ -1,0 +1,40 @@
+<% content_for :title do %>
+  Welcome
+<% end %>
+
+<div class="jumbotron banner">
+      <div class="" align="center">
+		<p><br/>
+			<%= image_tag "logo.png", alt:"logo", size: "400x340" %>
+		</p>
+		<h2> An Engine for Assessment in Serious Games</h2>
+		<br/>
+        <span><p class="bgWhite">Welcome to our web interface, here you will be able to learn more about <a href="about.html">EngAGe</a>, 
+		read <%= link_to "the documentation", documentation_doc_path %> and follow our <%= link_to "tutorial", documentation_tutorial_path %>. 
+		Once ready, you can <a href="createSG.html">create a new game</a> on our database, use the engine for your assessment 
+		and our <a href="LA.html">learning analytics page</a> to monitor the players' performances.</p></span>
+      </div>
+    </div>
+
+    <div class="container mainText">
+      <div class="row">
+        <div class="col-lg-4">
+          <h2 align="center"><span class="glyphicon glyphicon-book"></span> Learn</h2>
+          <p>Follow our 10 minutes tutorial to get started on how to make the most of the engine, read the documentation to clarify 
+		  things about assessment and integration of the engine with your game.</p>
+          <p><a class="btn btn-default" href="documentation.html">View details &raquo;</a></p>
+        </div>
+        <div class="col-lg-4">
+          <h2 align="center"><span class="glyphicon glyphicon-pencil"></span> Create</h2>
+          <p>Once familiar with EngAGe, start using it straight away by creating a game in our database, you provide the configuration file, 
+		  the engine does the rest!</p>
+          <p><a class="btn btn-default" href="#">View details &raquo;</a></p>
+       </div>
+        <div class="col-lg-4">
+          <h2 align="center"><span class="glyphicon glyphicon-thumbs-up"></span> Improve</h2>
+          <p>Because we use web services, once you create a game, you'll have access to lots of data about the game-plays, 
+		  learn from this information how to improve your game.</p>
+          <p><a class="btn btn-default" href="#">View details &raquo;</a></p>
+        </div>
+      </div>
+    </div>

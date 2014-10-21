@@ -1,0 +1,163 @@
+{
+    "seriousGame": {
+        "name": "GeoFall",
+        "description": "A small serious game for learning european capitals",
+        "ageMin": 9,
+        "ageMax": 99,
+        "lang": "en",
+        "country": "GB",
+        "created": "2014-01-10T00:00:00"
+    },
+    "player": [
+        {
+            "name": "gender",
+            "type": "Char"
+        },
+        {
+            "name": "age",
+            "type": "Int"
+        },
+        {
+            "name": "country",
+            "type": "String"
+        }
+    ],
+    "learningOutcomes": {
+        "european_capitals": {
+            "desc": "Associate a capital to the right country",
+            "value": 5,
+            "feedbackTriggered": [
+                {
+                    "limit": 0,
+                    "sign": "<",
+                    "feedback": "user_needsHelp"
+                }
+            ],
+            "x": 300,
+            "y": 25
+        }
+    },
+    "feedback": {
+        "correct_match": {
+            "message": "Well done! [capital] is indeed the capital of [country].",
+            "type": "POSITIVE",
+            "x": 85,
+            "y": 320
+        },
+        "wrong_match": {
+            "message": "Sorry! [capital] is not the capital of [country].",
+            "type": "NEGATIVE",
+            "x": 285,
+            "y": 320
+        },
+        "user_confused": {
+            "message": "Are you okay? Use the right and left arrows to select a cloud and then press the upper arrow to jump when you're sure about your answer.",
+            "type": "NEUTRAL",
+            "x": 485,
+            "y": 320
+        },
+        "user_needsHelp": {
+            "message": "Hum... Do you need help? You might need to revise a little bit your geography. Click here for a quick overview of europ's capitals.",
+            "type": "NEUTRAL",
+            "x": 685,
+            "y": 320
+        }
+    },
+    "evidenceModels": [
+        {
+            "action": "associate_CountyCapital",
+            "params": {
+                "country": "String",
+                "size": "Int"
+            },
+            "x": 25,
+            "y": 120,
+            "values": [
+                {
+                    "country": "UK",
+                    "size": 10
+                },
+                {
+                    "country": "Italy",
+                    "size": 3
+                },
+                {
+                    "country": "Spain",
+                    "size": 4
+                },
+                {
+                    "country": "France",
+                    "size": 13
+                }
+            ],
+            "mark": {
+                "learningOutcome": "european_capitals",
+                "mark": 1
+            },
+            "feedback": ["correct_match"]
+        },
+        {
+            "action": "associate_CountyCapital",
+            "params": {
+                "country": "String",
+                "capital": "String"
+            },
+            "x": 280,
+            "y": 120,
+            "values": [
+                {
+                    "country": "Norway",
+                    "capital": "Oslo"
+                },
+                {
+                    "country": "Greece",
+                    "capital": "Athens"
+                },
+                {
+                    "country": "Austria",
+                    "capital": "Vienna"
+                }
+            ],
+            "mark": {
+                "learningOutcome": "european_capitals",
+                "mark": 2
+            },
+            "feedback": ["correct_match"]
+        },
+        {
+            "action": "associate_CountyCapital",
+            "params": {
+                "country": "String",
+                "capital": "String"
+            },
+            "x": 535,
+            "y": 120,
+            "else": "true",
+            "mark": {
+                "learningOutcome": "european_capitals",
+                "mark": -1
+            },
+            "feedback": ["wrong_match"]
+        }
+    ],
+    "inactivityFeedback": [
+        {
+
+            "limit": 30,
+            "sign": ">",
+            "feedback": "user_confused",
+            "x": 510,
+            "y": 420
+        }
+    ]
+}
+
+
+
+
+
+
+
+
+
+

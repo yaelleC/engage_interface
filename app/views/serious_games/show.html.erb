@@ -1,0 +1,52 @@
+<% content_for :title do %>
+  Manage your serious games
+<% end %>
+
+<% content_for :notmain do %>
+  True
+<% end %>
+
+<div class="mainText container">
+  <h2><%= @serious_game.name %></h2>
+
+
+  <p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @serious_game.name %>
+</p>
+
+<p>
+  <b>Desc:</b>
+  <%= @serious_game.desc %>
+</p>
+
+<p>
+  <b>Agerange:</b>
+  <%= @serious_game.ageRange %>
+</p>
+
+<p>
+  <b>Lang:</b>
+  <%= @serious_game.lang %>
+</p>
+
+<p>
+  <b>Country:</b>
+  <%= @serious_game.country %>
+</p>
+
+<p>
+  <b>Version:</b>
+  <%= @serious_game.version %>
+</p>
+
+
+<%= link_to 'Edit', edit_serious_game_path(@serious_game) %> |
+<%= link_to 'Back', serious_games_path %>
+  
+
+</div>
+
+
