@@ -71,12 +71,55 @@ Feedback-model
 End</div>
           <div style="display:none">
           
-            <textarea placeholder="ConfigFile" id="inputConfigFile" name="ConfigFile" class="form-control" rows="30">
+            <textarea placeholder="ConfigFile" id="inputConfigFile" name="ConfigFile" class="form-control" rows="30">Serious-game
+  /* Describe your serious game here giving 
+   SGname : a name (alphanumerical String)
+   SGdeveloper : your id (int)
+   SGdesc : a description (optional String)
+   SGageRange : an age range (optional, int-int)
+   SGlanguage : a language (optional, String, use the ISO 639-1 code)
+   SGcountry : a country (optional, String, use the ISO 3166-1 code) 
+   SGgenre : a genre (optional, String)
+   SGsubject : a subject (optional, String)
+   SGpublic : public option (optional, Boolean) */
+End
 
-            </textarea>
+Player
+  /* Describe a typical player's characteristics using the following model: "characteristic : type"
+   Types can be Char, String, Text, Int, Float, Bool */
+End
+
+Learning-outcomes
+  /* Define a learning outcome giving:
+   an id (alphanumerical String)
+   a description (optional String)
+   starting value (optional integer, default is 0) */
+End
+
+Feedback-messages
+  /* Define your feedback messages to be triggered giving:
+   an id (alphanumerical String)
+   a message (String)
+   a type (optional, positive, negative, neutral, badge or hint) */
+End
+
+Evidence-model
+  /* Define your meaningful actions and the consequences for them
+   action-name(type1 param1, type2 param2...)
+     id-learningOutcome -> (optional if only one learning outcome) +/- nbPoints
+       valueParam1, valueParam2 ... OR 'others'
+     'When' section to define feedback triggered */
+End
+
+Feedback-model
+  /* inactivity or outcome feedback */
+End      </textarea>
           </div>
         </div>
-        <div align="center"><button type="submit" class="btn btn-info">Submit file</button></div>
+        <div align="center">
+          <button onClick="checkDSL()" type="button" class="btn btn-success"><span class="glyphicon glyphicon-check"></span> Check config file</button>
+          <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-share"></span> Submit file</button>
+        </div>
 
       </form>
 
