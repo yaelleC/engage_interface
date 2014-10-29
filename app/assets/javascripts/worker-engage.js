@@ -1337,7 +1337,8 @@ var Mirror = require("../worker/mirror").Mirror;
 var WorkerModule = exports.WorkerModule = function(sender) {
     Mirror.call(this, sender);
     this.setTimeout(1500);
-};
+};
+
 oop.inherits(WorkerModule, Mirror);
 (function() {
     this.onUpdate = function() {
@@ -1347,18 +1348,28 @@ oop.inherits(WorkerModule, Mirror);
         xmlhttp.onreadystatechange=function(){
           if (xmlhttp.readyState==4 ) //&& xmlhttp.status==200)
             {
+                console.log(xmlhttp.responseText);
                 var errors = [];
-                 errors.push({
-                    row: 0, // must be 0 based
-                    column: 0,  // must be 0 based
-                    text: "Error Message",  // text to show in tooltip
-                    type: "error"//|"warning"|"info"
-                });
+
+                var errorsJSON = JSON.parse(xmlhttp.responseText);
+                for (var i = 0 ; i < errorsJSON.length; i++) {
+                    var er = errorsJSON[i];
+                    errors.push({
+                        row: er.line-1, // must be 0 based
+                        column: er.offset,  // must be 0 based
+                        text: er.message,  // text to show in tooltip
+                        type: "error"//|"warning"|"info"
+                    });
+                };
+                 
                 that.sender.emit("errors", errors);
             }
         }
-        xmlhttp.open("GET","http://www.google.com",true);
-        xmlhttp.send();
+        xmlhttp.open("PUT","http://docker:8080/seriousgame/check",true);
+        //xmlhttp.setRequestHeader("Content-Type", "text/plain; charset=utf-8");
+        //xmlhttp.setRequestHeader("Accept", "text/plain; charset=utf-8");
+        //xmlhttp.setRequestHeader("Content-Length", value.length);
+        xmlhttp.send(value);
     };
 }).call(WorkerModule.prototype);
 });
