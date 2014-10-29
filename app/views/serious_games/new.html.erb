@@ -95,7 +95,7 @@ End</div>
     var textarea = $('textarea[name="ConfigFile"]').hide();
 
     editor.setTheme("ace/theme/monokai");
-    editor.getSession().setMode("ace/mode/sql");
+    editor.getSession().setMode("ace/mode/engage");
     editor.getSession().setValue(textarea.val());
     editor.getSession().on('change', function(){
       textarea.val(editor.getSession().getValue());
