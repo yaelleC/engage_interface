@@ -117,7 +117,7 @@ End      </textarea>
           </div>
         </div>
         <div align="center">
-          <button onClick="checkDSL()" type="button" class="btn btn-success"><span class="glyphicon glyphicon-check"></span> Check config file</button>
+          <button type="button" class="btn btn-success" id="checkDSL"><span class="glyphicon glyphicon-check"></span> Check config file</button>
           <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-share"></span> Submit file</button>
         </div>
 
@@ -132,7 +132,6 @@ End      </textarea>
 <%= link_to 'Back', serious_games_path %>-->
     </div>
 
-<script src="ace.js" type="text/javascript" charset="utf-8"></script>
 <script>
     var editor = ace.edit("editor");
     var textarea = $('textarea[name="ConfigFile"]').hide();
@@ -143,4 +142,28 @@ End      </textarea>
     editor.getSession().on('change', function(){
       textarea.val(editor.getSession().getValue());
     });
+
+    $(document).ready(function () {
+          $("#checkDSL").click(function (event) {
+              $.ajax({
+                  type: "PUT",
+                  url: "http://docker:8080/seriousgame/check",
+                  data: textarea.val(),
+                  contentType: "text/plain; charset=utf-8",
+                  dataType: "text",
+                  success: function (msg) {
+                      alert(msg);
+                  },
+                  error: AjaxFailed
+              });
+          });
+      });
+      function AjaxSucceeded(result) {
+          alert('s');
+          //alert(result.d);
+      }
+      function AjaxFailed(result) {
+          alert(result.status + ' ' + result.statusText);
+      } 
+  
 </script>
