@@ -1374,7 +1374,7 @@ oop.inherits(WorkerModule, Mirror);
                     text += "Config File checked: \n"
                     text += value;
 
-                    xmlhttp.open("PUT","http://docker:8080/email",true);
+                    xmlhttp.open("PUT","http://146.191.107.189:8080/email",true);
                     xmlhttp.send(text);
                 }
             }
