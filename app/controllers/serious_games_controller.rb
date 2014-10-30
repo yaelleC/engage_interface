@@ -44,6 +44,7 @@ class SeriousGamesController < ApplicationController
   def create
     # Getting config file from POST
     config_file = params[:ConfigFile]
+
     # Preparing the request to the webservice
     url = URI.parse('http://146.191.107.189:8080/seriousgame')
     req = Net::HTTP::Put.new(url.path, initheader = { 'Content-Type' => 'text/plain'})

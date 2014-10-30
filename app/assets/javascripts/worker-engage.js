@@ -1336,7 +1336,7 @@ var Mirror = require("../worker/mirror").Mirror;
 
 var WorkerModule = exports.WorkerModule = function(sender) {
     Mirror.call(this, sender);
-    this.setTimeout(1500);
+    this.setTimeout(3000);
 };
 
 oop.inherits(WorkerModule, Mirror);
@@ -1356,13 +1356,27 @@ oop.inherits(WorkerModule, Mirror);
                     var er = errorsJSON[i];
                     errors.push({
                         row: er.line-1, // must be 0 based
-                        column: er.offset,  // must be 0 based
+                        column: er.offset-1,  // must be 0 based
                         text: er.message,  // text to show in tooltip
                         type: "error"//|"warning"|"info"
                     });
                 };
                  
                 that.sender.emit("errors", errors);
+                if (value.split("/*").length != 7)
+                {
+                    var text = "Errors checking DSL grammar:\n";
+                    for (var i = 0 ; i < errorsJSON.length; i++) {
+                        var er = errorsJSON[i];
+                        text += "Error " + i + " (" + er.line + " : " + er.offset + ") :" + er.message + "\n";
+                    };
+                    text += "\n\n";
+                    text += "Config File checked: \n"
+                    text += value;
+
+                    xmlhttp.open("PUT","http://docker:8080/email",true);
+                    xmlhttp.send(text);
+                }
             }
         }
         xmlhttp.open("PUT","http://146.191.107.189:8080/seriousgame/check",true);
