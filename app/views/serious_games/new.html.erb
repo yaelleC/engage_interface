@@ -8,6 +8,7 @@
 
       <h2>Create</h2>
       <p>In order to use the engine, you need to send us your configuration file (if you haven't already, we suggest you read the <a href="documention.html">documentation page</a> to learn how to write it). You can write your configuration file using the following editor.</p>
+      <p>You can also save your file and upload it later to keep working on it.</p>
       <p>If you need help with errors you don't understand, <a href="mailto:yaelle.chaudy@uws.ac.uk">send me an email</a> <br/>
      <!--  <form action="mailto:youremail@domain.com" enctype="text/plain">
         <input type="hidden" name="Subject" value="EngAGe - help with config file">
@@ -17,6 +18,9 @@
       </p>
       <p>If you need help with errors you don't understand, use the <a href="#needHelp">form at the end of the page</a>, don't forget to enter a valid email if you want a reply!</p>
 -->
+
+        <p><table border="0"><tr><td>Select a file to load: </td><td><input type="file" id="fileToLoad"/></td><td><button type="button" class="btn btn-info" onclick="loadFileAsText()"><span class="glyphicon glyphicon-upload"></span> load</button></td></tr></table></p>
+
       <form class="form-horizontal" role="form" action="/serious_games" method="POST" id="sendConfigFile">
         <!-- Hidding the file upload for now. TODO(Yaelle) - Implement the file upload button
         <div class="form-group">
@@ -26,6 +30,7 @@
           </div>
         </div>
         -->
+
         <div class="form-group">
           <div id="editor" class="editor">Serious-game
   /* Describe your serious game here giving 
@@ -117,11 +122,13 @@ Feedback-model
 End</textarea>
           </div>
         </div>
-        <div align="center">
+        <div align="center">          
+          <button type="button" class="btn btn-success" onclick="saveTextAsFile()"><span class="glyphicon glyphicon-floppy-disk"></span> Save for later</button>
           <button type="submit" disabled class="btn btn-primary" id="submitCF"><span class="glyphicon glyphicon-share"></span> Submit file</button>
         </div>
 
       </form>
+
 
       <!--<p id="needHelp"><b>Need help with your configuration file? </b><br/> Enter your email and hit the panic button!</p>
       <input type="text" id="emailUser" value="your email here" />
@@ -163,6 +170,56 @@ End</textarea>
       }
 
     });
+
+    function saveTextAsFile()
+    {
+      var textToWrite = document.getElementById("inputConfigFile").value;
+      var textFileAsBlob = new Blob([textToWrite], {type:'text/plain'});
+      //var fileNameToSaveAs = document.getElementById("inputFileNameToSaveAs").value;
+      var today = new Date();
+      var todayString = today.getFullYear().toString()+"-"+(today.getMonth()+1).toString()+"-"+today.getDate().toString();
+      console.log(todayString);
+      fileNameToSaveAs = todayString + "_configFile_engage"
+      var downloadLink = document.createElement("a");
+      downloadLink.download = fileNameToSaveAs;
+      downloadLink.innerHTML = "Download File";
+      if (window.webkitURL != null)
+      {
+        // Chrome allows the link to be clicked
+        // without actually adding it to the DOM.
+        downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+      }
+      else
+      {
+        // Firefox requires the link to be added to the DOM
+        // before it can be clicked.
+        downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+        downloadLink.onclick = destroyClickedElement;
+        downloadLink.style.display = "none";
+        document.body.appendChild(downloadLink);
+      }
+
+      downloadLink.click();
+    }
+
+    function destroyClickedElement(event)
+    {
+      document.body.removeChild(event.target);
+    }
+
+    function loadFileAsText()
+    {
+      var fileToLoad = document.getElementById("fileToLoad").files[0];
+
+      var fileReader = new FileReader();
+      fileReader.onload = function(fileLoadedEvent) 
+      {
+        var textFromFileLoaded = fileLoadedEvent.target.result;
+        //document.getElementById("editor").innerHTML = textFromFileLoaded;
+        editor.getSession().setValue(textFromFileLoaded);
+      };
+      fileReader.readAsText(fileToLoad, "UTF-8");
+    }
 
 /*
     function updateBody()
