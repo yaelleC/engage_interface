@@ -75,7 +75,7 @@
       </div>
     </div>
 
-    <% if content_for?(:notmain) %>
+    <% if !content_for?(:main) %>
       <div class="banner2">
         <table width="80%" align="center" border="0">
           <tr><td align="center"><%= image_tag "logo2.png", alt:"logo", size: "150x130" %></td>
@@ -83,6 +83,13 @@
         </table>
       </div>
     <% end %>
+
+    <div class="MainText container">
+      <% flash.each do |name, msg| -%>
+        <%= content_tag(:div, msg, class: "alert alert-#{name}") %>
+      <% end -%>
+
+    </div>
 
 	  <%= yield %>
 

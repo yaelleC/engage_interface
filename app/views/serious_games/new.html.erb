@@ -3,22 +3,20 @@
   Create a Serious game
 <% end %>
 
-<% content_for :notmain do %>
-  True
-<% end %>
-
  <div class="mainText container">
       <br/>
-      <% flash.each do |name, msg| -%>
-           <%= content_tag(:div, msg, class: "alert alert-#{name}") %>
-      <% end -%>
 
       <h2>Create</h2>
       <p>In order to use the engine, you need to send us your configuration file (if you haven't already, we suggest you read the <a href="documention.html">documentation page</a> to learn how to write it). You can write your configuration file using the following editor.</p>
-      <p>If you need help with errors you don't understand, <a href="mailto:yaelle.chaudy@uws.ac.uk">email me!</a></p>
-      
-      <!--<p>If you need help with errors you don't understand, use the <a href="#needHelp">form at the end of the page</a>, don't forget to enter a valid email if you want a reply!</p>-->
-
+      <p>If you need help with errors you don't understand, <a href="mailto:yaelle.chaudy@uws.ac.uk">send me an email</a> <br/>
+     <!--  <form action="mailto:youremail@domain.com" enctype="text/plain">
+        <input type="hidden" name="Subject" value="EngAGe - help with config file">
+        <textarea cols="80" rows="15" name="Body" id="bodyEmail" ></textarea>
+        <input type="submit" value="Send email">
+    </form>
+      </p>
+      <p>If you need help with errors you don't understand, use the <a href="#needHelp">form at the end of the page</a>, don't forget to enter a valid email if you want a reply!</p>
+-->
       <form class="form-horizontal" role="form" action="/serious_games" method="POST" id="sendConfigFile">
         <!-- Hidding the file upload for now. TODO(Yaelle) - Implement the file upload button
         <div class="form-group">
@@ -120,7 +118,7 @@ End</textarea>
           </div>
         </div>
         <div align="center">
-          <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-share"></span> Submit file</button>
+          <button type="submit" disabled class="btn btn-primary" id="submitCF"><span class="glyphicon glyphicon-share"></span> Submit file</button>
         </div>
 
       </form>
@@ -143,13 +141,51 @@ End</textarea>
 <script>
     var editor = ace.edit("editor");
     var textarea = $('textarea[name="ConfigFile"]').hide();
+    var bodyEmail = $("#bodyEmail");
 
     editor.setTheme("ace/theme/monokai");
     editor.getSession().setMode("ace/mode/engage");
     editor.getSession().setValue(textarea.val());
+    //editor.getSession().setDocument(document);
     editor.getSession().on('change', function(){
       textarea.val(editor.getSession().getValue());
     });
+    editor.getSession().on("changeAnnotation", function(){
+
+      var annot = editor.getSession().getAnnotations();
+      if (annot.length > 0)
+      {
+        $("#submitCF").attr("disabled", "disabled");
+      }
+      else
+      {
+        $("#submitCF").removeAttr("disabled");      
+      }
+
+    });
+
+/*
+    function updateBody()
+    {
+      $.ajax({
+          type: "PUT",
+          url: "http://146.191.107.189:8080/seriousgame/check",
+          data: textarea.val(),
+          contentType: "text/plain; charset=utf-8",
+          dataType: "text",
+          success: function (msg) {
+              
+              var errorsJSON = JSON.parse(msg);
+              for (var i = 0 ; i < errorsJSON.length; i++) {
+                  var er = errorsJSON[i];
+                  bodyEmail.append("Error " + i + " (" + er.line + " : " + er.offset + ") :" + er.message + "\n");
+              };
+              bodyEmail.append("\n\n" + textarea.val());
+              //bodyEmail.show();
+              //$("#sendEmail").show();
+          }
+      });
+    }
 
     $(document).ready(function () {
           $("#sendCF").click(function (event) {
@@ -170,5 +206,6 @@ End</textarea>
       function AjaxFailed(result) {
           alert("Oups, something went wrong!" + result.status + ' ' + result.statusText);
       } 
+  */
   
 </script>

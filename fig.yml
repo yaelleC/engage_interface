@@ -3,6 +3,7 @@ rails:
   build: .
   ports: 
     - 80:80
+  dns: localhost
   volumes:
     - app:/usr/src/app/app
 

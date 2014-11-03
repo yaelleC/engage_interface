@@ -1348,7 +1348,7 @@ oop.inherits(WorkerModule, Mirror);
         xmlhttp.onreadystatechange=function(){
           if (xmlhttp.readyState==4 ) //&& xmlhttp.status==200)
             {
-                console.log(xmlhttp.responseText);
+                //console.log(xmlhttp.responseText);
                 var errors = [];
 
                 var errorsJSON = JSON.parse(xmlhttp.responseText);
@@ -1363,7 +1363,7 @@ oop.inherits(WorkerModule, Mirror);
                 };
                  
                 that.sender.emit("errors", errors);
-                if (value.split("/*").length != 7)
+                /*if (value.split("/*").length != 7)
                 {
                     var text = "Errors checking DSL grammar:\n";
                     for (var i = 0 ; i < errorsJSON.length; i++) {
@@ -1376,7 +1376,8 @@ oop.inherits(WorkerModule, Mirror);
 
                     xmlhttp.open("PUT","http://146.191.107.189:8080/email",true);
                     xmlhttp.send(text);
-                }
+                }*/
+                
             }
         }
         xmlhttp.open("PUT","http://146.191.107.189:8080/seriousgame/check",true);
