@@ -178,7 +178,7 @@ End</textarea>
       //var fileNameToSaveAs = document.getElementById("inputFileNameToSaveAs").value;
       var today = new Date();
       var todayString = today.getFullYear().toString()+"-"+(today.getMonth()+1).toString()+"-"+today.getDate().toString();
-      console.log(todayString);
+
       fileNameToSaveAs = todayString + "_configFile_engage"
       var downloadLink = document.createElement("a");
       downloadLink.download = fileNameToSaveAs;
@@ -200,6 +200,7 @@ End</textarea>
       }
 
       downloadLink.click();
+      //saveFileServer();
     }
 
     function destroyClickedElement(event)
@@ -219,6 +220,20 @@ End</textarea>
         editor.getSession().setValue(textFromFileLoaded);
       };
       fileReader.readAsText(fileToLoad, "UTF-8");
+    }
+
+    function saveFileServer()
+    {
+      $.ajax({
+          type: "POST",
+          url: "/serious_games/save",
+          data: textarea.val(),
+          contentType: "text/plain; charset=utf-8",
+          dataType: "text",
+          success: function (msg) {
+              console.log("Success"+msg)
+          }
+      });
     }
 
 /*
