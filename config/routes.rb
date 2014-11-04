@@ -1,4 +1,7 @@
 Assess4meInterface::Application.routes.draw do
+  resources :developers
+
+
   get "documentation/api"
 
   resources :serious_games
@@ -7,9 +10,6 @@ Assess4meInterface::Application.routes.draw do
   get "documentation/tutorial"
 
   get "documentation/doc"
-
-  resources :users
-
 
   get "home/index"
 
