@@ -3,6 +3,8 @@
  * Defines the behaviour of the EngAGe visual editor.
  */
 /*global $:false */
+var COUNTRIES = ['UK', 'FR'];
+var LANGUAGES = ['EN', 'FR'];
 
 (function (angular, COUNTRIES, LANGUAGES) {
     "use strict";

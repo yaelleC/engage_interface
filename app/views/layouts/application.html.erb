@@ -62,10 +62,9 @@
           <li><a href="LA.html"><span class="glyphicon glyphicon-stats"></span> Learning Analytics</a></li>
           <li><a href="about.html"><span class="glyphicon glyphicon-info-sign"></span> About</a></li>
         </ul>
-
         <% if current_user %>
         <form class="navbar-form navbar-right">
-        <span style="color: white">Logged in as <%= current_user.email %>.</span>
+          <span style="color: white">Logged in as <%= current_user.email %>.</span>
           <%= link_to "Log out", logout_path, :class=>"btn btn-danger btn-sm"%>
         </form>
         <% else %>
@@ -73,7 +72,6 @@
           <%= link_to "log in", login_path, :class=>"btn btn-info btn-sm" %>.
         </form>
         <% end %>
-
           <!--<form class="navbar-form navbar-right">
             <div class="form-group">
               <input type="text" placeholder="Email" class="form-control input-sm">
@@ -87,7 +85,7 @@
       </div>
     </div>
 
-    <% if content_for?(:notmain) %>
+    <% if !content_for?(:main) %>
     <div class="banner2">
       <table width="80%" align="center" border="0">
         <tr><td align="center"><%= image_tag "logo2.png", alt:"logo", size: "150x130" %></td>
@@ -95,6 +93,13 @@
         </table>
       </div>
       <% end %>
+
+      <div class="MainText container">
+        <% flash.each do |name, msg| -%>
+        <%= content_tag(:div, msg, class: "alert alert-#{name}") %>
+        <% end -%>
+
+      </div>
 
       <%= yield %>
 

@@ -3,18 +3,23 @@
   Create a Serious game
 <% end %>
 
-<% content_for :notmain do %>
-  True
-<% end %>
-
  <div class="mainText container">
       <br/>
-      <% flash.each do |name, msg| -%>
-           <%= content_tag(:div, msg, class: "alert alert-#{name}") %>
-      <% end -%>
 
       <h2>Create</h2>
       <p>In order to use the engine, you need to send us your configuration file (if you haven't already, we suggest you read the <a href="documention.html">documentation page</a> to learn how to write it). You can write your configuration file using the following editor.</p>
+      <p>You can also save your file and upload it later to keep working on it.</p>
+      <p>If you need help with errors you don't understand, <a href="mailto:yaelle.chaudy@uws.ac.uk">send me an email</a> <br/>
+     <!--  <form action="mailto:youremail@domain.com" enctype="text/plain">
+        <input type="hidden" name="Subject" value="EngAGe - help with config file">
+        <textarea cols="80" rows="15" name="Body" id="bodyEmail" ></textarea>
+        <input type="submit" value="Send email">
+    </form>
+      </p>
+      <p>If you need help with errors you don't understand, use the <a href="#needHelp">form at the end of the page</a>, don't forget to enter a valid email if you want a reply!</p>
+-->
+
+        <p><table border="0"><tr><td>Select a file to load: </td><td><input type="file" id="fileToLoad"/></td><td><button type="button" class="btn btn-info" onclick="loadFileAsText()"><span class="glyphicon glyphicon-upload"></span> load</button></td></tr></table></p>
 
       <form class="form-horizontal" role="form" action="/serious_games" method="POST" id="sendConfigFile">
         <!-- Hidding the file upload for now. TODO(Yaelle) - Implement the file upload button
@@ -25,6 +30,7 @@
           </div>
         </div>
         -->
+
         <div class="form-group">
           <div id="editor" class="editor">Serious-game
   /* Describe your serious game here giving 
@@ -113,16 +119,23 @@ End
 
 Feedback-model
   /* inactivity or outcome feedback */
-End      </textarea>
+End</textarea>
           </div>
         </div>
-        <div align="center">
-          <button type="button" class="btn btn-success" id="checkDSL"><span class="glyphicon glyphicon-check"></span> Check config file</button>
-          <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-share"></span> Submit file</button>
+        <div align="center">          
+          <button type="button" class="btn btn-success" onclick="saveTextAsFile()"><span class="glyphicon glyphicon-floppy-disk"></span> Save for later</button>
+          <button type="submit" disabled class="btn btn-primary" id="submitCF"><span class="glyphicon glyphicon-share"></span> Submit file</button>
         </div>
 
       </form>
 
+
+      <!--<p id="needHelp"><b>Need help with your configuration file? </b><br/> Enter your email and hit the panic button!</p>
+      <input type="text" id="emailUser" value="your email here" />
+      <button type="button" class="btn btn-danger" id="sendCF"><span class="glyphicon glyphicon-question-sign"></span> Help! </button>-->
+
+      <br/>
+      <br/>
       <br/>
       <p><span class="glyphicon glyphicon-warning-sign"></span> Note that once you send the file, the game will be created and it's assessment cannot be changed, if you wish to develop a new version of your game, or change the assessment logic, you will need to create a new game in our database.</p>
 
@@ -135,35 +148,121 @@ End      </textarea>
 <script>
     var editor = ace.edit("editor");
     var textarea = $('textarea[name="ConfigFile"]').hide();
+    var bodyEmail = $("#bodyEmail");
 
     editor.setTheme("ace/theme/monokai");
-    editor.getSession().setMode("ace/mode/sql");
+    editor.getSession().setMode("ace/mode/engage");
     editor.getSession().setValue(textarea.val());
+    //editor.getSession().setDocument(document);
     editor.getSession().on('change', function(){
       textarea.val(editor.getSession().getValue());
     });
+    editor.getSession().on("changeAnnotation", function(){
+
+      var annot = editor.getSession().getAnnotations();
+      if (annot.length > 0)
+      {
+        $("#submitCF").attr("disabled", "disabled");
+      }
+      else
+      {
+        $("#submitCF").removeAttr("disabled");      
+      }
+
+    });
+
+    function saveTextAsFile()
+    {
+      var textToWrite = document.getElementById("inputConfigFile").value;
+      var textFileAsBlob = new Blob([textToWrite], {type:'text/plain'});
+      //var fileNameToSaveAs = document.getElementById("inputFileNameToSaveAs").value;
+      var today = new Date();
+      var todayString = today.getFullYear().toString()+"-"+(today.getMonth()+1).toString()+"-"+today.getDate().toString();
+      console.log(todayString);
+      fileNameToSaveAs = todayString + "_configFile_engage"
+      var downloadLink = document.createElement("a");
+      downloadLink.download = fileNameToSaveAs;
+      downloadLink.innerHTML = "Download File";
+      if (window.webkitURL != null)
+      {
+        // Chrome allows the link to be clicked
+        // without actually adding it to the DOM.
+        downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+      }
+      else
+      {
+        // Firefox requires the link to be added to the DOM
+        // before it can be clicked.
+        downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+        downloadLink.onclick = destroyClickedElement;
+        downloadLink.style.display = "none";
+        document.body.appendChild(downloadLink);
+      }
+
+      downloadLink.click();
+    }
+
+    function destroyClickedElement(event)
+    {
+      document.body.removeChild(event.target);
+    }
+
+    function loadFileAsText()
+    {
+      var fileToLoad = document.getElementById("fileToLoad").files[0];
+
+      var fileReader = new FileReader();
+      fileReader.onload = function(fileLoadedEvent) 
+      {
+        var textFromFileLoaded = fileLoadedEvent.target.result;
+        //document.getElementById("editor").innerHTML = textFromFileLoaded;
+        editor.getSession().setValue(textFromFileLoaded);
+      };
+      fileReader.readAsText(fileToLoad, "UTF-8");
+    }
+
+/*
+    function updateBody()
+    {
+      $.ajax({
+          type: "PUT",
+          url: "http://146.191.107.189:8080/seriousgame/check",
+          data: textarea.val(),
+          contentType: "text/plain; charset=utf-8",
+          dataType: "text",
+          success: function (msg) {
+              
+              var errorsJSON = JSON.parse(msg);
+              for (var i = 0 ; i < errorsJSON.length; i++) {
+                  var er = errorsJSON[i];
+                  bodyEmail.append("Error " + i + " (" + er.line + " : " + er.offset + ") :" + er.message + "\n");
+              };
+              bodyEmail.append("\n\n" + textarea.val());
+              //bodyEmail.show();
+              //$("#sendEmail").show();
+          }
+      });
+    }
 
     $(document).ready(function () {
-          $("#checkDSL").click(function (event) {
+          $("#sendCF").click(function (event) {
+              var emailUser = $("#emailUser").val();
               $.ajax({
                   type: "PUT",
-                  url: "http://docker:8080/seriousgame/check",
+                  url: "http://146.191.107.189:8080/seriousgame/checkAndEmail/\"" + emailUser + "\"",
                   data: textarea.val(),
                   contentType: "text/plain; charset=utf-8",
                   dataType: "text",
                   success: function (msg) {
-                      alert(msg);
+                      alert("We have sent for help, it's on its way!");
                   },
                   error: AjaxFailed
               });
           });
       });
-      function AjaxSucceeded(result) {
-          alert('s');
-          //alert(result.d);
-      }
       function AjaxFailed(result) {
-          alert(result.status + ' ' + result.statusText);
+          alert("Oups, something went wrong!" + result.status + ' ' + result.statusText);
       } 
+  */
   
 </script>
