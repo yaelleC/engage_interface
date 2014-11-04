@@ -9,7 +9,7 @@ gem 'sqlite3'
 # Connector MySql
 gem 'mysql2'
 # User Authentication
-gem 'authlogic'
+gem 'sorcery'
 
 # Gems used only for assets and not required
 # in production environments by default.

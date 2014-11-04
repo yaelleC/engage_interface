@@ -11,27 +11,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130920134415) do
-
-  create_table "serious_games", :force => true do |t|
-    t.string   "name"
-    t.text     "desc"
-    t.string   "ageRange"
-    t.string   "lang"
-    t.string   "country"
-    t.string   "version"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
+ActiveRecord::Schema.define(:version => 20141104153946) do
 
   create_table "users", :force => true do |t|
-    t.string   "name"
-    t.string   "surname"
-    t.string   "email"
-    t.string   "encrypted_password"
-    t.string   "country"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.string   "email",                        :null => false
+    t.string   "crypted_password",             :null => false
+    t.string   "salt",                         :null => false
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
+    t.string   "remember_me_token"
+    t.datetime "remember_me_token_expires_at"
   end
+
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["remember_me_token"], :name => "index_users_on_remember_me_token"
 
 end
