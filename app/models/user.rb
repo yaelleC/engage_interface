@@ -1,7 +1,17 @@
 class User < ActiveRecord::Base
-  attr_accessible :country, :email, :encrypted_password, :name, :surname
+  belongs_to :role
+  has_one :developer, :foreign_key => :email, :primary_key => :email
 
-  validates :name, :presence => true
-  validates :email, :presence => true
-  validates :encrypted_password, :presence => true
+  authenticates_with_sorcery!
+  attr_accessible :email, :password, :password_confirmation, :role_id
+
+  validates_confirmation_of :password
+  validates_presence_of :password, :on => :create
+  validates_presence_of :email
+  validates_uniqueness_of :email
+
+  def role_symbols
+    [role.title.to_sym]
+  end
+
 end

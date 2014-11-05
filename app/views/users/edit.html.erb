@@ -1,6 +1,7 @@
-<h1>Editing user</h1>
+<div class="container mainText">
+  <h1>Edit User</h1>
+  <%= render 'form'%>
+  <%= link_to 'Show', @serious_game %> 
+  <%= link_to 'Back', serious_games_path %>
 
-<%= render 'form' %>
-
-<%= link_to 'Show', @user %> |
-<%= link_to 'Back', users_path %>
+</div>
