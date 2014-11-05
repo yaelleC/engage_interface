@@ -55,12 +55,22 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-tower"></span> Serious Games <b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><%= link_to "Create", new_serious_game_path %></li>
-              <li><%= link_to "Manage", serious_games_path %></li>
+              <li><%= link_to "Create", new_serious_game_path if permitted_to? :create, :serious_games %></li>
+              <li><%= link_to "Manage", serious_games_path if permitted_to? :read, :serious_games %></li>
             </ul>
           </li>
           <li><a href="LA.html"><span class="glyphicon glyphicon-stats"></span> Learning Analytics</a></li>
           <li><a href="about.html"><span class="glyphicon glyphicon-info-sign"></span> About</a></li>
+          <% if permitted_to? :manage, :users %>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-cog"></span> Admin <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+              <li><%= link_to "Users", users_path %></li>
+            </ul>
+          </li>
+          <% end %>
         </ul>
         <% if current_user %>
         <form class="navbar-form navbar-right">

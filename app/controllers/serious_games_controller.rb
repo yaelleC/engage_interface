@@ -1,10 +1,10 @@
 require 'net/http' ## Include http lib to enable calling the webservice
-
 class SeriousGamesController < ApplicationController
+  filter_resource_access
   # GET /serious_games
   # GET /serious_games.json
   def index
-    @serious_games = SeriousGame.all
+    @serious_games = current_user.developer.serious_games
 
     respond_to do |format|
       format.html # index.html.erb
@@ -15,7 +15,7 @@ class SeriousGamesController < ApplicationController
   # GET /serious_games/1
   # GET /serious_games/1.json
   def show
-    @serious_game = SeriousGame.find(params[:id])
+    @serious_game = current_user.developer.serious_games.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -26,17 +26,15 @@ class SeriousGamesController < ApplicationController
   # GET /serious_games/new
   # GET /serious_games/new.json
   def new
-    @serious_game = SeriousGame.new
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @serious_game }
     end
   end
 
   # GET /serious_games/1/edit
   def edit
-    @serious_game = SeriousGame.find(params[:id])
+    @serious_game = current_user.developer.serious_games.find(params[:id])
   end
 
   # POST /serious_games
@@ -66,7 +64,7 @@ class SeriousGamesController < ApplicationController
   # PUT /serious_games/1
   # PUT /serious_games/1.json
   def update
-    @serious_game = SeriousGame.find(params[:id])
+    @serious_game = current_user.developer.serious_games.find(params[:id])
 
     respond_to do |format|
       if @serious_game.update_attributes(params[:serious_game])
@@ -82,7 +80,7 @@ class SeriousGamesController < ApplicationController
   # DELETE /serious_games/1
   # DELETE /serious_games/1.json
   def destroy
-    @serious_game = SeriousGame.find(params[:id])
+    @serious_game = current_user.developer.serious_games.find(params[:id])
     @serious_game.destroy
 
     respond_to do |format|

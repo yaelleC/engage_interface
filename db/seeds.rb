@@ -9,5 +9,6 @@
 roles = Role.create([
   {title: 'admin'},
   {title: 'developer'},
-  {title: 'teacher'}
+  {title: 'teacher'},
+  {title: 'student'},
 ]) if Role.count == 0

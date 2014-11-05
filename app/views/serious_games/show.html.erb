@@ -15,17 +15,17 @@
 
 <p>
   <b>Desc:</b>
-  <%= @serious_game.desc %>
+  <%= @serious_game.description %>
 </p>
 
 <p>
-  <b>Agerange:</b>
-  <%= @serious_game.ageRange %>
+  <b>Age Range:</b>
+  <%= @serious_game.ageMin %> - <%= @serious_game.ageMax %>
 </p>
 
 <p>
   <b>Lang:</b>
-  <%= @serious_game.lang %>
+  <%= @serious_game.language %>
 </p>
 
 <p>
@@ -39,8 +39,7 @@
 </p>
 
 
-<%= link_to 'Edit', edit_serious_game_path(@serious_game) %> |
-<%= link_to 'Back', serious_games_path %>
+<%= link_to 'Back', serious_games_path, :class => 'btn btn-sm btn-primary'%>
   
 
 </div>
