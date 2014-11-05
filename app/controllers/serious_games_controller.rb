@@ -1,4 +1,6 @@
 require 'net/http' ## Include http lib to enable calling the webservice
+require 'open-uri'
+
 class SeriousGamesController < ApplicationController
   filter_resource_access
   # GET /serious_games
@@ -37,11 +39,34 @@ class SeriousGamesController < ApplicationController
     @serious_game = current_user.developer.serious_games.find(params[:id])
   end
 
+  # POST /serious_games/save
+  # POST /serious_games/save.json
+  def save
+    # Getting config file from POST
+    config_file = params[:ConfigFile]
+
+    # Saving config file in the server
+    time = Time.now
+    timeString = time.strftime("%Y.%m.%d-%H.%M.%S")
+
+    path = Rails.root.join(Rails.root, 'app', 'assets','configFiles',timeString + '_configFile.txt')
+    content = config_file
+    file = File.open(path, 'a') {|f| f.write(content) }
+  end
+
   # POST /serious_games
   # POST /serious_games.json
   def create
     # Getting config file from POST
     config_file = params[:ConfigFile]
+
+    # Saving config file in the server
+    time = Time.now
+    timeString = time.strftime("%Y.%m.%d-%H.%M.%S")
+
+    path = Rails.root.join(Rails.root, 'app', 'assets','configFiles',timeString + '_configFile.txt')
+    content = config_file
+    file = File.open(path, 'a') {|f| f.write(content) }
 
     # Preparing the request to the webservice
     url = URI.parse('http://146.191.107.189:8080/seriousgame')

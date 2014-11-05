@@ -477,10 +477,8 @@ Type ::= 'String' | 'Int' | 'Char' | 'Bool' | 'Float' | 'Text'</pre>
       <p>During the gameplay, you will want to assess every player's action, you can do so by invoking the <code>/gameplay/{idGameplay}/assess</code> use the PUT method with one json object as follow: </p>
       <div class="codeContainer">
       <pre rel="WScode" class="pre-scrollable"><code>{
-  "idSG": integer,
-  "version": integer,
-  "idStudent": integer,
-  "params": [{"name": String, "type": String, "value": value}, …]
+  "action": String,
+  "values": { “nameOfParam”: “value”, … }
 }</code></pre></div>
       <p>The function updates the gameplay's scores for the learning outcomes and returns the feedback triggered by the action (if any). If you wish to use the feedback, you will need to interpret the json returned:</p>
       <div class="codeContainer">
