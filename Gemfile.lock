@@ -245,6 +245,9 @@ GEM
       polyglot (>= 0.3.1)
       polyglot (>= 0.3.1)
     tzinfo (0.3.42)
+    uglifier (2.5.3)
+      execjs (>= 0.3.0)
+      json (>= 1.8.0)
 
 PLATFORMS
   ruby
@@ -259,3 +262,4 @@ DEPENDENCIES
   sorcery
   sqlite3
   therubyracer
+  uglifier (>= 1.0.3)
