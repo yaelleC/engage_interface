@@ -1,15 +1,4 @@
 ---
-rails:
-  build: .
-  ports: 
-    - "80:80"
-  dns: localhost
-  volumes:
-    - app:/usr/src/app/app
-    - config:/usr/src/app/config
-    - db:/usr/src/app/db
-    - script:/usr/src/app/script
-
 prod:
   build: .
   ports: 

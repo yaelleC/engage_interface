@@ -5,7 +5,7 @@ development:
  username: engage
  password: uws2013
  pool: 5
- host: 146.191.107.189
+ host: 10.0.2.15
  port: 3306
 
 
@@ -25,5 +25,6 @@ production:
  username: engage
  password: uws2013
  pool: 5
- host: 192.168.56.101
+ # host: 10.0.2.2
+ host: 146.191.107.189
  port: 3306
