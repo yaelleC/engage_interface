@@ -1,0 +1,22 @@
+<% content_for :title do %>
+Config File
+<% end %>
+<div class="mainText container">
+	<p id="notice"><%= notice %></p>
+
+	<p>
+		<h2>Config</h2>
+		<div><b>Creation date</b> <%= @config_file.created_at %></div>
+		<div id="editor" class="editor"><%= @config_file.config %></div>
+		<script>
+			ace.config.set("workerPath", "/");
+			var editor = ace.edit("editor");
+			editor.getSession().setMode("ace/mode/engage");
+			editor.setTheme("ace/theme/monokai");
+		</script>
+	</p>
+
+
+	<%= link_to 'Edit', edit_config_file_path(@config_file) %> |
+	<%= link_to 'Back', config_files_path %>
+</div>

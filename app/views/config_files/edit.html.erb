@@ -1,0 +1,11 @@
+<% content_for :title do %>
+  Edit Config File
+<% end %>
+<div class="mainText container">
+	<h1>Editing config_file</h1>
+
+	<%= render 'form' %>
+
+	<%= link_to 'Show', @config_file %> |
+	<%= link_to 'Back', config_files_path %>
+</div>

@@ -196,7 +196,7 @@ End</textarea>
       }
 
       downloadLink.click();
-      //saveFileServer();
+      saveFileServer(textToWrite);
     }
 
     function destroyClickedElement(event)
@@ -218,14 +218,13 @@ End</textarea>
       fileReader.readAsText(fileToLoad, "UTF-8");
     }
 
-    function saveFileServer()
+    function saveFileServer(config)
     {
       $.ajax({
           type: "POST",
-          url: "/serious_games/save",
-          data: textarea.val(),
-          contentType: "text/plain; charset=utf-8",
-          dataType: "text",
+          url: "/config_files.json",
+          data: {"config_file": {"config": config}},
+          dataType: "json",
           success: function (msg) {
               console.log("Success"+msg)
           }

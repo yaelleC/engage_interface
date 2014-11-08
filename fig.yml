@@ -8,4 +8,5 @@ rails:
     - app:/usr/src/app/app
     - config:/usr/src/app/config
     - db:/usr/src/app/db
+    - log:/usr/src/app/log
     - script:/usr/src/app/script
