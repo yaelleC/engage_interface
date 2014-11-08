@@ -12,6 +12,7 @@ Assess4meInterface::Application.routes.draw do
   get "documentation/doc"
 
   get "home/index"
+  get "home/about"
 
   get "logout" => "sessions#destroy", :as => "logout"
   get "login" => "sessions#new", :as => "login"

@@ -59,7 +59,7 @@
             </ul>
           </li>
           <!-- <li><a href="LA.html"><span class="glyphicon glyphicon-stats"></span> Learning Analytics</a></li> -->
-          <!-- <li><a href="about.html"><span class="glyphicon glyphicon-info-sign"></span> About</a></li> -->
+          <li><%= link_to home_about_path do %><span class="glyphicon glyphicon-info-sign"></span> About<% end %></li> 
           <% if permitted_to? :manage, :users %>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
