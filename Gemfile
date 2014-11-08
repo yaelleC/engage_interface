@@ -12,6 +12,8 @@ gem 'mysql2'
 gem 'sorcery'
 # User Authorization
 gem 'declarative_authorization', :git => "http://github.com/stffn/declarative_authorization.git"
+# New Relic Monitoring
+gem 'newrelic_rpm'
 
 # Gems used only for assets and not required
 # in production environments by default.

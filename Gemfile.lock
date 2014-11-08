@@ -65,6 +65,7 @@ GEM
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     mysql2 (0.3.16)
+    newrelic_rpm (3.9.6.257)
     oauth (0.4.7)
     oauth2 (0.9.4)
       faraday (>= 0.8, < 0.10)
@@ -257,6 +258,7 @@ DEPENDENCIES
   declarative_authorization!
   jquery-rails
   mysql2
+  newrelic_rpm
   rails (= 3.2.13)
   sass-rails (~> 3.2.3)
   sorcery
