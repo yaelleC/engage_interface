@@ -58,7 +58,11 @@ class SeriousGamesController < ApplicationController
     file = File.open(path, 'a') {|f| f.write(content) }
 
     # Preparing the request to the webservice
-    url = URI.parse('http://146.191.107.189:8080/seriousgame')
+    if Rails.env.production?
+      url = URI.parse('http://146.191.107.189:8080/seriousgame')
+    else
+      url = URI.parse('http://10.0.2.15:8080/seriousgame')
+    end
     req = Net::HTTP::Put.new(url.path, initheader = { 'Content-Type' => 'text/plain'})
     req.body = config_file
     # Getting the response

@@ -16,7 +16,7 @@
     <th>Description</th>
     <th>Version</th>
     <th></th>
-    <!-- <th></th> -->
+    <th></th>
   </tr>
 
 <% @serious_games.each do |serious_game| %>
@@ -26,7 +26,7 @@
     <td><%= serious_game.description %></td>
     <td><%= serious_game.version %></td>
     <td><%= link_to 'Show', serious_game %></td>
-    <!-- <td><%= link_to 'Destroy', serious_game, method: :delete, data: { confirm: 'Are you sure?' } %></td> -->
+    <td><%= link_to 'Destroy', serious_game, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
 </table>
