@@ -223,7 +223,7 @@ End</textarea>
       $.ajax({
           type: "POST",
           url: "/config_files.json",
-          data: {"config_file": {"config": config}},
+          data: {"config_file": {"config": config, "submited": false}},
           dataType: "json",
           success: function (msg) {
               console.log("Success"+msg)

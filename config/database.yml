@@ -5,7 +5,7 @@ development:
  username: engage
  password: uws2013
  pool: 5
- host: 10.0.2.15
+ host: mysql
  port: 3306
 
 

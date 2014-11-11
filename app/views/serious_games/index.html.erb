@@ -12,6 +12,7 @@
 <table class="table table-hover table-bordered table-striped">
   <tr>
     <th>Id</th>
+    <th>Created at</th>
     <th>Name</th>
     <th>Description</th>
     <th>Version</th>
@@ -22,6 +23,7 @@
 <% @serious_games.each do |serious_game| %>
   <tr>
     <td><%= serious_game.id %></td>
+    <td><%= serious_game.created.to_formatted_s(:short) %></td>
     <td><%= serious_game.name %></td>
     <td><%= serious_game.description %></td>
     <td><%= serious_game.version %></td>

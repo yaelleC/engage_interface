@@ -9,7 +9,7 @@ class SeriousGamesController < ApplicationController
     if current_user.developer.nil?
       @serious_games = []
     else
-      @serious_games = current_user.developer.serious_games
+      @serious_games = current_user.developer.serious_games(:order => 'created DESC')
     end
     respond_to do |format|
       format.html # index.html.erb
@@ -48,6 +48,10 @@ class SeriousGamesController < ApplicationController
   def create
     # Getting config file from POST
     config_file = params[:ConfigFile]
+
+    # Save the config
+
+    config_file = ConfigFile.create(config: config_file, submited: true)
 
     # Saving config file in the server
     time = Time.now

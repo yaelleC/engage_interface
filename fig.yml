@@ -5,8 +5,18 @@ rails:
     - "80:80"
   dns: localhost
   volumes:
-    - app:/usr/src/app/app
-    - config:/usr/src/app/config
-    - db:/usr/src/app/db
-    - log:/usr/src/app/log
-    - script:/usr/src/app/script
+    - "app:/usr/src/app/app"
+    - "config:/usr/src/app/config"
+    - "db:/usr/src/app/db"
+    - "log:/usr/src/app/log"
+    - "script:/usr/src/app/script"
+  links:
+    - "mysql:mysql"
+mysql:
+  image: mysql
+  ports:
+    - "3306:3306"
+  volumes:
+    - /var/lib/engage/mysql:/var/lib/mysql
+  environment:
+    MYSQL_ROOT_PASSWORD: 123

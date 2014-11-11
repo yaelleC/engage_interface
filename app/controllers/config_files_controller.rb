@@ -3,7 +3,7 @@ class ConfigFilesController < ApplicationController
   # GET /config_files
   # GET /config_files.json
   def index
-    @config_files = ConfigFile.all
+    @config_files = ConfigFile.all(:order => 'created_at DESC')
 
     respond_to do |format|
       format.html # index.html.erb
