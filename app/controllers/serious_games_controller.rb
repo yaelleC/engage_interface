@@ -6,8 +6,11 @@ class SeriousGamesController < ApplicationController
   # GET /serious_games
   # GET /serious_games.json
   def index
-    @serious_games = current_user.developer.serious_games
-
+    if current_user.developer.nil?
+      @serious_games = []
+    else
+      @serious_games = current_user.developer.serious_games(:order => 'created DESC')
+    end
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @serious_games }
@@ -39,26 +42,16 @@ class SeriousGamesController < ApplicationController
     @serious_game = current_user.developer.serious_games.find(params[:id])
   end
 
-  # POST /serious_games/save
-  # POST /serious_games/save.json
-  def save
-    # Getting config file from POST
-    config_file = params[:ConfigFile]
-
-    # Saving config file in the server
-    time = Time.now
-    timeString = time.strftime("%Y.%m.%d-%H.%M.%S")
-
-    path = Rails.root.join(Rails.root, 'app', 'assets','configFiles',timeString + '_configFile.txt')
-    content = config_file
-    file = File.open(path, 'a') {|f| f.write(content) }
-  end
 
   # POST /serious_games
   # POST /serious_games.json
   def create
     # Getting config file from POST
     config_file = params[:ConfigFile]
+
+    # Save the config
+
+    config_file = ConfigFile.create(config: config_file, submited: true)
 
     # Saving config file in the server
     time = Time.now
@@ -69,7 +62,11 @@ class SeriousGamesController < ApplicationController
     file = File.open(path, 'a') {|f| f.write(content) }
 
     # Preparing the request to the webservice
-    url = URI.parse('http://146.191.107.189:8080/seriousgame')
+    if Rails.env.production?
+      url = URI.parse('http://146.191.107.189:8080/seriousgame')
+    else
+      url = URI.parse('http://10.0.2.15:8080/seriousgame')
+    end
     req = Net::HTTP::Put.new(url.path, initheader = { 'Content-Type' => 'text/plain'})
     req.body = config_file
     # Getting the response
