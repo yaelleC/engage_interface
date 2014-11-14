@@ -1,27 +1,22 @@
 Assess4meInterface::Application.routes.draw do
   resources :config_files
-
-
+  resources :users
+  resources :sessions
   resources :developers
-
-
-  get "documentation/api"
-
   resources :serious_games
 
 
+  get "learning_analytics"  => "learning_analytics#index"
+  get "documentation/api"
   get "documentation/tutorial"
-
   get "documentation/doc"
-
   get "home/index"
   get "home/about"
-
   get "logout" => "sessions#destroy", :as => "logout"
   get "login" => "sessions#new", :as => "login"
   get "signup" => "users#new", :as => "signup"
-  resources :users
-  resources :sessions
+
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

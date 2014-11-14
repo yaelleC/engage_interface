@@ -18,6 +18,7 @@ authorization do
   
 
   role :admin do
+     has_permission_on :learning_analytics, :to => :manage
      has_permission_on :users, :to => :manage
      has_permission_on :serious_games, :to => :manage
      has_permission_on :config_files, :to => :manage

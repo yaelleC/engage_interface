@@ -58,9 +58,16 @@
               <li><%= link_to "Manage", serious_games_path if permitted_to? :read, :serious_games %></li>
             </ul>
           </li>
-          <!-- <li><a href="LA.html"><span class="glyphicon glyphicon-stats"></span> Learning Analytics</a></li> -->
-          <li><%= link_to home_about_path do %><span class="glyphicon glyphicon-info-sign"></span> About<% end %></li> 
-          
+          <% if permitted_to? :manage, :learning_analytics %>
+          <li>
+            <%= link_to learning_analytics_path do %><span class="glyphicon glyphicon-stats"></span> Learning Analytics<% end %>
+          </li>
+          <% end %>
+          <li>
+            <%= link_to home_about_path do %>
+              <span class="glyphicon glyphicon-info-sign"></span> About
+            <% end %>
+          </li> 
           <% if !current_user.nil? && !current_user.role.nil? && current_user.role.title == 'admin'%>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">

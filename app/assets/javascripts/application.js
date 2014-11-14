@@ -15,4 +15,7 @@
 //= require bootstrap
 //= require ace
 //= require mode-engage
+//= require angular
+//= require highcharts
+//= require highcharts-more
 //= require_tree .
