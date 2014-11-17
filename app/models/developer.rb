@@ -1,5 +1,5 @@
 class Developer < ActiveRecord::Base
-  belongs_to :user, :foreign_key => :email, :primary_key => :email
+  belongs_to :user
   has_many :serious_games, :foreign_key => :idDeveloper
   
   attr_accessible :email, :password, :name, :surname

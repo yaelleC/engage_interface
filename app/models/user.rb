@@ -1,10 +1,10 @@
 class User < ActiveRecord::Base
   belongs_to :role
-  has_one :developer, :foreign_key => :email, :primary_key => :email
+  has_one :developer
 
   authenticates_with_sorcery!
-  attr_accessible :username, :email, :password, :password_confirmation, :role_id
-
+  attr_accessible :username
+  
   validates_confirmation_of :password
   validates_presence_of :password, :on => :create
   validates_presence_of :username
