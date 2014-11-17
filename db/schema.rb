@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141117223157) do
+ActiveRecord::Schema.define(:version => 20141117232317) do
 
   create_table "config_files", :force => true do |t|
     t.text     "config"
@@ -21,10 +21,11 @@ ActiveRecord::Schema.define(:version => 20141117223157) do
   end
 
   create_table "developer", :force => true do |t|
-    t.string "name",     :limit => 100, :null => false
-    t.string "surname",  :limit => 100, :null => false
-    t.string "email",    :limit => 200, :null => false
-    t.string "password", :limit => 200, :null => false
+    t.string  "name",     :limit => 100, :null => false
+    t.string  "surname",  :limit => 100, :null => false
+    t.string  "email",    :limit => 200, :null => false
+    t.string  "password", :limit => 200, :null => false
+    t.integer "user_id"
   end
 
   add_index "developer", ["email"], :name => "email", :unique => true
