@@ -2,8 +2,8 @@
 <h1>Login</h1>
 <%= form_tag sessions_path, :role => 'form', :class => "col-md-5" do %>
   <div class="form-group">
-    <%= label_tag :email %>
-    <%= text_field_tag :email, params[:email], :class => 'form-control' %>
+    <%= label_tag :username %>
+    <%= text_field_tag :username, params[:username], :class => 'form-control' %>
   </div>
   <div class="form-group">
     <%= label_tag :password %>
