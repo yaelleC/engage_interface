@@ -51,7 +51,7 @@ class SeriousGamesController < ApplicationController
 
     # Save the config
 
-    config_file = ConfigFile.create(config: config_file, submited: true)
+    ConfigFile.create(config: config_file, submited: true)
 
     # Preparing the request to the webservice
     if Rails.env.production?
