@@ -53,14 +53,6 @@ class SeriousGamesController < ApplicationController
 
     config_file = ConfigFile.create(config: config_file, submited: true)
 
-    # Saving config file in the server
-    time = Time.now
-    timeString = time.strftime("%Y.%m.%d-%H.%M.%S")
-
-    path = Rails.root.join(Rails.root, 'app', 'assets','configFiles',timeString + '_configFile.txt')
-    content = config_file
-    file = File.open(path, 'a') {|f| f.write(content) }
-
     # Preparing the request to the webservice
     if Rails.env.production?
       url = URI.parse('http://146.191.107.189:8080/seriousgame')
