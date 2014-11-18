@@ -54,11 +54,7 @@ class SeriousGamesController < ApplicationController
     ConfigFile.create(config: config_file, submited: true)
 
     # Preparing the request to the webservice
-    if Rails.env.production?
-      url = URI.parse('http://146.191.107.189:8080/seriousgame')
-    else
-      url = URI.parse('http://10.0.2.15:8080/seriousgame')
-    end
+    url = URI.parse('http://ws:8080/seriousgame')
     req = Net::HTTP::Put.new(url.path, initheader = { 'Content-Type' => 'text/plain'})
     req.body = config_file
     # Getting the response

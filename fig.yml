@@ -12,6 +12,13 @@ rails:
     - "script:/usr/src/app/script"
   links:
     - "mysql:mysql"
+    - "ws:ws"
+ws:
+  image: yaelle/engage-ws
+  links:
+    - "mysql:mysql"
+  ports:
+    - "8080:8080"
 mysql:
   image: mysql
   ports:
