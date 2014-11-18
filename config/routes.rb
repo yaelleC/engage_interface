@@ -1,4 +1,7 @@
 Assess4meInterface::Application.routes.draw do
+  resources :students
+
+
   resources :config_files
 
 

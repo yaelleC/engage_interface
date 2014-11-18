@@ -1,0 +1,31 @@
+<% content_for :title do %>Student<% end %>
+
+<div class="mainText container">
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Username:</b>
+  <%= @student.user.username if not @student.user.nil? %>
+</p>
+
+<p>
+  <b>Email:</b>
+  <%=  @student.user.email if not @student.user.nil?%>
+</p>
+
+
+<p>
+  <b>Date of Birth:</b>
+  <%=  @student.dateBirth.strftime("%Y %m %d") if @student.dateBirth%>
+</p>
+
+<p>
+  <b>Gender</b>
+  <%=  @student.gender%>
+</p>
+
+
+
+<%= link_to 'Edit', edit_student_path(@student), :class => 'btn btn-primary' %> |
+<%= link_to 'Back', students_path, :class => 'btn'  %>
+</div>

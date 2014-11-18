@@ -1,0 +1,9 @@
+<% content_for :title do %>Edit student<% end %>
+<div class="mainText container">
+<h1>Editing student</h1>
+
+<%= render 'form' %>
+
+<%= link_to 'Show', @student, :class => 'btn btn-primary'%> |
+<%= link_to 'Back', students_path, :class => 'btn' %>
+</div>
