@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141118231358) do
+ActiveRecord::Schema.define(:version => 20141118233723) do
 
   create_table "config_files", :force => true do |t|
     t.text     "config"
@@ -439,9 +439,15 @@ ActiveRecord::Schema.define(:version => 20141118231358) do
     t.string  "email",    :limit => 200, :null => false
     t.string  "password", :limit => 200, :null => false
     t.integer "idSchool",                :null => false
+    t.integer "user_id"
   end
 
   add_index "teacher", ["idSchool"], :name => "idSchool"
+
+  create_table "teachers", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                        :null => false

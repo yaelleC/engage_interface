@@ -1,8 +1,13 @@
 class StudentsController < ApplicationController
+  filter_resource_access
   # GET /students
   # GET /students.json
   def index
-    @students = Student.all
+    if current_user.teacher.nil?
+      @students = []
+    else
+      @students = current_user.teacher.students
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -13,7 +18,7 @@ class StudentsController < ApplicationController
   # GET /students/1
   # GET /students/1.json
   def show
-    @student = Student.find(params[:id])
+    @student = current_user.teacher.students.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -42,9 +47,10 @@ class StudentsController < ApplicationController
   # POST /students.json
   def create
     @student = Student.new(params[:student])
-    @student.idSchool = 2 # TODO set teacher school
+    @student.idSchool = current_user.teacher.idSchool 
     @student.password = 'none'
     @student.username = 'none'
+    @student.teacher = current_user.teacher
     @student.user.role = Role.find_by_title('student')
 
     respond_to do |format|
@@ -61,7 +67,7 @@ class StudentsController < ApplicationController
   # PUT /students/1
   # PUT /students/1.json
   def update
-    @student = Student.find(params[:id])
+    @student = current_user.teacher.students.find(params[:id])
 
     respond_to do |format|
       if @student.update_attributes(params[:student])
@@ -77,7 +83,7 @@ class StudentsController < ApplicationController
   # DELETE /students/1
   # DELETE /students/1.json
   def destroy
-    @student = Student.find(params[:id])
+    @student = current_user.teacher.students.find(params[:id])
     @student.destroy
 
     respond_to do |format|

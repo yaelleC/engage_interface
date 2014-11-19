@@ -1,0 +1,8 @@
+<%% content_for :title do %>New <%= singular_table_name.titleize %><%% end %>
+<div class="mainText container">
+<h1>New <%= singular_table_name.titleize %></h1>
+
+<%%= render 'form' %>
+
+<%%= link_to 'Back', <%= index_helper %>_path %>
+</div>

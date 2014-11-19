@@ -17,7 +17,7 @@
 
 <% @students.each do |student| %>
   <tr>
-    <td><%= if not student.user.nil?  then student.user.username else 'nil' end%></td>
+    <td><%= student.user.username if not student.user.nil? %></td>
     <td><%= student.user.email if not student.user.nil? %></td>
     <td><%= student.dateBirth %></td>
     <td><%= student.gender %></td>
