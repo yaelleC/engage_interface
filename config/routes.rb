@@ -8,9 +8,6 @@ Assess4meInterface::Application.routes.draw do
   resources :config_files
 
 
-  resources :developers
-
-
   get "documentation/api"
 
   resources :serious_games
