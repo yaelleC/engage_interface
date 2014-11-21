@@ -1,0 +1,103 @@
+<% content_for :title do %>User<% end %>
+<div class="mainText container">
+<p id="notice"><%= notice %></p>
+
+<h3>User details</h3>
+
+<p>
+  <b>Username:</b>
+  <%= @user.username %>
+</p>
+
+<p>
+  <b>Email:</b>
+  <%=  @user.email %>
+</p>
+
+<p>
+  <b>Role:</b>
+  <%=  @user.role.title %>
+</p>
+
+<% if not @user.developer.nil? %>
+<h3>Developer details</h3>
+<h5>Serious Games</h5>
+
+<table class="table table-hover table-bordered table-striped">
+  <tr>
+    <th>Id</th>
+    <th>Created at</th>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Version</th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @user.developer.serious_games.each do |serious_game| %>
+  <tr>
+    <td><%= serious_game.id %></td>
+    <td><%= serious_game.created.to_formatted_s(:short) %></td>
+    <td><%= serious_game.name %></td>
+    <td><%= serious_game.description %></td>
+    <td><%= serious_game.version %></td>
+    <td><%= link_to 'Show', serious_game %></td>
+    <td><%= link_to 'Destroy', serious_game, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+<% end %>
+
+<% if not @user.teacher.nil? %>
+  <h3>Teacher details</h3>
+
+  <p>
+    <b>School:</b>
+    <%=  @user.teacher.school.name  if @user.teacher.idSchool%>
+  </p>
+
+  <h5>Teacher Students</h5>
+  <table class="table table-striped">
+    <tr>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Date of birth</th>
+      <th>Gender</th>
+      <th>School</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+
+  <% @user.teacher.students.each do |student| %>
+    <tr>
+      <td><%= student.user.username if not student.user.nil? %></td>
+      <td><%= student.user.email if not student.user.nil? %></td>
+      <td><%= student.dateBirth %></td>
+      <td><%= student.gender %></td>
+      <td><%= student.school.name if not student.school.nil? %></td>
+      <td><%= link_to 'Show', student %></td>
+      <td><%= link_to 'Edit', edit_student_path(student) %></td>
+      <td><%= link_to 'Destroy', student, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+  </table>
+<% end %>
+
+<% if not @user.student.nil? %>
+<h3>Student details</h3>
+
+<p>
+  <b>Date of Birth:</b>
+  <%=  @user.student.dateBirth.strftime("%Y %m %d") if @user.dateBirth%>
+</p>
+
+<p>
+  <b>Gender</b>
+  <%=  @user.student.gender%>
+</p>
+<% end %>
+
+<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to 'Back', users_path %>
+</div>

@@ -9,7 +9,16 @@ authorization do
   role :developer do
     has_permission_on :serious_games, :to => :manage
     has_permission_on :config_files, :to => :create
+    has_permission_on :students, :to => :manage
 
+  #   has_permission_on :conferences, :to => [:read, :create]
+  #   has_permission_on :conferences, :to => [:update, :delete] do
+  #     if_attribute :user_id => is {user.id}
+  #   end
+  end
+  role :teacher do
+    has_permission_on :students, :to => :manage
+    
   #   has_permission_on :conferences, :to => [:read, :create]
   #   has_permission_on :conferences, :to => [:update, :delete] do
   #     if_attribute :user_id => is {user.id}
@@ -21,6 +30,8 @@ authorization do
      has_permission_on :users, :to => :manage
      has_permission_on :serious_games, :to => :manage
      has_permission_on :config_files, :to => :manage
+     has_permission_on :teachers, :to => :manage
+     has_permission_on :students, :to => :manage
   end
 
 end

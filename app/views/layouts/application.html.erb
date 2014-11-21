@@ -58,6 +58,17 @@
               <li><%= link_to "Manage", serious_games_path if permitted_to? :read, :serious_games %></li>
             </ul>
           </li>
+
+          <% if permitted_to? :read, :students %>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> Students <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><%= link_to "Create", new_student_path if permitted_to? :create, :students %></li>
+              <li><%= link_to "Manage", students_path if permitted_to? :read, :students %></li>
+            </ul>
+          </li>
+          <% end %>
+
           <!-- <li><a href="LA.html"><span class="glyphicon glyphicon-stats"></span> Learning Analytics</a></li> -->
           <li><%= link_to home_about_path do %><span class="glyphicon glyphicon-info-sign"></span> About<% end %></li> 
           
@@ -72,6 +83,9 @@
               <% end %>
               <% if permitted_to? :manage, :config_files %>
               <li><%= link_to "Config Files", config_files_path %></li>
+              <% end %>
+              <% if permitted_to? :manage, :teachers %>
+              <li><%= link_to "Teachers", teachers_path %></li>
               <% end %>
             </ul>
           </li>

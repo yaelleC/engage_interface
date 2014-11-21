@@ -1,6 +1,6 @@
 class Student < ActiveRecord::Base
   belongs_to :user
-  belongs_to :school
+  belongs_to :school, :foreign_key => :idSchool
   has_one :std_teacher, :foreign_key => :idStd
   has_one :teacher, through: :std_teacher
 

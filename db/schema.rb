@@ -283,21 +283,66 @@ ActiveRecord::Schema.define(:version => 20141118233723) do
 
   create_table "player_33_0", :force => true do |t|
     t.integer "idStudent"
-    t.string  "gender",    :limit => 1
     t.integer "age"
-    t.string  "country",   :limit => 200
+    t.string  "gender",    :limit => 200
+    t.string  "device",    :limit => 200
   end
 
   add_index "player_33_0", ["idStudent"], :name => "idStudent", :unique => true
 
   create_table "player_34_0", :force => true do |t|
     t.integer "idStudent"
+    t.integer "age"
+    t.string  "gender",    :limit => 200
+    t.string  "device",    :limit => 200
+  end
+
+  add_index "player_34_0", ["idStudent"], :name => "idStudent", :unique => true
+
+  create_table "player_35_0", :force => true do |t|
+    t.integer "idStudent"
+    t.integer "age"
+    t.string  "gender",    :limit => 200
+    t.string  "device",    :limit => 200
+  end
+
+  add_index "player_35_0", ["idStudent"], :name => "idStudent", :unique => true
+
+  create_table "player_36_0", :force => true do |t|
+    t.integer "idStudent"
+    t.integer "age"
+    t.string  "gender",    :limit => 200
+    t.string  "device",    :limit => 200
+  end
+
+  add_index "player_36_0", ["idStudent"], :name => "idStudent", :unique => true
+
+  create_table "player_37_0", :force => true do |t|
+    t.integer "idStudent"
+    t.integer "age"
+    t.string  "gender",    :limit => 200
+    t.string  "device",    :limit => 200
+  end
+
+  add_index "player_37_0", ["idStudent"], :name => "idStudent", :unique => true
+
+  create_table "player_38_0", :force => true do |t|
+    t.integer "idStudent"
+    t.integer "age"
+    t.string  "gender",    :limit => 200
+    t.string  "device",    :limit => 200
+  end
+
+  add_index "player_38_0", ["idStudent"], :name => "idStudent", :unique => true
+
+  create_table "player_39_0", :force => true do |t|
+    t.integer "idStudent"
     t.string  "gender",    :limit => 1
     t.integer "age"
     t.string  "country",   :limit => 200
   end
 
-  add_index "player_34_0", ["idStudent"], :name => "idStudent", :unique => true
+  add_index "player_39_0", ["idStudent"], :name => "idStudent", :unique => true
 
   create_table "player_3_0", :force => true do |t|
     t.integer "idStudent"
@@ -307,6 +352,15 @@ ActiveRecord::Schema.define(:version => 20141118233723) do
   end
 
   add_index "player_3_0", ["idStudent"], :name => "idStudent", :unique => true
+
+  create_table "player_40_0", :force => true do |t|
+    t.integer "idStudent"
+    t.string  "gender",    :limit => 1
+    t.integer "age"
+    t.string  "country",   :limit => 200
+  end
+
+  add_index "player_40_0", ["idStudent"], :name => "idStudent", :unique => true
 
   create_table "player_4_0", :force => true do |t|
     t.integer "idStudent"
@@ -443,11 +497,6 @@ ActiveRecord::Schema.define(:version => 20141118233723) do
   end
 
   add_index "teacher", ["idSchool"], :name => "idSchool"
-
-  create_table "teachers", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                        :null => false

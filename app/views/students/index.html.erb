@@ -5,6 +5,7 @@
 
 <table class="table table-striped">
   <tr>
+    <th>User ID</th>
     <th>Username</th>
     <th>Email</th>
     <th>Date of birth</th>
@@ -17,6 +18,7 @@
 
 <% @students.each do |student| %>
   <tr>
+    <td><%= student.user.id if not student.user.nil? %></td>
     <td><%= student.user.username if not student.user.nil? %></td>
     <td><%= student.user.email if not student.user.nil? %></td>
     <td><%= student.dateBirth %></td>
