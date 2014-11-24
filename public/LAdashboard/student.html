@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>EngAGe - Summative report</title>
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<script src="js/angular.min.js"></script>
+		<script src="js/highcharts.js"></script>
+		<script src="js/highcharts-more.js"></script>
+		<script src="js/exporting.js"></script>
+		<script src="controllers/studentView_scoreEvolution.js"></script>
+		<script src="controllers/summativeReportController.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<script type="text/javascript">
+			function loadedPage() {
+			    // Draw charts
+			     $('#scores').trigger('click');
+			}			
+		</script>
+
+	</head>
+
+	<body onload="loadedPage()"><div class="container">
+		<h1>Nathan's summative report (15 years old)</h1>
+		<div ng-app="" ng-controller="summativeReportController">
+			<p><i>You played {{ report.previousGameplay.length + 1 }} times in total. </i></p>
+			<fieldset><legend>Time</legend>
+				<div class="col-md-1"></div>
+				<div class="col-md-5">
+					<p><b>How did you do? </b></p>
+					<p>Total time spent : <b>{{ report.totalTime() }} minutes </b><br/>
+					Average time spent : <b>{{ report.avgTime() }} minutes </b><br/>
+					Time spent this time : <b>{{ report.thisTime() }} minutes </b></p>
+				</div>
+
+				<div class="col-md-5">
+					<p><b>How did the others do? </b></p>
+					<p ng-repeat="o in report.overallDataOnTheSG"> Average time spent by {{ o.legend }} : <b>
+						 {{ o.avgTime }} minutes </b>  </p>
+					<!--<div id="containerBoxPlotTime" style="min-width: 310px; height: 400px; max-width: 1000px; margin: 0 auto"></div>-->
+				</div>
+				<div class="col-md-1"></div>
+			</fieldset>
+		
+			<span ng-repeat="lo in report.gameplay.finalScores">
+				<fieldset><legend>Score for <b> {{ lo.outcomeName }} </b></legend>
+					
+					<div class="col-md-7">
+						<div id="containerChart" style="min-width: 310px; height: 450px; max-width: 1000px; margin: 0 auto"></div>
+					</div>
+					<div class="col-md-5">
+						
+						<!--<h4>{{ lo.outcomeName }}</h4>
+							<p><b>How did you do? </b></p>
+						
+							Average score : <b>{{ report.avgScore(lo.outcomeName) }} </b><br/>
+							Score this time : <b>{{ lo.score }}</b><br/>
+							Highest score : <b>{{ report.highestScore(lo.outcomeName) }}</b> <br/>
+					</div>
+
+					<div class="col-md-5">
+						<p ng-repeat="o in report.overallDataOnTheSG"> Average score for {{ o.legend }} : <b> {{ o.avgScore }}  </b><br/>
+							Highest score for {{ o.legend }} : <b> {{ o.highestScore }} </b></p>-->
+						<div id="containerBoxPlotScore" style="min-width: 310px; height: 450px; max-width: 600px; margin: 0 auto"></div>
+						
+					</div>
+					
+				<button style="visibility:hidden" type="button" id="scores" class="btn btn-success" ng-click="report.setCharts(lo.outcomeName)">Update my score</button>
+				</fieldset>
+			</span>
+		</div>
+	</div></body>
+</html>

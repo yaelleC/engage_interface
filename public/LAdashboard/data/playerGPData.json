@@ -1,0 +1,31 @@
+{
+	
+	previous_gameplay: [
+		{id:0, timeSpent:141, timeStarted:"18:03", scores:[european_capitals:3]},
+		{id:1, timeSpent:103, timeStarted:"17:42", scores:[european_capitals:6]},
+		{id:2, timeSpent:172, timeStarted:"14:12", scores:[european_capitals:9]}
+	]
+	gameplay: {
+		id: 3,
+		timeSpent: 159,
+		timeStarted:"15:27", 
+		final_scores:[european_capitals:10],
+		actions:[
+			{timestamp:3, action:"associateCountryCapital", parameters:["Paris", "France"], mark:1},
+			{timestamp:15, action:"associateCountryCapital", parameters:["Warsow", "Denmark"], mark:-1},
+			{timestamp:22, action:"associateCountryCapital", parameters:["Warsow", "Poland"], mark:2}, 
+			{timestamp:36, action:"associateCountryCapital", parameters:["Rome", "Italy"], mark:1},
+			{timestamp:45, action:"associateCountryCapital", parameters:["London", "UK"], mark:1},
+			{timestamp:52, action:"associateCountryCapital", parameters:["Dublin", "Germany"], mark:-1},
+			{timestamp:64, action:"associateCountryCapital", parameters:["Dublin", "Ireland"], mark:1},
+			{timestamp:71, action:"associateCountryCapital", parameters:["Berlin", "Germany"], mark:1},
+			{timestamp:81, action:"associateCountryCapital", parameters:["Helsinki" , "Finland"], mark:2},
+			{timestamp:99, action:"associateCountryCapital", parameters:["Prague", "France"], mark:-1},
+			{timestamp:120, action:"associateCountryCapital", parameters:["Madrid", "Spain"], mark:1},
+			{timestamp:128, action:"associateCountryCapital", parameters:["Prague", "Czech Republic"], mark:2},
+			{timestamp:139, action:"associateCountryCapital", parameters:["Lisbon", "Spain"], mark:-1},
+			{timestamp:147, action:"associateCountryCapital", parameters:["Lisbon", "Portugal"], mark:1},
+			{timestamp:159, action:"associateCountryCapital", parameters:["Madris", "Spain"], mark:1},
+		]
+	}
+}

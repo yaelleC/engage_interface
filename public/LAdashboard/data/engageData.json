@@ -1,0 +1,48 @@
+{
+		SGname: "SoundRight!",
+		id: 1,
+		version: 0,
+	
+		players: [
+			{ idStudent: 1, language: "FR", country: "France", level: "C2" },
+			{ idStudent: 2, language: "EN", country: "UK", level: "A2" },
+			{ idStudent: 3, language: "IT", country: "Italy", level: "B1" },
+			{ idStudent: 4, language: "EN", country: "USA", level: "B1" },
+			{ idStudent: 5, language: "FR", country: "Canada", level: "B2" },
+			{ idStudent: 6, language: "EN", country: "UK", level: "A2" },
+			{ idStudent: 7, language: "IT", country: "Italy", level: "A1" }
+		],
+
+		gameplays: [
+			{player:1},
+			{player:2},
+			{player:1},
+			{player:3},
+			{player:5},
+			{player:4},
+			{player:1},
+			{player:1},
+			{player:6},
+			{player:1},
+			{player:1},
+			{player:1},
+			{player:5},
+			{player:5},
+			{player:1},
+			{player:1},
+			{player:1},
+			{player:2},
+			{player:1},
+			{player:3},
+			{player:1},
+			{player:4},
+			{player:1},
+			{player:1},
+			{player:7},
+			{player:7},
+			{player:7},
+			{player:3},
+			{player:3},
+			{player:5},
+		]
+	}

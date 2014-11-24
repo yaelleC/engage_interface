@@ -1,0 +1,4972 @@
+[
+{
+  "id": "54271ea42d7cd316eef51d3c",
+  "idPlayer": 6,
+  "timeSpent": 168,
+  "timeStarted": "2014-09-24 14:14",
+  "finalScores": {
+    "european_capitals": 4
+  },
+  "actions": [
+  {
+    "timestamp": 77,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 111,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 130,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 115,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 42,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 24,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 37,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 127,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 32,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea4651da43f71a36692",
+  "idPlayer": 1,
+  "timeSpent": 133,
+  "timeStarted": "2014-03-11 01:37",
+  "finalScores": {
+    "european_capitals": 12
+  },
+  "actions": [
+  {
+    "timestamp": 122,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 90,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 81,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 140,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 130,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 44,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 92,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 105,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 50,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea4452d08b7b68c3d24",
+  "idPlayer": 1,
+  "timeSpent": 141,
+  "timeStarted": "2014-04-10 09:45",
+  "finalScores": {
+    "european_capitals": 6
+  },
+  "actions": [
+  {
+    "timestamp": 61,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 60,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 63,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 13,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 133,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 75,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 104,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 83,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 136,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 121,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 6,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea45d20a902b4fd5c21",
+  "idPlayer": 3,
+  "timeSpent": 138,
+  "timeStarted": "2014-04-16 12:28",
+  "finalScores": {
+    "european_capitals": 2
+  },
+  "actions": [
+  {
+    "timestamp": 138,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 51,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 79,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 15,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 96,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 23,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 27,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 22,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 14,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 148,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 146,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 133,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 126,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 29,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 114,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea4202332a9d1fa24d0",
+  "idPlayer": 6,
+  "timeSpent": 133,
+  "timeStarted": "2014-03-07 23:14",
+  "finalScores": {
+    "european_capitals": 12
+  },
+  "actions": [
+  {
+    "timestamp": 110,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 19,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 63,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 60,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 60,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 103,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 53,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 42,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 112,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea4c4b4336fdf2cc341",
+  "idPlayer": 6,
+  "timeSpent": 104,
+  "timeStarted": "2014-05-14 11:19",
+  "finalScores": {
+    "european_capitals": 0
+  },
+  "actions": [
+  {
+    "timestamp": 91,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 17,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 63,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 57,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 26,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 41,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 20,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 64,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 60,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 31,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 5,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea47acfc3dc8bf17443",
+  "idPlayer": 4,
+  "timeSpent": 179,
+  "timeStarted": "2014-02-17 23:33",
+  "finalScores": {
+    "european_capitals": 1
+  },
+  "actions": [
+  {
+    "timestamp": 24,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 91,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 46,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 34,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 66,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 27,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 95,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 25,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 103,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 98,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 34,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 124,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 122,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 150,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 77,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea4b0043b5053d98b57",
+  "idPlayer": 4,
+  "timeSpent": 182,
+  "timeStarted": "2014-07-28 20:29",
+  "finalScores": {
+    "european_capitals": 9
+  },
+  "actions": [
+  {
+    "timestamp": 109,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 104,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 69,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 13,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 145,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 37,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 113,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 105,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 58,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 17,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 84,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 13,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 38,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 68,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea425ca8feef892794d",
+  "idPlayer": 7,
+  "timeSpent": 108,
+  "timeStarted": "2014-08-11 03:49",
+  "finalScores": {
+    "european_capitals": 5
+  },
+  "actions": [
+  {
+    "timestamp": 71,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 69,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 52,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 18,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 44,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 41,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 110,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 35,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 88,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 104,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 76,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 47,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 80,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 104,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 136,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea443dc0468d221f3c5",
+  "idPlayer": 2,
+  "timeSpent": 111,
+  "timeStarted": "2014-05-09 08:49",
+  "finalScores": {
+    "european_capitals": 4
+  },
+  "actions": [
+  {
+    "timestamp": 41,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 123,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 13,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 76,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 119,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 35,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 112,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 49,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 55,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 145,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 120,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 43,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 60,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 77,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea4a7b0210e343d1c38",
+  "idPlayer": 2,
+  "timeSpent": 101,
+  "timeStarted": "2014-04-08 09:37",
+  "finalScores": {
+    "european_capitals": 7
+  },
+  "actions": [
+  {
+    "timestamp": 57,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 34,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 80,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 120,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 109,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 2,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 60,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 91,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 16,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 149,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 137,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 88,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 51,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 79,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 57,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea4424667ad246505be",
+  "idPlayer": 2,
+  "timeSpent": 147,
+  "timeStarted": "2014-05-08 20:31",
+  "finalScores": {
+    "european_capitals": 12
+  },
+  "actions": [
+  {
+    "timestamp": 4,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 54,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 86,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 49,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 59,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 130,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 25,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 49,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea4d34d0a2339ca84d1",
+  "idPlayer": 2,
+  "timeSpent": 171,
+  "timeStarted": "2014-03-31 05:41",
+  "finalScores": {
+    "european_capitals": 12
+  },
+  "actions": [
+  {
+    "timestamp": 92,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 78,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 43,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 88,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 62,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 86,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 115,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 105,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 79,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 81,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 28,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 87,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 126,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 14,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 50,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea4cfdc638c3834670e",
+  "idPlayer": 2,
+  "timeSpent": 127,
+  "timeStarted": "2014-01-03 17:21",
+  "finalScores": {
+    "european_capitals": 5
+  },
+  "actions": [
+  {
+    "timestamp": 6,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 24,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 52,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 106,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 88,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 7,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 19,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 21,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 62,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 93,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 90,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 112,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 45,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 122,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea4f5dc0c245657938e",
+  "idPlayer": 7,
+  "timeSpent": 106,
+  "timeStarted": "2014-04-01 05:21",
+  "finalScores": {
+    "european_capitals": 8
+  },
+  "actions": [
+  {
+    "timestamp": 104,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 23,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 91,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 16,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 46,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 105,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 18,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 63,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 125,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 41,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 146,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea4408af84e243b877a",
+  "idPlayer": 3,
+  "timeSpent": 173,
+  "timeStarted": "2014-01-10 07:18",
+  "finalScores": {
+    "european_capitals": 0
+  },
+  "actions": [
+  {
+    "timestamp": 98,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 119,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 94,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 35,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 59,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 44,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 69,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 25,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 71,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 45,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 35,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea4321d2eb3a4ed74c3",
+  "idPlayer": 6,
+  "timeSpent": 178,
+  "timeStarted": "2014-07-21 14:05",
+  "finalScores": {
+    "european_capitals": 7
+  },
+  "actions": [
+  {
+    "timestamp": 80,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 21,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 22,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 64,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 123,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 92,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 120,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 91,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 142,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 49,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 92,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 40,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea406b042da8aa1ac35",
+  "idPlayer": 3,
+  "timeSpent": 120,
+  "timeStarted": "2014-09-16 10:26",
+  "finalScores": {
+    "european_capitals": 12
+  },
+  "actions": [
+  {
+    "timestamp": 83,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 118,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 16,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 12,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 14,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 124,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 73,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 141,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 1,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 114,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 131,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 79,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea4daf468870e108981",
+  "idPlayer": 6,
+  "timeSpent": 183,
+  "timeStarted": "2014-07-03 11:01",
+  "finalScores": {
+    "european_capitals": 2
+  },
+  "actions": [
+  {
+    "timestamp": 11,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 94,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 83,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 147,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 45,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 31,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 131,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 27,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 109,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 47,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 128,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 15,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 3,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea43bc90404bb23eb1b",
+  "idPlayer": 1,
+  "timeSpent": 187,
+  "timeStarted": "2014-07-16 04:41",
+  "finalScores": {
+    "european_capitals": 8
+  },
+  "actions": [
+  {
+    "timestamp": 52,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 109,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 136,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 52,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 29,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 130,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 117,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 12,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea4b733bb83cd504695",
+  "idPlayer": 4,
+  "timeSpent": 193,
+  "timeStarted": "2014-07-12 23:01",
+  "finalScores": {
+    "european_capitals": 6
+  },
+  "actions": [
+  {
+    "timestamp": 33,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 16,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 49,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 137,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 112,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 91,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 94,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 28,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 50,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 124,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea4f3974fa4b5e9cf5d",
+  "idPlayer": 1,
+  "timeSpent": 136,
+  "timeStarted": "2014-04-02 19:42",
+  "finalScores": {
+    "european_capitals": 12
+  },
+  "actions": [
+  {
+    "timestamp": 65,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 25,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 52,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 120,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 90,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 22,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 65,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 33,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 6,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 72,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea49eb5fdb85da98c26",
+  "idPlayer": 4,
+  "timeSpent": 131,
+  "timeStarted": "2014-06-26 09:40",
+  "finalScores": {
+    "european_capitals": 1
+  },
+  "actions": [
+  {
+    "timestamp": 20,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 144,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 87,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 3,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 131,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 88,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 53,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 74,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea4090d650a9664aec2",
+  "idPlayer": 6,
+  "timeSpent": 181,
+  "timeStarted": "2014-04-05 05:42",
+  "finalScores": {
+    "european_capitals": 8
+  },
+  "actions": [
+  {
+    "timestamp": 97,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 130,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 4,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 148,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 122,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 67,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 123,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 72,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 5,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 79,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea4f98d18dcdd7516e5",
+  "idPlayer": 7,
+  "timeSpent": 171,
+  "timeStarted": "2014-02-24 08:45",
+  "finalScores": {
+    "european_capitals": 3
+  },
+  "actions": [
+  {
+    "timestamp": 80,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 91,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 142,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 102,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 17,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 132,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 134,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 138,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 38,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 121,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea482676a5a471f276f",
+  "idPlayer": 6,
+  "timeSpent": 169,
+  "timeStarted": "2014-09-10 20:36",
+  "finalScores": {
+    "european_capitals": 6
+  },
+  "actions": [
+  {
+    "timestamp": 133,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 11,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 82,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 82,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 87,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 8,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 135,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 121,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea42b20838e7c3323ac",
+  "idPlayer": 4,
+  "timeSpent": 183,
+  "timeStarted": "2014-07-03 21:43",
+  "finalScores": {
+    "european_capitals": 4
+  },
+  "actions": [
+  {
+    "timestamp": 143,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 56,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 133,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 33,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 86,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 59,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 63,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 103,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea46b0b18fc39df3967",
+  "idPlayer": 3,
+  "timeSpent": 132,
+  "timeStarted": "2014-06-20 09:23",
+  "finalScores": {
+    "european_capitals": 0
+  },
+  "actions": [
+  {
+    "timestamp": 109,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 69,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 96,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 10,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 72,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 135,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 10,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 121,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 135,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 3,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 113,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 7,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea4d3e4d6775dc2d621",
+  "idPlayer": 1,
+  "timeSpent": 183,
+  "timeStarted": "2014-02-22 00:05",
+  "finalScores": {
+    "european_capitals": 7
+  },
+  "actions": [
+  {
+    "timestamp": 115,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 49,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 69,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 63,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 36,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 43,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 60,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 60,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea400fdbd06f2dcec13",
+  "idPlayer": 5,
+  "timeSpent": 159,
+  "timeStarted": "2014-06-23 05:17",
+  "finalScores": {
+    "european_capitals": 9
+  },
+  "actions": [
+  {
+    "timestamp": 96,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 106,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 88,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 57,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 2,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 100,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 8,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 102,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 58,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 141,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 3,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 4,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 87,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea4856d42bfa42d5bfc",
+  "idPlayer": 4,
+  "timeSpent": 102,
+  "timeStarted": "2014-01-04 19:47",
+  "finalScores": {
+    "european_capitals": 11
+  },
+  "actions": [
+  {
+    "timestamp": 41,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 132,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 70,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 17,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 128,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 93,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 46,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 26,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 123,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 87,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 134,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 140,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 150,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 147,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 119,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea4e64b05ff25e1075d",
+  "idPlayer": 4,
+  "timeSpent": 111,
+  "timeStarted": "2014-01-05 10:21",
+  "finalScores": {
+    "european_capitals": 0
+  },
+  "actions": [
+  {
+    "timestamp": 122,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 110,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 49,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 55,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 60,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 122,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 150,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 2,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 67,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 28,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 133,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 113,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 130,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea44b90c03298ca4dd8",
+  "idPlayer": 3,
+  "timeSpent": 159,
+  "timeStarted": "2014-07-16 06:09",
+  "finalScores": {
+    "european_capitals": 5
+  },
+  "actions": [
+  {
+    "timestamp": 127,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 76,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 27,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 64,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 111,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 31,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 135,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 112,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 76,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea43fc08e6fffe396d4",
+  "idPlayer": 5,
+  "timeSpent": 154,
+  "timeStarted": "2014-09-11 19:51",
+  "finalScores": {
+    "european_capitals": 13
+  },
+  "actions": [
+  {
+    "timestamp": 128,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 120,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 76,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 37,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 25,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 13,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 112,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 3,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 136,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 85,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 75,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea4cb61ad9c469d0f42",
+  "idPlayer": 6,
+  "timeSpent": 160,
+  "timeStarted": "2014-06-13 08:49",
+  "finalScores": {
+    "european_capitals": 6
+  },
+  "actions": [
+  {
+    "timestamp": 128,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 43,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 119,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 123,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 53,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 41,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 100,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 127,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea48c72cefd72d82d06",
+  "idPlayer": 7,
+  "timeSpent": 133,
+  "timeStarted": "2014-04-03 20:47",
+  "finalScores": {
+    "european_capitals": 9
+  },
+  "actions": [
+  {
+    "timestamp": 48,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 33,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 56,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 79,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 85,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 27,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 36,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 103,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 90,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 134,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 105,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 123,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 107,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 89,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea4c0bf25de560b6b37",
+  "idPlayer": 5,
+  "timeSpent": 196,
+  "timeStarted": "2014-09-10 05:47",
+  "finalScores": {
+    "european_capitals": 10
+  },
+  "actions": [
+  {
+    "timestamp": 108,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 130,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 148,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 149,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 26,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 133,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 140,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 44,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 56,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 11,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea4ef1f306fdea75486",
+  "idPlayer": 5,
+  "timeSpent": 189,
+  "timeStarted": "2014-03-12 06:42",
+  "finalScores": {
+    "european_capitals": 14
+  },
+  "actions": [
+  {
+    "timestamp": 81,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 134,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 132,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 148,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 86,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 141,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 22,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 146,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 69,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea46b415aebd9a768f3",
+  "idPlayer": 1,
+  "timeSpent": 191,
+  "timeStarted": "2014-05-15 13:00",
+  "finalScores": {
+    "european_capitals": 11
+  },
+  "actions": [
+  {
+    "timestamp": 36,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 44,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 137,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 150,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 134,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 58,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 97,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 120,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 51,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 69,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 72,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 95,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  }
+  ]
+},
+{
+  "id": "54271ea4b557702f65905f3f",
+  "idPlayer": 1,
+  "timeSpent": 147,
+  "timeStarted": "2014-08-08 12:32",
+  "finalScores": {
+    "european_capitals": 14
+  },
+  "actions": [
+  {
+    "timestamp": 11,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 122,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 81,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 134,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 148,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 59,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 50,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 150,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 19,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 2,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 89,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 64,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 9,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 74,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": 1,
+    "outcome": "european_capital"
+  },
+  {
+    "timestamp": 65,
+    "action": "associateCountryCapital",
+    "parameters": [
+    "Paris",
+    "France"
+    ],
+    "mark": -1,
+    "outcome": "european_capital"
+  }
+  ]
+}
+]
