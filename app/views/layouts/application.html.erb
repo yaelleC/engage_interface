@@ -68,12 +68,6 @@
             </ul>
           </li>
           <% end %>
-          <% if permitted_to? :manage, :learning_analytics %>
-          <li>
-            <%= link_to learning_analytics_path do %><span class="glyphicon glyphicon-stats"></span> Learning Analytics<% end %>
-          </li>
-          <% end %>
-          <!-- <li><a href="LA.html"><span class="glyphicon glyphicon-stats"></span> Learning Analytics</a></li> -->
           <li><%= link_to home_about_path do %><span class="glyphicon glyphicon-info-sign"></span> About<% end %></li> 
           
           <% if !current_user.nil? && !current_user.role.nil? && current_user.role.title == 'admin'%>

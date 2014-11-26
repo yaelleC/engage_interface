@@ -16,6 +16,7 @@
     <th>Name</th>
     <th>Description</th>
     <th>Version</th>
+    <th>Learning Analytics</th>
     <th></th>
     <th></th>
   </tr>
@@ -27,6 +28,7 @@
     <td><%= serious_game.name %></td>
     <td><%= serious_game.description %></td>
     <td><%= serious_game.version %></td>
+    <td><%= link_to 'Analytics', learning_analytics_path(id: serious_game.id, version: serious_game.version ) %></td>
     <td><%= link_to 'Show', serious_game %></td>
     <td><%= link_to 'Destroy', serious_game, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>

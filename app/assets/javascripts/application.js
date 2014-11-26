@@ -18,4 +18,5 @@
 //= require angular
 //= require highcharts
 //= require highcharts-more
+//= require ui-bootstrap-tpls-0.12.0.min
 //= require_tree .

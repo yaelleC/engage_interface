@@ -1,17 +1,7 @@
 <% content_for :title do %>
 Learning Analytics
 <% end %>
-<script type="text/javascript">
-		$(document).ready(function loadedPage() {
-			    // $('#tabsBasic1 a:first').tab('show') // Select first tab
-			    // $('#tabsBasic2 a:first').tab('show') // Select first tab
-			    // $('#tabsBasic3 a:first').tab('show') // Select first tab
-			    // $('#tabsBasic4 a:first').tab('show') // Select first tab
-			    // $('#tabsScore1 a:first').tab('show') // Select first tab
-			    // $('#tabsScore2 a:first').tab('show') // Select first tab
-			    // $('#tabsScore3 a:first').tab('show') // Select first tab
-			});	
-		</script>
+
 <div class="mainText container" ng-app="learningAnalytics" ng-controller="LA_basicInfoController">
 	<h1>Learning Analytics dashboard - <b> {{ LA.game.name }} </b></h1>
 	<p> 
@@ -62,7 +52,7 @@ Learning Analytics
 
 			<div class="col-md-6 blockLA blockBasicInfo">
 				<h4>When did the students played?</h4>
-				<p style="visibility:hidden" >
+				<p>
 					<input type="radio" id ="gameplay3" name="view3" value="gameplay" ng-click="setChartsWhen('gameplay')">All gameplays
 					<input type="radio" id ="viewplayer3" name="view3" value="player" ng-click="setChartsWhen('player')">Unique players
 				</p>
@@ -81,7 +71,7 @@ Learning Analytics
 
 				<div class="col-md-6 blockLA blockBasicInfo">
 					<h4>How many times students played?</h4>
-					<p style="visibility:hidden" >
+					<p>
 						<input type="radio" id ="gameplay4" name="view4" value="gameplay" ng-click="setChartsHowManyTimes()">All gameplays
 						<input type="radio" id ="viewplayer4" name="view4" value="player" ng-click="setChartsHowManyTimes()">Unique players
 					</p>
@@ -89,10 +79,9 @@ Learning Analytics
 						<li ng-repeat="c in getExtraCharacteristics()">
 							<a ng-href="#{{c}}4" role="tab" data-toggle="tab"> By {{ c }} </a></li>
 						</ul>
-
 						<div class="tab-content">
 							<div ng-repeat="c in getExtraCharacteristics()" class="tab-pane active" id="{{c}}4">
-								<div style="min-width: 450px; height: 350px; max-width: 600px; margin: 0 auto" how-many-times-By="howManyTimesBy[c]['data']" categories="howManyTimesBy[c]['categories']"></div>
+								<div id="containerHowManyTimesBy{{c}}" style="min-width: 450px; height: 350px; max-width: 600px; margin: 0 auto"></div>
 							</div>
 						</div>
 					</div>
@@ -100,18 +89,21 @@ Learning Analytics
 					<div class="col-md-6 blockLA blockScoreStat">
 						<h4>Final scores</h4>
 						<p>
-							<input type="radio" id ="gameplay5" name="view5" value="gameplay" ng-click="setChartFinalScores('gameplay', 'european_capitals')">All gameplays
-							<input type="radio" id ="lastplayer5" name="view5" value="playerLast" ng-click="setChartFinalScores('playerLast', 'european_capitals')">Last per player
-							<input type="radio" id ="bestplayer5" name="view5" value="playerBest" ng-click="setChartFinalScores('playerBest', 'european_capitals')">Best per player
+							<select id="lo7" ng-model="loFinalScoreOutcome">
+								<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
+							</select>
+							<input type="radio" id ="gameplay5" name="view5" value="gameplay" ng-click="setChartFinalScores('gameplay')">All gameplays
+							<input type="radio" id ="lastplayer5" name="view5" value="playerLast" ng-click="setChartFinalScores('playerLast')">Last per player
+							<input type="radio" id ="bestplayer5" name="view5" value="playerBest" ng-click="setChartFinalScores('playerBest')">Best per player
 						</p>
 
 						<ul class="nav nav-tabs" role="tablist" id="tabsScore1">
-							<li ng-repeat="c in game.playerCharacteristics">
+							<li ng-repeat="c in LA.game.playerCharacteristics">
 								<a ng-href="#{{c}}5" role="tab" data-toggle="tab"> By {{ c }} </a></li>
 							</ul>
 
 							<div class="tab-content">
-								<div ng-repeat="c in game.playerCharacteristics" class="tab-pane active" id="{{c}}5">
+								<div ng-repeat="c in LA.game.playerCharacteristics" class="tab-pane active" id="{{c}}5">
 									<div id="containerBoxPlotScoreBy{{c}}" style="min-width: 500px; height: 350px; max-width: 600px; margin: 0 auto"></div>
 								</div>
 							</div>
@@ -159,47 +151,6 @@ Learning Analytics
 											<div id="containerLearningCurve2By{{c}}" style="min-width: 500px; height: 350px; max-width: 600px; margin: 0 auto"></div>
 										</div>
 									</div>
-								</div>
-
-								<div class="col-md-6 blockLA blockCustoms">
-									<h4>Find relationships</h4>
-									<p>
-										<input type="radio" id ="gameplay8" name="view8" value="gameplay" ng-click="setChartLearningCurve('gameplay')">Average
-										<input type="radio" id ="lastplayer8" name="view8" value="playerLast" ng-click="setChartLearningCurve('playerLast')">Last per player
-										<input type="radio" id ="bestplayer8" name="view8" value="playerBest" ng-click="setChartLearningCurve('playerBest')">Best per player
-									</p>
-
-									<p>
-										Enter a value for the x axis:
-										<select id="xAxis">
-											<option ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}} score</option>
-											<option ng-repeat="c in LA.game.playerCharacteristics" value="{{c}}">{{c}}</option>
-										</select>
-										-
-										Enter a value for the y axis:
-										<select id="yAxis">
-											<option ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}} score</option>
-											<option ng-repeat="c in LA.game.playerCharacteristics" value="{{c}}">{{c}}</option>
-										</select>
-										- 
-										<button type="button" class="btn btn-success btn-xs" ng-click="setChartRelationship()">Draw chart</button>
-									</p>
-									<div id="containerRelationship" style="min-width: 500px; height: 360px; max-width: 600px; margin: 0 auto"></div>
-								</div>
-
-
-
-								<div class="col-md-4 blockLA blockAdvanced">
-									<h4>Find groups</h4>
-									<p>Clustering algorithm (K-means)</p>
-								</div>
-								<div class="col-md-4 blockLA blockAdvanced">
-									<h4>Outliers</h4>
-									<p>Anomaly detection algorithm </p>
-								</div>
-								<div class="col-md-4 blockLA blockAdvanced">
-									<h4>Predictions</h4>
-									<p>Classification algorithm (Neural networks?)</p>
 								</div>
 							</div>
 						</div>

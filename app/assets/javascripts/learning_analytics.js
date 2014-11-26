@@ -1,7 +1,7 @@
 var learningAnalytics = angular.module('learningAnalytics', []);
 
 learningAnalytics.controller('LA_basicInfoController',
-    ['$scope', '$http', function ($scope, $http) {
+    ['$scope', '$http', '$location', function ($scope, $http, $location) {
         $scope.LA = {};
 
         $scope.uniquePlayers = function () {
@@ -37,7 +37,7 @@ learningAnalytics.controller('LA_basicInfoController',
                 for (var i = $scope.LA.gameplays.length - 1; i >= 0; i--) {
                     var idP = $scope.LA.gameplays[i].idPlayer;
                     for (var j = $scope.LA.players.length - 1; j >= 0; j--) {
-                        if ($scope.LA.players[j].id == idP) {
+                        if ($scope.LA.players[j].idPlayer == idP) {
                             dataset[dataset.length] = $.extend($scope.LA.gameplays[i], $scope.LA.players[j]);
                         }
                     }
@@ -86,7 +86,7 @@ learningAnalytics.controller('LA_basicInfoController',
                             "timeStarted": avgTimeStart};
 
                         for (j = $scope.LA.players.length - 1; j >= 0; j--) {
-                            if ($scope.LA.players[j].id == idP) {
+                            if ($scope.LA.players[j].idPlayer == idP) {
                                 dataset[dataset.length] = $.extend(avgForPlayer, $scope.LA.players[j]);
                             }
                         }
@@ -129,7 +129,7 @@ learningAnalytics.controller('LA_basicInfoController',
                             "timeStarted": timeStarted, "finalScores": finalScores, "actions": actions};
 
                         for (j = $scope.LA.players.length - 1; j >= 0; j--) {
-                            if ($scope.LA.players[j].id == idP) {
+                            if ($scope.LA.players[j].idPlayer == idP) {
                                 dataset[dataset.length] = $.extend(playerLast, $scope.LA.players[j]);
                             }
                         }
@@ -175,7 +175,7 @@ learningAnalytics.controller('LA_basicInfoController',
                             "timeStarted": timeStarted, "finalScores": finalScores, "actions": actions};
 
                         for (j = $scope.LA.players.length - 1; j >= 0; j--) {
-                            if ($scope.LA.players[j].id == idP) {
+                            if ($scope.LA.players[j].idPlayer == idP) {
                                 dataset[dataset.length] = $.extend(playerBest, $scope.LA.players[j]);
                             }
                         }
@@ -234,12 +234,13 @@ learningAnalytics.controller('LA_basicInfoController',
                 return arrayStats;
             }
 
-            $scope.setChartFinalScores= function (view, outcome) {
+            $scope.setChartFinalScores= function (view) {
 
                 // set the view
                 var dataset = [];
                 var i, j, k;
                 var scoresList;
+                outcome = $scope.loFinalScoreOutcome;
                 if (view == "gameplay") {
                     dataset = $scope.getGameplayDataset();
                 }
@@ -302,7 +303,6 @@ learningAnalytics.controller('LA_basicInfoController',
 
                     categories[categories.length] = "Total";
                     data[data.length] = $scope.getArrayStats(scoresList);
-
 
                     $('#containerBoxPlotScoreBy' + characteristic).highcharts({
 
@@ -382,7 +382,7 @@ learningAnalytics.controller('LA_basicInfoController',
                         for (j = dataset.length - 1; j >= 0; j--) {
                             //initialise score
                             point = [];
-                            score = $scope.LA.game.learningOutcomes[outcome];
+                            score = $scope.LA.game.learningOutcomes[outcome].value;
                             point[0] = 0;
                             point[1] = score;
 
@@ -419,7 +419,7 @@ learningAnalytics.controller('LA_basicInfoController',
 
                             //initialise score
                             point = [];
-                            score = $scope.LA.game.learningOutcomes[outcome];
+                            score = $scope.LA.game.learningOutcomes[outcome].value;
                             point[0] = 0;
                             point[1] = score;
 
@@ -546,7 +546,7 @@ learningAnalytics.controller('LA_basicInfoController',
 
                             point = [];
                             point[0] = tryNumber;
-                            point[1] = $scope.LA.game.learningOutcomes[outcome];
+                            point[1] = $scope.LA.game.learningOutcomes[outcome].value;
 
                             var points = [];
                             points[0] = point;
@@ -626,10 +626,10 @@ learningAnalytics.controller('LA_basicInfoController',
                         numGPs = [];
 
                         for (k = $scope.LA.players.length - 1; k >= 0; k--) {
-                            playerIds[playerIds.length] = "player " + $scope.LA.players[k].id;
+                            playerIds[playerIds.length] = "player " + $scope.LA.players[k].idPlayer;
                             var numGPsForP = 0;
                             for (j = $scope.LA.gameplays.length - 1; j >= 0; j--) {
-                                if ($scope.LA.gameplays[j].idPlayer === $scope.LA.players[k].id) {
+                                if ($scope.LA.gameplays[j].idPlayer === $scope.LA.players[k].idPlayer) {
                                     numGPsForP++;
                                 }
                             }
@@ -710,7 +710,6 @@ learningAnalytics.controller('LA_basicInfoController',
 
             if (dataset.length < 1) { return 0; }
 
-
             // for each characteristic, draw an area chart
             for (var i = 0; i <= $scope.LA.game.playerCharacteristics.length; i++) {
 
@@ -725,7 +724,7 @@ learningAnalytics.controller('LA_basicInfoController',
 
                     // check all players
                     for (var j = 0 ; j < $scope.LA.players.length ; j++) {
-                        var idP = $scope.LA.players[j].id;
+                        var idP = $scope.LA.players[j].idPlayer;
 
                         var playerPerHour = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                         
@@ -779,6 +778,7 @@ learningAnalytics.controller('LA_basicInfoController',
                         };                  
                     };
                 }
+
                 // add the total
                 
                 var playerPerHour = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];                       
@@ -1032,7 +1032,7 @@ learningAnalytics.controller('LA_basicInfoController',
                         idP = $scope.LA.gameplays[i].idPlayer;
 
                         for (j = $scope.LA.players.length - 1; j >= 0; j--) {
-                            if ($scope.LA.players[j].id == idP) {
+                            if ($scope.LA.players[j].idPlayer == idP) {
                                 dataset[dataset.length] = $scope.LA.players[j]
                             }
                         }
@@ -1049,7 +1049,7 @@ learningAnalytics.controller('LA_basicInfoController',
                         if (!alreadyIn) {
                             idP = $scope.LA.gameplays[i].idPlayer;
                             for (j = $scope.LA.players.length - 1; j >= 0; j--) {
-                                if ($scope.LA.players[j].id == idP) {
+                                if ($scope.LA.players[j].idPlayer == idP) {
                                     dataset[dataset.length] = $scope.LA.players[j];
                                 }
                             }
@@ -1130,8 +1130,8 @@ learningAnalytics.controller('LA_basicInfoController',
                 // update containerRelationship
             }
 
-
-        $http.get('http://docker:8080/learninganalytics/seriousgame/47/version/0')
+        var path = /learning_analytics\/(\d+)\/(\d+)/.exec($location.absUrl());
+        $http.get('http://docker:8080/learninganalytics/seriousgame/' + path[1] + '/version/' + path[2])
             .success(function (data) {
                 $scope.LA = data;
                 $scope.setChartsWhoPlayed();

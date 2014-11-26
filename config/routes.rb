@@ -7,7 +7,7 @@ Assess4meInterface::Application.routes.draw do
 
   resources :config_files
 
-  get "learning_analytics"  => "learning_analytics#index"
+  get "learning_analytics/:id/:version", to: "learning_analytics#index" , as: 'learning_analytics'
 
   get "documentation/api"
 
