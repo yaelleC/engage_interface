@@ -14,6 +14,15 @@ learningAnalytics.factory('utils', function() {
         }
         return dataset;
     },
+    sortFunctionTimeStarted: function (a, b) {
+        var timeStartedA = a.timeStarted;
+        var timeStartedB = b.timeStarted;
+
+        var dateA = new Date(timeStartedA);
+        var dateB = new Date(timeStartedB);
+
+        return dateA - dateB;
+    },
     getMedian : function (arrayNumbersOrdered) {
         // even number
         if (Math.floor(arrayNumbersOrdered.length / 2) == arrayNumbersOrdered.length / 2) {
@@ -1044,7 +1053,7 @@ learningAnalytics.directive('laLearningCurvesWithinGameplays', function(utils){
         }
 
 
-        dataset.sort(la.sortFunctionTimeStarted);
+        dataset.sort(utils.sortFunctionTimeStarted);
 
         var characteristics = [];
         var players = [];
@@ -1185,170 +1194,7 @@ learningAnalytics.controller('LA_basicInfoController',
             return Object.keys($scope.LA.game.learningOutcomes);
         }
 
-        $scope.getGameplayDataset = function () {
-            var dataset = [];
-            for (var i = $scope.LA.gameplays.length - 1; i >= 0; i--) {
-                var idP = $scope.LA.gameplays[i].idPlayer;
-                for (var j = $scope.LA.players.length - 1; j >= 0; j--) {
-                    if ($scope.LA.players[j].idPlayer == idP) {
-                        dataset[dataset.length] = $.extend($scope.LA.gameplays[i], $scope.LA.players[j]);
-                    }
-                }
-            }
-            return dataset;
-        }
-
-            
-            $scope.getPlayerLastDataset = function () {
-                var dataset = [];
-                var i, j;
-                for (i = $scope.LA.gameplays.length - 1; i >= 0; i--) {
-                    var alreadyIn = false;
-                    var gp = $scope.LA.gameplays[i];
-                    for (j = dataset.length - 1; j >= 0; j--) {
-                        if (gp.idPlayer == dataset[j].idPlayer) {
-                            alreadyIn = true;
-                        }
-                    }
-                    if (!alreadyIn) {
-                        var idP = gp.idPlayer;
-                        var idGP = gp.id;
-                        var timeSpent = gp.timeSpent;
-                        var timeStarted = gp.timeStarted;
-                        var finalScores = gp.finalScores;
-                        var actions = gp.actions;
-
-                        // get last gameplay
-                        for (j = i - 1; j >= 0; j--) {
-                            var gp2 = $scope.LA.gameplays[j];
-                            if (gp2.idPlayer == idP && gp2.id > idGP) {
-                                idGP = gp2.id;
-                                timeSpent = gp2.timeSpent;
-                                timeStarted = gp2.timeStarted;
-                                finalScores = gp2.finalScores;
-                                actions = gp2.actions;
-                            }
-                        }
-                        var playerLast = {"id": idGP, "idPlayer": idP, "timeSpent": timeSpent,
-                            "timeStarted": timeStarted, "finalScores": finalScores, "actions": actions};
-
-                        for (j = $scope.LA.players.length - 1; j >= 0; j--) {
-                            if ($scope.LA.players[j].idPlayer == idP) {
-                                dataset[dataset.length] = $.extend(playerLast, $scope.LA.players[j]);
-                            }
-                        }
-                    }
-                }
-                return dataset;
-            }
-
-            $scope.getPlayerBestDataset = function (outcome) {
-                var dataset = [];
-                var i, j;
-                for (i = $scope.LA.gameplays.length - 1; i >= 0; i--) {
-                    var alreadyIn = false;
-                    var gp = $scope.LA.gameplays[i];
-                    for (j = dataset.length - 1; j >= 0; j--) {
-                        if (gp.idPlayer == dataset[j].idPlayer) {
-                            alreadyIn = true;
-                        }
-                    }
-
-                    if (!alreadyIn) {
-                        var idP = gp.idPlayer;
-                        var idGP = gp.id;
-                        var timeSpent = gp.timeSpent;
-                        var timeStarted = gp.timeStarted;
-                        var finalScores = gp.finalScores;
-                        var actions = gp.actions;
-
-                        // get last gameplay
-                        for (j = i - 1; j >= 0; j--) {
-                            var gp2 = $scope.LA.gameplays[j];
-                            if (gp2.idPlayer == idP && gp2.finalScores[outcome] > finalScores[outcome]) {
-                                idGP = gp2.id;
-                                timeSpent = gp2.timeSpent;
-                                timeStarted = gp2.timeStarted;
-                                finalScores = gp2.finalScores;
-                                actions = gp2.actions;
-                            }
-                        }
-
-
-                        var playerBest = {"id": idGP, "idPlayer": idP, "timeSpent": timeSpent,
-                            "timeStarted": timeStarted, "finalScores": finalScores, "actions": actions};
-
-                        for (j = $scope.LA.players.length - 1; j >= 0; j--) {
-                            if ($scope.LA.players[j].idPlayer == idP) {
-                                dataset[dataset.length] = $.extend(playerBest, $scope.LA.players[j]);
-                            }
-                        }
-                    }
-                }
-                return dataset;
-            }
-
-            $scope.getMedian = function (arrayNumbersOrdered) {
-                // even number
-                if (Math.floor(arrayNumbersOrdered.length / 2) == arrayNumbersOrdered.length / 2) {
-                    var num1 = arrayNumbersOrdered[Math.floor(arrayNumbersOrdered.length / 2)];
-                    var num2 = arrayNumbersOrdered[Math.floor(arrayNumbersOrdered.length / 2) - 1];
-                    return Math.round((num1 + num2) * 10 / 2) / 10;
-                }
-                // odd number
-                else {
-                    return arrayNumbersOrdered[Math.floor(arrayNumbersOrdered.length / 2)];
-                }
-            }
-
-            $scope.getArrayStats = function (arrayNumbers) {
-
-                // if empty array return 0
-
-                if (arrayNumbers.length == 0) {
-                    return [0, 0, 0, 0, 0];
-                }
-
-                // if only one number return it 5 times.
-                if (arrayNumbers.length == 1) {
-                    var n = arrayNumbers[0];
-                    return [n, n, n, n, n];
-                }
-
-                // otherwise
-
-                arrayNumbers.sort(function (a, b) {
-                    return a - b
-                });
-
-                var arrayStats = [];
-                // minimum
-                arrayStats[0] = arrayNumbers[0];
-                // lower quartile
-                var firstHalf = arrayNumbers.slice(0, Math.floor(arrayNumbers.length / 2));
-                arrayStats[1] = $scope.getMedian(firstHalf);
-                // median
-                arrayStats[2] = $scope.getMedian(arrayNumbers);
-                // upper quartile
-                var secondHalf = arrayNumbers.slice(Math.ceil(arrayNumbers.length / 2));
-                arrayStats[3] = $scope.getMedian(secondHalf);
-                // maximum
-                arrayStats[4] = arrayNumbers[arrayNumbers.length - 1];
-
-                return arrayStats;
-            }
-
-            $scope.sortFunctionTimeStarted = function (a, b) {
-                var timeStartedA = a.timeStarted;
-                var timeStartedB = b.timeStarted;
-
-                var dateA = new Date(timeStartedA);
-                var dateB = new Date(timeStartedB);
-
-                return dateA - dateB;
-
-            }
-
+        // Initialize the radio buttons
 
         $scope.whoPlayedView = 'gameplay';
         $scope.howLongView = 'gameplay';
@@ -1357,11 +1203,12 @@ learningAnalytics.controller('LA_basicInfoController',
         $scope.finalScoresView = 'gameplay';
         $scope.learningCurvesView = 'gameplay';
         
-
+        // Get the learning analytics
         var path = /learning_analytics\/(\d+)\/(\d+)/.exec($location.absUrl());
         $http.get('http://docker:8080/learninganalytics/seriousgame/' + path[1] + '/version/' + path[2])
             .success(function (data) {
                 $scope.LA = data;
+                // update the select boxes
                 $scope.loFinalScoresOutcome = $scope.getLearningOutcomesList()[0];
                 $scope.loLearningCurvesOutcome = $scope.getLearningOutcomesList()[0];
                 $scope.loLearningCurvesWithinGameplaysOutcome = $scope.getLearningOutcomesList()[0];
