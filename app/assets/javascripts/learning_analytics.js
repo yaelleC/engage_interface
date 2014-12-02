@@ -1205,7 +1205,7 @@ learningAnalytics.controller('LA_basicInfoController',
         
         // Get the learning analytics
         var path = /learning_analytics\/(\d+)\/(\d+)/.exec($location.absUrl());
-        $http.get('http://docker:8080/learninganalytics/seriousgame/' + path[1] + '/version/' + path[2])
+        $http.get('http://146.191.107.189:8080/learninganalytics/seriousgame/' + path[1] + '/version/' + path[2])
             .success(function (data) {
                 $scope.LA = data;
                 // update the select boxes
