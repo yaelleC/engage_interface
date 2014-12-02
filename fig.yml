@@ -4,6 +4,8 @@ rails:
   ports: 
     - "80:80"
   dns: localhost
+  # environment:
+  #   RAILS_ENV: production
   volumes:
     - "app:/usr/src/app/app"
     - "config:/usr/src/app/config"
