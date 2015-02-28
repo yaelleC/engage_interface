@@ -1,0 +1,80 @@
+<% content_for :title do %>
+Editor
+<% end %>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2-bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2.min.css">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2.min.js"></script>
+<div class="mainText container" ng-app="EnGAge">
+	<div ng-controller="GameCtrl">
+		<h1><span editable-text="config.seriousGame.name">{{config.seriousGame.name}}</span></h1>
+		
+		<h3>Objective of the game</h3>
+		<div><span editable-textarea="config.seriousGame.description"  e-rows="3" e-cols="80">{{config.seriousGame.description}}</span></div>
+		<h3>Scores / Learning outcomes</h3>
+		<div>
+			<table class="table table-striped">
+				<thead>
+					<th>name</th>
+					<th>description</th>
+					<th>starting value</th>
+				</thead>
+				<tbody>
+					<tr ng-repeat="(name, lo) in config.learningOutcomes">
+						<td><span editable-text="name" e-name="name" e-form="rowform"  e-required>{{name}}</span></td>
+						<td><span editable-textarea="lo.desc" e-rows="2" e-cols="40" e-name="desc" e-form="rowform"  e-required>{{lo.desc}}</span></td>
+						<td><span editable-number="lo.value" e-name="value" e-form="rowform" e-required>{{lo.value}}</span></td>
+						<td>
+							<form editable-form name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" class="form-buttons form-inline">
+								<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+								save
+								</button>
+								<button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+								cancel
+								</button>
+							</form>
+							<div class="buttons" ng-show="!rowform.$visible">
+								<button class="btn btn-primary" ng-click="rowform.$show()">edit</button>
+								<button class="btn btn-danger" ng-click="">del</button>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<h3>Rules of the game</h3>
+		
+		<div>
+			<div ng-repeat="(name, evidence) in config.evidenceModel">
+				<strong>{{ evidence.desc}}</strong>
+				<div ng-repeat="reaction in evidence.reactions">
+					<div><strong ng-if="reaction.else == 'true'">Otherwise</strong></div>
+					<div>
+						<div><i>Countries: </i> </div>
+						<div><span editable-select="reaction.values" e-multiple e-ng-options="s as s.country for s in reaction.values"><span ng-repeat="value in reaction.values">{{value.country}}{{$last ? '' : ', '}}</span></span></div>
+					</div>
+					<div>
+						<div><strong>Score update</strong></div>
+						<div>{{reaction.mark.learningOutcome}} = {{reaction.mark.mark}}</div>
+					</div>
+					<div>
+						<div><strong>Feedback</strong></div>
+						<div ng-repeat="fb in reaction.feedback">{{fb.name}}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<h3>End of the game</h3>
+		<div>
+			<p>The game is won when/if: ??</p>
+			<p>The game is lost when/if: ??</p>
+		</div>
+		<h3>Badges</h3>
+		<div>
+			<dl class="dl-horizontal">
+				<dt ng-repeat-start="(name, fb) in config.feedback">{{name}}</dt>
+				<dd ng-repeat-end>{{fb.message}}</dd>
+			</dl>
+		</div>
+	</div>
+</div>

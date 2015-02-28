@@ -1,4 +1,6 @@
 Assess4meInterface::Application.routes.draw do
+  get "editor/index"
+
   resources :teachers
 
 

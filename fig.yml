@@ -17,16 +17,14 @@ rails:
     - "mysql:mysql"
     - "ws:ws"
 ws:
-  image: yaelle/engage-ws
+  image: yaelle/engage-ws:latest
   links:
     - "mysql:mysql"
   ports:
     - "8080:8080"
 mysql:
-  image: mysql
+  image: mysql:latest
   ports:
     - "3306:3306"
-  volumes:
-    - /var/lib/engage/mysql:/var/lib/mysql
   environment:
     MYSQL_ROOT_PASSWORD: 123

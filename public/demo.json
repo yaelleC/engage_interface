@@ -1,0 +1,440 @@
+{
+    "seriousGame": {
+        "genre": "runner",
+        "idDeveloper": 1,
+        "ageMin": 10,
+        "description": "This is a mini serious game that teaches you to identify countries part of the European Union",
+        "subject": "geography",
+        "name": "EU mouse",
+        "ageMax": 99,
+        "public": "true",
+        "lang": "EN",
+        "country": "UK"
+    },
+    "feedback": {
+        "end_win": {
+            "message": "Well done, you won the game :)",
+            "final": "win"
+        },
+        "end_lose": {
+            "message": "Sorry, you lost the game :(",
+            "final": "lose"
+        },
+        "gold_medal": {
+            "message": "You found 200 EU countries",
+            "type": "badge"
+        },
+        "correct_country": {
+            "message": "Well done, [country] is indeed part of the EU",
+            "type": "positive"
+        },
+        "silver_medal": {
+            "message": "You found 100 EU countries",
+            "type": "badge"
+        },
+        "wrong_country": {
+            "message": "Nope, [country] is not part of the EU",
+            "type": "negative"
+        },
+        "bronze_medal": {
+            "message": "You found 50 EU countries",
+            "type": "badge"
+        }
+    },
+    "learningOutcomes": {
+        "eu_countries": {
+            "desc": "distinct countries of the EU left to find",
+            "feedbackTriggered": [
+                {
+                    "limit": 1,
+                    "sign": "<",
+                    "feedback": [
+                        "end_win"
+                    ],
+					"immediate": true
+                }
+            ],
+            "value": 28
+        },
+        "lives": {
+            "desc": "number of lives the player has",
+            "feedbackTriggered": [
+                {
+                    "limit": 1,
+                    "sign": "<",
+                    "feedback": [
+                        "end_lose"
+                    ],
+					"immediate": true
+                }
+            ],
+            "value": 3
+        },
+        "eu_score": {
+            "desc": "overall score, number of correct countries identified",
+            "feedbackTriggered": [
+                {
+                    "limit": 199,
+                    "sign": ">",
+                    "feedback": [
+                        "gold_medal"
+                    ],
+					"immediate": true
+                },
+                {
+                    "limit": 99,
+                    "sign": ">",
+                    "feedback": [
+                        "silver_medal"
+                    ],
+					"immediate": true
+                },
+                {
+                    "limit": 49,
+                    "sign": ">",
+                    "feedback": [
+                        "bronze_medal"
+                    ],
+					"immediate": true
+                }
+            ],
+            "value": 0
+        }
+    },
+    "inactivityFeedback": [],
+    "player": [
+        {
+            "name": "age",
+            "type": "Int"
+        },
+        {
+            "name": "grade",
+            "type": "String"
+        },
+        {
+            "name": "gender",
+            "type": "Char"
+        }
+    ],
+    "evidenceModel": {
+        "countryReSelected": {
+			"desc" : "When a player selects a country he/she had already selected",
+            "reactions": [
+                {
+                    "feedback": [
+                        { "name": "correct_country", "immediate": false }
+                    ],
+                    "values": [
+                        {
+                            "country": "austria"
+                        },
+                        {
+                            "country": "belgium"
+                        },
+                        {
+                            "country": "bulgaria"
+                        },
+                        {
+                            "country": "croatia"
+                        },
+                        {
+                            "country": "cyprus"
+                        },
+                        {
+                            "country": "czech_republic"
+                        },
+                        {
+                            "country": "denmark"
+                        },
+                        {
+                            "country": "estonia"
+                        },
+                        {
+                            "country": "finland"
+                        },
+                        {
+                            "country": "france"
+                        },
+                        {
+                            "country": "germany"
+                        },
+                        {
+                            "country": "greece"
+                        },
+                        {
+                            "country": "hungary"
+                        },
+                        {
+                            "country": "ireland"
+                        },
+                        {
+                            "country": "italy"
+                        },
+                        {
+                            "country": "latvia"
+                        },
+                        {
+                            "country": "lithuania"
+                        },
+                        {
+                            "country": "luxembourg"
+                        },
+                        {
+                            "country": "malta"
+                        },
+                        {
+                            "country": "netherlands"
+                        },
+                        {
+                            "country": "poland"
+                        },
+                        {
+                            "country": "portugal"
+                        },
+                        {
+                            "country": "romania"
+                        },
+                        {
+                            "country": "slovakia"
+                        },
+                        {
+                            "country": "slovenia"
+                        },
+                        {
+                            "country": "spain"
+                        },
+                        {
+                            "country": "sweden"
+                        },
+                        {
+                            "country": "united_kingdom"
+                        }
+                    ],
+                    "mark": {
+                        "mark": 1,
+                        "learningOutcome": "eu_score"
+                    }
+                },
+                {
+                    "else": "true",
+                    "feedback": [
+                        { "name": "wrong_country", "immediate": false }
+                    ],
+                    "mark": {
+                        "mark": -1,
+                        "learningOutcome": "lives"
+                    }
+                }
+            ],
+            "params": {
+                "country": "String"
+            }
+        },
+        "newCountrySelected": {
+			"desc" : "When a player selects a country for the first time",
+            "reactions": [
+                {
+                    "feedback": [],
+                    "values": [
+                        {
+                            "country": "austria"
+                        },
+                        {
+                            "country": "belgium"
+                        },
+                        {
+                            "country": "bulgaria"
+                        },
+                        {
+                            "country": "croatia"
+                        },
+                        {
+                            "country": "cyprus"
+                        },
+                        {
+                            "country": "czech_republic"
+                        },
+                        {
+                            "country": "denmark"
+                        },
+                        {
+                            "country": "estonia"
+                        },
+                        {
+                            "country": "finland"
+                        },
+                        {
+                            "country": "france"
+                        },
+                        {
+                            "country": "germany"
+                        },
+                        {
+                            "country": "greece"
+                        },
+                        {
+                            "country": "hungary"
+                        },
+                        {
+                            "country": "ireland"
+                        },
+                        {
+                            "country": "italy"
+                        },
+                        {
+                            "country": "latvia"
+                        },
+                        {
+                            "country": "lithuania"
+                        },
+                        {
+                            "country": "luxembourg"
+                        },
+                        {
+                            "country": "malta"
+                        },
+                        {
+                            "country": "netherlands"
+                        },
+                        {
+                            "country": "poland"
+                        },
+                        {
+                            "country": "portugal"
+                        },
+                        {
+                            "country": "romania"
+                        },
+                        {
+                            "country": "slovakia"
+                        },
+                        {
+                            "country": "slovenia"
+                        },
+                        {
+                            "country": "spain"
+                        },
+                        {
+                            "country": "sweden"
+                        },
+                        {
+                            "country": "united_kingdom"
+                        }
+                    ],
+                    "mark": {
+                        "mark": -1,
+                        "learningOutcome": "eu_countries"
+                    }
+                },
+                {
+                    "feedback": [
+                        { "name": "correct_country", "immediate": false }
+                    ],
+                    "values": [
+                        {
+                            "country": "austria"
+                        },
+                        {
+                            "country": "belgium"
+                        },
+                        {
+                            "country": "bulgaria"
+                        },
+                        {
+                            "country": "croatia"
+                        },
+                        {
+                            "country": "cyprus"
+                        },
+                        {
+                            "country": "czech_republic"
+                        },
+                        {
+                            "country": "denmark"
+                        },
+                        {
+                            "country": "estonia"
+                        },
+                        {
+                            "country": "finland"
+                        },
+                        {
+                            "country": "france"
+                        },
+                        {
+                            "country": "germany"
+                        },
+                        {
+                            "country": "greece"
+                        },
+                        {
+                            "country": "hungary"
+                        },
+                        {
+                            "country": "ireland"
+                        },
+                        {
+                            "country": "italy"
+                        },
+                        {
+                            "country": "latvia"
+                        },
+                        {
+                            "country": "lithuania"
+                        },
+                        {
+                            "country": "luxembourg"
+                        },
+                        {
+                            "country": "malta"
+                        },
+                        {
+                            "country": "netherlands"
+                        },
+                        {
+                            "country": "poland"
+                        },
+                        {
+                            "country": "portugal"
+                        },
+                        {
+                            "country": "romania"
+                        },
+                        {
+                            "country": "slovakia"
+                        },
+                        {
+                            "country": "slovenia"
+                        },
+                        {
+                            "country": "spain"
+                        },
+                        {
+                            "country": "sweden"
+                        },
+                        {
+                            "country": "united_kingdom"
+                        }
+                    ],
+                    "mark": {
+                        "mark": 1,
+                        "learningOutcome": "eu_score"
+                    }
+                },
+                {
+                    "else": "true",
+                    "feedback": [
+                        { "name": "wrong_country", "immediate": false }
+                    ],
+                    "mark": {
+                        "mark": -1,
+                        "learningOutcome": "lives"
+                    }
+                }
+            ],
+            "params": {
+                "country": "String"
+            }
+        }
+    }
+}
