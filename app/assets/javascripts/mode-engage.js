@@ -23,7 +23,7 @@ var TextHighlightRules = require("./text_highlight_rules").TextHighlightRules;
 var EngageHighlightRules = function() {
 
     var keywords = (
-        "Serious-game|Player|Learning-outcomes|Feedback-messages|Evidence-model|Feedback-model|Action-sequence|Timer-actions|When|End"
+        "Serious-game|Player|Learning-outcomes|Feedback-messages|Evidence-model|Feedback-model|Badge-model|Action-sequence|Timer-actions|When|End"
     );
 
     var builtinParams = (
@@ -35,11 +35,11 @@ var EngageHighlightRules = function() {
     );
 
     var builtinTypes = (
-        "Int|Float|String|Bool|Char|Text|Enum|any"
+        "Int|Float|String|Bool|Char|Text|Enum|any|others|else|immediate|numberGameplays|numberWin|totalTime|averageTime|sumScore|averageScore|maxScore|minScore"
     );
 
     var builtinTypesLOandFeedback = (
-        "knowledge|skill|competence|positive|negative|neutral|badge|hint|final"
+        "knowledge|skill|competence|positive|negative|neutral|badge|hint|final|win|lose"
     );
 
     var keywordMapper = this.createKeywordMapper({
@@ -120,7 +120,8 @@ oop.inherits(Mode, TextMode);
 var WorkerClient = require("ace/worker/worker_client").WorkerClient;
 (function() {
 
-    this.lineCommentStart = "--";
+    this.lineCommentStart = "--";
+
     this.createWorker = function(session) {
         var worker = new WorkerClient(["ace"], "ace/mode/engage_worker", "WorkerModule");
         worker.attachToDocument(session.getDocument());
