@@ -9,8 +9,6 @@ using SimpleJSON;
 using System;
 
 public class EngAGe : MonoBehaviour {
-
-	public UIManagerScript uiScript;
 		
 	private static int idStudent;
 	private static int idPlayer = -1;
@@ -91,8 +89,8 @@ public class EngAGe : MonoBehaviour {
 	}
 
 	// ************* Web services calls ****************** //
-	private string baseURL = "http://docker:8080";
-	//private string baseURL = "http://146.191.107.189:8080";
+	//private string baseURL = "http://docker:8080";
+	private string baseURL = "http://146.191.107.189:8080";
 
 
 	public IEnumerator loginStudent(int p_idSG, string p_username, string p_password, 
@@ -249,9 +247,7 @@ public class EngAGe : MonoBehaviour {
 	public IEnumerator assess(string p_action, JSONNode p_values, Action<JSONNode> callback)
 	{
 		print ("--- assess action (" + p_action + ") ---");
-		
-		WebAsync webAsync = new WebAsync();
-		
+				
 		string putDataString = 
 			"{" + 
 				"\"action\": \"" + p_action + "\"" +
@@ -285,7 +281,6 @@ public class EngAGe : MonoBehaviour {
 	public IEnumerator endGameplay(bool win)
 	{
 		print ("--- end Gameplay ---");
-		WebAsync webAsync = new WebAsync();
 		string winString = (win) ? "win" : "lose";
 		string URL = baseURL + "/gameplay/"+ idGameplay + "/end/" + winString;
 		
