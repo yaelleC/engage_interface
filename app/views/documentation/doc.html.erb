@@ -32,9 +32,9 @@
             <ul class="learningOutcomes">
               <li>Define your Serious Game</li>
               <li>Describe a typical Player</li>
-              <li>Specify the Learning Outcomes</li>
+              <li>Specify the Learning Outcomes and other scores</li>
               <li>Build an evidence model of Actions</li>
-              <li>Create Feedback and a model for it to be triggered</li>
+              <li>Create Feedback and a model for it to be triggered both in-game and across gameplays</li>
             </ul>
             <br/>
         </div>
@@ -47,12 +47,13 @@
             <li><a href="#Fdbck">4. Feedback messages</a></li>
             <li><a href="#Actions">5. Evidence model</a></li>
             <li><a href="#FdbckModel">6. Feedback model</a></li>
-            <li><a href="#Cl">7. Conclusion</a></li>
+            <li><a href="#BadgeModel">7. Feedback model</a></li>
+            <li><a href="#Cl">8. Conclusion</a></li>
           </ul></p>
         </div>
       </div>
 
-      <p>The configuration file is to be written using our own Domain Specific Language, in the following code examples, all bold words are key words of the language. Every section is closed using the DSL's keyword <code>End</code>. The definition of the DSL is given using the BNF format and the visual diagram is available on request.</p>
+      <p>The configuration file is to be written using our own Domain Specific Language, in the following code examples, all bold words are key words of the language. Every section is closed using the DSL's keyword <code>End</code>. The definition of the DSL is given using the BNF format and the visual diagram is available.</p>
 
 
       <h4 id="SG">1. Serious Game</h4>
@@ -119,7 +120,7 @@
 
       <h4 id="Player">2. The player</h4>
 
-      <p>In the second section, totally optional, you can define a player. This is an important step as the data you define here will be available in the learning analytics page, but you will also need to provide the engine with this data where starting a gameplay. You can define as many parameters as you want but there are only a limited number of types available, they are detailed on the table bellow.</p>
+      <p>In the second section, totally optional, you can define a player. This is an important step as the data you define here will be available in the learning analytics page, but you will also need to provide the engine with this data when starting a gameplay. You can define as many parameters as you want but there are only a limited number of types available, they are detailed on the table bellow.</p>
 
       <div class="bnfContainer">
         <pre class="pre-scrollable">player ::= 'Player' 
@@ -169,6 +170,7 @@ Type ::= 'String' | 'Int' | 'Char' | 'Bool' | 'Float' | 'Text'</pre>
       <h4 id="LO">3. Learning Outcomes</h4>
 
       <p>When you want to create a serious game, the first thing you need to ask yourself is : <i>"What will the player learn from using my game?"</i>. That is the definition of your learning outcomes. For each learning outcome of the game, you need to give at least an identificator for further referral in the configuration file. You can also define a description and a starting value. </p>
+      <p>In this section you can also list the scores that are meaningful to the game's assessment but are not associated to a learning process. For instance the number of lives a player has, the quantity of ammunitions of fuel left...</p>
 
       <div class="bnfContainer">
         <pre class="pre-scrollable">learning-outcomes ::= 'Learning-outcomes' 
@@ -305,7 +307,7 @@ Type ::= 'String' | 'Int' | 'Char' | 'Bool' | 'Float' | 'Text'</pre>
       Seagull, Mouette
       Eagle, Aigle
     <span class="keyWdCompulsory">End</span>
-    vocabulary <span class="keyWdChar">-></span> <span class="inputInt">-1</span>
+    vocabulary <span class="keyWdChar">-></span> <span class="inputInt">-1</span>, lives <span class="keyWdChar">-></span> <span class="inputInt">-1</span>
       <span class="keyWdType">others</span>
     <span class="keyWdCompulsory">End</span>
     <span class="keyWdOptional">When</span>
@@ -313,8 +315,6 @@ Type ::= 'String' | 'Int' | 'Char' | 'Bool' | 'Float' | 'Text'</pre>
       <span class="keyWdType">any</span>(<span class="inputInt">+</span>) : correct-translation
       <span class="comments">// for any negative point obtained, wrong-translation feedback is triggered </span>
       <span class="keyWdType">any</span>(<span class="inputInt">-</span>) : wrong-translation
-      <span class="comments">// when all translations are correct, the engine triggers the final feedback </span>
-      <span class="keyWdType">all</span>(<span class="inputInt">+</span>) : game-over
     <span class="keyWdCompulsory">End</span>
   <span class="keyWdCompulsory">End</span>
 <span class="keyWdCompulsory">End</span></code></pre></div>
@@ -340,13 +340,46 @@ Type ::= 'String' | 'Int' | 'Char' | 'Bool' | 'Float' | 'Text'</pre>
 </div>
 
       <div class="codeContainer">
-      <pre rel="feedbackModel" class="pre-scrollable"><code><span class="keyWdCompulsory">feedbackModel</span>
+      <pre rel="feedbackModel" class="pre-scrollable"><code><span class="keyWdCompulsory">Feedback-model</span>
   <span class="keyWdType">inactivity <span class="keyWdType"> > </span> </span><span class="inputInt">30</span><span class="keyWdType"> sec </span>: user-confused
   myOutcome<span class="keyWdType"> < </span><span class="inputInt"> -5 </span>: user-needsHelp
   myOutcome<span class="keyWdType"> > </span><span class="inputInt"> 25 </span>: myBadge
 <span class="keyWdCompulsory">End</span></code></pre></div>
 
-      <h4 id="Cl">7. Conclusion</h4>
+<h4 id="BadgeModel">7. Badge Model</h4>
+
+      <p>While some badges are earned during the gameplay, some others need more global information such as the number of times a player played or the total time spent playing. This section describes how across-gameplays badges are awarded to the player, there are various functions that can be used for that. Simple functions include: 'numberGameplays', 'numberWin', 'totalTime' and 'averageTime'. Other functions are associated to a score, they are: 'sumScore', 'averageScore', 'maxScore', 'minScore'.</p>
+
+      <div class="bnfContainer">
+      <pre class="pre-scrollable">Badge-model ::= 'Badge-model' 
+  ( ( SimpleFeedback | OutcomeFeedback ) ':' feedbackName )+
+'End'
+
+SimpleFeedback ::= ( 'totalTime' | 'averageTime' | 'numberGameplays' | 'numberWin') ('<'|'>') Integer
+
+OutcomeFeedback ::= ( 'sumScore' | 'averageScore' | 'maxScore' | 'minScore') scoreName ('<'|'>') Integer</pre>
+
+<button type="button" class="btn btn-xs" data-toggle="collapse" data-target="#imgBNF-BadgeModel">
+  Show/Hide the diagram
+</button>
+
+
+
+<div id="imgBNF-BadgeModel" class="collapse">
+    <p><br/><%= image_tag "BNF/Badge-model.png" %></p>
+</div>
+</div>
+
+      <div class="codeContainer">
+      <pre rel="badgeModel" class="pre-scrollable"><code><span class="keyWdCompulsory">Badge-model</span>
+  <span class="keyWdType">totalTime <span class="keyWdType"> > </span> </span><span class="inputInt">60</span>: badge_hour
+  <span class="keyWdType">numberWin <span class="keyWdType"> > </span> </span><span class="inputInt">9</span>: badge_ten_wins
+  <span class="keyWdType">sumScore <span class="keyWdType"> correctWords <span class="keyWdType"> > </span><span class="inputInt"> 100 </span>: badge_100wordsFound
+  <span class="keyWdType">maxScore <span class="keyWdType"> correctWords<span class="keyWdType"> > </span><span class="inputInt"> 10 </span>: badge_10words_inOneGame
+<span class="keyWdCompulsory">End</span></code></pre></div>
+
+
+      <h4 id="Cl">8. Conclusion</h4>
 
       <p>To summarise, here is the squeletton of a configuration file, you can just copy it and use it for your own game.</p>
 
@@ -394,19 +427,26 @@ Type ::= 'String' | 'Int' | 'Char' | 'Bool' | 'Float' | 'Text'</pre>
 <span class="keyWdCompulsory">Feedback-model</span>
   <span class="comments">/* inactivity or outcome feedback */ </span>
 <span class="keyWdCompulsory">End</span></code></pre></div>
+
+<span class="keyWdCompulsory">Badge-model</span>
+  <span class="comments">/* across gameplays badge model */ </span>
+<span class="keyWdCompulsory">End</span></code></pre></div>
+
 <br/>
-<p>For a configuration file editor with syntax highlighting, visit the <a href="createSG">creation page</a> of this interface and set up a new serious game then start using the engine.</p>
+<p>For a configuration file editor with syntax highlighting, visit the <a href="serious_games/new">creation page</a> of this interface and set up a new serious game then start using the engine.</p>
       <span id="webServices"></span>
       <hr/>
+      <br/>
 
         <h3>The web services available for you</h3>
         <div class="row YellowBg">
           <p>In this section, you will learn how to use the web services to perform the assessment of your game. At the end you will know how to:</p>
         <div class="col-lg-9">
             <ul class="learningOutcomes">
-              <li>Create a new Gameplay</li>
-              <li>Assess a player's action</li>
-              <li>Get feedback to trigger and scores</li>
+              <li>Create a new Gameplay </li>
+              <li>Log a player </li>
+              <li>Assess a player's action </li>
+              <li>Update scores and feedback </li>
               <!--<li>Adapt your game to the player</li>-->
               <li>Get a final report for your debriefing phase</li>
             </ul>
@@ -423,42 +463,144 @@ Type ::= 'String' | 'Int' | 'Char' | 'Bool' | 'Float' | 'Text'</pre>
         </div>
       </div>
 
-            <p>Once you create a serious game in the database, you will be given an id, you will need this id to refer, during the game play, to your configuration file. All the functions available for you are web services hosted at "146.191.107.189:8080".</p>
-
-      <!--  <div align="center"><%= image_tag "underconstruction.png" %></div>
-
-          <p align="center"><i>Due to changes in the web services, this section is currently under construction, please check again after the 28th of October 2014. <br/>In the meantime, you can email <a href="mailto:yaelle.chaudy@uws.ac.uk"> Ya&euml;lle </a> with your questions.</i></p>
-      -->
+      <p>Once you create a serious game in the database, you will be given an id, you will need this id to refer, during the gameplay, to your configuration file. 
+      All the functions detailed here are web services hosted at "146.191.107.189:8080".</p>
 
       <h4 id="GP"><b>1. Creation of a new Gameplay</b></h4>
 
-      <h5><b>1.1 Get the version to be played</b></h5>
-      <p>A teacher can modify your game’s assessment, thus creating a new version of the game. Before the player can start the game, you need to get the version the teacher decided they would play. You do so by invoking the <code>/SGaccess/{idSG}/student/{idStudent}</code> web service with a GET method and no arguments.</p>
-      
-      <p>If successful, the web service returns the number of the version to be played, save it in the session variable as you will need it later on during the gameplay.</p>
+      <h5><b>1.1 Log the player</b></h5>
+      <p>A teacher can modify your game’s assessment, thus creating a new version of the game. Before the player can start the game, you need to get the version the teacher decided they would play. You do so by invoking the <b>SGaccess</b> web service. It will also return a list of caracteristics you need to know about the player (based on the Player section of the configuration file).</p>
 
-      <br/>
-      <h5><b>1.2 Get characteristics required for the player</b></h5>
-      <p>The teacher might have defined new characteristics for the player to give, you need to get the list of new characteristics to ask the player. You do so by invoking <code>/gameplay/parameters</code>, use the POST method with one json object as follow: </p>
-      <div class="codeContainer">
-      <pre rel="WScode" class="pre-scrollable"><code>{
+      <table class="table table-hover table-bordered table-striped">
+        <tr><td>URL</td><td><code>http://146.191.107.189:8080/SGaccess</td></code></tr>
+        <tr><td>Method</td><td>POST</td></tr>
+        <tr><td>Consumes</td><td>
+          JSON with three key/value:
+                <div class="codeContainer"><pre rel="WScode" class="pre-scrollable"><code>{
   "idSG": integer,
-  "version": integer,
-  "idStudent": integer
+  "username": String,
+  "password": String
 }      </code></pre></div>
-      
+      For a guest login 
+        </td></tr>
+        <tr><td>Produces</td>
+          <td>JSON with: <ol><li>loginSuccess: username/password exists </li><li>
+            </li><li>params: list of information to ask about the player, if any,
+            </li><li>version: version of the game to be played by the player
+            </li><li>idPlayer: if the player has already played before
+            </li><li>student: basic info about the student logged in </li></ol>
+            Example of wrong login (or guest login) on public game: 
+            <div class="codeContainer"><pre rel="WScode" class="pre-scrollable"><code>{
+    "loginSuccess": false,
+    "params": [
+        {
+            "name": "age",
+            "type": "Int"
+        },
+        {
+            "name": "gender",
+            "type": "Char"
+        }
+    ],
+    "version": 0
+}            </code></pre></div>
+            Wrong login on non-public game:
+            <div class="codeContainer"><pre rel="WScode" class="pre-scrollable"><code>{
+    "loginSuccess": false
+}            </code></pre></div>
+            Correct login with a student that played already:
+            <div class="codeContainer"><pre rel="WScode" class="pre-scrollable"><code>{
+    "idPlayer": 2,
+    "student": {
+        "id": 9,
+        "username": "yaelle",
+        "idSchool": 1,
+        "dateBirth": "1988-08-17"
+    },
+    "loginSuccess": true,
+    "params": [],
+    "version": 0
+}            </code></pre></div>
+            Correct login with new student:
+            <div class="codeContainer"><pre rel="WScode" class="pre-scrollable"><code>{
+    "student": {
+        "id": 1,
+        "username": "test",
+        "idSchool": 1,
+        "dateBirth": "2001-01-01"
+    },
+    "loginSuccess": true,
+    "params": [
+        {
+            "name": "age",
+            "type": "Int"
+        },
+        {
+            "name": "gender",
+            "type": "Char"
+        }
+    ],
+    "version": 0
+}            </code></pre></div>
+          </td></tr>
+      </table>
 
-      <p>If your game is to be played by anonymous players, put “0” as the <code>idStudent</code>. If successful this web service will return the list of characteristics required for the player in json format as follows: </p>
-      <div class="codeContainer">
-      <pre rel="WScode" class="pre-scrollable"><code>[
-  {
-    "name": String,
-    "type": String (‘Char’, ‘String’, ‘Text’,  ‘Int’, ‘Float’ or ‘Bool’ )
-  },
-  …
-]</code></pre></div>
+      <br/>
       
       <br/>
+      <h5><b>1.2 Access the player's badges</b></h5>
+      <p>On the start screen of your game, you might want to display the badges earned by the player logged in. To retrieve the, you need to call this web service:</p>
+
+      <table class="table table-hover table-bordered table-striped">
+        <tr><td>URL</td><td><code>http://146.191.107.189:8080/badges/seriousgame/[idSG]/version/[version]/player/[idPlayer]</td></code></td></tr>
+        <tr><td>Method</td><td>GET</td></tr>
+        <tr><td>Consumes</td><td>Nothing, everything the web service needs is in the URL</td></tr>
+        <tr><td>Produces</td><td>JSON array containing the badges earned (each badge is a JSON object with a message, an id, a name and a final boolean). For example:
+        <div class="codeContainer"><pre rel="WScode" class="pre-scrollable"><code>[
+    {
+        "message": "You played 10+ times",
+        "id": 466,
+        "final": "true",
+        "name": "effort"
+    },
+    {
+        "message": "You found 50 EU countries",
+        "id": 469,
+        "final": "true",
+        "name": "bronze_medal"
+    }
+]</code></pre></div>
+        </td></tr>
+      </table>
+
+      <br/>
+      <h5><b>1.2 Access the player's badges</b></h5>
+      <p>On the start screen of your game, you might want to display the badges earned by the player logged in. To retrieve the, you need to call this web service:</p>
+
+      <table class="table table-hover table-bordered table-striped">
+        <tr><td>URL</td><td><code>http://146.191.107.189:8080/badges/seriousgame/[idSG]/version/[version]/player/[idPlayer]</td></code></td></tr>
+        <tr><td>Method</td><td>GET</td></tr>
+        <tr><td>Consumes</td><td>Nothing, everything the web service needs is in the URL</td></tr>
+        <tr><td>Produces</td><td>JSON array containing the badges earned (each badge is a JSON object with a message, an id, a name and a final boolean). For example:
+        <div class="codeContainer"><pre rel="WScode" class="pre-scrollable"><code>[
+    {
+        "message": "You played 10+ times",
+        "id": 466,
+        "final": "true",
+        "name": "effort"
+    },
+    {
+        "message": "You found 50 EU countries",
+        "id": 469,
+        "final": "true",
+        "name": "bronze_medal"
+    }
+]</code></pre></div>
+        </td></tr>
+      </table>
+
+
+
       <h5><b>1.3 Start the gameplay</b></h5>
       <p>When a player starts playing your game, you need to tell the engine to set up a new gameplay. That way, new scores will be set for your learning outcomes and the player's actions will be associated to them. In order to create a new gameplay, you need to invoke the <code>/gameplay</code>, use the PUT method with one json object as follow: </p>
       <div class="codeContainer">
@@ -470,6 +612,13 @@ Type ::= 'String' | 'Int' | 'Char' | 'Bool' | 'Float' | 'Text'</pre>
 }</code></pre></div>
       <p>If successful, the web service returns the id of the gameplay created, save it as this id is a parameter of all the following functions.</p>
 
+      
+      <table class="table table-hover table-bordered table-striped">
+        <tr><td>URL</td><td><code>http://146.191.107.189:8080/</td></code></td></tr>
+        <tr><td>Method</td><td></td></tr>
+        <tr><td>Consumes</td><td></td></tr>
+        <tr><td>Produces</td><td><div class="codeContainer"><pre rel="WScode" class="pre-scrollable"><code></code></pre></div></td></tr>
+      </table>
       <h4 id="Assessment"><b>2. During the Gameplay</b></h4>
 
       <h5><b>2.1 Assess a player's action</b></h5>
