@@ -434,6 +434,7 @@ OutcomeFeedback ::= ( 'sumScore' | 'averageScore' | 'maxScore' | 'minScore') sco
 
 <br/>
 <p>For a configuration file editor with syntax highlighting, visit the <a href="serious_games/new">creation page</a> of this interface and set up a new serious game then start using the engine.</p>
+
       <span id="webServices"></span>
       <hr/>
       <br/>
@@ -466,6 +467,77 @@ OutcomeFeedback ::= ( 'sumScore' | 'averageScore' | 'maxScore' | 'minScore') sco
       <p>Once you create a serious game in the database, you will be given an id, you will need this id to refer, during the gameplay, to your configuration file. 
       All the functions detailed here are web services hosted at "146.191.107.189:8080".</p>
 
+      <p>If you are using Unity to create your game, you can use this <a href="../codeFiles/EngAGe.cs" target="_blank">EngAGe.cs </a>file to help with the web services calls.</p>
+
+<!--
+      <div class="codeContainer">
+        <ul class="nav nav-tabs" id="tab4">
+          <li class="active"><a href="#javaExample4" data-toggle="tab">JavaScript / AJAX</a></li>
+          <li><a href="#cppExample4">C# - Unity</a></li>
+          <li><a href="#flashExample4">ActionScript</a></li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane active" id="javaExample4">
+            <pre class="pre-scrollable"><code>get_FinalAssessment in Java</code></pre>
+          </div>
+          <div class="tab-pane" id="cppExample4">
+            <pre class="pre-scrollable"><code>
+using System.Collections.Generic;
+using System.Net;
+using SimpleJSON;
+
+private string baseURL = "http://146.191.107.189:8080";
+string URL = baseURL + "/SGaccess";
+    
+string postDataString = 
+  "{" + 
+    "\"idSG\": " + p_idSG + 
+    ", \"username\": \"" + p_username + "\"" +
+    ", \"password\": \"" + p_password + "\"" +
+    "}";
+WWW www = new WWW(URL, Encoding.UTF8.GetBytes(postDataString), headers);
+
+// wait for the requst to finish
+yield return www;
+
+JSONNode loginData = JSON.Parse(www.text);
+            </code></pre>
+          </div>
+          <div class="tab-pane" id="flashExample4">
+            <pre class="pre-scrollable"><code>
+import flash.net.URLLoader; 
+import flash.net.URLRequest; 
+import flash.net.URLRequestMethod; 
+import flash.net.URLLoaderDataFormat;
+
+
+var url:String = "http://146.191.107.189:8080/ [write end of url here]";
+      
+var request:URLRequest = new URLRequest(url);
+
+var loader:URLLoader = new URLLoader();
+loader.dataFormat = URLLoaderDataFormat.TEXT;
+request.method = URLRequestMethod.POST;
+
+var jsonParam:String = "{ put your json here}";
+
+request.data = jsonParam;
+
+loader.addEventListener(Event.COMPLETE, handleResults);
+
+loader.load(request);
+
+function handleResults(evt:Event):void
+{
+    var response:String = evt.target.data as String;
+    trace("response:"+response);
+}
+            </code></pre>
+          </div>
+        </div>
+      </div>
+
+-->
       <h4 id="GP"><b>1. Creation of a new Gameplay</b></h4>
 
       <h5><b>1.1 Log the player</b></h5>
@@ -549,7 +621,7 @@ OutcomeFeedback ::= ( 'sumScore' | 'averageScore' | 'maxScore' | 'minScore') sco
       
       <br/>
       <h5><b>1.2 Access the player's badges</b></h5>
-      <p>On the start screen of your game, you might want to display the badges earned by the player logged in. To retrieve the, you need to call this web service:</p>
+      <p>On the start screen of your game, you might want to display the badges earned by the player logged in. To retrieve them, you need to call this web service:</p>
 
       <table class="table table-hover table-bordered table-striped">
         <tr><td>URL</td><td><code>http://146.191.107.189:8080/badges/seriousgame/[idSG]/version/[version]/player/[idPlayer]</td></code></td></tr>
@@ -574,72 +646,110 @@ OutcomeFeedback ::= ( 'sumScore' | 'averageScore' | 'maxScore' | 'minScore') sco
       </table>
 
       <br/>
-      <h5><b>1.2 Access the player's badges</b></h5>
-      <p>On the start screen of your game, you might want to display the badges earned by the player logged in. To retrieve the, you need to call this web service:</p>
+      <h5><b>1.3 Access the game information</b></h5>
+      <p>On the start screen of your game, you might need access to some of the game's data as the teacher might modify it.
+      To retrieve this, you need to call this web service:</p>
 
       <table class="table table-hover table-bordered table-striped">
-        <tr><td>URL</td><td><code>http://146.191.107.189:8080/badges/seriousgame/[idSG]/version/[version]/player/[idPlayer]</td></code></td></tr>
+        <tr><td>URL</td><td><code>http://146.191.107.189:8080/seriousgame/[idSG]/version/[version]</td></code></td></tr>
         <tr><td>Method</td><td>GET</td></tr>
         <tr><td>Consumes</td><td>Nothing, everything the web service needs is in the URL</td></tr>
-        <tr><td>Produces</td><td>JSON array containing the badges earned (each badge is a JSON object with a message, an id, a name and a final boolean). For example:
-        <div class="codeContainer"><pre rel="WScode" class="pre-scrollable"><code>[
-    {
-        "message": "You played 10+ times",
-        "id": 466,
-        "final": "true",
-        "name": "effort"
-    },
-    {
-        "message": "You found 50 EU countries",
-        "id": 469,
-        "final": "true",
-        "name": "bronze_medal"
-    }
-]</code></pre></div>
+        <tr><td>Produces</td><td>JSON representing the configuration file. <br/> Example of the seriousgame section :
+        <div class="codeContainer"><pre rel="WScode" class="pre-scrollable"><code>"seriousGame": {
+    "genre": "Runner",
+    "idDeveloper": 1,
+    "ageMin": 10, 
+    "ageMax": 99,
+    "description": "This is a mini game that trains you to identify the countries that form the European Union",
+    "subject": "geography",
+    "name": "EU mouse",
+    "public": true,
+    "lang": "EN",
+    "country": "UK"
+}
+</code></pre></div>
         </td></tr>
       </table>
 
+     
 
 
-      <h5><b>1.3 Start the gameplay</b></h5>
-      <p>When a player starts playing your game, you need to tell the engine to set up a new gameplay. That way, new scores will be set for your learning outcomes and the player's actions will be associated to them. In order to create a new gameplay, you need to invoke the <code>/gameplay</code>, use the PUT method with one json object as follow: </p>
-      <div class="codeContainer">
-      <pre rel="WScode" class="pre-scrollable"><code>{
-  "idSG": integer,
-  "version": integer,
-  "idStudent": integer,
-  "params": [{"name": String, "type": String, "value": value}, …]
-}</code></pre></div>
+      <h5><b>1.4 Start the gameplay</b></h5>
+      <p>When a player starts playing your game, you need to tell the engine to set up a new gameplay. That way, new scores will be set for your learning outcomes and the player's actions will be associated to them. In order to create a new gameplay, you need to invoke the <code>/gameplay</code> web service as follows.</p>
       <p>If successful, the web service returns the id of the gameplay created, save it as this id is a parameter of all the following functions.</p>
-
       
       <table class="table table-hover table-bordered table-striped">
-        <tr><td>URL</td><td><code>http://146.191.107.189:8080/</td></code></td></tr>
-        <tr><td>Method</td><td></td></tr>
-        <tr><td>Consumes</td><td></td></tr>
-        <tr><td>Produces</td><td><div class="codeContainer"><pre rel="WScode" class="pre-scrollable"><code></code></pre></div></td></tr>
+        <tr><td>URL</td><td><code>http://146.191.107.189:8080/gameplay/start</td></code></td></tr>
+        <tr><td>Method</td><td>PUT</td></tr>
+        <tr><td>Consumes</td><td>JSON object containing game and player data. <br/> Example of JSON for a known player:<div class="codeContainer"><pre rel="WScode" class="pre-scrollable"><code>{  "idSG": 92,
+  "version": 0,
+  "idPlayer": 2
+}</code></pre></div>Example of JSON for a guest:<div class="codeContainer"><pre rel="WScode" class="pre-scrollable"><code>{ "idSG": 92,
+  "version": 0,
+  "idStudent": 0,
+  "params": [
+            {   "name": "age",
+                "type": "Int",
+                "value": 26
+            },
+            {   "name": "gender",
+                "type": "Char",
+                "value": "f"
+         }]
+}
+</code></pre></div> </td></tr>
+        <tr><td>Produces</td><td>An integer, ID of the gameplay created</td></tr>
       </table>
+
+
+
+
       <h4 id="Assessment"><b>2. During the Gameplay</b></h4>
 
       <h5><b>2.1 Assess a player's action</b></h5>
 
-      <p>During the gameplay, you will want to assess every player's action, you can do so by invoking the <code>/gameplay/{idGameplay}/assess</code> use the PUT method with one json object as follow: </p>
-      <div class="codeContainer">
+      <p>During the gameplay, you will want to assess every player's action, you can do so by invoking the <code>assess</code> web service as follow: </p>
+
+      <table class="table table-hover table-bordered table-striped">
+        <tr><td>URL</td><td><code>http://146.191.107.189:8080/gameplay/[idGameplay]/assessAndScore]</td></code></td></tr>
+        <tr><td>Method</td><td>PUT</td></tr>
+        <tr><td>Consumes</td><td>JSON object containing the action name and a JSON of values for the parameters of the action. 
+          <div class="codeContainer">
       <pre rel="WScode" class="pre-scrollable"><code>{
   "action": String,
   "values": { “nameOfParam”: “value”, … }
 }</code></pre></div>
-      <p>The function updates the gameplay's scores for the learning outcomes and returns the feedback triggered by the action (if any). If you wish to use the feedback, you will need to interpret the json returned:</p>
-      <div class="codeContainer">
-      <pre rel="WScode" class="pre-scrollable"><code> [
-  {
-      "message": String,
-      "id": integer,
-      "name": String,
-      "type": String (POSITIVE, NEGATIVE, NEUTRAL, BADGE or HINT)
-  },
-  …
-] </code></pre></div>
+          For example:<div class="codeContainer"><pre rel="WScode" class="pre-scrollable"><code>{
+  "action": "newCountrySelected",
+  "values": { "country": "France" }
+}</code></pre></div></td></tr>
+        <tr><td>Produces</td><td><p>The function updates the gameplay's scores for the learning outcomes and returns the feedback triggered by the action (if any). If you wish to use the feedback, you will need to interpret the json returned. The JSON object has two components, feedback (feedback triggered by the action) and scores (scores updated after the action). </p>For example:<div class="codeContainer"><pre rel="WScode" class="pre-scrollable"><code>{
+    "feedback": [
+        {   "message": "Yes, France is indeed part of the EU",
+            "name": "correct_country",
+            "type": "POSITIVE"
+        }
+    ],
+    "scores": [
+        {   "startingValue": 28,
+            "description": "countries of the EU left to find",
+            "name": "eu_countries",
+            "value": 27
+        },
+        {   "startingValue": 3,
+            "description": "number of lives the player has",
+            "name": "lives",
+            "value": 3
+        },
+        {   "startingValue": 0,
+            "description": "correct countries identified",
+            "name": "eu_score",
+            "value": 1
+        }
+    ]
+}
+</code></pre></div></td></tr>
+      </table>
 
 
       <br/>
@@ -652,8 +762,7 @@ OutcomeFeedback ::= ( 'sumScore' | 'averageScore' | 'maxScore' | 'minScore') sco
       "startingValue": integer,
       "description": String,
       "name": String,
-      "value": integer,
-      "type": String (POSITIVE, NEGATIVE, NEUTRAL, BADGE or HINT)
+      "value": integer
   },
   …
 ] </code></pre></div>
@@ -669,7 +778,7 @@ OutcomeFeedback ::= ( 'sumScore' | 'averageScore' | 'maxScore' | 'minScore') sco
       "message": String,
       "id": integer,
       "name": String,
-      "type": null
+      "type": String (POSITIVE, NEGATIVE, NEUTRAL, BADGE or HINT)
   },
   …
 ] </code></pre></div>
@@ -710,7 +819,39 @@ OutcomeFeedback ::= ( 'sumScore' | 'averageScore' | 'maxScore' | 'minScore') sco
     },…
   ]
 }</code></pre></div>
+ <br/>
+      <h5><b>3.3 Access the game leader board</b></h5>
+      <p>EngAGe also gives you access to the game's leader board. To retrieve it, you need to call this web service:</p>
 
+      <table class="table table-hover table-bordered table-striped">
+        <tr><td>URL</td><td><code>http://146.191.107.189:8080/learninganalytics/leaderboard/seriousgame/[idSG]/version/[version]</td></code></td></tr>
+        <tr><td>Method</td><td>GET</td></tr>
+        <tr><td>Consumes</td><td>Nothing, everything the web service needs is in the URL</td></tr>
+        <tr><td>Produces</td><td>JSON object containing an array of performance for each score of the game. The performances are in descending order and are composed of a name and a score. <br/> Example:
+        <div class="codeContainer"><pre rel="WScode" class="pre-scrollable"><code>{
+    "score1": [
+        {
+            "name": "Anonymous",
+            "score": 74
+        },
+        {
+            "name": "yaelle",
+            "score": 38
+        }
+    ],
+    "score2": [
+        {
+            "name": "yaelle",
+            "score": 129
+        },
+        {
+            "name": "Anonymous",
+            "score": 112
+        }
+    ]
+}</code></pre></div>
+        </td></tr>
+      </table>
 
 <!--
       <script type="text/javascript">
@@ -729,25 +870,7 @@ OutcomeFeedback ::= ( 'sumScore' | 'averageScore' | 'maxScore' | 'minScore') sco
       })
     </script>
 
-      <div class="codeContainer tabbable">
-        <ul class="nav nav-tabs" id="tab1" onClick="clickTab1()">
-          <li class="active"><a href="#javaExample1" data-toggle="tab">Java</a></li>
-          <li><a href="#cppExample1">C++</a></li>
-          <li><a href="#flashExample1">ActionScript</a></li>
-        </ul>
-        <div class="tab-content">
-          <div class="tab-pane active" id="javaExample1">
-            <pre class="pre-scrollable"><code>create_GamePlay in Java</code></pre>
-          </div>
-          <div class="tab-pane" id="cppExample1">
-            <pre class="pre-scrollable"><code>create_GamePlay in C++</code></pre>
-          </div>
-          <div class="tab-pane" id="flashExample1">
-            <pre class="pre-scrollable"><code>create_GamePlay in Flash</code></pre>
-          </div>
-        </div>
 
-      </div>
 
       <h4 id="Assessment"><b>2. Assessment of a player's action </b></h4>
       <p>During the gameplay, you will want to assess every player's action, you can do so by invoking the <code>assess</code> web service, you need to give two parameters, a string action (formatted as <code>[action]<b>(</b>[parameters separated by commas]<b>)</b></code>) and an integer, id of the gameplay (saved previously).</p>
