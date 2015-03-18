@@ -47,7 +47,7 @@
             <li><a href="#Fdbck">4. Feedback messages</a></li>
             <li><a href="#Actions">5. Evidence model</a></li>
             <li><a href="#FdbckModel">6. Feedback model</a></li>
-            <li><a href="#BadgeModel">7. Feedback model</a></li>
+            <li><a href="#BadgeModel">7. Badge model</a></li>
             <li><a href="#Cl">8. Conclusion</a></li>
           </ul></p>
         </div>
@@ -372,10 +372,10 @@ OutcomeFeedback ::= ( 'sumScore' | 'averageScore' | 'maxScore' | 'minScore') sco
 
       <div class="codeContainer">
       <pre rel="badgeModel" class="pre-scrollable"><code><span class="keyWdCompulsory">Badge-model</span>
-  <span class="keyWdType">totalTime <span class="keyWdType"> > </span> </span><span class="inputInt">60</span>: badge_hour
-  <span class="keyWdType">numberWin <span class="keyWdType"> > </span> </span><span class="inputInt">9</span>: badge_ten_wins
-  <span class="keyWdType">sumScore <span class="keyWdType"> correctWords <span class="keyWdType"> > </span><span class="inputInt"> 100 </span>: badge_100wordsFound
-  <span class="keyWdType">maxScore <span class="keyWdType"> correctWords<span class="keyWdType"> > </span><span class="inputInt"> 10 </span>: badge_10words_inOneGame
+  <span class="keyWdType">totalTime  >  </span><span class="inputInt">60</span>: badge_hour
+  <span class="keyWdType">numberWin >  </span><span class="inputInt">9</span>: badge_ten_wins
+  <span class="keyWdType">sumScore</span> correctWords <span class="keyWdType"> > </span><span class="inputInt"> 100 </span>: badge_100wordsFound
+  <span class="keyWdType">maxScore</span> correctWords<span class="keyWdType"> > </span><span class="inputInt"> 10 </span>: badge_10words_inOneGame
 <span class="keyWdCompulsory">End</span></code></pre></div>
 
 
@@ -426,7 +426,7 @@ OutcomeFeedback ::= ( 'sumScore' | 'averageScore' | 'maxScore' | 'minScore') sco
 
 <span class="keyWdCompulsory">Feedback-model</span>
   <span class="comments">/* inactivity or outcome feedback */ </span>
-<span class="keyWdCompulsory">End</span></code></pre></div>
+<span class="keyWdCompulsory">End</span>
 
 <span class="keyWdCompulsory">Badge-model</span>
   <span class="comments">/* across gameplays badge model */ </span>
@@ -451,12 +451,12 @@ OutcomeFeedback ::= ( 'sumScore' | 'averageScore' | 'maxScore' | 'minScore') sco
               <!--<li>Adapt your game to the player</li>-->
               <li>Get a final report for your debriefing phase</li>
             </ul>
-            <br/>
+            You can also have a look at our <a href="../apiDoc/index.html" target="_blank">API</a>
         </div>
         <div class="col-lg-3 WhiteBg">
           <p><h5><b>Table of Content</b></h5>
           <ul>
-            <li><a href="#GP">1. Creation of a Gameplay</a></li>
+            <li><a href="#GP">1. Outside a Gameplay</a></li>
             <li><a href="#Assessment">2. During the Gameplay</a></li>
             <!--<li><a href="#Adaptivity">3. Adaptivity</a></li>-->
             <li><a href="#FinalAssessment">3. After the Gameplay</a></li>
@@ -538,10 +538,10 @@ function handleResults(evt:Event):void
       </div>
 
 -->
-      <h4 id="GP"><b>1. Creation of a new Gameplay</b></h4>
+      <h4 id="GP"><b>1. Outside a Gameplay</b></h4>
 
       <h5><b>1.1 Log the player</b></h5>
-      <p>A teacher can modify your game’s assessment, thus creating a new version of the game. Before the player can start the game, you need to get the version the teacher decided they would play. You do so by invoking the <b>SGaccess</b> web service. It will also return a list of caracteristics you need to know about the player (based on the Player section of the configuration file).</p>
+      <p>A teacher can modify your game’s assessment, thus creating a new version of the game. Before the player can start the game, you need to check their credential (username and password) and get the version the teacher decided they would play. You do so by invoking the <b>SGaccess</b> web service. It will also return a list of caracteristics you need to know about the player (based on the Player section of the configuration file).</p>
 
       <table class="table table-hover table-bordered table-striped">
         <tr><td>URL</td><td><code>http://146.191.107.189:8080/SGaccess</td></code></tr>
@@ -553,10 +553,11 @@ function handleResults(evt:Event):void
   "username": String,
   "password": String
 }      </code></pre></div>
-      For a guest login 
+      For a guest login simply send empty username and pas
+      sword
         </td></tr>
         <tr><td>Produces</td>
-          <td>JSON with: <ol><li>loginSuccess: username/password exists </li><li>
+          <td>JSON with: <ol><li>loginSuccess: username/password exists
             </li><li>params: list of information to ask about the player, if any,
             </li><li>version: version of the game to be played by the player
             </li><li>idPlayer: if the player has already played before
@@ -632,13 +633,11 @@ function handleResults(evt:Event):void
     {
         "message": "You played 10+ times",
         "id": 466,
-        "final": "true",
         "name": "effort"
     },
     {
         "message": "You found 50 EU countries",
         "id": 469,
-        "final": "true",
         "name": "bronze_medal"
     }
 ]</code></pre></div>
@@ -778,6 +777,7 @@ function handleResults(evt:Event):void
       "message": String,
       "id": integer,
       "name": String,
+      "final": String ("true", "win", "lose")
       "type": String (POSITIVE, NEGATIVE, NEUTRAL, BADGE or HINT)
   },
   …
@@ -1008,6 +1008,11 @@ function handleResults(evt:Event):void
       <br/>
 -->
         <h3>The learning analytics</h3>
+
+        <p>Now that you have a game up and running, you can retrieve information about the gameplays. Simply go to your <%= link_to "game management page", serious_games_path %> and click the "Analytics" link! You will need to be logged in for this page to show data.</p>
+
+        <p>We are still developing new graphs for the Learning Analytics dashboard, let us know if there is anything in particular that you would need!</p>
+        <!--
         <div class="row YellowBg">
         	<p>Welcome to the final section of the documentation. Now that you know how to define your assessment and perform it, you might want to get data about the how many time your game has been played, who played it, for how long, what mistakes they often make... All of this data is available in your dashboard. Read the following documentation to learn more about:</p>
         <div class="col-lg-9">
@@ -1032,7 +1037,7 @@ function handleResults(evt:Event):void
           </ul></p>
         </div>
       </div>
-      <!--
+      
             <h4 id="Overview"><b>1. Overview</b></h4>
             <h4 id="Refine"><b>2. Refinement </b></h4>
             <h4 id="Time"><b>3. Time</b></h4>
@@ -1040,10 +1045,6 @@ function handleResults(evt:Event):void
             <h4 id="Feedback"><b>5. Feedback</b></h4>
             <h4 id="Cl3"><b>6. Conclusion</b></h4>
       -->
-
-          <div align="center"><%= image_tag "underconstruction.png" %></div>
-
-          <p><i>Due to changes in the interface, this section is currently under construction, please check again after the 4th of November 2014.</i></p>
 
           <!-- 
           <h4><b>Overview</b></h4>
