@@ -45,7 +45,7 @@ Editor
 				<accordion-group  ng-repeat="(name, evidence) in config.evidenceModel" heading="{{ evidence.desc}}">
 					
 					<div ng-repeat="reaction in evidence.reactions">
-						<hr>
+						<hr ng-if="! $first">
 						<h4 ng-if="reaction.else == 'true'">{{ $index + 1}}. Otherwise</h4>
 						<div ng-if="reaction.else != 'true'">
 							<div><h4>{{ $index + 1}}. If the user selects the following values:</h4></div>

@@ -2,29 +2,29 @@
 
 Learning Outcomes:
 ==================
-- OK delete
-- update name in the rest of the document
-- name + definition required
-- starting value default 0
-- change table into pannel
+- delete: 1/2 ... what to do with existing entries pointing to the LO?
+- TODO : update name in the rest of the document
+- Not working??? : name + definition required
 - add feedback values
-- [optional] generate random identifiers 
 
+- OK: change table into pannel
+- add : OK ... is the input for text ok?
+- OK: starting value default 0
 
 Rules of the Game:
 ==================
-- Select multiple parameters (id 98)
 - score update Add from dropdown + Remove 
 - 1 is added to LO_desc / x is substracted from LO_desc (integer)
 - Division btw case 1 : "{country} in" / Case 2 ... / Any other {country}
 - Table non stripped score
 - Add remove feedback
 - feeback does take a "s"
-- remove division on top of the pannel
 - feeback in dropdown grouped by type [instead of textarea]
 - display feeback type|
 - button manage feedback to edit type + message
+- Select multiple parameters (id 98)
 
+- OK: remove division on top of the pannel
 
 End of Game
 ===========
