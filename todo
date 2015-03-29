@@ -1,0 +1,42 @@
+
+
+Learning Outcomes:
+==================
+- OK delete
+- update name in the rest of the document
+- name + definition required
+- starting value default 0
+- change table into pannel
+- add feedback values
+- [optional] generate random identifiers 
+
+
+Rules of the Game:
+==================
+- Select multiple parameters (id 98)
+- score update Add from dropdown + Remove 
+- 1 is added to LO_desc / x is substracted from LO_desc (integer)
+- Division btw case 1 : "{country} in" / Case 2 ... / Any other {country}
+- Table non stripped score
+- Add remove feedback
+- feeback does take a "s"
+- remove division on top of the pannel
+- feeback in dropdown grouped by type [instead of textarea]
+- display feeback type|
+- button manage feedback to edit type + message
+
+
+End of Game
+===========
+- change signs (>|<) into (greater than | lower than )
+
+Badges
+======
+- Change name : across gameplays badges
+- add images
+- "won when the player plays more than 10 minutes"
+- things editable
+	+ keyword
+	+ sign
+	+ value
+	+ [optional] score if complex keyword

@@ -1,4 +1,4 @@
-{
+var config = {
     "feedback": {
         "master_time": {
             "message": "You played more than 30 minutes",
@@ -58,7 +58,7 @@
                     "sign": "<",
                     "feedback": [
                         {
-                            "immediate": true,
+                            "immediate": false,
                             "name": "end_win"
                         }
                     ]
@@ -74,7 +74,7 @@
                     "sign": "<",
                     "feedback": [
                         {
-                            "immediate": true,
+                            "immediate": false,
                             "name": "end_lose"
                         }
                     ]
@@ -110,7 +110,7 @@
                 {
                     "feedback": [
                         {
-                            "immediate": true,
+                            "immediate": false,
                             "name": "correct_country"
                         }
                     ],
@@ -209,12 +209,7 @@
                 },
                 {
                     "else": "true",
-                    "feedback": [
-                        {
-                            "immediate": true,
-                            "name": "wrong_country"
-                        }
-                    ],
+                    "feedback": [],
                     "marks": [
                         {
                             "mark": -1,
@@ -233,7 +228,7 @@
                 {
                     "feedback": [
                         {
-                            "immediate": true,
+                            "immediate": false,
                             "name": "correct_country"
                         }
                     ],

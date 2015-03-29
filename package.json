@@ -1,14 +1,34 @@
 {
-    "name": "EngAGe",
-    "version": "0.0.0",
-    "description": "Visual User Interface for EnGAge teachers",
-    "main": "app.js",
-    "scripts": {
-        "start": "rails server -p 80 -d"
-    },
-    "dependencies": {},
-    "devDependencies": {
-        "grunt": "^0.4.4",
-        "bower": "^1.3.3"
-    }
+  "name": "engage_interface",
+  "version": "1.0.0",
+  "description": "engage_interface\r ================",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yaelleUWS/engage_interface"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yaelleUWS/engage_interface/issues"
+  },
+  "homepage": "https://github.com/yaelleUWS/engage_interface",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-karma": "^0.10.1",
+    "grunt-protractor-runner": "^1.2.1",
+    "jasmine-core": "^2.2.0",
+    "karma": "^0.12.31",
+    "karma-jasmine": "^0.3.5",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "protractor": "^2.0.0"
+  }
 }

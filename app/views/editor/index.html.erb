@@ -12,69 +12,121 @@ Editor
 		<div><span editable-textarea="config.seriousGame.description"  e-rows="3" e-cols="80">{{config.seriousGame.description}}</span></div>
 		<h3>Scores / Learning outcomes</h3>
 		<div>
-			<table class="table table-striped">
-				<thead>
-					<th>name</th>
-					<th>description</th>
-					<th>starting value</th>
-				</thead>
-				<tbody>
-					<tr ng-repeat="(name, lo) in config.learningOutcomes">
-						<td><span editable-text="name" e-name="name" e-form="rowform"  e-required>{{name}}</span></td>
-						<td><span editable-textarea="lo.desc" e-rows="2" e-cols="40" e-name="desc" e-form="rowform"  e-required>{{lo.desc}}</span></td>
-						<td><span editable-number="lo.value" e-name="value" e-form="rowform" e-required>{{lo.value}}</span></td>
-						<td>
-							<form editable-form name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" class="form-buttons form-inline">
-								<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
-								save
+			<accordion close-others="oneAtATime">
+				<accordion-group  ng-repeat="(name, lo) in config.learningOutcomes" heading="{{ name }}: {{ lo.desc }}">
+					<form editable-form name="editableForm" shown="loInserted == name">
+						<div><strong>name: </strong><span editable-text="name" e-name="name"  e-required>{{name}}</span></div>
+						<div><strong>description: </strong><span editable-textarea="lo.desc" e-placeholder="description" e-rows="2" e-cols="40" e-name="desc"  e-required>{{lo.desc}}</span></div>
+						<div><strong>initial value: </strong><span editable-number="lo.value" e-name="value" e-required>{{lo.value}}</span></div>
+						
+						<div>
+							<!-- button to show form -->
+							<button type="button" class="btn btn-default" ng-click="editableForm.$show()" ng-show="!editableForm.$visible">
+							Edit
+							</button>
+							<!-- buttons to submit / cancel form -->
+							<span ng-show="editableForm.$visible">
+								<button type="submit" class="btn btn-primary" ng-disabled="editableForm.$waiting">
+								Save
 								</button>
-								<button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
-								cancel
+								<button type="button" class="btn btn-default" ng-disabled="editableForm.$waiting" ng-click="editableForm.$cancel()">
+								Cancel
 								</button>
-							</form>
-							<div class="buttons" ng-show="!rowform.$visible">
-								<button class="btn btn-primary" ng-click="rowform.$show()">edit</button>
-								<button class="btn btn-danger" ng-click="">del</button>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+							</span>
+						</div>
+					</form>
+				</accordion-group>
+			</accordion>
 		
 		<h3>Rules of the game</h3>
 		
 		<div>
-			<div ng-repeat="(name, evidence) in config.evidenceModel">
-				<strong>{{ evidence.desc}}</strong>
-				<div ng-repeat="reaction in evidence.reactions">
-					<div><strong ng-if="reaction.else == 'true'">Otherwise</strong></div>
-					<div>
-						<div><i>Countries: </i> </div>
-						<div><span editable-select="reaction.values" e-multiple e-ng-options="s as s.country for s in reaction.values"><span ng-repeat="value in reaction.values">{{value.country}}{{$last ? '' : ', '}}</span></span></div>
+			<accordion close-others="oneAtATime">
+				<accordion-group  ng-repeat="(name, evidence) in config.evidenceModel" heading="{{ evidence.desc}}">
+					
+					<div ng-repeat="reaction in evidence.reactions">
+						<hr>
+						<h4 ng-if="reaction.else == 'true'">{{ $index + 1}}. Otherwise</h4>
+						<div ng-if="reaction.else != 'true'">
+							<div><h4>{{ $index + 1}}. If the user selects the following values:</h4></div>
+							<div><span editable-select="reaction.values" e-multiple e-ng-options="s as s.country for s in reaction.values"><span ng-repeat="value in reaction.values">{{value.country}}{{$last ? '' : ', '}}</span></span></div>
+						</div>
+						<br/>
+						<div>
+							<div><strong>the score for the following learning outcomes will be updated:</strong></div>
+							<table class="table table-striped">
+								<tbody>
+									<tr ng-repeat="mark in reaction.marks">
+										<td class="col-lg-6">{{config.learningOutcomes[mark.learningOutcome].desc}}</td>
+										<td><span editable-number="mark.mark" e-required>{{mark.mark}}</span></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div>
+							<div><strong>the following feedbacks will be triggered</strong></div>
+							<table class="table table-striped">
+								<tbody>
+									<tr ng-repeat="fb in reaction.feedback">
+										<td class="col-lg-6"><span editable-textarea="config.feedback[fb.name].message" e-rows="2" e-cols="40">{{config.feedback[fb.name].message}}</span></td>
+										<td><span>triggered </span><span editable-select="fb.immediate" e-ng-options="s.value as s.text for s in [{value: true, text: 'immediately'}, {value: false, text: 'in the summative report'}]"><span ng-if="fb.immediate">immediately</span><span ng-if="!fb.immediate">in the summative report</span></span></td>
+									</tr>
+								</tbody>
+							</table>
+							<div ng-repeat="">{{fb.name}}</div>
+						</div>
 					</div>
-					<div>
-						<div><strong>Score update</strong></div>
-						<div>{{reaction.mark.learningOutcome}} = {{reaction.mark.mark}}</div>
-					</div>
-					<div>
-						<div><strong>Feedback</strong></div>
-						<div ng-repeat="fb in reaction.feedback">{{fb.name}}</div>
-					</div>
-				</div>
-			</div>
+				</accordion-group>
+			</accordion>
 		</div>
 		<h3>End of the game</h3>
 		<div>
-			<p>The game is won when/if: ??</p>
-			<p>The game is lost when/if: ??</p>
+			<h4>The game is won when/if:</h4>
+			<div>
+				<table class="table table-striped">
+					<tbody>
+						<tr ng-repeat="row in endWins">
+							<td class="col-md-4">
+								<span>{{config.learningOutcomes[row.learningOutcome].desc}}</span>
+								<span editable-select="config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign" e-ng-options="s as s for s in ['>', '<']">{{config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign}}</span>
+								<span editable-number="config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].limit">{{config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].limit}}</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div>
+			<h4>The game is lost when/if:</h4>
+			<div>
+				<table class="table table-striped">
+					<tbody>
+						<tr ng-repeat="row in endLoses">
+							<td class="col-md-4">
+								<span>{{config.learningOutcomes[row.learningOutcome].desc}}</span>
+								<span editable-select="config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign" e-ng-options="s as s for s in ['>', '<']">{{config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign}}</span>
+								<span editable-number="config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].limit">{{config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].limit}}</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 		<h3>Badges</h3>
-		<div>
-			<dl class="dl-horizontal">
-				<dt ng-repeat-start="(name, fb) in config.feedback">{{name}}</dt>
-				<dd ng-repeat-end>{{fb.message}}</dd>
-			</dl>
+		<div class="col-md-12">
+			<div class="media" ng-repeat="badge in badges">
+				<div class="media-left">
+					<a href="#"><img class="media-object" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PGRlZnMvPjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjE0LjUiIHk9IjMyIiBzdHlsZT0iZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQ7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9nPjwvc3ZnPg==" alt="{{badge}}"></a>
+				</div>
+				<div class="media-body">
+					<h4 class="media-heading">{{badge}}:</h4>
+					<span ng-repeat="m in config.badgeModel | filter:badge">
+						<span>{{badge}} is won when <span>{{m.function}}</span> <span>{{m.sign}}</span> <span>{{m.limit}}</span></span>
+					</span>
+					<br/>
+					<strong>message: </strong><span editable-textarea="config.feedback[badge].message" e-rows="2" e-cols="40" >{{config.feedback[badge].message}}</span>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
