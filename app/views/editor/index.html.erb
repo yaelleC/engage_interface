@@ -54,7 +54,7 @@ Editor
 						<br/>
 						<div>
 							<div><strong>the score for the following learning outcomes will be updated:</strong></div>
-							<table class="table table-striped">
+							<table class="table table-bordered">
 								<tbody>
 									<tr ng-repeat="mark in reaction.marks">
 										<td class="col-lg-6">{{config.learningOutcomes[mark.learningOutcome].desc}}</td>
@@ -65,7 +65,7 @@ Editor
 						</div>
 						<div>
 							<div><strong>the following feedback will be triggered</strong></div>
-							<table class="table table-striped">
+							<table class="table table-bordered">
 								<tbody>
 									<tr ng-repeat="fb in reaction.feedback">
 										<td class="col-lg-6"><span editable-textarea="config.feedback[fb.name].message" e-rows="2" e-cols="40">{{config.feedback[fb.name].message}}</span></td>

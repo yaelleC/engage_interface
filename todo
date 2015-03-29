@@ -16,13 +16,13 @@ Rules of the Game:
 - score update Add from dropdown + Remove 
 - 1 is added to LO_desc / x is substracted from LO_desc (integer)
 - Division btw case 1 : "{country} in" / Case 2 ... / Any other {country}
-- Table non stripped score
 - Add remove feedback
 - feeback in dropdown grouped by type [instead of textarea]
 - display feeback type|
 - button manage feedback to edit type + message
 - Select multiple parameters (id 98)
 
+- OK: Table non stripped score
 - OK: feeback does take a "s"
 - OK: remove division on top of the pannel
 
