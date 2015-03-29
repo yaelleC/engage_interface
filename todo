@@ -18,12 +18,12 @@ Rules of the Game:
 - Division btw case 1 : "{country} in" / Case 2 ... / Any other {country}
 - Table non stripped score
 - Add remove feedback
-- feeback does take a "s"
 - feeback in dropdown grouped by type [instead of textarea]
 - display feeback type|
 - button manage feedback to edit type + message
 - Select multiple parameters (id 98)
 
+- OK: feeback does take a "s"
 - OK: remove division on top of the pannel
 
 End of Game
