@@ -13,6 +13,8 @@
     // xeditable options
     engage.run(function (editableOptions) {
         editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+        editableOptions.buttons = 'yes'; // bootstrap3 theme. Can be also 'bs2', 'default'
+
     });
 
     // This creates a angular resources to handle the communication with EnGAge backend.
@@ -31,7 +33,7 @@
             ">": "greater than",
             "<": "lower than"
         }
-        
+
         $scope.config = Config.get();
 
         /**

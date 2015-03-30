@@ -2,11 +2,12 @@
 
 Learning Outcomes:
 ==================
-- delete: 1/2 ... what to do with existing entries pointing to the LO?
-- TODO : update name in the rest of the document
-- Not working??? : name + definition required
+- delete existing entries pointing to the LO
+- update name in the rest of the document
 - add feedback values
 
+
+- OK: name + definition required
 - OK: change table into pannel
 - add : OK ... is the input for text ok?
 - OK: starting value default 0
@@ -32,11 +33,11 @@ End of Game
 
 Badges
 ======
-- Change name : across gameplays badges
-- add images
+- OK: Change name : across gameplays badges
 - "won when the player plays more than 10 minutes"
 - things editable
 	+ keyword
 	+ sign
 	+ value
 	+ [optional] score if complex keyword
+- add images
