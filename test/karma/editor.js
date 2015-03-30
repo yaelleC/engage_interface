@@ -65,10 +65,21 @@ describe('Editor ', function () {
 
         });
 
-        it('should delete learning outcome', function () {
-            createController();
-            $scope.deleteLearningOutcome("eu_countries");
-            expect($scope.config.learningOutcomes.eu_countries).toBeUndefined();
+        describe('delete learning outcome ', function () {
+            
+            beforeEach(function () {
+                createController();
+                $scope.deleteLearningOutcome("eu_countries");
+            });
+
+            it('should delete learning outcome', function () {
+                expect($scope.config.learningOutcomes.eu_countries).toBeUndefined();
+            });
+
+            it('should delete reactions associated with the given learning outcome', function () {
+                var reaction = $scope.config.evidenceModel.newCountrySelected.reactions[0];
+                expect(reaction.marks[0].learningOutcome).not.toBe("eu_countries");
+            });
         });
 
 

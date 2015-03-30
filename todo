@@ -2,14 +2,13 @@
 
 Learning Outcomes:
 ==================
-- delete existing entries pointing to the LO
 - update name in the rest of the document
-- add feedback values
 
-
+- OK: delete existing entries pointing to the LO
+- OK: add feedback values
 - OK: name + definition required
 - OK: change table into pannel
-- add : OK ... is the input for text ok?
+- OK: add the input for text ok?
 - OK: starting value default 0
 
 Rules of the Game:

@@ -82,8 +82,21 @@
          * @param  String lo name of the learning outcome
          */
         $scope.deleteLearningOutcome = function (lo) {
-
+            
+            // First remove the learning outcome
             delete $scope.config.learningOutcomes[lo];
+
+            // Then remove all the marks pointing to the given LO in the evidenceModel
+            angular.forEach($scope.config.evidenceModel, function(evidenceModel) {
+                angular.forEach(evidenceModel.reactions, function(reaction) {
+                    angular.forEach(reaction.marks, function(mark, idx) {
+                        if (mark.learningOutcome === lo){
+                            reaction.marks.splice(idx, 1);
+                        }
+                    });
+                });
+            });
+
         };
 
         /**
