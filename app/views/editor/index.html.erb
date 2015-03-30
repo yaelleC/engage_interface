@@ -88,7 +88,7 @@ Editor
 						<tr ng-repeat="row in endWins">
 							<td class="col-md-4">
 								<span>{{config.learningOutcomes[row.learningOutcome].desc}}</span>
-								<span editable-select="config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign" e-ng-options="s as s for s in ['>', '<']">{{config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign}}</span>
+								<span editable-select="config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign" e-ng-options="k as v for (k, v) in signs">{{signs[config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign]}}</span>
 								<span editable-number="config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].limit">{{config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].limit}}</span>
 							</td>
 						</tr>
@@ -104,7 +104,7 @@ Editor
 						<tr ng-repeat="row in endLoses">
 							<td class="col-md-4">
 								<span>{{config.learningOutcomes[row.learningOutcome].desc}}</span>
-								<span editable-select="config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign" e-ng-options="s as s for s in ['>', '<']">{{config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign}}</span>
+								<span editable-select="config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign" e-ng-options="k as v for (k, v) in signs">{{signs[config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign]}}</span>
 								<span editable-number="config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].limit">{{config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].limit}}</span>
 							</td>
 						</tr>

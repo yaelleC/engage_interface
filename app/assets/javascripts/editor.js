@@ -26,7 +26,12 @@
     engage.controller('GameCtrl', function ($scope, Config) {
         var feedbackByType, learningOutcomesByFeedback;
         // Initialization
-        // 
+        
+        $scope.signs = {
+            ">": "greater than",
+            "<": "lower than"
+        }
+        
         $scope.config = Config.get();
 
         /**
