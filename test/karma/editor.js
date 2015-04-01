@@ -28,7 +28,7 @@ describe('Editor ', function () {
             createController();
         });
 
-        describe('Initialization ', function () {
+        describe('Initialization', function () {
             beforeEach(function () {
                 createController();
             });
@@ -65,8 +65,7 @@ describe('Editor ', function () {
 
         });
 
-        describe('delete learning outcome ', function () {
-            
+        describe('delete learning outcome', function () {
             beforeEach(function () {
                 createController();
                 $scope.deleteLearningOutcome("eu_countries");
@@ -76,22 +75,21 @@ describe('Editor ', function () {
                 expect($scope.config.learningOutcomes.eu_countries).toBeUndefined();
             });
 
-            it('should delete reactions associated with the given learning outcome', function () {
+            it('should delete mark references to the learning outcome', function () {
                 var reaction = $scope.config.evidenceModel.newCountrySelected.reactions[0];
                 expect(reaction.marks[0].learningOutcome).not.toBe("eu_countries");
             });
         });
 
 
-        describe('add learning outcome ', function () {
-            
+        describe('add learning outcome', function () {
             beforeEach(function () {
                 createController();
                 $scope.newLoName = "loName";
                 $scope.addLearningOutcome();
             });
 
-            it('should add default data', function () {
+            it('should set default values for the new learning outcome', function () {
                 expect($scope.config.learningOutcomes.loName).toEqual({
                     desc: "",
                     feedbackTriggered: [],
@@ -99,14 +97,66 @@ describe('Editor ', function () {
                 });
             });
 
-            it('should make the new LO editable', function () {
-                expect($scope.loInserted).toEqual("loName");
-            });
-
             it('should reset the input field', function () {
                 $scope.addLearningOutcome("loName");
                 expect($scope.newLoName).toEqual("");
             });
+        });
+
+
+        describe('rename learning outcome', function () {
+            beforeEach(function () {
+                createController();
+                $scope.renameLearningOutcome("eu_countries", "new_name");
+            });
+
+            it('should rename the LO', function () {
+                expect($scope.config.learningOutcomes.new_name).toBeDefined();
+                expect($scope.config.learningOutcomes.eu_countries).toBeUndefined();
+            });
+
+            it('should rename marks references to the LO', function () {
+                var reaction = $scope.config.evidenceModel.newCountrySelected.reactions[0];
+                expect(reaction.marks[0].learningOutcome).toBe("new_name");
+            });
+        });
+
+
+        describe('available Learning Outcomes', function () {
+            it('should return the list of learning outcome that could be added', function () {
+                createController();
+                var reaction =  $scope.config.evidenceModel.countryReSelected.reactions[0],
+                    learningOutcomes = $scope.availableLearningOutcomes(reaction.marks),
+                    expected = [ "lives", "eu_countries"];
+                expect(learningOutcomes.sort()).toEqual(expected.sort());
+            });
+
+        });
+
+
+        describe('add mark', function () {
+            var reaction;
+
+            beforeEach(function () {
+                createController();
+                reaction =  $scope.config.evidenceModel.countryReSelected.reactions[0];
+            });
+
+            it('should add new mark', function () {
+                $scope.addMark(reaction, "lives");
+                expect(reaction.marks[1].learningOutcome).toBe("lives");
+            });
+
+            it('should set default mark', function () {
+                $scope.addMark(reaction, "lives");
+                expect(reaction.marks[1].mark).toBe(1);
+            });
+            it('should fail is the learning outcome is already present', function () {
+                $scope.addMark(reaction, "lives");
+                $scope.addMark(reaction, "lives");
+                expect(reaction.marks.length).toBe(2);
+            });
+
         });
 
 
