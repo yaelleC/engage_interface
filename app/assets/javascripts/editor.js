@@ -19,7 +19,7 @@
 
     // This creates a angular resources to handle the communication with EnGAge backend.
     engage.factory('Config', function ($resource) {
-        return $resource('http://146.191.107.189:8080/seriousgame/89/version/0', {}, {
+        return $resource('http://146.191.107.189:8080/seriousgame/:idSeriousGame/version/:idVersion', {}, {
             get: {method: 'GET'}
         });
     });
@@ -32,8 +32,8 @@
     });
 
     // This defines the main controller
-    engage.controller('GameCtrl', function ($scope, Config) {
-        var feedbackByType, learningOutcomesByFeedback;
+    engage.controller('GameCtrl', function ($scope, Config, $location, $modal) {
+        var feedbackByType, learningOutcomesByFeedback, path;
         // Initialization
 
         $scope.signs = {
@@ -41,7 +41,16 @@
             "<": "lower than"
         };
 
-        $scope.config = Config.get();
+        // parse URL
+        path = /(\d+)\/version\/(\d+)/.exec($location.absUrl());
+        $scope.idSeriousGame = path[1];
+        $scope.idVersion = path[2];
+
+        // Fetch Config
+        $scope.config = Config.get({
+            idSeriousGame: $scope.idSeriousGame,
+            idVersion: $scope.idVersion
+        });
 
         /**
          * Returns the list of learning outcome matching a given feedback
@@ -195,5 +204,37 @@
             $scope.badges = feedbackByType($scope.config, 'badge');
 
         }, true);
+
+        /**
+         * Open Feedback modal. 
+         */
+        $scope.openFeedbackModal = function (reaction) {
+            var modalInstance = $modal.open({
+                templateUrl: 'myModalContent.html',
+                controller: 'feedbackCtrl',
+                size: 'lg',
+                scope: $scope
+            });
+
+            modalInstance.result.then(
+                function (selectedItem) {
+                    console.log('TODO')
+
+                }, function () { 
+                    console.log('error'); 
+                }
+            );
+        };
+    });
+
+    engage.controller('feedbackCtrl', function ($scope, $modalInstance) {
+
+        $scope.select = function (feedback) {
+            $modalInstance.close(feedback);
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
     });
 }(window.angular));

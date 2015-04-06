@@ -13,15 +13,15 @@ Learning Outcomes:
 
 Rules of the Game:
 ==================
-- Division btw case 1 : "{country} in" / Case 2 ... / Any other {country}
 - 1 is added to LO_desc / x is substracted from LO_desc (integer)
 - Add remove feedback
 - feeback in dropdown grouped by type [instead of textarea]
-- display feeback type|
 - button manage feedback to edit type + message
 - Select multiple parameters (id 98)
 
-- score update Add from dropdown + Remove 
+- OK: display feeback type
+- OK: Division btw case 1 : "{country} in" / Case 2 ... / Any other {country}
+- OK: score update Add from dropdown + Remove 
 - OK: Table non stripped score
 - OK: feeback does take a "s"
 - OK: remove division on top of the pannel
