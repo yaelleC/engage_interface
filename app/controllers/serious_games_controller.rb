@@ -49,10 +49,6 @@ class SeriousGamesController < ApplicationController
     # Getting config file from POST
     config_file = params[:ConfigFile]
 
-    # Save the config
-
-    ConfigFile.create(config: config_file, submited: true)
-
     # Preparing the request to the webservice
     if Rails.env.production?
       url = URI.parse('http://146.191.107.189:8080/seriousgame')
@@ -69,9 +65,13 @@ class SeriousGamesController < ApplicationController
     if res.code == '200'
       flash[:success] = "Success. Your game ID is : #{res.body}."
       redirect_to action: 'new'
+      # Save the config
+      ConfigFile.create(config: config_file, submited: true, idSG: res.body)
     else 
       flash[:danger] = 'Oups, something went wrong. We could not create the game!'
       redirect_to action: 'new'
+      # Save the config
+      ConfigFile.create(config: config_file, submited: true)
     end 
   end
 

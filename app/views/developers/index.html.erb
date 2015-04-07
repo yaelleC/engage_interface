@@ -1,0 +1,35 @@
+<% content_for :title do %>Developers<% end %>
+<div class="mainText container">
+
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Developers</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Id</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @developers.each do |developer| %>
+      <tr>
+        <td><%= developer.user.username if not developer.user.nil? %></td>
+        <td><%= developer.user.email if not developer.user.nil? %></td>
+        <td><%= developer.id if not developer.id.nil? %></td>
+        <td><%= link_to 'Show', developer %></td>
+        <td><%= link_to 'Edit', edit_developer_path(developer) %></td>
+        <td><%= link_to 'Destroy', developer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New developer', new_developer_path %>
+</div>

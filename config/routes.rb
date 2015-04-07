@@ -1,6 +1,7 @@
 Assess4meInterface::Application.routes.draw do
   resources :teachers
 
+  resources :developers
 
   resources :students
 

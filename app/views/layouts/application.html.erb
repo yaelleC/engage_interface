@@ -88,6 +88,9 @@
               <% if permitted_to? :manage, :teachers %>
               <li><%= link_to "Teachers", teachers_path %></li>
               <% end %>
+              <% if permitted_to? :manage, :developers %>
+              <li><%= link_to "Developers", developers_path %></li>
+              <% end %>
             </ul>
           </li>
           <% end %>
@@ -101,6 +104,12 @@
         <% else %>
         <form class="navbar-form navbar-right">
           <%= link_to "log in", login_path, :class=>"btn btn-info btn-sm" %>.
+       <!-- </form>
+        <form class="navbar-form navbar-right"> -->
+          <%= link_to "sign in as developer", new_developer_path, :class=>"btn btn-info btn-sm" %>.
+        <!--</form>
+        <form class="navbar-form navbar-right"> -->
+          <%= link_to "sign in as teacher", new_teacher_path, :class=>"btn btn-info btn-sm" %>.
         </form>
         <% end %>
           <!--<form class="navbar-form navbar-right">
