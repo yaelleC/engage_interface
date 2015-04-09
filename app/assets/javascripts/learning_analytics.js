@@ -553,8 +553,8 @@ learningAnalytics.directive('laHowLong', function(utils){
             // count how many times it appear, calculate the avg, max and min
             if (!charInData) {
                 totalTimeSpent = dataset[j].timeSpent;
-                maxTimeSpent = dataset[j].timeSpent;
-                minTimeSpent = dataset[j].timeSpent;
+                maxTimeSpent = dataset[j].timeSpent ;
+                minTimeSpent = dataset[j].timeSpent ;
                 nb = 1;
                 for (k = j - 1; k >= 0; k--) {
                     if (dataset[k][characteristic] == characteristicValue) {
@@ -571,7 +571,7 @@ learningAnalytics.directive('laHowLong', function(utils){
                     }
                 }
                 avgTimeSpent = Math.round(totalTimeSpent / nb);
-                data[data.length] = {"name": characteristicValue, "data": [avgTimeSpent, maxTimeSpent, minTimeSpent] };
+                data[data.length] = {"name": characteristicValue, "data": [avgTimeSpent/60, maxTimeSpent/60, minTimeSpent/60] };
             }
         }
 
@@ -592,7 +592,7 @@ learningAnalytics.directive('laHowLong', function(utils){
         }
 
         avgTimeSpent = Math.round(totalTimeSpent / nb);
-        data[data.length] = {"name": "all", "data": [avgTimeSpent, maxTimeSpent, minTimeSpent] };
+        data[data.length] = {"name": "all", "data": [avgTimeSpent/60, maxTimeSpent/60, minTimeSpent/60] };
 
         // draw bar chart
         return data;
@@ -613,13 +613,13 @@ learningAnalytics.directive('laHowLong', function(utils){
             yAxis: {
                 min: 0,
                 title: {
-                    text: 'Time spent (second)'
+                    text: 'Time spent (in minutes)'
                 }
             },
             tooltip: {
                 headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                 pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                    '<td style="padding:0"><b>{point.y:.1f} sec</b></td></tr>',
+                    '<td style="padding:0"><b>{point.y:.1f} min</b></td></tr>',
                 footerFormat: '</table>',
                 shared: true,
                 useHTML: true

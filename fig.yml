@@ -7,6 +7,7 @@ rails:
   # environment:
   #   RAILS_ENV: production
   volumes:
+    - "Gemfile:/usr/src/app/Gemfile"
     - "app:/usr/src/app/app"
     - "config:/usr/src/app/config"
     - "db:/usr/src/app/db"

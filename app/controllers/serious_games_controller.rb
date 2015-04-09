@@ -21,6 +21,8 @@ class SeriousGamesController < ApplicationController
   # GET /serious_games/1.json
   def show
     @serious_game = current_user.developer.serious_games.find(params[:id])
+    @teachers = Teacher.all
+    @schools = School.all
 
     respond_to do |format|
       format.html # show.html.erb
@@ -66,12 +68,12 @@ class SeriousGamesController < ApplicationController
       flash[:success] = "Success. Your game ID is : #{res.body}."
       redirect_to action: 'new'
       # Save the config
-      ConfigFile.create(config: config_file, submited: true, idSG: res.body)
+      ConfigFile.create(config: config_file, submited: true, idSG: res.body, idDeveloper: current_user.developer.id)
     else 
       flash[:danger] = 'Oups, something went wrong. We could not create the game!'
       redirect_to action: 'new'
       # Save the config
-      ConfigFile.create(config: config_file, submited: true)
+      ConfigFile.create(config: config_file, submited: true, idDeveloper: current_user.developer.id)
     end 
   end
 

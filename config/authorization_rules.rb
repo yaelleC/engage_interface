@@ -11,10 +11,7 @@ authorization do
   role :developer do
     has_permission_on :learning_analytics, :to => :read
     has_permission_on :serious_games, :to => :manage
-    has_permission_on :config_files, :to => :create
-    has_permission_on :students, :to => :manage
-
-    has_permission_on :config_files, :to => :read 
+    has_permission_on :config_files, :to => [:create, :read ]
   end
   role :teacher do
     has_permission_on :students, :to => :manage

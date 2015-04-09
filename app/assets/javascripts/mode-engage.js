@@ -35,11 +35,11 @@ var EngageHighlightRules = function() {
     );
 
     var builtinTypes = (
-        "Int|Float|String|Bool|Char|Text|Enum|any|others|else|immediate|numberGameplays|numberWin|totalTime|averageTime|sumScore|averageScore|maxScore|minScore"
+        "Int|Float|String|Bool|Char|Text|Enum|LogOnly|in|{|}|any|others|else|immediate|delayed|numberGameplays|numberWin|totalTime|averageTime|sumScore|averageScore|maxScore|minScore"
     );
 
     var builtinTypesLOandFeedback = (
-        "knowledge|skill|competence|positive|negative|neutral|badge|hint|final|win|lose"
+        "knowledge|skill|competence|positive|negative|neutral|badge|hint|adaptation|final|win|lose"
     );
 
     var keywordMapper = this.createKeywordMapper({

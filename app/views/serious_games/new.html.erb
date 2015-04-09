@@ -231,7 +231,10 @@ End</textarea>
       $.ajax({
           type: "POST",
           url: "/config_files.json",
-          data: {"config_file": {"config": config, "submited": false}},
+          data: {"config_file": {"config": config, "submited": false 
+            <% if !current_user.nil? && !current_user.developer.nil? %>
+              , "idDeveloper": <%= current_user.developer.id %>
+              <% end %>}},
           dataType: "json",
           success: function (msg) {
               console.log("Success"+msg)

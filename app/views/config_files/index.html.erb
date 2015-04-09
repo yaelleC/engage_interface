@@ -2,13 +2,16 @@
   Listing Config Files
 <% end %>
 <div class="mainText container">
-  <h1>Listing config_files</h1>
+  <h1>Listing config files</h1>
 
   <table class="table table-striped">
     <tr>
       <th>Config</th>
-      <th></th>
-      <th></th>
+      <th>Game ID</th>
+      <% if current_user.role.title == 'admin' %>
+      <th>Developer ID</th>
+      <% end %>
+      <th>Created</th>
       <th></th>
       <th></th>
     </tr>
@@ -23,6 +26,10 @@
         <% end %>
 
       </td>
+      <td><%= config_file.idSG %></td>
+      <% if current_user.role.title == 'admin' %>
+      <td><%= config_file.idDeveloper %></td>
+      <% end %>
       <td><%= config_file.created_at.to_formatted_s(:short) %></td>
       <td><%= link_to 'Show', config_file %></td>
       <td><%= link_to 'Edit', edit_config_file_path(config_file) %></td>
