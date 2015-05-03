@@ -68,12 +68,16 @@ class SeriousGamesController < ApplicationController
       flash[:success] = "Success. Your game ID is : #{res.body}."
       redirect_to action: 'new'
       # Save the config
-      ConfigFile.create(config: config_file, submited: true, idSG: res.body, idDeveloper: current_user.developer.id)
+      if (!current_user.nil? && !current_user.developer.nil?)
+        ConfigFile.create(config: config_file, submited: true, idSG: res.body, idDeveloper: current_user.developer.id)
+      end
     else 
       flash[:danger] = 'Oups, something went wrong. We could not create the game!'
       redirect_to action: 'new'
       # Save the config
-      ConfigFile.create(config: config_file, submited: true, idDeveloper: current_user.developer.id)
+      if (!current_user.nil? && !current_user.developer.nil?)
+        ConfigFile.create(config: config_file, submited: true, idDeveloper: current_user.developer.id)
+      end
     end 
   end
 
