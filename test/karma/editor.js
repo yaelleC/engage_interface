@@ -1,4 +1,4 @@
-/*globals jasmine, describe, config, beforeEach, afterEach, it, expect, inject */
+/*globals jasmine, angular, describe, config, beforeEach, afterEach, it, expect, inject */
 /*jslint nomen: true*/
 "use strict";
 describe('Editor ', function () {
@@ -18,8 +18,13 @@ describe('Editor ', function () {
 
     // Mock location service 
     beforeEach(module(function ($provide) {
+        var path = "/89/version/0";
         $provide.service('$location', function () {
-            this.absUrl = function () { return "/89/version/0"; };
+            this.absUrl = function () { return path; };
+            this.path = function (newPath) {
+                if (newPath) { path = newPath; }
+                return path;
+            };
         });
     }));
 
@@ -29,13 +34,16 @@ describe('Editor ', function () {
             $controller,
             createController,
             createFeedbackController,
-            $modalInstance;
+            $modalInstance,
+            $location,
+            newConfig;
 
-        beforeEach(inject(function (_$controller_, _$rootScope_, _$httpBackend_, _$modalInstance_) {
+        beforeEach(inject(function (_$controller_, _$rootScope_, _$httpBackend_, _$modalInstance_, _$location_) {
             $scope = _$rootScope_;
             $httpBackend = _$httpBackend_;
             $controller = _$controller_;
             $modalInstance = _$modalInstance_;
+            $location = _$location_;
 
             createController = function () {
                 var ctlr = $controller('GameCtrl', {'$scope' : $scope });
@@ -47,10 +55,14 @@ describe('Editor ', function () {
                 return $controller('feedbackCtrl', {'$scope' : $scope });
             };
 
+            /* Mock new config*/
+            newConfig = angular.copy(config);
+            newConfig.seriousGame.version = 1;
+
             /* Mock call to the backend*/
             $httpBackend.when('GET', 'http://146.191.107.189:8080/seriousgame/89/version/0').respond(config);
             $httpBackend.when('GET', 'myModalContent.html').respond("");
-            $httpBackend.when('POST', 'http://146.191.107.189:8080/seriousgame/createsg/89/version/0').respond(config);
+            $httpBackend.when('POST', 'http://146.191.107.189:8080/seriousgame/89/createVersion').respond(newConfig);
         }));
 
         describe('Initialization', function () {
@@ -200,16 +212,32 @@ describe('Editor ', function () {
             });
 
             describe('save', function () {
-                var reaction;
-
                 beforeEach(function () {
                     createController();
-                    reaction =  $scope.config.evidenceModel.countryReSelected.reactions[0];
+                });
+                it('should call the webservice to save the updated config', function () {
+
+                    $httpBackend.expectPOST('http://146.191.107.189:8080/seriousgame/89/createVersion');
+                    $scope.save();
+                    $httpBackend.flush();
                 });
 
-                it('should add new mark', function () {
-                    $scope.addMark(reaction, "lives");
-                    expect(reaction.marks[1].learningOutcome).toBe("lives");
+                it('should update the config with the data returned by the webservice', function () {
+                    $scope.save();
+                    $httpBackend.flush();
+                    expect(angular.equals($scope.config, newConfig)).toBeTruthy();
+                });
+
+                it('should update the idVersion in the scope', function () {
+                    $scope.save();
+                    $httpBackend.flush();
+                    expect($scope.idVersion).toBe(1);
+                });
+
+                it('should update the idVersion in the path', function () {
+                    $scope.save();
+                    $httpBackend.flush();
+                    expect($location.path()).toBe('/89/version/1');
                 });
             });
 
@@ -225,7 +253,6 @@ describe('Editor ', function () {
                 });
 
                 it('should add feedback on select', function () {
-                    $
                     $scope.openFeedbackModal();
                     $httpBackend.flush();
                 });

@@ -1,4 +1,4 @@
-FROM ruby:1.9-onbuild
+FROM ruby:2.0-onbuild
 # Precompile assets
 EXPOSE 80
 CMD rails server -p 80

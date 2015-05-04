@@ -40,3 +40,8 @@ Badges
 	+ value
 	+ [optional] score if complex keyword
 - add images
+
+
+Other
+=====
+- add "make default" in a modal on save 

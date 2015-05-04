@@ -19,9 +19,14 @@
 
     // This creates a angular resources to handle the communication with EnGAge backend.
     engage.factory('Config', function ($resource) {
-        return $resource('http://146.191.107.189:8080/seriousgame/:idSeriousGame/version/:idVersion', {}, {
-            get: {method: 'GET'}
-        });
+        return $resource(
+            'http://146.191.107.189:8080/seriousgame/:idSeriousGame/:action/:idVersion',
+            {action: 'version'},
+            {
+                get: {method: 'GET'},
+                createVersion: {method: 'POST'}
+            }
+        );
     });
 
     // Absolute
@@ -34,23 +39,6 @@
     // This defines the main controller
     engage.controller('GameCtrl', function ($scope, Config, $location, $modal) {
         var feedbackByType, learningOutcomesByFeedback, path;
-        // Initialization
-
-        $scope.signs = {
-            ">": "greater than",
-            "<": "lower than"
-        };
-
-        // parse URL
-        path = /(\d+)\/version\/(\d+)/.exec($location.absUrl());
-        $scope.idSeriousGame = path[1];
-        $scope.idVersion = path[2];
-
-        // Fetch Config
-        $scope.config = Config.get({
-            idSeriousGame: $scope.idSeriousGame,
-            idVersion: $scope.idVersion
-        });
 
         /**
          * Returns the list of learning outcome matching a given feedback
@@ -218,13 +206,55 @@
 
             modalInstance.result.then(
                 function (selectedItem) {
-                    console.log('TODO')
+                    console.log('TODO');
 
-                }, function () { 
-                    console.log('error'); 
+                },
+                function () {
+                    console.log('error');
                 }
             );
         };
+
+        /**
+         * Save config
+         */
+        $scope.save = function () {
+            $scope.config.$createVersion(
+                {
+                    action: 'createVersion',
+                    idSeriousGame: $scope.idSeriousGame
+                },
+                function (data) {
+                    var path = $location.path().split('/');
+                    $scope.config = data;
+                    $scope.idVersion = data.seriousGame.version;
+                    path[3] = $scope.idVersion;
+                    $location.path(path.join('/'));
+                }
+            );
+
+        }
+
+        /**
+         * Initialization
+         */
+
+        $scope.signs = {
+            ">": "greater than",
+            "<": "lower than"
+        };
+
+        // parse URL
+        path = /(\d+)\/version\/(\d+)/.exec($location.absUrl());
+        $scope.idSeriousGame = path[1];
+        $scope.idVersion = path[2];
+
+        // Fetch Config
+        $scope.config = Config.get({
+            idSeriousGame: $scope.idSeriousGame,
+            idVersion: $scope.idVersion
+        });
+
     });
 
     engage.controller('feedbackCtrl', function ($scope, $modalInstance) {
