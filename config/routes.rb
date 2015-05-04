@@ -19,6 +19,7 @@ Assess4meInterface::Application.routes.draw do
   get "documentation/tutorial"
 
   get "documentation/doc"
+  get "documentation/downloads"
 
   get "home/index"
   get "home/about"

@@ -5,4 +5,6 @@ class DocumentationController < ApplicationController
   end
   def doc
   end
+  def downloads
+  end
 end
