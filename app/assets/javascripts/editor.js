@@ -205,12 +205,12 @@
             });
 
             modalInstance.result.then(
-                function (selectedItem) {
-                    console.log('TODO');
+                function (feedback) {
+                    reaction.feedback.push({
+                        immediate: true,
+                        name: feedback
+                    });
 
-                },
-                function () {
-                    console.log('error');
                 }
             );
         };
