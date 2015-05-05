@@ -10,9 +10,17 @@
       </ul>
     </div>
   <% end %>
-  <%= f.fields_for :user do |user_form| %>
+  <!--<%= f.fields_for :user do |user_form| %>
     <%= render "users/form_fields", :f => user_form %>
-  <% end %>
+  <% end %>-->
+  <div class="form-group">
+    <%= f.label :username %>
+    <%= f.text_field :username, :class => 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= f.label :password %>
+    <%= f.text_field :password, :class => 'form-control' %>
+  </div>
   <div class="form-group">
     <%= f.label :dateBirth %>
     <%= f.text_field :dateBirth, :class => 'form-control' %>
@@ -20,6 +28,10 @@
   <div class="form-group">
     <%= f.label :gender %>
     <%= f.select :gender, [['male', 'm'], ['female', 'f']], :class => 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= f.label :group %>
+    <%= f.select :idGroup, @groups.map { |g| [ g.name, g.id ] }, :class => 'form-control' %>
   </div>
   <div class="actions">
     <%= f.submit :class => 'btn btn-primary' %>

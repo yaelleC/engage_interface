@@ -6,11 +6,6 @@
  <div class="mainText container">
       <br/>
 
-      <h2>Create</h2>
-      <p>In order to use the engine, you need to send us your configuration file (if you haven't already, we suggest you read the <a href="/documentation/doc">documentation page</a> to learn how to write it). You can write your configuration file using the following editor.</p>
-      <p>You can also save your file and upload it later to keep working on it.</p>
-      <p>If you need help with errors you don't understand, <a href="mailto:yaelle.chaudy@uws.ac.uk">send me an email</a> </p>
-
       <% if !current_user.nil? && !current_user.developer.nil? %>
         <p class="alert alert-info"><i><b>Note: Your developer ID is <%= current_user.developer.id %>.</b></i></p>
       <% elsif !current_user %>
@@ -19,18 +14,12 @@
         <p class="alert alert-warning"><i><b>Note: You are not logged in as a developer, log in with a developer account to see your ID.</b></i></p>
       <% end %>
 
+      <h2>Create</h2>
+      <p>In order to use the engine, you need to send us your configuration file (if you haven't already, we suggest you read the <a href="/documentation/doc">documentation page</a> to learn how to write it). You can write your configuration file using the following editor.</p>
+      <p>You can also save your file and upload it later to keep working on it.</p>
+      <p>If you need help with errors you don't understand, <a href="mailto:yaelle.chaudy@uws.ac.uk">send me an email</a> </p>
 
-
-     <!--  <form action="mailto:youremail@domain.com" enctype="text/plain">
-        <input type="hidden" name="Subject" value="EngAGe - help with config file">
-        <textarea cols="80" rows="15" name="Body" id="bodyEmail" ></textarea>
-        <input type="submit" value="Send email">
-    </form>
-      </p>
-      <p>If you need help with errors you don't understand, use the <a href="#needHelp">form at the end of the page</a>, don't forget to enter a valid email if you want a reply!</p>
--->
-
-        <p><table border="0"><tr><td>Select a file to load: </td><td><input type="file" id="fileToLoad"/></td><td><button type="button" class="btn btn-info" onclick="loadFileAsText()"><span class="glyphicon glyphicon-upload"></span> load</button></td></tr></table></p>
+      <p><table border="0"><tr><td>Select a file to load: </td><td><input type="file" id="fileToLoad"/></td><td><button type="button" class="btn btn-info" onclick="loadFileAsText()"><span class="glyphicon glyphicon-upload"></span> load</button></td></tr></table></p>
 
       <form class="form-horizontal" role="form" action="/serious_games" method="POST" id="sendConfigFile">
         <!-- Hidding the file upload for now. TODO(Yaelle) - Implement the file upload button

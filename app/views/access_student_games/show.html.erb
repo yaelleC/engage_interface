@@ -1,0 +1,22 @@
+<% content_for :title do %>
+Access
+<% end %>
+<div class="mainText container">
+	<p id="notice"><%= notice %></p>
+
+	<p>
+		<h2>Config file</h2>
+		<div><b>Creation date</b> <%= @access_student_game.created_at %></div>
+		<div id="editor" class="editor"><%= @access_student_game.config %></div>
+		<script>
+			ace.config.set("workerPath", "/");
+			var editor = ace.edit("editor");
+			editor.getSession().setMode("ace/mode/engage");
+			editor.setTheme("ace/theme/monokai");
+		</script>
+	</p>
+
+
+	<%= link_to 'Edit', edit_access_student_game_path(@access_student_game) %> |
+	<%= link_to 'Back', access_student_games_path %>
+</div>

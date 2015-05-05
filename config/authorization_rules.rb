@@ -16,6 +16,8 @@ authorization do
   role :teacher do
     has_permission_on :students, :to => :manage
     has_permission_on :learning_analytics, :to => :read
+    has_permission_on :groups, :to => :manage
+    has_permission_on :access_student_games, :to => :manage
     
   #   has_permission_on :conferences, :to => [:read, :create]
   #   has_permission_on :conferences, :to => [:update, :delete] do
@@ -32,6 +34,8 @@ authorization do
      has_permission_on :teachers, :to => :manage
      has_permission_on :developers, :to => :manage
      has_permission_on :students, :to => :manage
+     has_permission_on :groups, :to => :manage
+     has_permission_on :access_student_games, :to => :manage
   end
 
 end

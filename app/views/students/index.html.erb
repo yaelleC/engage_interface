@@ -3,14 +3,24 @@
 <div class="mainText container">
 <h1>Listing students</h1>
 
+<p>Refine by group:
+
+    <select id="refineByClass">
+        <option>All</option>
+        <% @groups.each do |g| %>
+            <option value="<%= g.name %>"><%= g.name %></option> 
+        <% end %>
+    </select>
+</p>
+
+
 <table class="table table-striped">
   <tr>
-    <th>User ID</th>
     <th>Username</th>
-    <th>Email</th>
+    <th>Password</th>
     <th>Date of birth</th>
     <th>Gender</th>
-    <th>School</th>
+    <th>Group</th>
     <th></th>
     <th></th>
     <th></th>
@@ -18,12 +28,11 @@
 
 <% @students.each do |student| %>
   <tr>
-    <td><%= student.id %></td>
-    <td><%= student.user.username if not student.user.nil? %></td>
-    <td><%= student.user.email if not student.user.nil? %></td>
+    <td><%= student.username %></td>
+    <td><%= student.password %></td>
     <td><%= student.dateBirth %></td>
     <td><%= student.gender %></td>
-    <td><%= student.school.name if not student.school.nil? %></td>
+    <td><%= student.group.name if not student.group.nil? %></td>
     <td><%= link_to 'Show', student %></td>
     <td><%= link_to 'Edit', edit_student_path(student) %></td>
     <td><%= link_to 'Destroy', student, method: :delete, data: { confirm: 'Are you sure?' } %></td>

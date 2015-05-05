@@ -5,8 +5,17 @@ class StudentsController < ApplicationController
   def index
     if current_user.teacher.nil?
       @students = []
+      @groups = []
     else
       @students = current_user.teacher.students
+      @students.sort! { |a,b| a.group.name.downcase <=> b.group.name.downcase }
+      @groups = current_user.teacher.groups
+
+      #current_user.teacher.students.each do |s|
+      #  if (!s.group.nil? && !@groups.include?(s.group))
+      #    @groups.push(s.group)
+      #  end
+      #end
     end
 
     respond_to do |format|
@@ -30,7 +39,8 @@ class StudentsController < ApplicationController
   # GET /students/new.json
   def new
     @student = Student.new
-    @student.user = User.new
+    #@student.user = User.new
+    @groups = current_user.teacher.groups
 
     respond_to do |format|
       format.html # new.html.erb
@@ -48,15 +58,15 @@ class StudentsController < ApplicationController
   def create
     @student = Student.new(params[:student])
     @student.idSchool = current_user.teacher.idSchool 
-    @student.password = 'none'
-    @student.username = 'none'
-    @student.teacher = current_user.teacher
-    @student.user.role = Role.find_by_title('student')
+    #@student.password = 'none'
+    #@student.username = @student.user.username
+    #@student.user.role = Role.find_by_title('student')
+    @student.idTeacher = current_user.teacher.id
 
     respond_to do |format|
       if @student.save
-        format.html { redirect_to @student, notice: 'Student was successfully created.' }
-        format.json { render json: @student, status: :created, location: @student }
+          format.html { redirect_to @student, notice: 'Student was successfully created.' }
+          format.json { render json: @student, status: :created, location: @student }
       else
         format.html { render action: "new" }
         format.json { render json: @student.errors, status: :unprocessable_entity }

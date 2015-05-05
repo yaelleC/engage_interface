@@ -1,0 +1,9 @@
+<% content_for :title do %>Edit group<% end %>
+<div class="mainText container">
+<h1>Editing group</h1>
+
+<%= render 'form' %>
+
+<%= link_to 'Show', @group, :class => 'btn btn-primary'%> |
+<%= link_to 'Back', groups_path, :class => 'btn' %>
+</div>

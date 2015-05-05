@@ -2,21 +2,23 @@ Assess4meInterface::Application.routes.draw do
   get "editor/index"
 
   resources :teachers
-
   resources :developers
-
   resources :students
 
+  resources :groups
+
+  resources :users
+  resources :sessions
 
   resources :config_files
+
+  resources :serious_games
+  resources :access_student_games
 
   get "learning_analytics/:id/:version", to: "learning_analytics#show" , as: 'learning_analytics'
   get "learning_analytics/index"
 
   get "documentation/api"
-
-  resources :serious_games
-
 
   get "documentation/tutorial"
   get "documentation/tutorialTeachers"
@@ -30,8 +32,6 @@ Assess4meInterface::Application.routes.draw do
   get "logout" => "sessions#destroy", :as => "logout"
   get "login" => "sessions#new", :as => "login"
   get "signup" => "users#new", :as => "signup"
-  resources :users
-  resources :sessions
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

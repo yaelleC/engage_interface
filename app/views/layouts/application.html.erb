@@ -47,7 +47,7 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-book"></span> Resources <b class="caret"></b></a>
 
-            <% if current_user.nil? || current_user.role.nil? %>
+            <% if current_user.nil? || current_user.role.nil? || current_user.role.title == 'admin'  %>
               <ul class="dropdown-menu">
                 <li bgcolor="grey"><b><i> . For developers</i></b></li>
                 <li><%= link_to "Documentation", documentation_doc_path %></li>
@@ -79,12 +79,43 @@
           </li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-tower"></span> Games <b class="caret"></b></a>
+            <% if current_user.nil? || current_user.role.nil?  %>
             <ul class="dropdown-menu">
               <li><%= link_to "Create", new_serious_game_path if permitted_to? :create, :serious_games %></li>
               <li><%= link_to "Manage", serious_games_path if permitted_to? :read, :serious_games %></li>
               <li><%= link_to "Saved Config files", config_files_path if permitted_to? :read, :config_files %></li>
             </ul>
+            <% else %>
+            <ul class="dropdown-menu">
+              <% if current_user.role.title == 'developer'  || current_user.role.title == 'admin'%>
+                <li><%= link_to "Create", new_serious_game_path if permitted_to? :create, :serious_games %></li>
+                <li><%= link_to "Manage", serious_games_path if permitted_to? :read, :serious_games %></li>
+                <li><%= link_to "Saved Config files", config_files_path if permitted_to? :read, :config_files %></li>
+              <% end %>
+
+              <% if current_user.role.title == 'admin'%>
+                <li class="divider"></li>
+              <% end %>
+              
+              <% if current_user.role.title == 'teacher'  || current_user.role.title == 'admin'%>
+                <!-- TODO make that game_version_path with teachers and dev authorise to manage -->
+                <li><%= link_to "Manage games", serious_games_path if permitted_to? :read, :serious_games %></li>
+                <li><%= link_to "Manage student access", access_student_games_path if permitted_to? :manage, :access_student_games %></li>
+              <% end %>
+            </ul>
+            <% end %>
           </li>
+
+          <% if permitted_to? :read, :students %>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> Students <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><%= link_to "Manage students", students_path %></li>
+              <li><%= link_to "Manage groups", groups_path %></li>
+              <li><%= link_to "Manage access to games", access_student_games_path if permitted_to? :manage, :access_student_games %></li>
+            </ul>
+          </li>
+          <% end %>
 
           <% if permitted_to? :read, :learning_analytics %>
           <li class="dropdown">
@@ -98,16 +129,6 @@
               <li><%= link_to "Create", new_student_path if permitted_to? :create, :students %></li>
               <li><%= link_to "Manage", students_path if permitted_to? :read, :students %></li>
             </ul> -->
-          </li>
-          <% end %>
-
-          <% if permitted_to? :read, :students %>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> Students <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <li><%= link_to "Create", new_student_path if permitted_to? :create, :students %></li>
-              <li><%= link_to "Manage", students_path if permitted_to? :read, :students %></li>
-            </ul>
           </li>
           <% end %>
 
@@ -138,7 +159,7 @@
         </ul>
         <% if current_user %>
         <form class="navbar-form navbar-right">
-          <span style="color: white">Logged in as <%= current_user.username %></span>
+          <span style="color: white"><%= current_user.username %></span>
           <%= link_to "Log out", logout_path, :class=>"btn btn-danger btn-sm"%>
         </form>
         <% else %>
@@ -184,7 +205,7 @@
       <%= yield %>
 
       <footer>
-        <div align="center">&copy; Ya&euml;lle Chaudy - <a href="http://uws.ac.uk"> University of the West of Scotland </a> - 2013-2014</div>
+        <div align="center">&copy; Ya&euml;lle Chaudy - <a href="http://uws.ac.uk"> University of the West of Scotland </a> - 2013-2015</div>
       </footer>
 
     </body>

@@ -5,14 +5,13 @@
 
 <p>
   <b>Username:</b>
-  <%= @student.user.username if not @student.user.nil? %>
+  <%= @student.username %>
 </p>
 
 <p>
-  <b>Email:</b>
-  <%=  @student.user.email if not @student.user.nil?%>
+  <b>Password:</b>
+  <%=  @student.password %>
 </p>
-
 
 <p>
   <b>Date of Birth:</b>
@@ -22,6 +21,11 @@
 <p>
   <b>Gender</b>
   <%=  @student.gender%>
+</p>
+
+<p>
+  <b>Group</b>
+  <%=  @student.group.name%>
 </p>
 
 

@@ -1,0 +1,53 @@
+<% content_for :title do %>
+  Who can play which game?
+<% end %>
+<div class="mainText container" ng-app="Access">
+  <div ng-controller="AccessCtrl">
+    <h1> Game access to students</h1>
+
+    <p>See access by: 
+      <select>
+        <option value="student">Student</option>
+        <option value="group">Group</option>
+        <option value="all">All</option>
+      </select>
+      Refine by group:
+
+      <select id="refineByClass">
+          <option>All</option>
+          <option ng-repeat="g in accessList.Games" value="">
+            {{ g.name }}
+          </option> 
+      </select>
+    </p>
+
+    <table class="table table-striped">
+      <tr>    
+        <th>Group</th>
+        <th>Student</th>
+        <th ng-repeat="g in accessList.Games" >{{ g.name }}</th>
+      </tr>
+
+<!--       <tr ng-repeat="studentAccess in accessList.StudentAccess ">
+        <td>{{ studentAccess.group.name }}</td>
+        <td> {{ studentAccess.username }} </td>
+        <td ng-repeat="g in accessList.Games"> {{ gameAccessByStudent(studentAccess, g.idSG) }} </td> 
+      </tr> -->
+      <tbody ng-repeat="(group, list) in accessList.StudentAccess | groupBy: 'group.name'">
+        <tr ng-repeat="studentAccess in list">
+          <td ng-if="$index == 0" rowspan="{{ list.length }}">{{ group  }}</td>
+          <td> {{ studentAccess.username }}</td>
+          <td ng-repeat="g in accessList.Games">
+            <div ng-switch="gameAccessByStudent(studentAccess, g.idSG)">
+              <span class="label label-primary" ng-switch-when="0">initial version</span>
+              <span class="label label-warning" ng-switch-when="-1">no access</span>
+              <span class="label label-info" ng-switch-default>version {{ gameAccessByStudent(studentAccess, g.idSG) }}</span>
+            </div>
+          </td> 
+        </tr>
+      </tbody>
+    </table>
+
+    <br />
+  </div>
+</div>

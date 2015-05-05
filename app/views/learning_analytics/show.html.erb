@@ -11,10 +11,10 @@ Learning Analytics
 		Number of registered students: <b>{{ LA.players.length }}  </b>
 	</p>
 
-	<p>Students who played: <span ng-repeat="p in LA.players" >{{ p.student.name }}</span>
+	<p>Students who played: <span ng-repeat="p in LA.players" ><b> {{ p.student.username }} </b> </span>
 
 	</p>
-	
+
 	<div class="col-md-6 blockLA blockBasicInfo">
 		<h4>Who played this game?</h4>
 		<p>
@@ -24,6 +24,19 @@ Learning Analytics
 		<tabset>
 		    <tab ng-repeat="c in LA.game.playerCharacteristics" heading="By {{ c }}">
 		      <div la-who-played la="LA" characteristic="c" view="whoPlayedView"></div>
+		    </tab>
+		</tabset>
+	</div>
+
+	<div class="col-md-6 blockLA blockBasicInfo">
+		<h4>How many times students played?</h4>
+		<p>
+			<input type="radio" ng-model="howManyTimesView" value="gameplay">All gameplays
+			<input type="radio" ng-model="howManyTimesView" value="player">Unique players
+		</p>
+		<tabset>
+		    <tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
+		      <div la-how-many-times la="LA" characteristic="c" view="howManyTimesView"></div>
 		    </tab>
 		</tabset>
 	</div>
@@ -41,18 +54,6 @@ Learning Analytics
 		</tabset>
 	</div>
 
-	<div class="col-md-6 blockLA blockBasicInfo">
-		<h4>How many times students played?</h4>
-		<p>
-			<input type="radio" ng-model="howManyTimesView" value="gameplay">All gameplays
-			<input type="radio" ng-model="howManyTimesView" value="player">Unique players
-		</p>
-		<tabset>
-		    <tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
-		      <div la-how-many-times la="LA" characteristic="c" view="howManyTimesView"></div>
-		    </tab>
-		</tabset>
-	</div>
 	
 	<div class="col-md-6 blockLA blockBasicInfo">
 		<h4>When did the students played?</h4>
@@ -84,6 +85,21 @@ Learning Analytics
 		    </tab>
 		</tabset>
 	</div>
+	
+	<div class="col-md-6 blockLA blockScoreStat">
+		<h4>Learning curves between gameplays</h4>
+		<p>
+			<select id="lo9" ng-model="loLearningCurvesWithinGameplaysOutcome">
+				<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
+			</select>
+		</p>
+		
+		<tabset>
+		    <tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
+		      <div la-learning-curves-within-gameplays la="LA" characteristic="c" outcome="loLearningCurvesWithinGameplaysOutcome"></div>
+		    </tab>
+		</tabset>
+	</div>
 
 	<div class="col-md-6 blockLA blockScoreStat">
 		<h4>Learning curves within game</h4>
@@ -99,21 +115,6 @@ Learning Analytics
 		<tabset>
 		    <tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
 		      <div la-learning-curves la="LA" characteristic="c" outcome="loLearningCurvesOutcome" view="learningCurvesView"></div>
-		    </tab>
-		</tabset>
-	</div>
-	
-	<div class="col-md-6 blockLA blockScoreStat">
-		<h4>Learning curves between gameplays</h4>
-		<p>
-			<select id="lo9" ng-model="loLearningCurvesWithinGameplaysOutcome">
-				<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
-			</select>
-		</p>
-		
-		<tabset>
-		    <tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
-		      <div la-learning-curves-within-gameplays la="LA" characteristic="c" outcome="loLearningCurvesWithinGameplaysOutcome"></div>
 		    </tab>
 		</tabset>
 	</div>
