@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
+//= require bootstrap-typeahead
 //= require ace
 //= require mode-engage
 //= require angular

@@ -46,19 +46,60 @@
         <ul class="nav navbar-nav">
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-book"></span> Resources <b class="caret"></b></a>
+
+            <% if current_user.nil? || current_user.role.nil? %>
+              <ul class="dropdown-menu">
+                <li bgcolor="grey"><b><i> . For developers</i></b></li>
+                <li><%= link_to "Documentation", documentation_doc_path %></li>
+                <li><a href="http://146.191.107.189/apiDoc/index.html" target="_blank">API</a></li> 
+                <li><%= link_to "Tutorials", documentation_tutorial_path %></li>
+                <li><%= link_to "Downloads", documentation_downloads_path %></li>
+                <li class="divider"></li>
+                <li><b><i> . For teachers</i></b></li>
+                <li><%= link_to "Documentation", documentation_docTeachers_path %></li>
+                <li><%= link_to "Tutorial", documentation_tutorialTeachers_path %></li>
+              </ul>
+
+            <% else %>
             <ul class="dropdown-menu">
-              <li><%= link_to "Documentation", documentation_doc_path %></li>
-              <li><%= link_to "Tutorials", documentation_tutorial_path %></li>
-              <li><%= link_to "Downloads", documentation_downloads_path %></li>
+              <% if current_user.role.title == 'developer'%>
+                <li><%= link_to "Documentation", documentation_doc_path %></li>
+                <li><a href="http://146.191.107.189/apiDoc/index.html" target="_blank">API</a></li> 
+                <li><%= link_to "Tutorials", documentation_tutorial_path %></li>
+                <li><%= link_to "Downloads", documentation_downloads_path %></li>
+              <% end %>
+
+              <% if current_user.role.title == 'teacher'%>
+                <li><%= link_to "Documentation", documentation_docTeachers_path %></li>
+                <li><%= link_to "Tutorial", documentation_tutorialTeachers_path %></li>
+              <% end %>
             </ul>
+            <% end %>
+
           </li>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-tower"></span> Serious Games <b class="caret"></b></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-tower"></span> Games <b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li><%= link_to "Create", new_serious_game_path if permitted_to? :create, :serious_games %></li>
               <li><%= link_to "Manage", serious_games_path if permitted_to? :read, :serious_games %></li>
+              <li><%= link_to "Saved Config files", config_files_path if permitted_to? :read, :config_files %></li>
             </ul>
           </li>
+
+          <% if permitted_to? :read, :learning_analytics %>
+          <li class="dropdown">
+            <% if permitted_to? :read, :learning_analytics %>
+              <%= link_to learning_analytics_index_path do %>
+                <span class="glyphicon glyphicon-dashboard"></span> Learning Analytics
+              <% end %>
+            <% end %>
+           <!-- <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-signal"></span> Learning Analytics <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><%= link_to "Create", new_student_path if permitted_to? :create, :students %></li>
+              <li><%= link_to "Manage", students_path if permitted_to? :read, :students %></li>
+            </ul> -->
+          </li>
+          <% end %>
 
           <% if permitted_to? :read, :students %>
           <li class="dropdown">
@@ -69,6 +110,7 @@
             </ul>
           </li>
           <% end %>
+
           <li><%= link_to home_about_path do %><span class="glyphicon glyphicon-info-sign"></span> About<% end %></li> 
           
           <% if !current_user.nil? && !current_user.role.nil? && current_user.role.title == 'admin'%>
@@ -86,6 +128,9 @@
               <% if permitted_to? :manage, :teachers %>
               <li><%= link_to "Teachers", teachers_path %></li>
               <% end %>
+              <% if permitted_to? :manage, :developers %>
+              <li><%= link_to "Developers", developers_path %></li>
+              <% end %>
             </ul>
           </li>
           <% end %>
@@ -93,12 +138,18 @@
         </ul>
         <% if current_user %>
         <form class="navbar-form navbar-right">
-          <span style="color: white">Logged in as <%= current_user.email %>.</span>
+          <span style="color: white">Logged in as <%= current_user.username %></span>
           <%= link_to "Log out", logout_path, :class=>"btn btn-danger btn-sm"%>
         </form>
         <% else %>
         <form class="navbar-form navbar-right">
-          <%= link_to "log in", login_path, :class=>"btn btn-info btn-sm" %>.
+          <%= link_to "log in", login_path, :class=>"btn btn-success btn-sm" %>.
+       <!-- </form>
+        <form class="navbar-form navbar-right"> -->
+          <%= link_to "sign up as developer", new_developer_path, :class=>"btn btn-info btn-sm" %>.
+        <!--</form>
+        <form class="navbar-form navbar-right"> -->
+          <%= link_to "sign up as teacher", new_teacher_path, :class=>"btn btn-info btn-sm" %>.
         </form>
         <% end %>
           <!--<form class="navbar-form navbar-right">

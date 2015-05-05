@@ -1,7 +1,26 @@
 var learningAnalytics = angular.module('learningAnalytics', ['ui.bootstrap']);
 
 learningAnalytics.factory('utils', function() {
-  var utils = {
+    
+    var utils = {
+   
+    getUsernameById: function (la, id) {
+        for (var i = la.players.length - 1; i >= 0; i--) {
+            if (la.players[i].idPlayer == id)
+            {
+                if (la.players[i].student != null)
+                {
+                    return la.players[i].student.username;
+                }
+                else
+                {
+                    return 'Anonymous ('+ la.players[i].idPlayer + ')';                 
+                }
+            }
+        }
+        return "No username found";
+    },
+
     getGameplayDataset: function (la) {
         var dataset = [];
         for (var i = la.gameplays.length - 1; i >= 0; i--) {
@@ -353,7 +372,7 @@ learningAnalytics.directive('laWhen', function(utils){
         var data = [];
                 
         // data by player
-        if (characteristic === "player")
+        if (characteristic === "student")
         {
             // check all players
             for (var j = 0 ; j < la.players.length ; j++) {
@@ -370,7 +389,7 @@ learningAnalytics.directive('laWhen', function(utils){
                         playerPerHour[hour]++;
                     }
                 };
-                data[data.length] = {"type":"column", "name":"player " + idP, "data":playerPerHour };
+                data[data.length] = {"type":"column", "name": utils.getUsernameById(la, idP), "data":playerPerHour };
             };
         }
         else {
@@ -393,7 +412,6 @@ learningAnalytics.directive('laWhen', function(utils){
                 // count how many times it appear, calculate the avg, max and min
                 if (!charInData)
                 {
-                    console.log(dataset[j].timeStarted);
                     var hour = parseInt(dataset[j].timeStarted.split(" ")[1].split(":")[0]);
                     var playerPerHour = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                     playerPerHour[hour]++;
@@ -544,7 +562,10 @@ learningAnalytics.directive('laHowLong', function(utils){
 
             // check if characteristic is already in the data array
             for (k = data.length - 1; k >= 0; k--) {
-                if (data[k].name == characteristicValue) {
+                var valueC = (characteristicValue!= null && characteristicValue.username != null)?
+                                characteristicValue.username :
+                                characteristicValue;
+                if (data[k].name == valueC) {
                     charInData = true;
                 }
             }
@@ -553,8 +574,8 @@ learningAnalytics.directive('laHowLong', function(utils){
             // count how many times it appear, calculate the avg, max and min
             if (!charInData) {
                 totalTimeSpent = dataset[j].timeSpent;
-                maxTimeSpent = dataset[j].timeSpent;
-                minTimeSpent = dataset[j].timeSpent;
+                maxTimeSpent = dataset[j].timeSpent ;
+                minTimeSpent = dataset[j].timeSpent ;
                 nb = 1;
                 for (k = j - 1; k >= 0; k--) {
                     if (dataset[k][characteristic] == characteristicValue) {
@@ -571,7 +592,10 @@ learningAnalytics.directive('laHowLong', function(utils){
                     }
                 }
                 avgTimeSpent = Math.round(totalTimeSpent / nb);
-                data[data.length] = {"name": characteristicValue, "data": [avgTimeSpent, maxTimeSpent, minTimeSpent] };
+                var valueC = (characteristicValue!= null && characteristicValue.username != null)?
+                                characteristicValue.username :
+                                characteristicValue;
+                data[data.length] = {"name": valueC, "data": [avgTimeSpent/60, maxTimeSpent/60, minTimeSpent/60] };
             }
         }
 
@@ -592,7 +616,7 @@ learningAnalytics.directive('laHowLong', function(utils){
         }
 
         avgTimeSpent = Math.round(totalTimeSpent / nb);
-        data[data.length] = {"name": "all", "data": [avgTimeSpent, maxTimeSpent, minTimeSpent] };
+        data[data.length] = {"name": "all", "data": [avgTimeSpent/60, maxTimeSpent/60, minTimeSpent/60] };
 
         // draw bar chart
         return data;
@@ -613,13 +637,13 @@ learningAnalytics.directive('laHowLong', function(utils){
             yAxis: {
                 min: 0,
                 title: {
-                    text: 'Time spent (second)'
+                    text: 'Time spent (in minutes)'
                 }
             },
             tooltip: {
                 headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                 pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                    '<td style="padding:0"><b>{point.y:.1f} sec</b></td></tr>',
+                    '<td style="padding:0"><b>{point.y:.1f} min</b></td></tr>',
                 footerFormat: '</table>',
                 shared: true,
                 useHTML: true
@@ -660,13 +684,13 @@ learningAnalytics.directive('laHowManyTimes', function(utils){
 
         var categories = [];
 
-        if (characteristic === 'player') {
+        if (characteristic === 'student') {
 
             var playerIds = [];
             numGPs = [];
 
             for (k = la.players.length - 1; k >= 0; k--) {
-                playerIds[playerIds.length] = "player " + la.players[k].idPlayer;
+                playerIds[playerIds.length] = utils.getUsernameById(la, la.players[k].idPlayer);
                 var numGPsForP = 0;
                 for (j = la.gameplays.length - 1; j >= 0; j--) {
                     if (la.gameplays[j].idPlayer === la.players[k].idPlayer) {
@@ -789,7 +813,10 @@ learningAnalytics.directive('laFinalScores', function(utils){
 
             // check if characteristic is already in the data array
             for (k = categories.length - 1; k >= 0; k--) {
-                if (categories[k] == characteristicValue) {
+                var valueC = (characteristicValue!= null && characteristicValue.username != null)?
+                                characteristicValue.username :
+                                characteristicValue;
+                if (categories[k] == valueC) {
                     charInData = true;
                 }
             }
@@ -797,7 +824,10 @@ learningAnalytics.directive('laFinalScores', function(utils){
             // if it's a new characteristic:
             // count how many times it appear, calculate the avg, max and min
             if (!charInData) {
-                categories[categories.length] = characteristicValue;
+                var valueC = (characteristicValue!= null && characteristicValue.username != null)?
+                                characteristicValue.username :
+                                characteristicValue;
+                categories[categories.length] = valueC;
 
                 scoresList = [];
                 scoresList[0] = dataset[j].finalScores[outcome];
@@ -912,7 +942,7 @@ learningAnalytics.directive('laLearningCurves', function(utils){
         var data = [];
 
 
-        if (characteristic === "player") {
+        if (characteristic === "student") {
 
             // draw every line
             for (j = dataset.length - 1; j >= 0; j--) {
@@ -937,7 +967,7 @@ learningAnalytics.directive('laLearningCurves', function(utils){
 
                     points[points.length] = point;
                 }
-                data[data.length] = {"name": "player " + dataset[j].idPlayer, "data": points};
+                data[data.length] = {"name": utils.getUsernameById(la, dataset[j].idPlayer), "data": points};
             }
         }
         else {
@@ -1064,7 +1094,7 @@ learningAnalytics.directive('laLearningCurvesWithinGameplays', function(utils){
         // draw every line
         for (var j = dataset.length - 1; j >= 0; j--) {
             //initialise score
-            var c = (characteristic == "player") ? "idPlayer" : characteristic;
+            var c = (characteristic == "student") ? "idPlayer" : characteristic;
             var characteristicValue = dataset[j][c];
             var idP = dataset[j].idPlayer;
 
@@ -1094,8 +1124,10 @@ learningAnalytics.directive('laLearningCurvesWithinGameplays', function(utils){
                         points.push(point);
                     }
                 }
-                var value = (characteristic == "player") ? "player" : characteristicValue;
-                data[data.length] = {"name": value + " (" + dataset[j].idPlayer + ")",
+                var value = (characteristic == "student") ? 
+                                utils.getUsernameById(la, dataset[j].idPlayer) : 
+                                characteristicValue + " (" + dataset[j].idPlayer + ")";
+                data[data.length] = {"name": value,
                     "data": points,
                     "color": Highcharts.getOptions().colors[characteristics.indexOf(characteristicValue) % 10]
                 };
@@ -1181,10 +1213,25 @@ learningAnalytics.controller('LA_basicInfoController',
             return players;
         }
 
+
+
         $scope.getExtraCharacteristics = function () {
             if (!Object.getOwnPropertyNames($scope.LA).length){ return [] };
             var characteristics = angular.copy($scope.LA.game.playerCharacteristics);
-            characteristics.push("player");
+
+            // if more than half the players are students, add "by student" option
+            var count = 0;
+            for (var i=0 ; i<$scope.LA.players.length ; i++)
+            {
+                if ($scope.LA.players[i].student != null)
+                {
+                    count++;
+                }
+            }
+            if (count > $scope.LA.players.length/2)
+            {
+                characteristics.push("student");
+            }
 
             return characteristics;
         }
@@ -1206,6 +1253,7 @@ learningAnalytics.controller('LA_basicInfoController',
         // Get the learning analytics
         var path = /learning_analytics\/(\d+)\/(\d+)/.exec($location.absUrl());
         $http.get('http://146.191.107.189:8080/learninganalytics/seriousgame/' + path[1] + '/version/' + path[2])
+        //$http.get('http://docker:8080/learninganalytics/seriousgame/' + path[1] + '/version/' + path[2])
             .success(function (data) {
                 $scope.LA = data;
                 // update the select boxes

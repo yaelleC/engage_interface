@@ -9,7 +9,18 @@
       <h2>Create</h2>
       <p>In order to use the engine, you need to send us your configuration file (if you haven't already, we suggest you read the <a href="/documentation/doc">documentation page</a> to learn how to write it). You can write your configuration file using the following editor.</p>
       <p>You can also save your file and upload it later to keep working on it.</p>
-      <p>If you need help with errors you don't understand, <a href="mailto:yaelle.chaudy@uws.ac.uk">send me an email</a> <br/>
+      <p>If you need help with errors you don't understand, <a href="mailto:yaelle.chaudy@uws.ac.uk">send me an email</a> </p>
+
+      <% if !current_user.nil? && !current_user.developer.nil? %>
+        <p class="alert alert-info"><i><b>Note: Your developer ID is <%= current_user.developer.id %>.</b></i></p>
+      <% elsif !current_user %>
+        <p class="alert alert-warning"><i><b>Note: You are not logged in, log in to see your developer ID.</b></i></p>
+      <% else %>
+        <p class="alert alert-warning"><i><b>Note: You are not logged in as a developer, log in with a developer account to see your ID.</b></i></p>
+      <% end %>
+
+
+
      <!--  <form action="mailto:youremail@domain.com" enctype="text/plain">
         <input type="hidden" name="Subject" value="EngAGe - help with config file">
         <textarea cols="80" rows="15" name="Body" id="bodyEmail" ></textarea>
@@ -33,9 +44,10 @@
 
         <div class="form-group">
           <div id="editor" class="editor">Serious-game
-  /* Describe your serious game here giving 
-   SGname : a name (alphanumerical String)
-   SGdeveloper : your id (int)
+  SGname : "your game name"
+  <% if !current_user.nil? && !current_user.developer.nil? %>SGdeveloper : <%= current_user.developer.id %> 
+  <% else %>SGdeveloper : your ID<% end %>
+  /* Describe your serious game here giving    
    SGdesc : a description (optional String)
    SGageRange : an age range (optional, int-int)
    SGlanguage : a language (optional, String, use the ISO 639-1 code)
@@ -82,9 +94,10 @@ End</div>
           <div style="display:none">
           
             <textarea placeholder="ConfigFile" id="inputConfigFile" name="ConfigFile" class="form-control" rows="30">Serious-game
-  /* Describe your serious game here giving 
-   SGname : a name (alphanumerical String)
-   SGdeveloper : your id (int)
+  SGname : "your game name"
+  <% if !current_user.nil? && !current_user.developer.nil? %>SGdeveloper : <%= current_user.developer.id %> 
+  <% else %>SGdeveloper : your ID<% end %>
+  /* Describe your serious game here giving    
    SGdesc : a description (optional String)
    SGageRange : an age range (optional, int-int)
    SGlanguage : a language (optional, String, use the ISO 639-1 code)
@@ -231,7 +244,10 @@ End</textarea>
       $.ajax({
           type: "POST",
           url: "/config_files.json",
-          data: {"config_file": {"config": config, "submited": false}},
+          data: {"config_file": {"config": config, "submited": false 
+            <% if !current_user.nil? && !current_user.developer.nil? %>
+              , "idDeveloper": <%= current_user.developer.id %>
+              <% end %>}},
           dataType: "json",
           success: function (msg) {
               console.log("Success"+msg)

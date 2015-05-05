@@ -3,7 +3,16 @@ class ConfigFilesController < ApplicationController
   # GET /config_files
   # GET /config_files.json
   def index
-    @config_files = ConfigFile.all(:order => 'created_at DESC')
+    if current_user.role.title != 'admin'
+      if current_user.developer.nil?
+        @config_files = []
+      else
+        @config_files = current_user.developer.config_files(:order => 'created_at DESC')
+      end
+    else
+      @config_files = ConfigFile.all(:order => 'created_at DESC')
+    end
+    #@config_files = ConfigFile.all(:order => 'created_at DESC')
 
     respond_to do |format|
       format.html # index.html.erb
@@ -14,7 +23,8 @@ class ConfigFilesController < ApplicationController
   # GET /config_files/1
   # GET /config_files/1.json
   def show
-    @config_file = ConfigFile.find(params[:id])
+    #@config_file = ConfigFile.find(params[:id])
+    @config_file = current_user.developer.config_files.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb

@@ -21,6 +21,8 @@ class SeriousGamesController < ApplicationController
   # GET /serious_games/1.json
   def show
     @serious_game = current_user.developer.serious_games.find(params[:id])
+    @teachers = Teacher.all
+    @schools = School.all
 
     respond_to do |format|
       format.html # show.html.erb
@@ -49,10 +51,6 @@ class SeriousGamesController < ApplicationController
     # Getting config file from POST
     config_file = params[:ConfigFile]
 
-    # Save the config
-
-    ConfigFile.create(config: config_file, submited: true)
-
     # Preparing the request to the webservice
     if Rails.env.production?
       url = URI.parse('http://146.191.107.189:8080/seriousgame')
@@ -69,9 +67,17 @@ class SeriousGamesController < ApplicationController
     if res.code == '200'
       flash[:success] = "Success. Your game ID is : #{res.body}."
       redirect_to action: 'new'
+      # Save the config
+      if (!current_user.nil? && !current_user.developer.nil?)
+        ConfigFile.create(config: config_file, submited: true, idSG: res.body, idDeveloper: current_user.developer.id)
+      end
     else 
       flash[:danger] = 'Oups, something went wrong. We could not create the game!'
       redirect_to action: 'new'
+      # Save the config
+      if (!current_user.nil? && !current_user.developer.nil?)
+        ConfigFile.create(config: config_file, submited: true, idDeveloper: current_user.developer.id)
+      end
     end 
   end
 

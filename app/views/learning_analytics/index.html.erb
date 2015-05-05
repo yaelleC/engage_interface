@@ -3,114 +3,39 @@ Learning Analytics
 <% end %>
 
 <div class="mainText container" ng-app="learningAnalytics" ng-controller="LA_basicInfoController">
-	<h1>Learning Analytics dashboard - <b> {{ LA.game.name }} </b></h1>
-	<p> 
-		Version : <b> {{ LA.game.version }} </b> - 
-		Number of gameplays: <b> {{ LA.gameplays.length }} </b> -  
-		Number of players: <b>{{ uniquePlayers().length }} </b> - 
-		Number of registered students: <b>{{ LA.players.length }}  </b>
-	</p>
+
+	<h1>Learning Analytics</h1>
+
+	<p>Here you can visualise gameplay data of your games, please select a game to get started.</p>
+
+	<!--<%= select_tag "serious_games", options_for_select(@serious_games.collect {|s| [ s.name, s.id ] })%>-->
+
+	<table class="table table-hover table-bordered table-striped">
+	  <tr>
+	    <th>Learning <br/> Analytics</th>
+	    <th>Id</th>
+	    <th>Created</th>
+	    <th>Name</th>
+	    <th>Description</th>
+	    <th>Version</th>
+	    <th>Gameplays</th>
+	  </tr>
+
+	<% @serious_games.each do |serious_game| %>
+	  <tr>
+	    <td><%= link_to 'Analytics', learning_analytics_path(id: serious_game.id, version: serious_game.version ), :class=>"btn btn-info btn-sm" %></td>
+	    <td><%= serious_game.id %></td>
+	    <td><%= serious_game.created.to_formatted_s(:short) %></td>
+	    <td><%= serious_game.name %></td>
+	    <td><%= serious_game.description %></td>
+	    <td><%= serious_game.version %></td>
+	    <td><%= serious_game.gameplays.count %></td>
+	  </tr>
+	<% end %>
+	</table>
 	
-	<div class="col-md-6 blockLA blockBasicInfo">
-		<h4>Who played this game?</h4>
-		<p>
-			<input type="radio" ng-model="whoPlayedView" value="gameplay">All gameplays
-			<input type="radio" ng-model="whoPlayedView" value="player">Unique players
-		</p>
-		<tabset>
-		    <tab ng-repeat="c in LA.game.playerCharacteristics" heading="By {{ c }}">
-		      <div la-who-played la="LA" characteristic="c" view="whoPlayedView"></div>
-		    </tab>
-		</tabset>
-	</div>
 
-	<div class="col-md-6 blockLA blockBasicInfo">
-		<h4>How long was the game played?</h4>
-		<p>
-			<input type="radio" ng-model="howLongView" value="gameplay">All gameplays
-			<input type="radio" ng-model="howLongView" value="player">Unique players
-		</p>
-		<tabset>
-		    <tab ng-repeat="c in LA.game.playerCharacteristics" heading="By {{ c }}">
-		      <div la-how-long la="LA" characteristic="c" view="howLongView"></div>
-		    </tab>
-		</tabset>
-	</div>
+	<br/>
 	
-	<div class="col-md-6 blockLA blockBasicInfo">
-		<h4>When did the students played?</h4>
-		<p>
-			<input type="radio" ng-model="whenView" value="gameplay">All gameplays
-			<input type="radio" ng-model="whenView" value="player">Unique players
-		</p>
-		<tabset>
-		    <tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
-		      <div la-when la="LA" characteristic="c" view="whenView"></div>
-		    </tab>
-		</tabset>
-	</div>
 
-	<div class="col-md-6 blockLA blockBasicInfo">
-		<h4>How many times students played?</h4>
-		<p>
-			<input type="radio" ng-model="howManyTimesView" value="gameplay">All gameplays
-			<input type="radio" ng-model="howManyTimesView" value="player">Unique players
-		</p>
-		<tabset>
-		    <tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
-		      <div la-how-many-times la="LA" characteristic="c" view="howManyTimesView"></div>
-		    </tab>
-		</tabset>
-	</div>
-
-	<div class="col-md-6 blockLA blockScoreStat">
-		<h4>Final scores</h4>
-		<p>
-			<select id="lo7" ng-model="loFinalScoresOutcome">
-				<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
-			</select>
-			<input type="radio" ng-model="finalScoresView" value="gameplay">All gameplays
-			<input type="radio" ng-model="finalScoresView" value="playerLast">Last per player
-			<input type="radio" ng-model="finalScoresView" value="playerBest">Best per player
-		</p>
-		
-		<tabset>
-		    <tab ng-repeat="c in LA.game.playerCharacteristics" heading="By {{ c }}">
-		      <div la-final-scores la="LA" characteristic="c" outcome="loFinalScoresOutcome" view="finalScoresView"></div>
-		    </tab>
-		</tabset>
-	</div>
-
-	<div class="col-md-6 blockLA blockScoreStat">
-		<h4>Learning curves in game</h4>
-		<p>
-			<select id="lo7" ng-model="loLearningCurvesOutcome">
-				<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
-			</select>
-			<input type="radio" ng-model="learningCurvesView" value="gameplay">All gameplays
-			<input type="radio" ng-model="learningCurvesView" value="playerLast">Last per player
-			<input type="radio" ng-model="learningCurvesView" value="playerBest">Best per player
-		</p>
-		
-		<tabset>
-		    <tab ng-repeat="c in LA.game.playerCharacteristics" heading="By {{ c }}">
-		      <div la-learning-curves la="LA" characteristic="c" outcome="loLearningCurvesOutcome" view="learningCurvesView"></div>
-		    </tab>
-		</tabset>
-	</div>
-	
-	<div class="col-md-6 blockLA blockScoreStat">
-		<h4>Learning curves within gameplays</h4>
-		<p>
-			<select id="lo7" ng-model="loLearningCurvesWithinGameplaysOutcome">
-				<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
-			</select>
-		</p>
-		
-		<tabset>
-		    <tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
-		      <div la-learning-curves-within-gameplays la="LA" characteristic="c" outcome="loLearningCurvesWithinGameplaysOutcome"></div>
-		    </tab>
-		</tabset>
-	</div>
 </div>
