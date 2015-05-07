@@ -16,23 +16,29 @@
 
 <table class="table table-striped">
   <tr>
+    <th>Group</th>
     <th>Username</th>
     <th>Password</th>
     <th>Date of birth</th>
     <th>Gender</th>
-    <th>Group</th>
     <th></th>
     <th></th>
     <th></th>
   </tr>
 
+<% group = -1 %>
 <% @students.each do |student| %>
   <tr>
+    <% if student.group.id != group %>
+        <% group = student.group.id %>
+        <td rowspan="<%= @groups.find_by_id(group).students.count %>">
+            <%= student.group.name if not student.group.nil? %>
+        </td>
+    <% end %>
     <td><%= student.username %></td>
     <td><%= student.password %></td>
     <td><%= student.dateBirth %></td>
     <td><%= student.gender %></td>
-    <td><%= student.group.name if not student.group.nil? %></td>
     <td><%= link_to 'Show', student %></td>
     <td><%= link_to 'Edit', edit_student_path(student) %></td>
     <td><%= link_to 'Destroy', student, method: :delete, data: { confirm: 'Are you sure?' } %></td>

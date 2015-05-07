@@ -17,7 +17,12 @@
 //= require ace
 //= require mode-engage
 //= require angular
+//= require angular-resource
+//= require angular-sanitize
+//= require angular-filter.min
 //= require highcharts
 //= require highcharts-more
 //= require ui-bootstrap-tpls-0.12.0.min
+//= require xeditable.min
+//= require select.min
 //= require_tree .

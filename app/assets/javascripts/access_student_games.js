@@ -9,6 +9,11 @@
     // This create a new Angular modu)le called EnGAge
     var access = angular.module('Access', ['ngResource', 'ui.bootstrap', 'xeditable', 'angular.filter']);
 
+    // configure csrftoken
+   access.config(["$httpProvider", function ($httpProvider) {
+       $httpProvider.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content');
+   }]);
+
     // xeditable options
     access.run(function (editableOptions) {
         editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
@@ -36,29 +41,13 @@
 
 
         // Fetch Config
-        $scope.accessList = AccessList.get();
-
-        /**
-         * Returns the version of a game to be played by a particular student
-         * @param  {Object} accessList  list of games and students with access
-         * @param  {String} idGame      ID of game
-         * @param  {String} idStudent   ID of student
-         * @return {Int}                version to be played (-1 if none)
-         */
-        $scope.accessByStudentAndGame = function (accessList, idGame, idStudent) {
-            var result = -1;
-            angular.forEach(accessList.studentAccess, function (sAccess) {
-                if (sAccess.id === idStudent)
-                {
-                    angular.forEach(sAccess.access, function (access) {
-                        if (access.idSG === idGame) {
-                            return access.versionPlayed;
-                        }
-                    });
-                }
-            });
-            return result;
-        };
+        AccessList.get(
+            function(data){
+                $scope.accessList = data;
+                $scope.gameSelected = data.Games[0].id;
+            }
+        );
+        $scope.groupSelected = 'all';
 
         /**
          * Returns the version of a game to be played by a particular student
@@ -69,49 +58,62 @@
          */
         $scope.gameAccessByStudent = function (studentAccess, idGame) {
             var result = -1;
-            angular.forEach(studentAccess.access, function (access) {
-                console.log(access.idSG, idGame);
-                console.log(access.idSG === idGame);
-                if (access.idSG === idGame) {
-                    result = access.versionPlayed;
-                }
-            });
+            if (studentAccess.access[idGame] != null)
+            {
+                result = studentAccess.access[idGame];
+            }
             return result;
         };
+
+        $scope.getGameVersions = function (games)
+        {
+            var idSG = $scope.gameSelected;
+            var versions;
+            angular.forEach(games, function (game) {
+                if (game.id === idSG) {
+                    versions = game.versions;
+                }
+            });
+            return versions;
+        }
+
+
+        $scope.updateTable = function (studentsAccess)
+        {
+            angular.forEach(studentsAccess, function (studentAccess) {
+                if (studentAccess.group.id.toString() === $scope.groupSelected || $scope.groupSelected == 'all') {
+                    if ($scope.versionSelected) {
+                        studentAccess.access[$scope.gameSelected] = $scope.versionSelected;
+                    }
+                }
+            });
+        }
 
         /**
          * modify the version to be played by a specific player
          * @param  int idGame       ID of the the game
-         * @param  int idStudent    ID of the the student
+         * @param  {json} studentAccess    game access to student
          * @param  int version      version to be played
          */
-        $scope.modifyAccessByStudentAndGame = function (idGame, idStudent, version) {
+        $scope.modifyAccessByStudentAndGame = function (studentAccess, idGame, version) {
 
-            angular.forEach($scope.accessList.studentAccess, function (sAccess) {
-                if (sAccess.id === idStudent)
-                {
-                    angular.forEach(sAccess.access, function (access, idx) {
-                        if (access.idSG === idGame) {
-                            // if version == -1, delete the access
-                            if (version === -1)
-                            {
-                                sAccess.access.splice(idx, 1);
-                            }
-                            else
-                            {
-                                access.versionPlayed = version;
-                            }
-                            return;
-                        }
-                    });
-
-                    // if the access was not already in the file, add it
-                    sAccess.push({
-                        idSG: idGame,
-                        versionPlayed: version
-                    });
-                }
-            });
+            // if version == -1, delete the access
+            if (version === -1)
+            {
+                delete studentAccess.access[idGame];
+            }
+            else
+            {
+                studentAccess.access[idGame] = version;
+            }
         };
+
+        /**
+         * Save config
+         */
+        $scope.save = function () {
+            $scope.accessList.$save(  );
+
+        }
     });
 }(window.angular));

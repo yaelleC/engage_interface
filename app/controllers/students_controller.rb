@@ -27,7 +27,14 @@ class StudentsController < ApplicationController
   # GET /students/1
   # GET /students/1.json
   def show
-    @student = current_user.teacher.students.find(params[:id])
+    
+    if current_user.teacher.nil?
+      @students = []
+      @groups = []
+    else
+      @student = current_user.teacher.students.find(params[:id])
+      @groups = current_user.teacher.groups
+    end
 
     respond_to do |format|
       format.html # show.html.erb
@@ -50,7 +57,13 @@ class StudentsController < ApplicationController
 
   # GET /students/1/edit
   def edit
-    @student = Student.find(params[:id])
+    if current_user.teacher.nil?
+      @students = []
+      @groups = []
+    else
+      @student = current_user.teacher.students.find(params[:id])
+      @groups = current_user.teacher.groups
+    end
   end
 
   # POST /students

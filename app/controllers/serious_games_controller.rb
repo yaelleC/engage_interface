@@ -2,14 +2,17 @@ require 'net/http' ## Include http lib to enable calling the webservice
 require 'open-uri'
 
 class SeriousGamesController < ApplicationController
-  filter_resource_access
+  #filter_resource_access
   # GET /serious_games
   # GET /serious_games.json
   def index
-    if current_user.developer.nil?
-      @serious_games = []
-    else
+    @serious_games = []
+
+    if !current_user.developer.nil?
       @serious_games = current_user.developer.serious_games(:order => 'created DESC')
+    elsif !current_user.teacher.nil?
+      @serious_games = current_user.teacher.serious_games.where("version = 0").order("created DESC")
+
     end
     respond_to do |format|
       format.html # index.html.erb
@@ -20,7 +23,17 @@ class SeriousGamesController < ApplicationController
   # GET /serious_games/1
   # GET /serious_games/1.json
   def show
-    @serious_game = current_user.developer.serious_games.find(params[:id])
+    if !current_user.developer.nil?
+      @serious_game = current_user.developer.serious_games.find(params[:id])
+      @versions = []
+    elsif !current_user.teacher.nil?
+      @serious_game = current_user.teacher.serious_games.find(params[:id])
+      @versions = current_user.teacher.serious_games.where("id = ? and (version = 0 OR seriousgame.idTeacher = ?)", params[:id], current_user.teacher.id).order("created ASC")
+      
+      #@versions = current_user.teacher.serious_games.select("id, name, GROUP_CONCAT(CONCAT(version, ' - ', IFNULL(nameVersion,'?'))) as versions").order("created DESC")
+      
+    end
+    
     @teachers = Teacher.all
     @schools = School.all
 
@@ -40,10 +53,54 @@ class SeriousGamesController < ApplicationController
   end
 
   # GET /serious_games/1/edit
+  # GET /serious_games/1/edit.json
   def edit
-    @serious_game = current_user.developer.serious_games.find(params[:id])
+    if !current_user.developer.nil?
+      @serious_game = current_user.developer.serious_games.find(params[:id])
+      @teachers = Teacher.all
+
+      @jsonData = {"idSG" => @serious_game.id}
+      @teachersJson = []
+      @teacherIds = []
+      @teachers.each do |t|
+        teacherJson = {"id" => t.id, "username" => t.user.username, "school" => t.school}
+        @teachersJson.push(teacherJson)
+      end
+
+      @serious_game.teachers.each do |t|
+        @teacherIds.push(t.id)
+      end
+
+      @jsonData.store("teachers", @teachersJson)
+      @jsonData.store("teacherIds", @teacherIds)
+
+    elsif !current_user.teacher.nil?
+      @serious_game = current_user.teacher.serious_games.find(params[:id])
+      @teachersJson = []
+    end
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @jsonData }
+    end
+
   end
 
+  # POST /serious_games/1/edit
+  # POST /serious_games/1/edit.json
+  def edit2
+    @jsonAccess = params
+    idSG = @jsonAccess['idSG']
+
+    @jsonAccess['teacherIds'].each do |idTeacher|
+      SgTeacher.create(idSG: idSG, idTeacher: idTeacher)
+    end
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @jsonAccess }
+    end
+  end
 
   # POST /serious_games
   # POST /serious_games.json
@@ -84,11 +141,15 @@ class SeriousGamesController < ApplicationController
   # PUT /serious_games/1
   # PUT /serious_games/1.json
   def update
-    @serious_game = current_user.developer.serious_games.find(params[:id])
+    if !current_user.developer.nil?
+      @serious_game = current_user.developer.serious_games.find(params[:id])
+    elsif !current_user.teacher.nil?
+      @serious_game = current_user.teacher.serious_games.find(params[:id])
+    end
 
     respond_to do |format|
       if @serious_game.update_attributes(params[:serious_game])
-        format.html { redirect_to @serious_game, notice: 'Serious game was successfully updated.' }
+        format.html { redirect_to edit_serious_game_path(@serious_game), notice: 'Serious game was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -100,7 +161,11 @@ class SeriousGamesController < ApplicationController
   # DELETE /serious_games/1
   # DELETE /serious_games/1.json
   def destroy
-    @serious_game = current_user.developer.serious_games.find(params[:id])
+    if !current_user.developer.nil?
+      @serious_game = current_user.developer.serious_games.find(params[:id])
+    elsif !current_user.teacher.nil?
+      @serious_game = current_user.teacher.serious_games.find(params[:id])
+    end
     @serious_game.destroy
 
     respond_to do |format|

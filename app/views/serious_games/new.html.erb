@@ -31,6 +31,8 @@
         </div>
         -->
 
+        <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
+
         <div class="form-group">
           <div id="editor" class="editor">Serious-game
   SGname : "your game name"
@@ -151,6 +153,12 @@ End</textarea>
     </div>
 
 <script>
+    $.ajaxSetup({
+       headers: {
+         'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+       }
+     });
+
     ace.config.set("workerPath", "/");
     var editor = ace.edit("editor");
     var textarea = $('textarea[name="ConfigFile"]').hide();

@@ -1,6 +1,112 @@
-<h1>Editing serious_game</h1>
+<% content_for :title do %>
+  Give access to your serious game
+<% end %>
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">
+<div class="mainText container">
+	<h2><%= @serious_game.name %></h2>
+  	<p>
+    	<b>Id:</b>
+    	<%= @serious_game.id %>
+  	</p>
 
-<%= render 'form' %>
+	<% if !current_user.developer.nil? %>
 
-<%= link_to 'Show', @serious_game %> |
+		<%= render 'form' %>
+
+
+	  <h3>Access</h3>
+
+	  <% if @serious_game.teachers.count == 1 %>
+	    <p>1 teacher has already access to your game:<ul>
+	    	<% @serious_game.teachers.each do |t| %>
+	    		<li><%= t.user.username %></li>
+	  		<% end %>
+	  	</ul></p>
+	  <% else %>
+	    <p><%= @serious_game.teachers.count %> teachers have already access to your game:<ul>
+	    	<% @serious_game.teachers.each do |t| %>
+	    		<li><%= t.user.username %></li>
+	  		<% end %>
+	  	</ul></p>
+	  <% end %>
+
+	  <p>You can specify more access here.</p>
+
+	  <div ng-app="demo"  ng-controller="SGAccessCtrl">
+	    <h4>Find teachers</h4>
+	    <pre>Teacher: {{teacherIds | json}}</pre>
+
+	    <ui-select multiple ng-model="$parent.teacherIds" theme="select2" style="width: 800px;">
+			<ui-select-match placeholder="Select teachers...">{{$item.username}} ({{$item.school.name}})</ui-select-match>
+			<ui-select-choices repeat="teacher.id as teacher in teachers | filter: $select.search">
+				{{teacher.username}} ({{teacher.school.name}})
+				<!-- <div ng-bind-html="person.name | highlight: $select.search"></div>
+				<small>
+				email: {{person.email}}
+				age: <span ng-bind-html="''+person.age | highlight: $select.search"></span>
+				</small> -->
+			</ui-select-choices>
+		</ui-select>
+
+	  	<p><button type="button" class="btn btn-primary btn-md" ng-click="save()">Give access</button></p>
+	  </div>
+
+	<% end %>
 <%= link_to 'Back', serious_games_path %>
+</div>
+  
+
+
+<script>  
+	var sg=angular.module('demo', ['ngResource', 'ngSanitize','ui.bootstrap', 'ui.select']);
+
+//controller('TypeaheadCtrl', function($scope, $http) {
+
+//  	$scope.selected = undefined;
+
+  	// This creates an angular resource to retrieve the access json
+    sg.factory('SGAccess', function ($resource) {
+        return $resource('/serious_games/:idSG/edit.json', {}, {
+            get: {method: 'GET'},
+            save: {method: 'POST'}
+        });
+    });
+
+    // configure csrftoken
+   sg.config(["$httpProvider", function ($httpProvider) {
+       $httpProvider.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content');
+   }]);
+
+    // This defines the main controller
+    sg.controller('SGAccessCtrl', function ($scope, $location, SGAccess) {
+
+    	$scope.idSG = /serious_games\/(\d+)/.exec($location.absUrl())[1];
+        
+        // Fetch Config
+        $scope.teachers = [];
+        $scope.teacherIds = [];
+        SGAccess.get(
+        	{idSG: $scope.idSG},
+            function(data){
+                $scope.teachers = data.teachers;
+    			$scope.teacherIds = data.teacherIds;
+            }
+        );
+    	
+    	/**
+         * Save access to teacher
+         */
+        $scope.save = function () {
+             SGAccess.save(
+             	{idSG: $scope.idSG}, 
+	            {
+	            	idSG: $scope.idSG,
+	            	teacherIds: $scope.teacherIds
+	            }
+            );
+
+        }
+    });
+
+
+</script>  

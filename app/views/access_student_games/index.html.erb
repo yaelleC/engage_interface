@@ -5,20 +5,30 @@
   <div ng-controller="AccessCtrl">
     <h1> Game access to students</h1>
 
-    <p>See access by: 
-      <select>
-        <option value="student">Student</option>
-        <option value="group">Group</option>
+    <p>Click on any cell of the table to change the version to be played. You can also assign versions to all students or to a group in particular.
+    <br/><i>Changes will not be effective until you click the "save changes" button.</i></p>
+    <br/>
+    <p>Specify access for: 
+      <select id="recipientSelect" ng-model="groupSelected">
         <option value="all">All</option>
-      </select>
-      Refine by group:
-
-      <select id="refineByClass">
-          <option>All</option>
-          <option ng-repeat="g in accessList.Games" value="">
+          <option ng-repeat="g in accessList.Groups" value="{{ g.id }}">
             {{ g.name }}
           </option> 
       </select>
+      to play the game:
+      <select id="gameSelect" ng-model="gameSelected">
+          <option ng-repeat="g in accessList.Games" value="{{ g.id }}">
+            {{ g.name }}
+          </option> 
+      </select>
+      version:
+      <select id="versionSelect" ng-model="versionSelected" >
+        <option value="">--select version--</option>
+        <option ng-repeat="v in getGameVersions(accessList.Games).split(',')" value="{{ v.split(' - ')[0] }}">
+          {{ v }}
+        </option> 
+      </select>
+      <button type="button" class="btn btn-primary btn-xs" ng-click="updateTable(accessList.StudentAccess)">Update table</button>
     </p>
 
     <table class="table table-striped">
@@ -38,16 +48,20 @@
           <td ng-if="$index == 0" rowspan="{{ list.length }}">{{ group  }}</td>
           <td> {{ studentAccess.username }}</td>
           <td ng-repeat="g in accessList.Games">
-            <div ng-switch="gameAccessByStudent(studentAccess, g.idSG)">
-              <span class="label label-primary" ng-switch-when="0">initial version</span>
-              <span class="label label-warning" ng-switch-when="-1">no access</span>
-              <span class="label label-info" ng-switch-default>version {{ gameAccessByStudent(studentAccess, g.idSG) }}</span>
-            </div>
+            <span editable-select="studentAccess.access[g.id]"
+                  e-required e-ng-options="v.split(' - ')[0] as v for v in g.versions.split(',')">
+              <div ng-switch="studentAccess.access[g.id].toString().trim() || '-1'">
+                <span class="label label-primary" ng-switch-when="0">initial version</span>
+                <span class="label label-warning" ng-switch-when="-1">no access</span>
+                <span class="label label-warning" ng-switch-when="no access">no access</span>
+                <span class="label label-info" ng-switch-default>version {{ studentAccess.access[g.id].toString() }}</span>
+              </div>
+            </span>
           </td> 
         </tr>
       </tbody>
     </table>
 
-    <br />
+    <p><button type="button" class="btn btn-primary btn-md" ng-click="save()">Save changes</button></p>
   </div>
 </div>

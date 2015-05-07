@@ -13,6 +13,8 @@ Assess4meInterface::Application.routes.draw do
   resources :config_files
 
   resources :serious_games
+  post "serious_games/:id/edit", to: "serious_games#edit2"
+
   resources :access_student_games
 
   get "learning_analytics/:id/:version", to: "learning_analytics#show" , as: 'learning_analytics'

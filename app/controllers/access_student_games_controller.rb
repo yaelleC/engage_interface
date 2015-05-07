@@ -9,14 +9,27 @@ class AccessStudentGamesController < ApplicationController
     @studentsAccess = []
     @students = []
     @games = []
+    @groups = []
 
     if !current_user.teacher.nil?
-      @games = current_user.teacher.serious_games.where("version = 0").select("idSG, name").order("created DESC")
+      @groups = current_user.teacher.groups
+      @games = current_user.teacher.serious_games.select("id, name, GROUP_CONCAT(CONCAT(version, ' - ', IFNULL(nameVersion,'?'))) as versions").order("created DESC").group('id')
+      @games.each do |g|
+        g.versions = g.versions + ", no access"
+      end
+      #@games = current_user.teacher.serious_games.where("version = 0").select("idSG, name").order("created DESC")
       @students = current_user.teacher.students(:order => 'idGroup DESC')
 
       @students.each do |s|
         
-        studentAccess = { "username" => s.username, "id" => s.id, "group" => s.group, "access" => s.access_student_games.select("idSG, versionPlayed") }
+        access = s.access_student_games.select("idSG, versionPlayed")
+        accessKey = {}
+
+        access.each do |a|
+          accessKey.store(a.idSG, a.versionPlayed)
+        end
+
+        studentAccess = { "username" => s.username, "id" => s.id, "group" => s.group, "access" => accessKey }
 
         #@games.each do |g|
          # if !s.access_student_games.find_by_idSG(g.id).nil? 
@@ -27,10 +40,9 @@ class AccessStudentGamesController < ApplicationController
 
         @studentsAccess.push(studentAccess)
       end
-
     end
 
-    @jsonAccess = {'Games' => @games, 'StudentAccess'=> @studentsAccess }
+    @jsonAccess = {'Games' => @games, 'Groups' => @groups, 'StudentAccess'=> @studentsAccess }
 
     respond_to do |format|
       format.html # index.html.erb
@@ -38,74 +50,61 @@ class AccessStudentGamesController < ApplicationController
     end
   end
 
-  # GET /access_student_games/1
-  # GET /access_student_games/1.json
-  def show
-    @access_student_game = AccessStudentGame.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @access_student_game }
-    end
-  end
-
-  # GET /access_student_games/new
-  # GET /access_student_games/new.json
-  def new
-    @access_student_game = AccessStudentGame.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @access_student_game }
-    end
-  end
-
-  # GET /access_student_games/1/edit
-  def edit
-    @access_student_game = AccessStudentGame.find(params[:id])
-  end
-
   # POST /access_student_games
   # POST /access_student_games.json
   def create
-    @access_student_game = AccessStudentGame.new(params[:access_student_game])
     
-    respond_to do |format|
-      if @access_student_game.save
-        format.html { redirect_to login_path, notice: 'AccessStudentGame was successfully created.' }
-        format.json { render json: @access_student_game, status: :created, location: @access_student_game }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @access_student_game.errors, status: :unprocessable_entity }
+    @jsonAccess = params
+    errors = []
+    # loop sur contenu
+    @jsonAccess['StudentAccess'].each do |studentAccess|
+      idStd = studentAccess['id']
+      @jsonAccess['Games'].each do |game|
+        idSG = game['id']
+        # if new json specifies a valid version to play for this game
+        if ( !studentAccess['access'][idSG.to_s].nil? && studentAccess['access'][idSG.to_s].to_s.strip != "no access" )
+          versionToPlay = studentAccess['access'][idSG.to_s].to_i
+          @access_student = AccessStudentGame.find_by_idSG_and_idStd(idSG, idStd)
+          # if student didn't have access, create it
+          if (@access_student.nil?)
+            AccessStudentGame.create(idSG: idSG, idStd: idStd, versionPlayed: versionToPlay)
+          else
+            AccessStudentGame.where("idSG = ? AND idStd = ?", idSG, idStd).update_all(versionPlayed: versionToPlay)
+            if @access_student.save
+              errors.push("saved")
+            else
+              errors.push(@access_student.errors)
+            end
+          end
+        else    
+          @access_student = AccessStudentGame.find_by_idSG_and_idStd(idSG, idStd)      
+          if (!@access_student.nil?)
+            AccessStudentGame.where("idSG = ? AND idStd = ?", idSG, idStd).delete_all
+            errors.push("destroyed")
+          else
+            errors.push(game['name'])
+          end
+        end
       end
     end
-  end
 
-  # PUT /access_student_games/1
-  # PUT /access_student_games/1.json
-  def update
-    @access_student_game = AccessStudentGame.find(params[:id])
+    @jsonAccess.store('errors', errors)
 
     respond_to do |format|
-      if @access_student_game.update_attributes(params[:access_student_game])
-        format.html { redirect_to @access_student_game, notice: 'AccessStudentGame was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @access_student_game.errors, status: :unprocessable_entity }
-      end
+      format.html { render action: "index" }
+      format.json { render json: @jsonAccess }
     end
-  end
-
-  # DELETE /access_student_games/1
-  # DELETE /access_student_games/1.json
-  def destroy
-    @access_student_game = AccessStudentGame.find(params[:id])
-    @access_student_game.destroy
-
-    respond_to do |format|
-      format.html { redirect_to access_student_games_url }
-      format.json { head :no_content }
-    end
+    
+    #@access_student_game = AccessStudentGame.new(params[:access_student_game])
+    
+    #respond_to do |format|
+      #if @access_student_game.save
+      #  format.html { redirect_to login_path, notice: 'AccessStudentGame was successfully created.' }
+      #  format.json { render json: @jsonAccess, status: :unprocessable_entity }
+      #else
+      #  format.html { render action: "new" }
+      #  format.json { render json: @access_student_game.errors, status: :unprocessable_entity }
+      #end
+    #end
   end
 end

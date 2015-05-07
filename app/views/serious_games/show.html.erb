@@ -1,113 +1,89 @@
 <% content_for :title do %>
-  Manage your serious games
+  Manage your serious game
 <% end %>
 
 <div class="mainText container">
+  <div class="col-md-12">
   <h2><%= @serious_game.name %></h2>
-
-
-  <p id="notice"><%= notice %></p>
-
-<%= form_for(@serious_game) do |f| %>
-  <% if @serious_game.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@serious_game.errors.count, "error") %> prohibited this serious_game from being saved:</h2>
-
-      <ul>
-      <% @serious_game.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
   <p>
     <b>Id:</b>
     <%= @serious_game.id %>
   </p>
 
-  <p>
-    <b>Name:</b>
-    <%= @serious_game.name %>
-  </p>
 
-  <p>
-    <b>Desc:</b>
-    <%= @serious_game.description %>
-  </p>
+  <p id="notice"><%= notice %></p>
+</div>
+  
 
-  <p>
-    <b>Age Range:</b>
-    <%= @serious_game.ageMin %> - <%= @serious_game.ageMax %>
-  </p>
+<% if !current_user.teacher.nil? %>
 
-  <p>
-    <b>Lang:</b>
-    <%= @serious_game.language %>
-  </p>
-
-  <p>
-    <b>Country:</b>
-    <%= @serious_game.country %>
-  </p>
-
-  <p>
-    <b>Version:</b>
-    <%= @serious_game.version %>
-  </p>
-<!--
-  <h3>Access</h3>
-
-  <% if @serious_game.public? %>
-    <p>Your game is public, specify its URL here </p>
-    <div class="field">
-      <%= f.label :url %><br />
-      <%= f.text_field :url %>
+  <% if !@serious_game.screenshot_url.nil? %>
+    <div class="col-md-12">
+      <%= image_tag @serious_game.screenshot_url, alt:@serious_game.name, size: "320x180" %>
     </div>
   <% end %>
 
-  <p>You can specify access to teachers or school. Please add them in the following fields.</p>
+    <div class="col-md-4">
+      <h4>Original game</h4>
+      <% v = @versions.first %>
+      <p>
+        <b>version:</b> 0 <br/>
+        <b>Created on:</b> <%= v.created.to_formatted_s(:short) %><br/>
+        <b>Developer:</b> <%= v.developer.user.username %><br/>
+        <b>Played:</b> <%= v.gameplays.count %> times<br/>
+      </p><p>
+        <b>Game name:</b> <%= v.name %><br/>
+        <b>Game description:</b> <%= v.description %> <br/>
+        <b>AgeRange:</b> <%= v.ageMin %> - <%= v.ageMax %><br/>
+        <b>Language:</b> <%= v.language %><br/>
+        <b>Country:</b> <%= v.country %><br/>
+        <% if v.public? %><i> This game is public </i><% end %>
+      </p>
+    </div>
 
-  <h5>Teachers:</h5>
-<input type="text" data-provide="typeahead" data-items="5" data-source='<%= @teachers.to_json %>'>
+    <div class="col-md-4">
+      <h4>Last version</h4>
+      <% v2 = @versions.last %>
+      <p>
+        <b>version:</b> <%= v2.version %> <br/>
+        <b>Created on:</b> <%= v2.created.to_formatted_s(:short) %><br/>
+        <b>Version name:</b> <%= v2.nameVersion %><br/>
+        <b>Comments:</b> <%= v2.comments %><br/>
+        <b>Played:</b> <%= v.gameplays.count %> times
+      </p><p>
+        <b>Game name:</b> <%= v2.name %><br/>
+        <b>Game description:</b> <%= v2.description %> <br/>
+        <b>AgeRange:</b> <%= v2.ageMin %> - <%= v2.ageMax %><br/>
+        <b>Language:</b> <%= v2.language %><br/>
+        <b>Country:</b> <%= v2.country %><br/>
+        <% if v2.public? %><i> This version is public </i><% end %>
+      </p>
+    </div>
 
-    <input type="text" ng-model="selected" typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control"><div ng-app="demo"  ng-controller="TypeaheadCtrl">
-<h4>Static arrays</h4>
-  <pre>Model: {{selected | json}}</pre>
-  <input ng-init="teachers=<%= @teachers.to_json %>" type="text" ng-model="selected" typeahead="teacher.name for teacher in teachers | filter:$viewValue | limitTo:8" class="form-control">
-</div>
- -->
+    <div class="col-md-4">
+      <h4>All versions</h4>
+      <ul>
+        <% @versions.each do |v| %>
+          <li><b>version <%= v.version %></b>: <%= v.nameVersion %> 
+            <% if !v.comments.nil? %> <br/><i>"<%= v.comments %>"</i><% end %></li>
+        <% end %>
+      </ul>
+
+      Create new version from 
+      <select id="versionParent">
+        <% @versions.each do |v| %>
+            <option value="<%= v.version %>">version <%= v.version %> </option> 
+        <% end %>
+      </select>
+      <%= link_to 'Create', serious_games_path, :class => 'btn btn-xs btn-primary'%>
+    </div>
+
 
 <% end %>
 
-<%= link_to 'Back', serious_games_path, :class => 'btn btn-sm btn-primary'%>
+<div class="col-md-12"><%= link_to 'Back', serious_games_path, :class => 'btn btn-sm'%></div>
+
+
   
 
 </div>
-
-
-
-<script>  
- var subjects = ['PHP', 'MySQL', 'SQL', 'PostgreSQL', 'HTML', 'CSS', 'HTML5', 'CSS3', 'JSON'];   
-$('#search').typeahead({source: subjects})  
-angular.module('demo', ['ui.bootstrap']).controller('TypeaheadCtrl', function($scope, $http) {
-
-  $scope.selected = undefined;
- 
-  // Any function returning a promise object can be used to load values asynchronously
-  $scope.getLocation = function(val) {
-    return $http.get('http://maps.googleapis.com/maps/api/geocode/json', {
-      params: {
-        address: val,
-        sensor: false
-      }
-    }).then(function(response){
-      return response.data.results.map(function(item){
-        return item.formatted_address;
-      });
-    });
-  };
-});
-
-
-</script>  

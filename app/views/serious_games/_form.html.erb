@@ -11,31 +11,31 @@
     </div>
   <% end %>
 
+  <h3>Game information</h3>
+  <p>Please provide some additional information concerning your game.</p>
+
   <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
+    <%= f.label :screenshot_url %><br />
+    <p><i>To make it easier for the teachers to visualise their games, please provide the url to a screenshot of your game.</i></p>
+    <%= f.text_field :screenshot_url %>
   </div>
+  <br/>
   <div class="field">
-    <%= f.label :desc %><br />
-    <%= f.text_area :desc %>
+    <%= f.label :url %><br />
+    <p><i>If your game can be played online or downloaded from a webpage, provide the url here.</i></p>
+    <%= f.text_field :url %>
   </div>
+  <br/>
   <div class="field">
-    <%= f.label :ageRange %><br />
-    <%= f.text_field :ageRange %>
+    <%= f.label :public %><br />
+    <%= f.check_box :public %>
+    <p><i>If you decide to make your game public, any teacher will be able to see it.</i></p>
   </div>
-  <div class="field">
-    <%= f.label :lang %><br />
-    <%= f.text_field :lang %>
-  </div>
-  <div class="field">
-    <%= f.label :country %><br />
-    <%= f.text_field :country %>
-  </div>
-  <div class="field">
-    <%= f.label :version %><br />
-    <%= f.text_field :version %>
-  </div>
+
+
+  <br/>
   <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
+
