@@ -91,13 +91,31 @@ class SeriousGamesController < ApplicationController
   def edit2
     @jsonAccess = params
     idSG = @jsonAccess['idSG']
+    @serious_game = current_user.developer.serious_games.find(params[:id])
+
+    # get list of teachers with access to the game
+    sg_teachers_before = SeriousGame.find_by_id(idSG).sg_teachers
 
     @jsonAccess['teacherIds'].each do |idTeacher|
-      SgTeacher.create(idSG: idSG, idTeacher: idTeacher)
+
+      # try and find if teacher already has access
+      @sg_teacher = SgTeacher.find_by_idSG_and_idTeacher(idSG, idTeacher)
+
+      # if not => create access
+      if (@sg_teacher.nil?)
+          SgTeacher.create(idSG: idSG, idTeacher: idTeacher)
+      end
+    end
+
+    # for any access that was before but is not anymore => delete
+    sg_teachers_before.each do |sgTeacher|
+      if( !@jsonAccess['teacherIds'].include?(sgTeacher.idTeacher) )
+        SgTeacher.where("idSG = ? AND idTeacher = ?", idSG, sgTeacher.idTeacher).delete_all
+      end
     end
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html { redirect_to serious_games_url, notice: 'Serious game access was successfully updated.' }
       format.json { render json: @jsonAccess }
     end
   end
