@@ -157,9 +157,20 @@ Editor
 		</div>
 		<div class="modal-body">
 			<div>
+				<h4>Add feedback</h4>
+				<form class="form-inline">
+					<div class="form-group" ng-submit="createFeedback(newFeedbackName, newFeedbackMessage, newFeedbackType)">
+						<input placeholder="name" type="text" ng-model="newFeedbackName" required class="form-control">
+						<input placeholder="description" type="text" ng-model="newFeedbackMessage" required class="form-control">
+						<select ng-options="fbType for fbType in feedbackTypes" ng-model="newFeedbackType" class="form-control"></select>
+						<button type="submit" class="btn btn-default">create</button>
+					</div>
+				</form>
+			</div>
+			<div>
 				<h4>Positive Feedback</h4>
 				<table class="table table-bordered">
-					<tbody>
+					<tbody>newFeedbackMessage
 						<tr ng-repeat="(name, feedback) in config.feedback" ng-if="feedback.type=='positive'">
 							<td class="col-lg-2">{{name}}</td>
 							<td>{{feedback.message}}</td>
@@ -167,13 +178,6 @@ Editor
 						</tr>
 					</tbody>
 				</table>
-				<form class="form-inline">
-					<div class="form-group">
-						<input placeholder="name" type="text" ng-model="newPositiveFeedbackName" required class="form-control">
-						<input placeholder="name" type="text" ng-model="newPositiveFeedbackMessage" required class="form-control">
-						<button type="submit" class="btn btn-default">create</button>
-					</div>
-				</form>
 			</div>
 			<div>
 				<h4>Negative Feedback</h4>

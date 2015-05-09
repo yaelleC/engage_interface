@@ -242,6 +242,7 @@ describe('Editor ', function () {
                 });
             });
 
+
             describe('openFeedbackModal', function () {
                 var reaction;
                 beforeEach(function () {
@@ -297,6 +298,30 @@ describe('Editor ', function () {
                 it('should close the modal ', function () {
                     $scope.cancel();
                     expect($modalInstance.dismiss).toHaveBeenCalled();
+                });
+            });
+
+            describe('create feedback', function () {
+                beforeEach(function () {
+                    createController();
+                });
+
+                it('should add a new feedback ', function () {
+                    $scope.createFeedback('newfb', 'message', 'postive');
+                    expect($scope.config.feedback.newfb).toEqual({
+                        message: "message",
+                        type: "postive"
+                    });
+                });
+                it('should reset the new feedback name', function () {
+                    $scope.newFeedbackName = "newName";
+                    $scope.createFeedback('newfb', 'message', 'postive');
+                    expect($scope.newFeedbackName).toEqual("");
+                });
+                it('should reset the new feedback fields', function () {
+                    $scope.newFeedbackMessage = "newMessage";
+                    $scope.createFeedback('newfb', 'message', 'postive');
+                    expect($scope.newFeedbackMessage).toEqual("");
                 });
             });
         });
