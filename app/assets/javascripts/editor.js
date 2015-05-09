@@ -215,6 +215,7 @@
             );
         };
 
+
         /**
          * Save config
          */
@@ -244,6 +245,9 @@
             "<": "lower than"
         };
 
+        $scope.feedbackTypes = ['positive', 'negative'];
+        $scope.newFeedbackType = $scope.feedbackTypes[0]; 
+
         // parse URL
         path = /(\d+)\/version\/(\d+)/.exec($location.absUrl());
         $scope.idSeriousGame = path[1];
@@ -266,5 +270,18 @@
         $scope.cancel = function () {
             $modalInstance.dismiss('cancel');
         };
+
+        /**
+         * Create a new feedback
+         */
+        $scope.createFeedback = function (name, message, type) {
+            $scope.config.feedback[name] = {
+                message: message,
+                type: type
+            };
+            $scope.newFeedbackName = "";
+            $scope.newFeedbackMessage = "";
+        };
+
     });
 }(window.angular));
