@@ -960,9 +960,13 @@ learningAnalytics.directive('laLearningCurves', function(utils){
                 });
 
                 for (k = 0; k < dataset[j].actions.length; k++) {
+                    
                     point = [];
                     point[0] = dataset[j].actions[k].timestamp;
-                    score += dataset[j].actions[k].mark;
+                    if(dataset[j].actions[k].outcome == outcome)
+                    {
+                        score += dataset[j].actions[k].mark;
+                    }
                     point[1] = score;
 
                     points[points.length] = point;
@@ -998,7 +1002,10 @@ learningAnalytics.directive('laLearningCurves', function(utils){
                 for (k = 0; k < dataset[j].actions.length; k++) {
                     point = [];
                     point[0] = dataset[j].actions[k].timestamp;
-                    score += dataset[j].actions[k].mark;
+                    if(dataset[j].actions[k].outcome == outcome)
+                    {
+                        score += dataset[j].actions[k].mark;
+                    }
                     point[1] = score;
 
                     points[points.length] = point;

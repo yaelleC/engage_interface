@@ -1,3 +1,4 @@
+<%= javascript_include_tag params[:controller] %> 
 <% content_for :title do %>
 Learning Analytics
 <% end %>
@@ -7,11 +8,10 @@ Learning Analytics
 	<p> 
 		Version : <b> {{ LA.game.version }} </b> - 
 		Number of gameplays: <b> {{ LA.gameplays.length }} </b> -  
-		Number of players: <b>{{ uniquePlayers().length }} </b> - 
-		Number of registered students: <b>{{ LA.players.length }}  </b>
+		Number of players: <b>{{ uniquePlayers().length }} </b>
 	</p>
 
-	<p>Students who played: <span ng-repeat="p in LA.players" ><b> {{ p.student.username }} </b> </span>
+	<!-- <p>Students who played: <span ng-repeat="p in LA.players" ><b> {{ p.student.username }} </b> </span> -->
 
 	</p>
 
