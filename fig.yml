@@ -14,7 +14,7 @@ rails:
     - "log:/usr/src/app/log"
     - "script:/usr/src/app/script"
     - "public:/usr/src/app/public"
-    # - "Gemfile.lock:/usr/src/app/Gemfile.lock"
+    - "Gemfile.lock:/usr/src/app/Gemfile.lock"
   links:
     - "mysql:mysql"
     - "ws:ws"
