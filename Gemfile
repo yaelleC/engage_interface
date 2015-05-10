@@ -14,6 +14,8 @@ gem 'sorcery'
 gem 'declarative_authorization', :git => "http://github.com/stffn/declarative_authorization.git"
 # New Relic Monitoring
 gem 'newrelic_rpm'
+# Reverse proxy
+# gem "rack-reverse-proxy", require: "rack/reverse_proxy"
 
 # Gems used only for assets and not required
 # in production environments by default.
