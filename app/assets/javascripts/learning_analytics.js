@@ -96,6 +96,48 @@ learningAnalytics.factory('utils', function() {
         }
         return dataset;
     },
+    getPlayerFirstDataset: function (la) {
+        var dataset = [];
+        var i, j;
+        for (i = la.gameplays.length - 1; i >= 0; i--) {
+            var alreadyIn = false;
+            var gp = la.gameplays[i];
+            for (j = dataset.length - 1; j >= 0; j--) {
+                if (gp.idPlayer == dataset[j].idPlayer) {
+                    alreadyIn = true;
+                }
+            }
+            if (!alreadyIn) {
+                var idP = gp.idPlayer;
+                var idGP = gp.id;
+                var timeSpent = gp.timeSpent;
+                var timeStarted = gp.timeStarted;
+                var finalScores = gp.finalScores;
+                var actions = gp.actions;
+
+                // get first gameplay
+                for (j = 0; j < i; j++) {
+                    var gp2 = la.gameplays[j];
+                    if (gp2.idPlayer == idP && gp2.id < idGP) {
+                        idGP = gp2.id;
+                        timeSpent = gp2.timeSpent;
+                        timeStarted = gp2.timeStarted;
+                        finalScores = gp2.finalScores;
+                        actions = gp2.actions;
+                    }
+                }
+                var playerFirst = {"id": idGP, "idPlayer": idP, "timeSpent": timeSpent,
+                    "timeStarted": timeStarted, "finalScores": finalScores, "actions": actions};
+
+                for (j = la.players.length - 1; j >= 0; j--) {
+                    if (la.players[j].idPlayer == idP) {
+                        dataset[dataset.length] = $.extend(playerFirst, la.players[j]);
+                    }
+                }
+            }
+        }
+        return dataset;
+    },
     getPlayerBestDataset: function (la, outcome) {
         var dataset = [];
         var i, j;
@@ -790,6 +832,9 @@ learningAnalytics.directive('laFinalScores', function(utils){
         if (view == "gameplay") {
             dataset = utils.getGameplayDataset(la);
         }
+        else if (view == "playerFirst") {
+            dataset = utils.getPlayerFirstDataset(la);
+        }
         else if (view == "playerLast") {
             dataset = utils.getPlayerLastDataset(la);
         }
@@ -1201,7 +1246,461 @@ learningAnalytics.directive('laLearningCurvesWithinGameplays', function(utils){
     };
 });
 
-learningAnalytics.controller('LA_basicInfoController',
+learningAnalytics.directive('laCommonActions', function(utils){
+    // set the view
+    function process(la, action, outcome) {
+        //var i, j, k, nb;
+
+        //var totalTimeSpent, maxTimeSpent, minTimeSpent, timeS, avgTimeSpent;
+        
+        var dataset = utils.getGameplayDataset(la);
+        var datasetFirst = utils.getPlayerFirstDataset(la);
+        var datasetLast = utils.getPlayerLastDataset(la);
+        var datasetBest = utils.getPlayerBestDataset(la, outcome);
+
+        if (dataset.length < 1) {
+            return 0;
+        }
+
+        // find data to show in good format = json : { categories:[c1, c2, ...], series: [{name:"...", data:[n1, n2, ..., n6]}, ...] }
+        var data;
+        var categories = [];
+        var series = [];
+
+        var parameters = {};   
+        var paramFirst = {};
+        var paramLast = {};    
+        var paramBest = {};    
+
+        // look for params of action in ALL
+        angular.forEach(dataset, function (d) {
+            angular.forEach(d.actions, function (a) {
+                if (a.action === action)
+                {
+                    var params = Object.keys(a.parameters);
+                    var p_toString = "";
+
+                    angular.forEach(params, function (p) {
+                        p_toString += "_" + a.parameters[p];
+                    });
+
+                    p_toString = p_toString.substring(1);
+
+                    if (parameters[p_toString] != null)
+                    {
+                        parameters[p_toString] += 1;
+                        paramFirst[p_toString] = 0;
+                        paramLast[p_toString] = 0;
+                        paramBest[p_toString] = 0;
+                    }
+                    else
+                    {
+                        parameters[p_toString] = 1;
+                    }
+                }
+            });
+        });
+
+        // look for params of action in FIRST
+        angular.forEach(datasetFirst, function (d) {
+            angular.forEach(d.actions, function (a) {
+                if (a.action === action)
+                {
+                    var params = Object.keys(a.parameters);
+                    var p_toString = "";
+
+                    angular.forEach(params, function (p) {
+                        p_toString += "_" + a.parameters[p];
+                    });
+
+                    p_toString = p_toString.substring(1);
+
+                    if (paramFirst[p_toString] != null)
+                    {
+                        paramFirst[p_toString] += 1;
+                    }
+                    else
+                    {
+                        paramFirst[p_toString] = 1;
+                    }
+                }
+            });
+        });
+
+
+        // look for params of action in LAST
+        angular.forEach(datasetLast, function (d) {
+            angular.forEach(d.actions, function (a) {
+                if (a.action === action)
+                {
+                    var params = Object.keys(a.parameters);
+                    var p_toString = "";
+
+                    angular.forEach(params, function (p) {
+                        p_toString += "_" + a.parameters[p];
+                    });
+
+                    p_toString = p_toString.substring(1);
+
+                    if (paramLast[p_toString] != null)
+                    {
+                        paramLast[p_toString] += 1;
+                    }
+                    else
+                    {
+                        paramLast[p_toString] = 1;
+                    }
+                }
+            });
+        });
+
+        // look for params of action in BEST
+        angular.forEach(datasetBest, function (d) {
+            angular.forEach(d.actions, function (a) {
+                if (a.action === action)
+                {
+                    var params = Object.keys(a.parameters);
+                    var p_toString = "";
+
+                    angular.forEach(params, function (p) {
+                        p_toString += "_" + a.parameters[p];
+                    });
+
+                    p_toString = p_toString.substring(1);
+
+                    if (paramBest[p_toString] != null)
+                    {
+                        paramBest[p_toString] += 1;
+                    }
+                    else
+                    {
+                        paramBest[p_toString] = 1;
+                    }
+                }
+            });
+        });
+
+        var array=[];
+
+        for(p in parameters){
+         array.push([p.trim(),parameters[p]]);
+        }
+
+        array.sort(function(a,b){return a[1] - b[1]});
+        array.reverse();
+
+        var allSerieData = [];
+        var firstSerieData = [];
+        var lastSerieData = [];
+        var bestSerieData = [];
+
+        var i = 0;
+        while ( i < 16 && i < array.length)
+        {
+            categories.push(array[i][0]);
+
+            allSerieData.push(array[i][1] * 100/dataset.length);
+            firstSerieData.push(paramFirst[array[i][0]] * 100/datasetFirst.length);
+            lastSerieData.push(paramLast[array[i][0]] * 100/datasetLast.length);
+            bestSerieData.push(paramBest[array[i][0]] * 100/datasetBest.length);
+
+            i++;
+        }
+
+        allSerie = {"name": "All", "data": allSerieData};
+        firstSerie = {"name": "First", "data": firstSerieData};
+        lastSerie = {"name": "Last", "data": lastSerieData};
+        bestSerie = {"name": "Best", "data": bestSerieData};
+        series.push(allSerie);
+        series.push(firstSerie);
+        series.push(lastSerie);
+        series.push(bestSerie);
+
+        // draw bar chart
+        data = {"categories": categories, "series": series}
+        return data;
+
+    }
+
+    function draw(element, data){
+        element.highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Most common actions'
+            },
+            xAxis: {
+                categories: data.categories
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'selected (%)'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.2f} %</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.1,
+                    borderWidth: 0
+                }
+            },
+            series: data.series
+        });
+    }
+    
+    return {
+        scope: {
+            la: '=la',
+            action: '=action',
+            outcome: '=outcome'
+        },
+        link: function (scope, element) {
+            scope.$watchGroup(['la', 'action', 'outcome'], function (){
+                var data = process(scope.la, scope.action, scope.outcome);
+                draw(element, data);
+            });
+        
+        }
+    };
+});
+
+learningAnalytics.directive('laNotCommonActions', function(utils){
+    // set the view
+    function process(la, action, outcome) {
+        //var i, j, k, nb;
+
+        //var totalTimeSpent, maxTimeSpent, minTimeSpent, timeS, avgTimeSpent;
+        
+        var dataset = utils.getGameplayDataset(la);
+        var datasetFirst = utils.getPlayerFirstDataset(la);
+        var datasetLast = utils.getPlayerLastDataset(la);
+        var datasetBest = utils.getPlayerBestDataset(la, outcome);
+
+        if (dataset.length < 1) {
+            return 0;
+        }
+
+        // find data to show in good format = json : { categories:[c1, c2, ...], series: [{name:"...", data:[n1, n2, ..., n6]}, ...] }
+        var data;
+        var categories = [];
+        var series = [];
+
+        var parameters = {};   
+        var paramFirst = {};
+        var paramLast = {};    
+        var paramBest = {};    
+
+        // look for params of action in ALL
+        angular.forEach(dataset, function (d) {
+            angular.forEach(d.actions, function (a) {
+                if (a.action === action)
+                {
+                    var params = Object.keys(a.parameters);
+                    var p_toString = "";
+
+                    angular.forEach(params, function (p) {
+                        p_toString += "_" + a.parameters[p];
+                    });
+
+                    p_toString = p_toString.substring(1);
+
+                    if (parameters[p_toString] != null)
+                    {
+                        parameters[p_toString] += 1;
+                        paramFirst[p_toString] = 0;
+                        paramLast[p_toString] = 0;
+                        paramBest[p_toString] = 0;
+                    }
+                    else
+                    {
+                        parameters[p_toString] = 1;
+                    }
+                }
+            });
+        });
+
+        // look for params of action in FIRST
+        angular.forEach(datasetFirst, function (d) {
+            angular.forEach(d.actions, function (a) {
+                if (a.action === action)
+                {
+                    var params = Object.keys(a.parameters);
+                    var p_toString = "";
+
+                    angular.forEach(params, function (p) {
+                        p_toString += "_" + a.parameters[p];
+                    });
+
+                    p_toString = p_toString.substring(1);
+
+                    if (paramFirst[p_toString] != null)
+                    {
+                        paramFirst[p_toString] += 1;
+                    }
+                    else
+                    {
+                        paramFirst[p_toString] = 1;
+                    }
+                }
+            });
+        });
+
+
+        // look for params of action in LAST
+        angular.forEach(datasetLast, function (d) {
+            angular.forEach(d.actions, function (a) {
+                if (a.action === action)
+                {
+                    var params = Object.keys(a.parameters);
+                    var p_toString = "";
+
+                    angular.forEach(params, function (p) {
+                        p_toString += "_" + a.parameters[p];
+                    });
+
+                    p_toString = p_toString.substring(1);
+
+                    if (paramLast[p_toString] != null)
+                    {
+                        paramLast[p_toString] += 1;
+                    }
+                    else
+                    {
+                        paramLast[p_toString] = 1;
+                    }
+                }
+            });
+        });
+
+        // look for params of action in BEST
+        angular.forEach(datasetBest, function (d) {
+            angular.forEach(d.actions, function (a) {
+                if (a.action === action)
+                {
+                    var params = Object.keys(a.parameters);
+                    var p_toString = "";
+
+                    angular.forEach(params, function (p) {
+                        p_toString += "_" + a.parameters[p];
+                    });
+
+                    p_toString = p_toString.substring(1);
+
+                    if (paramBest[p_toString] != null)
+                    {
+                        paramBest[p_toString] += 1;
+                    }
+                    else
+                    {
+                        paramBest[p_toString] = 1;
+                    }
+                }
+            });
+        });
+
+        var array=[];
+
+        for(p in parameters){
+         array.push([p.trim(),parameters[p]]);
+        }
+
+        array.sort(function(a,b){return a[1] - b[1]});
+
+        var allSerieData = [];
+        var firstSerieData = [];
+        var lastSerieData = [];
+        var bestSerieData = [];
+
+        var i = 0;
+        while ( i < 16 && i < array.length)
+        {
+            categories.push(array[i][0]);
+
+            allSerieData.push(array[i][1] * 100/dataset.length);
+            firstSerieData.push(paramFirst[array[i][0]] * 100/datasetFirst.length);
+            lastSerieData.push(paramLast[array[i][0]] * 100/datasetLast.length);
+            bestSerieData.push(paramBest[array[i][0]] * 100/datasetBest.length);
+
+            i++;
+        }
+
+        allSerie = {"name": "All", "data": allSerieData};
+        firstSerie = {"name": "First", "data": firstSerieData};
+        lastSerie = {"name": "Last", "data": lastSerieData};
+        bestSerie = {"name": "Best", "data": bestSerieData};
+        series.push(allSerie);
+        series.push(firstSerie);
+        series.push(lastSerie);
+        series.push(bestSerie);
+
+        // draw bar chart
+        data = {"categories": categories, "series": series}
+        return data;
+
+    }
+
+    function draw(element, data){
+        element.highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Least common actions'
+            },
+            xAxis: {
+                categories: data.categories
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'selected (%)'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.2f} %</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.1,
+                    borderWidth: 0
+                }
+            },
+            series: data.series
+        });
+    }
+    
+    return {
+        scope: {
+            la: '=la',
+            action: '=action',
+            outcome: '=outcome'
+        },
+        link: function (scope, element) {
+            scope.$watchGroup(['la', 'action', 'outcome'], function (){
+                var data = process(scope.la, scope.action, scope.outcome);
+                draw(element, data);
+            });
+        
+        }
+    };
+});
+
+
+learningAnalytics.controller('LA_controller',
     ['$scope', '$http', '$location', function ($scope, $http, $location) {
         $scope.LA = {};
         $scope.uniquePlayers = function () {
@@ -1242,6 +1741,11 @@ learningAnalytics.controller('LA_basicInfoController',
 
             return characteristics;
         }
+
+        $scope.getActionList = function() {
+            if (!Object.getOwnPropertyNames($scope.LA).length){ return [] };
+            return Object.keys($scope.LA.game.evidenceModel);            
+        }
         
         $scope.getLearningOutcomesList = function () {
             if (!Object.getOwnPropertyNames($scope.LA).length){ return [] };
@@ -1267,6 +1771,12 @@ learningAnalytics.controller('LA_basicInfoController',
                 $scope.loFinalScoresOutcome = $scope.getLearningOutcomesList()[0];
                 $scope.loLearningCurvesOutcome = $scope.getLearningOutcomesList()[0];
                 $scope.loLearningCurvesWithinGameplaysOutcome = $scope.getLearningOutcomesList()[0];
+                $scope.loCommonActions = $scope.getLearningOutcomesList()[0];
+                $scope.loNotCommonActions = $scope.getLearningOutcomesList()[0];
+
+                $scope.actionsCommonActions = $scope.getActionList()[0];
+                $scope.actionsNotCommonActions = $scope.getActionList()[0];
+
             });
     }]
 );

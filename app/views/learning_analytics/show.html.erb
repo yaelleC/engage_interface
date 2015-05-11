@@ -3,7 +3,7 @@
 Learning Analytics
 <% end %>
 
-<div class="mainText container" ng-app="learningAnalytics" ng-controller="LA_basicInfoController">
+<div class="mainText container" ng-app="learningAnalytics" ng-controller="LA_controller">
 	<h1>Learning Analytics dashboard - <b> {{ LA.game.name }} </b></h1>
 	<p> 
 		Version : <b> {{ LA.game.version }} </b> - 
@@ -54,7 +54,6 @@ Learning Analytics
 		</tabset>
 	</div>
 
-	
 	<div class="col-md-6 blockLA blockBasicInfo">
 		<h4>When did the students played?</h4>
 		<p>
@@ -75,6 +74,7 @@ Learning Analytics
 				<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
 			</select>
 			<input type="radio" ng-model="finalScoresView" value="gameplay">All gameplays
+			<input type="radio" ng-model="finalScoresView" value="playerFirst">First per player
 			<input type="radio" ng-model="finalScoresView" value="playerLast">Last per player
 			<input type="radio" ng-model="finalScoresView" value="playerBest">Best per player
 		</p>
@@ -115,6 +115,120 @@ Learning Analytics
 		<tabset>
 		    <tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
 		      <div la-learning-curves la="LA" characteristic="c" outcome="loLearningCurvesOutcome" view="learningCurvesView"></div>
+		    </tab>
+		</tabset>
+	</div>
+
+	<div class="col-md-6 blockLA blockScoreStat">
+		<h4>Custom formula</h4>
+		<p>
+			<select id="lo9" ng-model="loLearningCurvesOutcome">
+				<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
+			</select>
+			<input type="radio" ng-model="learningCurvesView" value="gameplay">All gameplays
+			<input type="radio" ng-model="learningCurvesView" value="playerLast">Last per player
+			<input type="radio" ng-model="learningCurvesView" value="playerBest">Best per player
+		</p>
+		
+		<tabset>
+		    <tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
+		      <div la-who-played la="LA" characteristic="c" view="whoPlayedView"></div>
+		    </tab>
+		</tabset>
+	</div>
+
+	<div class="col-md-12 blockLA blockInteractions">
+		<h4>Most common actions </h4>
+		<p>
+			<select ng-model="actionsCommonActions">
+				<option  ng-repeat="a in getActionList()" value="{{a}}">{{a}}</option>
+			</select>
+			<select ng-model="loCommonActions">
+				<option  ng-repeat="o in getLearningOutcomesList()" value="{{o}}">{{o}}</option>
+			</select>
+		</p>
+		
+		<div la-common-actions la="LA" outcome="loCommonActions" action="actionsCommonActions"></div>
+	</div>
+
+	<div class="col-md-12 blockLA blockInteractions">
+		<h4>Least common actions </h4>
+		<p>
+			<select ng-model="actionsNotCommonActions">
+				<option  ng-repeat="a in getActionList()" value="{{a}}">{{a}}</option>
+			</select>
+			<select ng-model="loNotCommonActions">
+				<option  ng-repeat="o in getLearningOutcomesList()" value="{{o}}">{{o}}</option>
+			</select>
+		</p>
+		
+		<div la-not-common-actions la="LA" outcome="loNotCommonActions" action="actionsNotCommonActions"></div>
+	</div>
+
+	<div class="col-md-6 blockLA blockInteractions">
+		<h4>Detailed actions data</h4>
+		<p>
+			<select id="lo8" ng-model="loLearningCurvesOutcome">
+				<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
+			</select>
+			<input type="radio" ng-model="learningCurvesView" value="gameplay">All gameplays
+			<input type="radio" ng-model="learningCurvesView" value="playerLast">Last per player
+			<input type="radio" ng-model="learningCurvesView" value="playerBest">Best per player
+		</p>
+		
+		<tabset>
+		    <tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
+		    </tab>
+		</tabset>
+	</div>
+
+	<div class="col-md-6 blockLA blockInteractions">
+		<h4>Most and least common feedback</h4>
+		<p>
+			<select id="lo8" ng-model="loLearningCurvesOutcome">
+				<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
+			</select>
+			<input type="radio" ng-model="learningCurvesView" value="gameplay">All gameplays
+			<input type="radio" ng-model="learningCurvesView" value="playerLast">Last per player
+			<input type="radio" ng-model="learningCurvesView" value="playerBest">Best per player
+		</p>
+		
+		<tabset>
+		    <tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
+		    </tab>
+		</tabset>
+	</div>
+
+	<div class="col-md-6 blockLA blockInteractions">
+		<h4>Detailed feedback data</h4>
+		<p>
+			<select id="lo8" ng-model="loLearningCurvesOutcome">
+				<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
+			</select>
+			<input type="radio" ng-model="learningCurvesView" value="gameplay">All gameplays
+			<input type="radio" ng-model="learningCurvesView" value="playerLast">Last per player
+			<input type="radio" ng-model="learningCurvesView" value="playerBest">Best per player
+		</p>
+		
+		<tabset>
+		    <tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
+		    </tab>
+		</tabset>
+	</div>
+
+	<div class="col-md-6 blockLA blockInteractions">
+		<h4>Badges</h4>
+		<p>
+			<select id="lo8" ng-model="loLearningCurvesOutcome">
+				<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
+			</select>
+			<input type="radio" ng-model="learningCurvesView" value="gameplay">All gameplays
+			<input type="radio" ng-model="learningCurvesView" value="playerLast">Last per player
+			<input type="radio" ng-model="learningCurvesView" value="playerBest">Best per player
+		</p>
+		
+		<tabset>
+		    <tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
 		    </tab>
 		</tabset>
 	</div>
