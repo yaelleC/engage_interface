@@ -1248,7 +1248,7 @@ learningAnalytics.directive('laLearningCurvesWithinGameplays', function(utils){
 
 learningAnalytics.directive('laCommonActions', function(utils){
     // set the view
-    function process(la, action, outcome) {
+    function process(la, action, outcome, sign, leastcommon) {
         //var i, j, k, nb;
 
         //var totalTimeSpent, maxTimeSpent, minTimeSpent, timeS, avgTimeSpent;
@@ -1266,16 +1266,17 @@ learningAnalytics.directive('laCommonActions', function(utils){
         var data;
         var categories = [];
         var series = [];
-
-        var parameters = {};   
+ 
         var paramFirst = {};
         var paramLast = {};    
-        var paramBest = {};    
+        var paramBest = {}; 
+        var paramAll = {};     
 
-        // look for params of action in ALL
-        angular.forEach(dataset, function (d) {
+        // look for params of action to sort by
+        angular.forEach(datasetFirst, function (d) {
             angular.forEach(d.actions, function (a) {
-                if (a.action === action)
+                if (a.action === action && a.outcome === outcome &&(
+                        (a.mark < 0 && sign === "-") || (a.mark >= 0 && sign === "+")) )
                 {
                     var params = Object.keys(a.parameters);
                     var p_toString = "";
@@ -1286,16 +1287,16 @@ learningAnalytics.directive('laCommonActions', function(utils){
 
                     p_toString = p_toString.substring(1);
 
-                    if (parameters[p_toString] != null)
+                    if (paramAll[p_toString] != null)
                     {
-                        parameters[p_toString] += 1;
-                        paramFirst[p_toString] = 0;
+                        paramAll[p_toString] += 1;
                         paramLast[p_toString] = 0;
                         paramBest[p_toString] = 0;
+                        paramFirst[p_toString] = 0;
                     }
                     else
                     {
-                        parameters[p_toString] = 1;
+                        paramAll[p_toString] = 1;
                     }
                 }
             });
@@ -1382,12 +1383,23 @@ learningAnalytics.directive('laCommonActions', function(utils){
 
         var array=[];
 
-        for(p in parameters){
-         array.push([p.trim(),parameters[p]]);
+        for(p in paramAll){
+         array.push([p.trim(),paramAll[p]]);
         }
 
         array.sort(function(a,b){return a[1] - b[1]});
-        array.reverse();
+
+        var title = "...";
+
+        if (leastcommon === "true")
+        {
+            title = "Least common actions";
+        }
+        else if (leastcommon === "false")
+        {
+            array.reverse();
+            title = "Most common actions";
+        }
 
         var allSerieData = [];
         var firstSerieData = [];
@@ -1395,29 +1407,38 @@ learningAnalytics.directive('laCommonActions', function(utils){
         var bestSerieData = [];
 
         var i = 0;
-        while ( i < 16 && i < array.length)
+        while ( i < 8 && i < array.length)
         {
             categories.push(array[i][0]);
 
-            allSerieData.push(array[i][1] * 100/dataset.length);
             firstSerieData.push(paramFirst[array[i][0]] * 100/datasetFirst.length);
             lastSerieData.push(paramLast[array[i][0]] * 100/datasetLast.length);
             bestSerieData.push(paramBest[array[i][0]] * 100/datasetBest.length);
+            allSerieData.push(array[i][1] * 100/dataset.length);
 
             i++;
         }
 
-        allSerie = {"name": "All", "data": allSerieData};
+        if (leastcommon === "true")
+        {
+            categories.reverse();
+            firstSerieData.reverse();
+            lastSerieData.reverse();
+            bestSerieData.reverse();
+            allSerieData.reverse();       
+        }
+
         firstSerie = {"name": "First", "data": firstSerieData};
         lastSerie = {"name": "Last", "data": lastSerieData};
         bestSerie = {"name": "Best", "data": bestSerieData};
-        series.push(allSerie);
+        allSerie = {"name": "All", "data": allSerieData};
         series.push(firstSerie);
         series.push(lastSerie);
         series.push(bestSerie);
+        series.push(allSerie);
 
         // draw bar chart
-        data = {"categories": categories, "series": series}
+        data = {"categories": categories, "series": series, "title": title}
         return data;
 
     }
@@ -1428,7 +1449,7 @@ learningAnalytics.directive('laCommonActions', function(utils){
                 type: 'column'
             },
             title: {
-                text: 'Most common actions'
+                text: data.title
             },
             xAxis: {
                 categories: data.categories
@@ -1461,11 +1482,13 @@ learningAnalytics.directive('laCommonActions', function(utils){
         scope: {
             la: '=la',
             action: '=action',
-            outcome: '=outcome'
+            outcome: '=outcome',
+            sign: '=sign',
+            leastcommon: '=leastcommon'
         },
         link: function (scope, element) {
-            scope.$watchGroup(['la', 'action', 'outcome'], function (){
-                var data = process(scope.la, scope.action, scope.outcome);
+            scope.$watchGroup(['la', 'action', 'outcome', 'sign', 'leastcommon'], function (){
+                var data = process(scope.la, scope.action, scope.outcome, scope.sign, scope.leastcommon);
                 draw(element, data);
             });
         
@@ -1473,9 +1496,10 @@ learningAnalytics.directive('laCommonActions', function(utils){
     };
 });
 
-learningAnalytics.directive('laNotCommonActions', function(utils){
+
+learningAnalytics.directive('laCommonActions', function(utils){
     // set the view
-    function process(la, action, outcome) {
+    function process(la, action, outcome, sign, leastcommon) {
         //var i, j, k, nb;
 
         //var totalTimeSpent, maxTimeSpent, minTimeSpent, timeS, avgTimeSpent;
@@ -1493,16 +1517,17 @@ learningAnalytics.directive('laNotCommonActions', function(utils){
         var data;
         var categories = [];
         var series = [];
-
-        var parameters = {};   
+ 
         var paramFirst = {};
         var paramLast = {};    
-        var paramBest = {};    
+        var paramBest = {}; 
+        var paramAll = {};     
 
-        // look for params of action in ALL
-        angular.forEach(dataset, function (d) {
+        // look for params of action to sort by
+        angular.forEach(datasetFirst, function (d) {
             angular.forEach(d.actions, function (a) {
-                if (a.action === action)
+                if (a.action === action && a.outcome === outcome &&(
+                        (a.mark < 0 && sign === "-") || (a.mark >= 0 && sign === "+")) )
                 {
                     var params = Object.keys(a.parameters);
                     var p_toString = "";
@@ -1513,16 +1538,16 @@ learningAnalytics.directive('laNotCommonActions', function(utils){
 
                     p_toString = p_toString.substring(1);
 
-                    if (parameters[p_toString] != null)
+                    if (paramAll[p_toString] != null)
                     {
-                        parameters[p_toString] += 1;
-                        paramFirst[p_toString] = 0;
+                        paramAll[p_toString] += 1;
                         paramLast[p_toString] = 0;
                         paramBest[p_toString] = 0;
+                        paramFirst[p_toString] = 0;
                     }
                     else
                     {
-                        parameters[p_toString] = 1;
+                        paramAll[p_toString] = 1;
                     }
                 }
             });
@@ -1609,11 +1634,23 @@ learningAnalytics.directive('laNotCommonActions', function(utils){
 
         var array=[];
 
-        for(p in parameters){
-         array.push([p.trim(),parameters[p]]);
+        for(p in paramAll){
+         array.push([p.trim(),paramAll[p]]);
         }
 
         array.sort(function(a,b){return a[1] - b[1]});
+
+        var title = "...";
+
+        if (leastcommon === "true")
+        {
+            title = "Least common actions";
+        }
+        else if (leastcommon === "false")
+        {
+            array.reverse();
+            title = "Most common actions";
+        }
 
         var allSerieData = [];
         var firstSerieData = [];
@@ -1621,29 +1658,38 @@ learningAnalytics.directive('laNotCommonActions', function(utils){
         var bestSerieData = [];
 
         var i = 0;
-        while ( i < 16 && i < array.length)
+        while ( i < 8 && i < array.length)
         {
             categories.push(array[i][0]);
 
-            allSerieData.push(array[i][1] * 100/dataset.length);
             firstSerieData.push(paramFirst[array[i][0]] * 100/datasetFirst.length);
             lastSerieData.push(paramLast[array[i][0]] * 100/datasetLast.length);
             bestSerieData.push(paramBest[array[i][0]] * 100/datasetBest.length);
+            allSerieData.push(array[i][1] * 100/dataset.length);
 
             i++;
         }
 
-        allSerie = {"name": "All", "data": allSerieData};
+        if (leastcommon === "true")
+        {
+            categories.reverse();
+            firstSerieData.reverse();
+            lastSerieData.reverse();
+            bestSerieData.reverse();
+            allSerieData.reverse();       
+        }
+
         firstSerie = {"name": "First", "data": firstSerieData};
         lastSerie = {"name": "Last", "data": lastSerieData};
         bestSerie = {"name": "Best", "data": bestSerieData};
-        series.push(allSerie);
+        allSerie = {"name": "All", "data": allSerieData};
         series.push(firstSerie);
         series.push(lastSerie);
         series.push(bestSerie);
+        series.push(allSerie);
 
         // draw bar chart
-        data = {"categories": categories, "series": series}
+        data = {"categories": categories, "series": series, "title": title}
         return data;
 
     }
@@ -1654,7 +1700,7 @@ learningAnalytics.directive('laNotCommonActions', function(utils){
                 type: 'column'
             },
             title: {
-                text: 'Least common actions'
+                text: data.title
             },
             xAxis: {
                 categories: data.categories
@@ -1687,18 +1733,19 @@ learningAnalytics.directive('laNotCommonActions', function(utils){
         scope: {
             la: '=la',
             action: '=action',
-            outcome: '=outcome'
+            outcome: '=outcome',
+            sign: '=sign',
+            leastcommon: '=leastcommon'
         },
         link: function (scope, element) {
-            scope.$watchGroup(['la', 'action', 'outcome'], function (){
-                var data = process(scope.la, scope.action, scope.outcome);
+            scope.$watchGroup(['la', 'action', 'outcome', 'sign', 'leastcommon'], function (){
+                var data = process(scope.la, scope.action, scope.outcome, scope.sign, scope.leastcommon);
                 draw(element, data);
             });
         
         }
     };
 });
-
 
 learningAnalytics.controller('LA_controller',
     ['$scope', '$http', '$location', function ($scope, $http, $location) {
@@ -1719,7 +1766,34 @@ learningAnalytics.controller('LA_controller',
             return players;
         }
 
+        $scope.getParamsAction = function ()
+        {
+            var action = $scope.actionDetailedAction;
+            var parameters = [];
+            
+            angular.forEach($scope.LA.gameplays, function (gp) {
+                angular.forEach(gp.actions, function (a) {
+                    if (a.action === action)
+                    {
+                        var params = Object.keys(a.parameters);
+                        var p_toString = "";
 
+                        angular.forEach(params, function (p) {
+                            p_toString += "_" + a.parameters[p];
+                        });
+
+                        p_toString = p_toString.substring(1);
+
+                        if (parameters.search(p_toString) < 0)
+                        {
+                            parameters.push(p_toString);
+                        }
+                    }
+                });
+            });
+
+            return parameters;
+        }
 
         $scope.getExtraCharacteristics = function () {
             if (!Object.getOwnPropertyNames($scope.LA).length){ return [] };
@@ -1772,10 +1846,12 @@ learningAnalytics.controller('LA_controller',
                 $scope.loLearningCurvesOutcome = $scope.getLearningOutcomesList()[0];
                 $scope.loLearningCurvesWithinGameplaysOutcome = $scope.getLearningOutcomesList()[0];
                 $scope.loCommonActions = $scope.getLearningOutcomesList()[0];
-                $scope.loNotCommonActions = $scope.getLearningOutcomesList()[0];
+
+                $scope.signLOCommonActions = "-";
+                $scope.mostOrLeastCommon = "false";
 
                 $scope.actionsCommonActions = $scope.getActionList()[0];
-                $scope.actionsNotCommonActions = $scope.getActionList()[0];
+                $scope.actionDetailedAction = $scope.getActionList()[0];
 
             });
     }]
