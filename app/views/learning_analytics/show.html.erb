@@ -154,9 +154,14 @@ Learning Analytics
 			<select ng-model="loCommonActions">
 				<option  ng-repeat="o in getLearningOutcomesList()" value="{{o}}">{{o}}</option>
 			</select>
+			<br/>
+			<i>Calculate best gameplays based on:</i>
+			<select ng-model="loCommonActionsBest">
+				<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
+			</select>
 		</p>
 		
-		<div la-common-actions la="LA" leastcommon="mostOrLeastCommon" sign="signLOCommonActions" outcome="loCommonActions" action="actionsCommonActions"></div>
+		<div la-common-actions la="LA" leastcommon="mostOrLeastCommon" sign="signLOCommonActions" outcome="loCommonActions" bestoutcome="loCommonActionsBest" action="actionsCommonActions"></div>
 	</div>
 
 	<div class="col-md-6 blockLA blockInteractions">
@@ -166,9 +171,10 @@ Learning Analytics
 				<option  ng-repeat="a in getActionList()" value="{{a}}">{{a}}</option>
 			</select>
 			<select ng-model="paramDetailedAction">
-				<option  ng-repeat="p in getParamsAction()" value="{{a}}">{{a}}</option>
+				<option  ng-repeat="p in getParamsAction()" value="{{p}}">{{p}}</option>
 			</select>
-			Best gameplay based on:
+			<br/>
+			<i>Calculate best gameplays based on:</i>
 			<select ng-model="loDetailedAction">
 				<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
 			</select>
@@ -176,6 +182,7 @@ Learning Analytics
 		
 		<tabset>
 		    <tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
+		    	<div la-detailed-action la="LA" characteristic="c" outcome="loDetailedAction" action="actionDetailedAction" param="paramDetailedAction"></div>
 		    </tab>
 		</tabset>
 	</div>

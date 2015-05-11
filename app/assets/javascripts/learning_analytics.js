@@ -1248,7 +1248,7 @@ learningAnalytics.directive('laLearningCurvesWithinGameplays', function(utils){
 
 learningAnalytics.directive('laCommonActions', function(utils){
     // set the view
-    function process(la, action, outcome, sign, leastcommon) {
+    function process(la, action, outcome, sign, leastcommon, bestoutcome) {
         //var i, j, k, nb;
 
         //var totalTimeSpent, maxTimeSpent, minTimeSpent, timeS, avgTimeSpent;
@@ -1256,7 +1256,7 @@ learningAnalytics.directive('laCommonActions', function(utils){
         var dataset = utils.getGameplayDataset(la);
         var datasetFirst = utils.getPlayerFirstDataset(la);
         var datasetLast = utils.getPlayerLastDataset(la);
-        var datasetBest = utils.getPlayerBestDataset(la, outcome);
+        var datasetBest = utils.getPlayerBestDataset(la, bestoutcome);
 
         if (dataset.length < 1) {
             return 0;
@@ -1270,33 +1270,41 @@ learningAnalytics.directive('laCommonActions', function(utils){
         var paramFirst = {};
         var paramLast = {};    
         var paramBest = {}; 
-        var paramAll = {};     
+        var paramAll = {};   
+
+        var countAll = 0;
+        var countFirst = 0;
+        var countBest = 0;
+        var countLast = 0;  
 
         // look for params of action to sort by
-        angular.forEach(datasetFirst, function (d) {
+        angular.forEach(dataset, function (d) {
             angular.forEach(d.actions, function (a) {
-                if (a.action === action && a.outcome === outcome &&(
-                        (a.mark < 0 && sign === "-") || (a.mark >= 0 && sign === "+")) )
+                if (a.action === action)
                 {
-                    var params = Object.keys(a.parameters);
-                    var p_toString = "";
-
-                    angular.forEach(params, function (p) {
-                        p_toString += "_" + a.parameters[p];
-                    });
-
-                    p_toString = p_toString.substring(1);
-
-                    if (paramAll[p_toString] != null)
+                    countAll++;
+                    if (a.outcome === outcome &&( (a.mark < 0 && sign === "-") || (a.mark >= 0 && sign === "+")) )
                     {
-                        paramAll[p_toString] += 1;
-                        paramLast[p_toString] = 0;
-                        paramBest[p_toString] = 0;
-                        paramFirst[p_toString] = 0;
-                    }
-                    else
-                    {
-                        paramAll[p_toString] = 1;
+                        var params = Object.keys(a.parameters);
+                        var p_toString = "";
+
+                        angular.forEach(params, function (p) {
+                            p_toString += "_" + a.parameters[p];
+                        });
+
+                        p_toString = p_toString.substring(1);
+
+                        if (paramAll[p_toString] != null)
+                        {
+                            paramAll[p_toString] += 1;
+                            paramLast[p_toString] = 0;
+                            paramBest[p_toString] = 0;
+                            paramFirst[p_toString] = 0;
+                        }
+                        else
+                        {
+                            paramAll[p_toString] = 1;
+                        }
                     }
                 }
             });
@@ -1307,6 +1315,7 @@ learningAnalytics.directive('laCommonActions', function(utils){
             angular.forEach(d.actions, function (a) {
                 if (a.action === action)
                 {
+                    countFirst++;
                     var params = Object.keys(a.parameters);
                     var p_toString = "";
 
@@ -1334,6 +1343,7 @@ learningAnalytics.directive('laCommonActions', function(utils){
             angular.forEach(d.actions, function (a) {
                 if (a.action === action)
                 {
+                    countLast++;
                     var params = Object.keys(a.parameters);
                     var p_toString = "";
 
@@ -1360,6 +1370,7 @@ learningAnalytics.directive('laCommonActions', function(utils){
             angular.forEach(d.actions, function (a) {
                 if (a.action === action)
                 {
+                    countBest++;
                     var params = Object.keys(a.parameters);
                     var p_toString = "";
 
@@ -1484,11 +1495,12 @@ learningAnalytics.directive('laCommonActions', function(utils){
             action: '=action',
             outcome: '=outcome',
             sign: '=sign',
-            leastcommon: '=leastcommon'
+            leastcommon: '=leastcommon',
+            bestoutcome: '=bestoutcome'
         },
         link: function (scope, element) {
-            scope.$watchGroup(['la', 'action', 'outcome', 'sign', 'leastcommon'], function (){
-                var data = process(scope.la, scope.action, scope.outcome, scope.sign, scope.leastcommon);
+            scope.$watchGroup(['la', 'action', 'outcome', 'sign', 'leastcommon', 'bestoutcome'], function (){
+                var data = process(scope.la, scope.action, scope.outcome, scope.sign, scope.leastcommon, scope.bestoutcome);
                 draw(element, data);
             });
         
@@ -1496,121 +1508,31 @@ learningAnalytics.directive('laCommonActions', function(utils){
     };
 });
 
-
-learningAnalytics.directive('laCommonActions', function(utils){
+learningAnalytics.directive('laDetailedAction', function(utils){
     // set the view
-    function process(la, action, outcome, sign, leastcommon) {
-        //var i, j, k, nb;
+    function process(la, action, param, outcome, characteristic, categories) {
 
-        //var totalTimeSpent, maxTimeSpent, minTimeSpent, timeS, avgTimeSpent;
-        
-        var dataset = utils.getGameplayDataset(la);
+        var datasetAll = utils.getGameplayDataset(la);
         var datasetFirst = utils.getPlayerFirstDataset(la);
         var datasetLast = utils.getPlayerLastDataset(la);
         var datasetBest = utils.getPlayerBestDataset(la, outcome);
 
-        if (dataset.length < 1) {
+        if (datasetAll.length < 1) {
             return 0;
         }
 
-        // find data to show in good format = json : { categories:[c1, c2, ...], series: [{name:"...", data:[n1, n2, ..., n6]}, ...] }
-        var data;
-        var categories = [];
-        var series = [];
- 
-        var paramFirst = {};
-        var paramLast = {};    
-        var paramBest = {}; 
-        var paramAll = {};     
+        // find data to show in good format = array of {name:"...", data:[avg, max, min]}
+        var data = [];
 
-        // look for params of action to sort by
-        angular.forEach(datasetFirst, function (d) {
-            angular.forEach(d.actions, function (a) {
-                if (a.action === action && a.outcome === outcome &&(
-                        (a.mark < 0 && sign === "-") || (a.mark >= 0 && sign === "+")) )
-                {
-                    var params = Object.keys(a.parameters);
-                    var p_toString = "";
-
-                    angular.forEach(params, function (p) {
-                        p_toString += "_" + a.parameters[p];
-                    });
-
-                    p_toString = p_toString.substring(1);
-
-                    if (paramAll[p_toString] != null)
-                    {
-                        paramAll[p_toString] += 1;
-                        paramLast[p_toString] = 0;
-                        paramBest[p_toString] = 0;
-                        paramFirst[p_toString] = 0;
-                    }
-                    else
-                    {
-                        paramAll[p_toString] = 1;
-                    }
-                }
-            });
-        });
-
-        // look for params of action in FIRST
-        angular.forEach(datasetFirst, function (d) {
-            angular.forEach(d.actions, function (a) {
-                if (a.action === action)
-                {
-                    var params = Object.keys(a.parameters);
-                    var p_toString = "";
-
-                    angular.forEach(params, function (p) {
-                        p_toString += "_" + a.parameters[p];
-                    });
-
-                    p_toString = p_toString.substring(1);
-
-                    if (paramFirst[p_toString] != null)
-                    {
-                        paramFirst[p_toString] += 1;
-                    }
-                    else
-                    {
-                        paramFirst[p_toString] = 1;
-                    }
-                }
-            });
-        });
-
-
-        // look for params of action in LAST
-        angular.forEach(datasetLast, function (d) {
-            angular.forEach(d.actions, function (a) {
-                if (a.action === action)
-                {
-                    var params = Object.keys(a.parameters);
-                    var p_toString = "";
-
-                    angular.forEach(params, function (p) {
-                        p_toString += "_" + a.parameters[p];
-                    });
-
-                    p_toString = p_toString.substring(1);
-
-                    if (paramLast[p_toString] != null)
-                    {
-                        paramLast[p_toString] += 1;
-                    }
-                    else
-                    {
-                        paramLast[p_toString] = 1;
-                    }
-                }
-            });
-        });
+        var countBest = 0;
+        var countParamBest = 0;
 
         // look for params of action in BEST
         angular.forEach(datasetBest, function (d) {
             angular.forEach(d.actions, function (a) {
                 if (a.action === action)
                 {
+                    countBest++;
                     var params = Object.keys(a.parameters);
                     var p_toString = "";
 
@@ -1620,101 +1542,191 @@ learningAnalytics.directive('laCommonActions', function(utils){
 
                     p_toString = p_toString.substring(1);
 
-                    if (paramBest[p_toString] != null)
+                    if (p_toString === param)
                     {
-                        paramBest[p_toString] += 1;
-                    }
-                    else
-                    {
-                        paramBest[p_toString] = 1;
+                        countParamBest++;
                     }
                 }
             });
         });
 
-        var array=[];
+        var countFirst = 0;
+        var countParamFirst = 0;
 
-        for(p in paramAll){
-         array.push([p.trim(),paramAll[p]]);
+        // look for params of action in FIRST
+        angular.forEach(datasetFirst, function (d) {
+            angular.forEach(d.actions, function (a) {
+                if (a.action === action)
+                {
+                    countFirst++;
+                    var params = Object.keys(a.parameters);
+                    var p_toString = "";
+
+                    angular.forEach(params, function (p) {
+                        p_toString += "_" + a.parameters[p];
+                    });
+
+                    p_toString = p_toString.substring(1);
+
+                    if (p_toString === param)
+                    {
+                        countParamFirst++;
+                    }
+                }
+            });
+        });
+
+        var countLast = 0;
+        var countParamLast = 0;
+
+        // look for params of action in FIRST
+        angular.forEach(datasetLast, function (d) {
+            angular.forEach(d.actions, function (a) {
+                if (a.action === action)
+                {
+                    countLast++;
+                    var params = Object.keys(a.parameters);
+                    var p_toString = "";
+
+                    angular.forEach(params, function (p) {
+                        p_toString += "_" + a.parameters[p];
+                    });
+
+                    p_toString = p_toString.substring(1);
+
+                    if (p_toString === param)
+                    {
+                        countParamLast++;
+                    }
+                }
+            });
+        });
+
+
+        var countAll = 0;
+        var countParamAll = 0;
+
+        // look for params of action in FIRST
+        angular.forEach(datasetAll, function (d) {
+            angular.forEach(d.actions, function (a) {
+                if (a.action === action)
+                {
+                    countAll++;
+                    var params = Object.keys(a.parameters);
+                    var p_toString = "";
+
+                    angular.forEach(params, function (p) {
+                        p_toString += "_" + a.parameters[p];
+                    });
+
+                    p_toString = p_toString.substring(1);
+
+                    if (p_toString === param)
+                    {
+                        countParamAll++;
+                    }
+                }
+            });
+        });
+        /*
+        // check all characteristics values
+        for (var j = datasetAll.length - 1; j >= 0; j--) {
+            var characteristicValue = datasetAll[j][characteristic];
+            nb = 0;
+
+            var charInData = false;
+
+            // check if characteristic is already in the data array
+            for (k = data.length - 1; k >= 0; k--) {
+                var valueC = (characteristicValue!= null && characteristicValue.username != null)?
+                                characteristicValue.username :
+                                characteristicValue;
+                if (data[k].name == valueC) {
+                    charInData = true;
+                }
+            }
+
+            // if it's a new characteristic:
+            // count how many times it appear, calculate the avg, max and min
+            if (!charInData) {
+
+                totalTimeSpent = datasetAll[j].timeSpent;
+                maxTimeSpent = datasetAll[j].timeSpent ;
+                minTimeSpent = datasetAll[j].timeSpent ;
+                nb = 1;
+                for (var k = j - 1; k >= 0; k--) {
+                    if (datasetAll[k][characteristic] == characteristicValue) {
+                        // if there is a new gp
+                        nb++;
+                        timeS = datasetAll[k].timeSpent;
+                        totalTimeSpent += timeS;
+                        if (maxTimeSpent < timeS) {
+                            maxTimeSpent = timeS;
+                        }
+                        if (minTimeSpent > timeS) {
+                            minTimeSpent = timeS;
+                        }
+                    }
+                }
+                avgTimeSpent = Math.round(totalTimeSpent / nb);
+                var valueC = (characteristicValue!= null && characteristicValue.username != null)?
+                                characteristicValue.username :
+                                characteristicValue;
+                data[data.length] = {"name": valueC, "data": [avgTimeSpent/60, maxTimeSpent/60, minTimeSpent/60] };
+            }
         }
 
-        array.sort(function(a,b){return a[1] - b[1]});
+        // add the total
 
-        var title = "...";
+        totalTimeSpent = 0;
+        nb = 0;
 
-        if (leastcommon === "true")
-        {
-            title = "Least common actions";
-        }
-        else if (leastcommon === "false")
-        {
-            array.reverse();
-            title = "Most common actions";
-        }
-
-        var allSerieData = [];
-        var firstSerieData = [];
-        var lastSerieData = [];
-        var bestSerieData = [];
-
-        var i = 0;
-        while ( i < 8 && i < array.length)
-        {
-            categories.push(array[i][0]);
-
-            firstSerieData.push(paramFirst[array[i][0]] * 100/datasetFirst.length);
-            lastSerieData.push(paramLast[array[i][0]] * 100/datasetLast.length);
-            bestSerieData.push(paramBest[array[i][0]] * 100/datasetBest.length);
-            allSerieData.push(array[i][1] * 100/dataset.length);
-
-            i++;
+        while (datasetAll.length > nb) {
+            timeS = datasetAll[nb++].timeSpent;
+            totalTimeSpent += timeS;
+            if (maxTimeSpent < timeS) {
+                maxTimeSpent = timeS;
+            }
+            if (minTimeSpent > timeS) {
+                minTimeSpent = timeS;
+            }
         }
 
-        if (leastcommon === "true")
-        {
-            categories.reverse();
-            firstSerieData.reverse();
-            lastSerieData.reverse();
-            bestSerieData.reverse();
-            allSerieData.reverse();       
-        }
+        avgTimeSpent = Math.round(totalTimeSpent / nb);
+        data[data.length] = {"name": "all", "data": [avgTimeSpent/60, maxTimeSpent/60, minTimeSpent/60] };
 
-        firstSerie = {"name": "First", "data": firstSerieData};
-        lastSerie = {"name": "Last", "data": lastSerieData};
-        bestSerie = {"name": "Best", "data": bestSerieData};
-        allSerie = {"name": "All", "data": allSerieData};
-        series.push(firstSerie);
-        series.push(lastSerie);
-        series.push(bestSerie);
-        series.push(allSerie);
-
+        */
         // draw bar chart
-        data = {"categories": categories, "series": series, "title": title}
+        data[data.length] = {"name": "all", "data": [
+            countParamFirst*100/datasetFirst.length, 
+            countParamLast*100/datasetLast.length, 
+            countParamBest*100/datasetBest.length, 
+            countParamAll*100/datasetAll.length] };
         return data;
 
     }
 
-    function draw(element, data){
+    function draw(element, characteristic, data, categories){
         element.highcharts({
             chart: {
                 type: 'column'
             },
             title: {
-                text: data.title
+                text: 'Detailed action (by ' + characteristic + ')'
             },
             xAxis: {
-                categories: data.categories
+                categories: categories
             },
             yAxis: {
                 min: 0,
                 title: {
-                    text: 'selected (%)'
+                    text: 'Selected (%)'
                 }
             },
             tooltip: {
                 headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                 pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                    '<td style="padding:0"><b>{point.y:.2f} %</b></td></tr>',
+                    '<td style="padding:0"><b>{point.y:.1f} %</b></td></tr>',
                 footerFormat: '</table>',
                 shared: true,
                 useHTML: true
@@ -1725,7 +1737,7 @@ learningAnalytics.directive('laCommonActions', function(utils){
                     borderWidth: 0
                 }
             },
-            series: data.series
+            series: data
         });
     }
     
@@ -1734,18 +1746,20 @@ learningAnalytics.directive('laCommonActions', function(utils){
             la: '=la',
             action: '=action',
             outcome: '=outcome',
-            sign: '=sign',
-            leastcommon: '=leastcommon'
+            characteristic: '=characteristic',
+            param: '=param'
         },
         link: function (scope, element) {
-            scope.$watchGroup(['la', 'action', 'outcome', 'sign', 'leastcommon'], function (){
-                var data = process(scope.la, scope.action, scope.outcome, scope.sign, scope.leastcommon);
-                draw(element, data);
+            var categories = ["First", "Last", "Best", "All"];
+            scope.$watchGroup(['la', 'action', 'param', 'outcome', 'characteristic'], function (){
+                var data = process(scope.la, scope.action, scope.param, scope.outcome, scope.characteristic, categories);
+                draw(element, scope.characteristic, data, categories);
             });
         
         }
     };
 });
+
 
 learningAnalytics.controller('LA_controller',
     ['$scope', '$http', '$location', function ($scope, $http, $location) {
@@ -1784,7 +1798,7 @@ learningAnalytics.controller('LA_controller',
 
                         p_toString = p_toString.substring(1);
 
-                        if (parameters.search(p_toString) < 0)
+                        if (parameters.indexOf(p_toString) < 0)
                         {
                             parameters.push(p_toString);
                         }
@@ -1792,6 +1806,7 @@ learningAnalytics.controller('LA_controller',
                 });
             });
 
+            parameters.sort();
             return parameters;
         }
 
@@ -1846,12 +1861,15 @@ learningAnalytics.controller('LA_controller',
                 $scope.loLearningCurvesOutcome = $scope.getLearningOutcomesList()[0];
                 $scope.loLearningCurvesWithinGameplaysOutcome = $scope.getLearningOutcomesList()[0];
                 $scope.loCommonActions = $scope.getLearningOutcomesList()[0];
+                $scope.loDetailedAction = $scope.getLearningOutcomesList()[0];
+                $scope.loCommonActionsBest = $scope.getLearningOutcomesList()[0];
 
                 $scope.signLOCommonActions = "-";
                 $scope.mostOrLeastCommon = "false";
 
                 $scope.actionsCommonActions = $scope.getActionList()[0];
                 $scope.actionDetailedAction = $scope.getActionList()[0];
+                $scope.paramDetailedAction = $scope.getParamsAction()[0];
 
             });
     }]
