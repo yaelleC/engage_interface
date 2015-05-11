@@ -72,6 +72,7 @@ learningAnalytics.factory('utils', function() {
                 var timeStarted = gp.timeStarted;
                 var finalScores = gp.finalScores;
                 var actions = gp.actions;
+                var feedback = gp.feedback;
 
                 // get last gameplay
                 for (j = i - 1; j >= 0; j--) {
@@ -82,10 +83,11 @@ learningAnalytics.factory('utils', function() {
                         timeStarted = gp2.timeStarted;
                         finalScores = gp2.finalScores;
                         actions = gp2.actions;
+                        feedback = gp2.feedback;
                     }
                 }
                 var playerLast = {"id": idGP, "idPlayer": idP, "timeSpent": timeSpent,
-                    "timeStarted": timeStarted, "finalScores": finalScores, "actions": actions};
+                    "timeStarted": timeStarted, "finalScores": finalScores, "actions": actions, "feedback": feedback};
 
                 for (j = la.players.length - 1; j >= 0; j--) {
                     if (la.players[j].idPlayer == idP) {
@@ -114,6 +116,7 @@ learningAnalytics.factory('utils', function() {
                 var timeStarted = gp.timeStarted;
                 var finalScores = gp.finalScores;
                 var actions = gp.actions;
+                var feedback = gp.feedback;
 
                 // get first gameplay
                 for (j = 0; j < i; j++) {
@@ -124,10 +127,11 @@ learningAnalytics.factory('utils', function() {
                         timeStarted = gp2.timeStarted;
                         finalScores = gp2.finalScores;
                         actions = gp2.actions;
+                        feedback = gp2.feedback;
                     }
                 }
                 var playerFirst = {"id": idGP, "idPlayer": idP, "timeSpent": timeSpent,
-                    "timeStarted": timeStarted, "finalScores": finalScores, "actions": actions};
+                    "timeStarted": timeStarted, "finalScores": finalScores, "actions": actions, "feedback": feedback};
 
                 for (j = la.players.length - 1; j >= 0; j--) {
                     if (la.players[j].idPlayer == idP) {
@@ -157,6 +161,7 @@ learningAnalytics.factory('utils', function() {
                 var timeStarted = gp.timeStarted;
                 var finalScores = gp.finalScores;
                 var actions = gp.actions;
+                var feedback = gp.feedback;
 
                 // get last gameplay
                 for (j = i - 1; j >= 0; j--) {
@@ -167,12 +172,13 @@ learningAnalytics.factory('utils', function() {
                         timeStarted = gp2.timeStarted;
                         finalScores = gp2.finalScores;
                         actions = gp2.actions;
+                        feedback = gp2.feedback;
                     }
                 }
 
 
                 var playerBest = {"id": idGP, "idPlayer": idP, "timeSpent": timeSpent,
-                    "timeStarted": timeStarted, "finalScores": finalScores, "actions": actions};
+                    "timeStarted": timeStarted, "finalScores": finalScores, "actions": actions, "feedback": feedback};
 
                 for (j = la.players.length - 1; j >= 0; j--) {
                     if (la.players[j].idPlayer == idP) {
@@ -1760,6 +1766,208 @@ learningAnalytics.directive('laDetailedAction', function(utils){
     };
 });
 
+learningAnalytics.directive('laCommonFeedback', function(utils){
+    // set the view
+    function process(la, type, outcome) {
+        //var i, j, k, nb;
+
+        //var totalTimeSpent, maxTimeSpent, minTimeSpent, timeS, avgTimeSpent;
+        
+        var dataset = utils.getGameplayDataset(la);
+        var datasetFirst = utils.getPlayerFirstDataset(la);
+        var datasetLast = utils.getPlayerLastDataset(la);
+        var datasetBest = utils.getPlayerBestDataset(la, outcome);
+
+        type = type.toUpperCase();
+
+        if (dataset.length < 1) {
+            return 0;
+        }
+
+        // find data to show in good format = json : { categories:[c1, c2, ...], series: [{name:"...", data:[n1, n2, ..., n6]}, ...] }
+        var data;
+        var categories = [];
+        var series = [];
+ 
+        var paramFirst = {};
+        var paramLast = {};    
+        var paramBest = {}; 
+        var paramAll = {};   
+
+        // look for params of action to sort by
+        angular.forEach(dataset, function (d) {
+            angular.forEach(d.feedback, function (feedback) {
+                var f = feedback.feedback;
+                var typeF = (f.type != null)? f.type : ((f.final != null)? "FINAL" : "no type");
+                if (typeF === type || type === "ALL")
+                {
+                    if (paramAll[f.name] != null)
+                    {
+                        paramAll[f.name] += 1;
+                        paramLast[f.name] = 0;
+                        paramBest[f.name] = 0;
+                        paramFirst[f.name] = 0;
+                    }
+                    else
+                    {
+                        paramAll[f.name] = 1;
+                    }
+                }
+            });
+        });
+
+        // look for params of action in FIRST
+        angular.forEach(datasetFirst, function (d) {
+            angular.forEach(d.feedback, function (feedback) {
+                var f = feedback.feedback;
+                var typeF = (f.type != null)? f.type : ((f.final != null)? "FINAL" : "no type");
+                if (typeF === type || type === "ALL")
+                {
+                    if (paramFirst[f.name] != null)
+                    {
+                        paramFirst[f.name] += 1;
+                    }
+                    else
+                    {
+                        paramFirst[f.name] = 1;
+                    }
+                }
+            });
+        });
+
+
+        // look for params of action in LAST
+        angular.forEach(datasetLast, function (d) {
+            angular.forEach(d.feedback, function (feedback) {
+                var f = feedback.feedback;
+                var typeF = (f.type != null)? f.type : ((f.final != null)? "FINAL" : "no type");
+                if (typeF === type || type === "ALL")
+                {
+                    if (paramLast[f.name] != null)
+                    {
+                        paramLast[f.name] += 1;
+                    }
+                    else
+                    {
+                        paramLast[f.name] = 1;
+                    }
+                }
+            });
+        });
+
+        // look for params of action in BEST
+        angular.forEach(datasetBest, function (d) {
+            angular.forEach(d.feedback, function (feedback) {
+                var f = feedback.feedback;
+                var typeF = (f.type != null)? f.type : ((f.final != null)? "FINAL" : "no type");
+                if (typeF === type || type === "ALL")
+                {
+                    if (paramBest[f.name] != null)
+                    {
+                        paramBest[f.name] += 1;
+                    }
+                    else
+                    {
+                        paramBest[f.name] = 1;
+                    }
+                }
+            });
+        });
+
+        var array=[];
+
+        for(p in paramAll){
+         array.push([p.trim(),paramAll[p]]);
+        }
+
+        array.sort(function(a,b){return a[1] - b[1]});
+        array.reverse();
+
+        var title = type.toLowerCase().charAt(0).toUpperCase() + type.toLowerCase().slice(1) + " feedback triggered";
+
+        var allSerieData = [];
+        var firstSerieData = [];
+        var lastSerieData = [];
+        var bestSerieData = [];
+
+        var i = 0;
+        while ( i < array.length)
+        {
+            categories.push(array[i][0]);
+
+            firstSerieData.push(paramFirst[array[i][0]] /datasetFirst.length);
+            lastSerieData.push(paramLast[array[i][0]] /datasetLast.length);
+            bestSerieData.push(paramBest[array[i][0]] /datasetBest.length);
+            allSerieData.push(array[i][1] /dataset.length);
+
+            i++;
+        }
+
+        firstSerie = {"name": "First", "data": firstSerieData};
+        lastSerie = {"name": "Last", "data": lastSerieData};
+        bestSerie = {"name": "Best", "data": bestSerieData};
+        allSerie = {"name": "All", "data": allSerieData};
+        series.push(firstSerie);
+        series.push(lastSerie);
+        series.push(bestSerie);
+        //series.push(allSerie);
+
+        // draw bar chart
+        data = {"categories": categories, "series": series, "title": title}
+        return data;
+
+    }
+
+    function draw(element, data){
+        element.highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: data.title
+            },
+            xAxis: {
+                categories: data.categories
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'times triggered on average per gameplay'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.2f}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.1,
+                    borderWidth: 0
+                }
+            },
+            series: data.series
+        });
+    }
+    
+    return {
+        scope: {
+            la: '=la',
+            outcome: '=outcome',
+            type: '=type'
+        },
+        link: function (scope, element) {
+            scope.$watchGroup(['la', 'type', 'outcome'], function (){
+                var data = process(scope.la, scope.type, scope.outcome);
+                draw(element, data);
+            });
+        
+        }
+    };
+});
 
 learningAnalytics.controller('LA_controller',
     ['$scope', '$http', '$location', function ($scope, $http, $location) {
@@ -1778,6 +1986,22 @@ learningAnalytics.controller('LA_controller',
                 }
             }
             return players;
+        }
+
+        $scope.getFeedbackTypes = function()
+        {
+            var types = [];
+            var feedbackMessages = Object.keys($scope.LA.game.feedback);
+            for (feedback in feedbackMessages)
+            {
+                var f = $scope.LA.game.feedback[feedbackMessages[feedback]];
+                var type = (f.type != null)? f.type : ((f.final != null)? "final" : "no type");
+                if (types.indexOf(type) < 0)
+                {
+                    types.push(type);
+                }
+            }
+            return types;
         }
 
         $scope.getParamsAction = function ()
@@ -1863,6 +2087,7 @@ learningAnalytics.controller('LA_controller',
                 $scope.loCommonActions = $scope.getLearningOutcomesList()[0];
                 $scope.loDetailedAction = $scope.getLearningOutcomesList()[0];
                 $scope.loCommonActionsBest = $scope.getLearningOutcomesList()[0];
+                $scope.loCommonFeedack = $scope.getLearningOutcomesList()[0]; 
 
                 $scope.signLOCommonActions = "-";
                 $scope.mostOrLeastCommon = "false";
@@ -1870,6 +2095,8 @@ learningAnalytics.controller('LA_controller',
                 $scope.actionsCommonActions = $scope.getActionList()[0];
                 $scope.actionDetailedAction = $scope.getActionList()[0];
                 $scope.paramDetailedAction = $scope.getParamsAction()[0];
+
+                $scope.typeFeedback = "All";
 
             });
     }]
