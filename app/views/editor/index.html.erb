@@ -135,12 +135,25 @@ Editor
 			<div class="col-md-12">
 				<div class="media" ng-repeat="badge in badges">
 					<div class="media-left">
-						<a href="#"><img class="media-object" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PGRlZnMvPjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjE0LjUiIHk9IjMyIiBzdHlsZT0iZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQ7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9nPjwvc3ZnPg==" alt="{{badge}}"></a>
+						<a href="#"><img class="media-object" ng-src="/badges/{{badge}}.png" alt="{{badge}}"></a>
 					</div>
 					<div class="media-body">
 						<h4 class="media-heading">{{badge}}:</h4>
 						<span ng-repeat="m in config.badgeModel | filter:badge">
-							<span>{{badge}} is won when <span>{{m.function}}</span> <span>{{m.sign}}</span> <span>{{m.limit}}</span></span>
+							<span>won when </span>
+							<span editable-select="m.function" e-required e-ng-options="k as v for (k, v) in badgeFeedback">{{badgeFeedback[m.function]}} </span>
+							<span ng-if="m.function.indexOf('Score') > -1"  editable-select="m.outcome" e-required e-ng-options="k as v.desc for (k, v) in config.learningOutcomes">
+								<span ng-if="m.outcome">'{{m.outcome}}' ({{config.learningOutcomes[m.outcome].desc}}) </span>
+								<span ng-if="!m.outcome">select a score </span>
+							</span>
+							<span>is </span>
+							<span ng-switch="m.sign" editable-select="m.sign" e-required e-ng-options="k as v for (k, v) in signs">
+								<span ng-switch-when=">">greater than </span>
+								<span ng-switch-when="<">lower than </span>
+								<span ng-switch-default>{{m.sign}} </span>
+							</span>
+							<span editable-number="m.limit" e-required>{{m.limit}} </span>
+							<span ng-if="m.function.indexOf('Time') > -1">minutes</span>
 						</span>
 						<br/>
 						<strong>message: </strong><span editable-textarea="config.feedback[badge].message" e-rows="2" e-cols="40" >{{config.feedback[badge].message}}</span>
@@ -157,9 +170,20 @@ Editor
 		</div>
 		<div class="modal-body">
 			<div>
+				<h4>Add feedback</h4>
+				<form class="form-inline">
+					<div class="form-group" ng-submit="createFeedback(newFeedbackName, newFeedbackMessage, newFeedbackType)">
+						<input placeholder="name" type="text" ng-model="newFeedbackName" required class="form-control">
+						<input placeholder="description" type="text" ng-model="newFeedbackMessage" required class="form-control">
+						<select ng-options="fbType for fbType in feedbackTypes" ng-model="newFeedbackType" class="form-control"></select>
+						<button type="submit" class="btn btn-default">create</button>
+					</div>
+				</form>
+			</div>
+			<div>
 				<h4>Positive Feedback</h4>
 				<table class="table table-bordered">
-					<tbody>
+					<tbody>newFeedbackMessage
 						<tr ng-repeat="(name, feedback) in config.feedback" ng-if="feedback.type=='positive'">
 							<td class="col-lg-2">{{name}}</td>
 							<td>{{feedback.message}}</td>
@@ -167,13 +191,6 @@ Editor
 						</tr>
 					</tbody>
 				</table>
-				<form class="form-inline">
-					<div class="form-group">
-						<input placeholder="name" type="text" ng-model="newPositiveFeedbackName" required class="form-control">
-						<input placeholder="name" type="text" ng-model="newPositiveFeedbackMessage" required class="form-control">
-						<button type="submit" class="btn btn-default">create</button>
-					</div>
-				</form>
 			</div>
 			<div>
 				<h4>Negative Feedback</h4>

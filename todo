@@ -14,11 +14,12 @@ Learning Outcomes:
 Rules of the Game:
 ==================
 - 1 is added to LO_desc / x is substracted from LO_desc (integer)
-- Add remove feedback
 - feeback in dropdown grouped by type [instead of textarea]
 - button manage feedback to edit type + message
 - Select multiple parameters (id 98)
 
+- OK: Create Feedback
+- OK: Add remove feedback
 - OK: display feeback type
 - OK: Division btw case 1 : "{country} in" / Case 2 ... / Any other {country}
 - OK: score update Add from dropdown + Remove 
@@ -32,15 +33,10 @@ End of Game
 
 Badges
 ======
+- OK: "won when the player plays more than 10 minutes"
+- OK:  things editable (keyword, sign, value, [optional] score if complex keyword)
+- OK: add images
 - OK: Change name : across gameplays badges
-- "won when the player plays more than 10 minutes"
-- things editable
-	+ keyword
-	+ sign
-	+ value
-	+ [optional] score if complex keyword
-- add images
-
 
 Other
 =====

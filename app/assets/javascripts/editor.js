@@ -205,15 +205,16 @@
             });
 
             modalInstance.result.then(
-                function (selectedItem) {
-                    console.log('TODO');
+                function (feedback) {
+                    reaction.feedback.push({
+                        immediate: true,
+                        name: feedback
+                    });
 
-                },
-                function () {
-                    console.log('error');
                 }
             );
         };
+
 
         /**
          * Save config
@@ -233,16 +234,29 @@
                 }
             );
 
-        }
+        };
 
         /**
          * Initialization
          */
-
         $scope.signs = {
             ">": "greater than",
             "<": "lower than"
         };
+
+        $scope.badgeFeedback = {
+            sumScore: "the total score",
+            averageScore: "the player's average score",
+            maxScore: "the player's maximum scrore",
+            minScore: "the player's minimum scrore",
+            averageTime: "the average time played",
+            totalTime: "the total time played",
+            numberWin: "the number of games won",
+            numberGameplays: "the number of games played",
+        };
+
+        $scope.feedbackTypes = ['positive', 'negative'];
+        $scope.newFeedbackType = $scope.feedbackTypes[0];
 
         // parse URL
         path = /(\d+)\/version\/(\d+)/.exec($location.absUrl());
@@ -266,5 +280,18 @@
         $scope.cancel = function () {
             $modalInstance.dismiss('cancel');
         };
+
+        /**
+         * Create a new feedback
+         */
+        $scope.createFeedback = function (name, message, type) {
+            $scope.config.feedback[name] = {
+                message: message,
+                type: type
+            };
+            $scope.newFeedbackName = "";
+            $scope.newFeedbackMessage = "";
+        };
+
     });
 }(window.angular));

@@ -1,20 +1,10 @@
-/*globals jasmine, angular, describe, config, beforeEach, afterEach, it, expect, inject */
+/*globals jasmine, angular, spyOn, describe, config, beforeEach, afterEach, it, expect, inject */
 /*jslint nomen: true*/
 "use strict";
 describe('Editor ', function () {
     beforeEach(
         module('EnGAge')
     );
-
-
-    // Mock modal service 
-    beforeEach(module(function ($provide) {
-        $provide.service('$modalInstance', function () {
-            this.open = jasmine.createSpy('open');
-            this.close = jasmine.createSpy('close');
-            this.dismiss = jasmine.createSpy('dismiss');
-        });
-    }));
 
     // Mock location service 
     beforeEach(module(function ($provide) {
@@ -29,30 +19,41 @@ describe('Editor ', function () {
     }));
 
     describe('Editor ', function () {
-        var $scope,
-            $httpBackend,
-            $controller,
-            createController,
-            createFeedbackController,
-            $modalInstance,
-            $location,
+        var $scope, $httpBackend, $controller, $location,
+            $modalInstance, $modal,
+            createController, createFeedbackController,
             newConfig;
 
-        beforeEach(inject(function (_$controller_, _$rootScope_, _$httpBackend_, _$modalInstance_, _$location_) {
+        beforeEach(inject(function (_$controller_, _$rootScope_, _$httpBackend_, _$location_,  _$modal_) {
             $scope = _$rootScope_;
             $httpBackend = _$httpBackend_;
             $controller = _$controller_;
-            $modalInstance = _$modalInstance_;
             $location = _$location_;
+            $modal = _$modal_;
 
             createController = function () {
-                var ctlr = $controller('GameCtrl', {'$scope' : $scope });
+                var ctlr = $controller('GameCtrl', {
+                    '$scope' : $scope,
+                    '$modalInstance' : $modalInstance
+                });
                 $httpBackend.flush();
                 return ctlr;
             };
 
             createFeedbackController = function () {
-                return $controller('feedbackCtrl', {'$scope' : $scope });
+                return $controller('feedbackCtrl', {
+                    '$scope' : $scope,
+                    '$modalInstance' : $modalInstance
+                });
+            };
+
+            // Mock modalInstance
+            $modalInstance = {
+                close: jasmine.createSpy('modalInstance.close'),
+                dismiss: jasmine.createSpy('modalInstance.dismiss'),
+                result: {
+                    then: jasmine.createSpy('modalInstance.result.then')
+                }
             };
 
             /* Mock new config*/
@@ -241,20 +242,41 @@ describe('Editor ', function () {
                 });
             });
 
+
             describe('openFeedbackModal', function () {
+                var reaction;
                 beforeEach(function () {
                     createController();
+                    reaction = $scope.config.evidenceModel.newCountrySelected.reactions[0];
                 });
 
                 it('should open modal', function () {
+                    spyOn($modal, 'open').and.callThrough();
                     $scope.openFeedbackModal();
                     $httpBackend.expectGET('myModalContent.html');
                     $httpBackend.flush();
+                    expect($modal.open).toHaveBeenCalled();
                 });
 
                 it('should add feedback on select', function () {
-                    $scope.openFeedbackModal();
-                    $httpBackend.flush();
+                    var fb, fakeModalInstance;
+                    // mock the modal
+                    fb = "new_fb";
+                    fakeModalInstance = {
+                        result: {
+                            then: function (callback) { callback(fb); }
+                        }
+                    };
+                    spyOn($modal, 'open').and.callFake(function () {
+                        return fakeModalInstance;
+                    });
+                    $scope.openFeedbackModal(reaction);
+                    expect(reaction.feedback[1]).toEqual(
+                        {
+                            immediate: true,
+                            name: fb
+                        }
+                    );
                 });
             });
         });
@@ -276,6 +298,30 @@ describe('Editor ', function () {
                 it('should close the modal ', function () {
                     $scope.cancel();
                     expect($modalInstance.dismiss).toHaveBeenCalled();
+                });
+            });
+
+            describe('create feedback', function () {
+                beforeEach(function () {
+                    createController();
+                });
+
+                it('should add a new feedback ', function () {
+                    $scope.createFeedback('newfb', 'message', 'postive');
+                    expect($scope.config.feedback.newfb).toEqual({
+                        message: "message",
+                        type: "postive"
+                    });
+                });
+                it('should reset the new feedback name', function () {
+                    $scope.newFeedbackName = "newName";
+                    $scope.createFeedback('newfb', 'message', 'postive');
+                    expect($scope.newFeedbackName).toEqual("");
+                });
+                it('should reset the new feedback fields', function () {
+                    $scope.newFeedbackMessage = "newMessage";
+                    $scope.createFeedback('newfb', 'message', 'postive');
+                    expect($scope.newFeedbackMessage).toEqual("");
                 });
             });
         });
