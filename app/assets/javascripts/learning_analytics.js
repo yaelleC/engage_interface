@@ -1910,7 +1910,7 @@ learningAnalytics.directive('laCommonFeedback', function(utils){
         series.push(firstSerie);
         series.push(lastSerie);
         series.push(bestSerie);
-        //series.push(allSerie);
+        series.push(allSerie);
 
         // draw bar chart
         data = {"categories": categories, "series": series, "title": title}
@@ -1968,6 +1968,157 @@ learningAnalytics.directive('laCommonFeedback', function(utils){
         }
     };
 });
+
+learningAnalytics.directive('laBadges', function(utils){
+
+    function process(la, characteristic) {
+        var point;
+        var dataset = la.players;
+
+        if (dataset.length < 1) {
+            return 0;
+        }
+
+        // find data to show in good format
+        var series = [];
+
+        var categories = [];
+        var zeroCountBadges = [];
+
+        for (b in dataset[0].badges)
+        {
+            categories.push(dataset[0].badges[b].name);
+            zeroCountBadges.push(0);
+        }
+        // add one more to array to count number of player with characteristic
+        zeroCountBadges.push(0);
+
+        var zeroForAll = zeroCountBadges;
+
+        var seriesCharacteristic = {"all": zeroForAll};
+
+        // draw every line
+        for (p in dataset) {
+            //initialise score
+            var player = dataset[p];
+            var c = (characteristic == "student") ? "idPlayer" : characteristic;
+            var characteristicValue = player[c];
+            var idP = player.idPlayer;
+
+
+            if (seriesCharacteristic[characteristicValue] == null)
+            {
+                var newZeroElement = [];
+                for (b in dataset[0].badges)
+                {
+                    newZeroElement.push(0);
+                }
+                newZeroElement.push(0);
+                seriesCharacteristic[characteristicValue] = newZeroElement;
+            }
+
+            for (var i = 0; i < categories.length; i++)
+            {
+                for(b in player.badges)
+                {
+                    var badge = player.badges[b];
+                    if (badge.name === categories[i] && badge.earned === true)
+                    {
+                        seriesCharacteristic[characteristicValue][i] ++;
+                        seriesCharacteristic["all"][i] ++;
+                    }
+                }
+            }
+            // increment last element of array (i.e. the count of player with the characteristic)
+            seriesCharacteristic[characteristicValue][categories.length] ++;
+            seriesCharacteristic["all"][categories.length] ++;
+        }
+
+        var characteristicValues = Object.keys(seriesCharacteristic);
+
+        for (var j=0 ; j < characteristicValues.length ; j++)
+        {
+            var characteristicValue = characteristicValues[j]
+            var points = [];
+
+            for (var i = 0 ; i < seriesCharacteristic[characteristicValue].length -1 ; i++)
+            {
+                points[i] = seriesCharacteristic[characteristicValue][i] * 100 / seriesCharacteristic[characteristicValue][categories.length];
+            }
+            series[series.length] = {
+                "name": characteristicValue, 
+                "data": points,
+                "pointPlacement": 'on',
+                "color": Highcharts.getOptions().colors[j % 10] 
+            };
+        }
+
+        var data = {"categories": categories, "series":series}
+        return data;
+    }
+
+    function draw(element, characteristic, data){
+        // draw chart in containerLearningCurveBy + characteristic
+        element.highcharts({
+            chart: {
+                polar: true,
+                type: 'line'
+            },
+
+            title: {
+                text: 'Badges earned by ' + characteristic,
+                x: -80
+            },
+
+            pane: {
+                size: '80%'
+            },
+
+            xAxis: {
+                categories: data.categories,
+                tickmarkPlacement: 'on',
+                lineWidth: 0
+            },
+
+            yAxis: {
+                gridLineInterpolation: 'polygon',
+                lineWidth: 0,
+                min: 0,
+                max: 100
+            },
+
+            tooltip: {
+                shared: true,
+                pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y:,.1f} %</b><br/>'
+            },
+
+            legend: {
+                align: 'right',
+                verticalAlign: 'top',
+                y: 70,
+                layout: 'vertical'
+            },
+
+            series: data.series
+        });
+    }
+    
+    return {
+        scope: {
+            la: '=la',
+            characteristic: '=characteristic'
+        },
+        link: function (scope, element) {
+            scope.$watchGroup(['la', 'characteristic'], function (){
+                var data = process(scope.la, scope.characteristic);
+                draw(element, scope.characteristic, data);
+            });
+        
+        }
+    };
+});
+
+
 
 learningAnalytics.controller('LA_controller',
     ['$scope', '$http', '$location', function ($scope, $http, $location) {
