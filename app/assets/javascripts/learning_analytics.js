@@ -2118,7 +2118,82 @@ learningAnalytics.directive('laBadges', function(utils){
     };
 });
 
+learningAnalytics.directive('laBadgeDetailed', function(utils){
 
+    function process(la, badge) {
+
+        if (la.players.length < 1) {
+            return 0;
+        }
+
+        // find data to show in good format
+        var series = [];
+        var earnedBy = [];
+        var notEarnedBy = []; 
+
+        // save who earned the badge
+        for (p in la.players) {
+            var player = la.players[p];
+
+            for(b in player.badges)
+            {
+                var currentBadge = player.badges[b];
+                if (currentBadge.name === badge)
+                {
+                    var username = utils.getUsernameById(la, player.idPlayer);
+                    if (currentBadge.earned === true)
+                    {
+                        earnedBy.push(username);
+                    }
+                    else
+                    {
+                        notEarnedBy.push(username);
+                    }
+                }
+            }
+        }
+
+        var percentEarned = earnedBy.length * 100 / (la.players.length);
+        series.push(percentEarned);
+        data = {"percent": percentEarned, "earned": earnedBy, "not": notEarnedBy};
+        console.log(data);
+        return data;
+    }
+
+    function draw(element, data, badge){
+
+        var listEarned = "";
+        for (var i=0 ; i<data.earned.length ; i++)
+        {
+            listEarned += "<li>"+ data.earned[i] +"</li>";
+        }
+
+        var listNot = "";
+        for (var i=0 ; i<data.not.length ; i++)
+        {
+            listNot += "<li>"+ data.not[i] +"</li>";
+        }
+
+        element.text("<div class=\"col-md-6\"><h5>Earned by ("+data.percent+"%):</h5>" +
+            "<ul>"+listEarned+"</ul></div><div class=\"col-md-6\"><h5>Not earned by ("+ (100 - data.percent) +"%):</h5>" +
+            "<ul>"+listNot+"</ul></div>");
+    }
+    
+    return {
+        scope: {
+            la: '=la',
+            badge: '=badge',
+            data: '=data'
+        },
+        link: function (scope, element) {
+            scope.$watchGroup(['la', 'badge'], function (){
+                scope.data = process(scope.la, scope.badge);
+                //draw(element, scope.data, scope.badge);
+            });
+        
+        }
+    };
+});
 
 learningAnalytics.controller('LA_controller',
     ['$scope', '$http', '$location', function ($scope, $http, $location) {
@@ -2248,6 +2323,8 @@ learningAnalytics.controller('LA_controller',
                 $scope.paramDetailedAction = $scope.getParamsAction()[0];
 
                 $scope.typeFeedback = "All";
+
+                $scope.badgeDetailed = $scope.LA.players[0].badges[0].name;
 
             });
     }]

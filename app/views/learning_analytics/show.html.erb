@@ -93,7 +93,7 @@ Learning Analytics
 				<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
 			</select>
 		</p>
-		
+		<br/>
 		<tabset>
 		    <tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
 		      <div la-learning-curves-within-gameplays la="LA" characteristic="c" outcome="loLearningCurvesWithinGameplaysOutcome"></div>
@@ -196,6 +196,46 @@ Learning Analytics
 				<div la-badges la="LA" characteristic="c"></div>
 		    </tab>
 		</tabset>
+	</div>
+
+	<div class="col-md-6 blockLA blockInteractions">
+		<h4>Badges detailed</h4>
+		<p>
+			<select ng-model="badgeDetailed">
+				<option ng-repeat="b in LA.players[0].badges" value="{{b.name}}">{{b.name}}</option>
+			</select>
+		</p>
+
+		<div la-badge-detailed la="LA" badge="badgeDetailed">
+			<div class="col-md-6">
+				<h5>Earned by ({{ data.percent }}%):</h5>
+            	<ul>
+            		<li ng-repeat="user in data.earned">{{ user }}</li>
+            	</ul>
+            </div>
+            <div class="col-md-6">
+            	<h5>Not earned by ({{ 100 - data.percent }}%):</h5>
+            	<ul>
+            		<li ng-repeat="user2 in data.not">{{ user2 }}</li>
+            	</ul>
+            </div>
+		</div>
+		
+		<!--<div class="col-md-6">
+			<h5>Earned by</h5>
+			<ul>
+			</ul>
+		</div>
+		<div class="col-md-6">
+			<h5>Not earned by</h5>
+			<div la-badge-detailed la="LA" badge="badgeDetailed" earned=""></div>
+		</div>
+
+		<tabset>
+		    <tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
+				<div la-badges la="LA" characteristic="c"></div>
+		    </tab>
+		</tabset>-->
 	</div>
 
 	<div class="col-md-6 blockLA blockScoreStat">

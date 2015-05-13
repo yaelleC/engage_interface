@@ -13,7 +13,10 @@ class AccessStudentGamesController < ApplicationController
 
     if !current_user.teacher.nil?
       @groups = current_user.teacher.groups
-      @games = current_user.teacher.serious_games.select("id, name, GROUP_CONCAT(CONCAT(version, ' - ', IFNULL(nameVersion,'?'))) as versions").order("created DESC").group('id')
+      @games = current_user.teacher.serious_games
+                .select("id, name, GROUP_CONCAT(CONCAT(version, ' - ', IFNULL(nameVersion,'?'))) as versions")
+                .where("seriousgame.idTeacher = ? OR seriousgame.idTeacher IS NULL", current_user.teacher.id)
+                .order("created DESC").group('id')
       @games.each do |g|
         g.versions = g.versions + ", no access"
       end

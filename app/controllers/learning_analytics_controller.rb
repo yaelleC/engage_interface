@@ -14,7 +14,9 @@ class LearningAnalyticsController < ApplicationController
   # GET /learning_analytics.json
   def index
   	if !current_user.teacher.nil?
-      @serious_games = current_user.teacher.serious_games(:order => 'created DESC')
+      @serious_games = current_user.teacher.serious_games
+                .where("seriousgame.idTeacher = ? OR seriousgame.idTeacher IS NULL", current_user.teacher.id)
+                .order("created DESC")
     elsif !current_user.developer.nil?
       @serious_games = current_user.developer.serious_games(:order => 'created DESC')
     else
