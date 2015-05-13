@@ -14,6 +14,18 @@ learningAnalytics.factory('utils', function() {
                 }
                 else
                 {
+                    if (la.players[i].name != null)
+                    {
+                        return la.players[i].name + ' (' + la.players[i].idPlayer + ')';      
+                    }
+                    else if (la.players[i].username != null)
+                    {
+                        return la.players[i].username + ' (' + la.players[i].idPlayer + ')';      
+                    }
+                    else if (la.players[i].firstname != null)
+                    {
+                        return la.players[i].firstname + ' (' + la.players[i].idPlayer + ')';      
+                    }
                     return 'Anonymous ('+ la.players[i].idPlayer + ')';                 
                 }
             }
@@ -830,7 +842,7 @@ learningAnalytics.directive('laHowManyTimes', function(utils){
 
 learningAnalytics.directive('laFinalScores', function(utils){
     // set the view
-    function process(la, view, characteristic, outcome) {
+    function process(la, view, characteristic, outcome, bestoutcome) {
         // set the view
         var dataset = [];
         var i, j, k;
@@ -845,7 +857,7 @@ learningAnalytics.directive('laFinalScores', function(utils){
             dataset = utils.getPlayerLastDataset(la);
         }
         else if (view == "playerBest") {
-            dataset = utils.getPlayerBestDataset(la, outcome);
+            dataset = utils.getPlayerBestDataset(la, bestoutcome);
         }
 
         if (dataset.length < 1) {
@@ -955,11 +967,12 @@ learningAnalytics.directive('laFinalScores', function(utils){
             la: '=la',
             view: '=view',
             outcome: '=outcome',
-            characteristic: '=characteristic'
+            characteristic: '=characteristic',
+            bestoutcome: '=bestoutcome'
         },
         link: function (scope, element) {
-            scope.$watchGroup(['la', 'view', 'characteristic', 'outcome'], function (){
-                var output = process(scope.la, scope.view, scope.characteristic, scope.outcome);
+            scope.$watchGroup(['la', 'view', 'characteristic', 'outcome', 'bestoutcome'], function (){
+                var output = process(scope.la, scope.view, scope.characteristic, scope.outcome, scope.bestoutcome);
                 draw(element, scope.characteristic, output.data, output.categories, scope.outcome);
             });
         
@@ -969,7 +982,7 @@ learningAnalytics.directive('laFinalScores', function(utils){
 
 learningAnalytics.directive('laLearningCurves', function(utils){
     // set the view
-    function process(la, view, characteristic, outcome) {
+    function process(la, view, characteristic, outcome, bestoutcome) {
         // set the view
         var i, j, k;
         var point, score;
@@ -978,11 +991,14 @@ learningAnalytics.directive('laLearningCurves', function(utils){
         if (view == "gameplay") {
             dataset = utils.getGameplayDataset(la);
         }
+        else if (view == "playerFirst") {
+            dataset = utils.getPlayerFirstDataset(la);
+        }
         else if (view == "playerLast") {
             dataset = utils.getPlayerLastDataset(la);
         }
         else if (view == "playerBest") {
-            dataset = utils.getPlayerBestDataset(la, outcome);
+            dataset = utils.getPlayerBestDataset(la, bestoutcome);
         }
 
         if (dataset.length < 1) {
@@ -1118,11 +1134,12 @@ learningAnalytics.directive('laLearningCurves', function(utils){
             la: '=la',
             view: '=view',
             outcome: '=outcome',
-            characteristic: '=characteristic'
+            characteristic: '=characteristic',
+            bestoutcome: '=bestoutcome'
         },
         link: function (scope, element) {
-            scope.$watchGroup(['la', 'view', 'characteristic', 'outcome'], function (){
-                var data = process(scope.la, scope.view, scope.characteristic, scope.outcome);
+            scope.$watchGroup(['la', 'view', 'characteristic', 'outcome', 'bestoutcome'], function (){
+                var data = process(scope.la, scope.view, scope.characteristic, scope.outcome, scope.bestoutcome);
                 draw(element, scope.characteristic, data, scope.outcome);
             });
         
@@ -2182,13 +2199,13 @@ learningAnalytics.directive('laBadgeDetailed', function(utils){
     return {
         scope: {
             la: '=la',
-            badge: '=badge',
-            data: '=data'
+            badge: '=badge'
         },
+        templateUrl: "badgeDetail.html",
         link: function (scope, element) {
             scope.$watchGroup(['la', 'badge'], function (){
-                scope.data = process(scope.la, scope.badge);
-                //draw(element, scope.data, scope.badge);
+                scope.result = process(scope.la, scope.badge);
+                //draw(element, scope.result, scope.badge);
             });
         
         }
@@ -2299,6 +2316,7 @@ learningAnalytics.controller('LA_controller',
         $scope.howManyTimesView = 'gameplay';
         $scope.finalScoresView = 'gameplay';
         $scope.learningCurvesView = 'gameplay';
+        $scope.customView = 'gameplay';
         
         // Get the learning analytics
         var path = /learning_analytics\/(\d+)\/(\d+)/.exec($location.absUrl());
@@ -2314,6 +2332,9 @@ learningAnalytics.controller('LA_controller',
                 $scope.loDetailedAction = $scope.getLearningOutcomesList()[0];
                 $scope.loCommonActionsBest = $scope.getLearningOutcomesList()[0];
                 $scope.loCommonFeedack = $scope.getLearningOutcomesList()[0]; 
+                $scope.loFinalScoresBestOutcome = $scope.getLearningOutcomesList()[0]; 
+                $scope.loLearningCurveBestOutcome = $scope.getLearningOutcomesList()[0]; 
+                $scope.loCustomBestOutcome = $scope.getLearningOutcomesList()[0]; 
 
                 $scope.signLOCommonActions = "-";
                 $scope.mostOrLeastCommon = "false";
