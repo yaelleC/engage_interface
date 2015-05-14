@@ -25,4 +25,5 @@
 //= require ui-bootstrap-tpls-0.12.0.min
 //= require xeditable.min
 //= require select.min
+//= require parser
 //= require_tree .
