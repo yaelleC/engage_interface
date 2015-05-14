@@ -297,10 +297,8 @@ learningAnalytics.factory('utils', function() {
             return 0;
         }
 
-        // save who earned the badge
         for (o in listOutcomes) {
             var outcome = arrayScores[listOutcomes[o]];
-
             formula = formula.replace(listOutcomes[o], outcome);
         }
 
@@ -917,7 +915,7 @@ learningAnalytics.directive('laFinalScores', function(utils){
                 categories[categories.length] = valueC;
 
                 scoresList = [];
-                if (outcome === "custom")
+                if (outcome === "_custom_")
                 {
                     var formulaParsed = utils.getValueForCustomFormula(dataset[j].finalScores, formula);
                     scoresList[0] = formulaParsed;
@@ -935,7 +933,7 @@ learningAnalytics.directive('laFinalScores', function(utils){
                 for (k = j - 1; k >= 0; k--) {
                     if (dataset[k][characteristic] == characteristicValue) {
                         // if there is a new gp
-                        if (outcome === "custom")
+                        if (outcome === "_custom_")
                         {
                             scoresList[scoresList.length] = utils.getValueForCustomFormula(dataset[k].finalScores, formula);
                         }
@@ -953,7 +951,7 @@ learningAnalytics.directive('laFinalScores', function(utils){
         scoresList = [];
 
         for (j = 0; j < dataset.length; j++) {
-            if (outcome === "custom")
+            if (outcome === "_custom_")
             {
                 scoresList[j] = utils.getValueForCustomFormula(dataset[j].finalScores, formula);
             }
@@ -966,7 +964,7 @@ learningAnalytics.directive('laFinalScores', function(utils){
         categories[categories.length] = "Total";
         data[data.length] = utils.getArrayStats(scoresList);
 
-        var title = (outcome === "custom")? formula : outcome;
+        var title = (outcome === "_custom_")? formula : outcome;
 
         // draw bar chart
         return { data: data, categories: categories, title: title};
@@ -1203,14 +1201,13 @@ learningAnalytics.directive('laLearningCurves', function(utils){
 
 learningAnalytics.directive('laLearningCurvesWithinGameplays', function(utils){
 
-    function process(la, characteristic, outcome) {
+    function process(la, characteristic, outcome, formula) {
         var point;
         var dataset = utils.getGameplayDataset(la);
 
         if (dataset.length < 1) {
             return 0;
         }
-
 
         dataset.sort(utils.sortFunctionTimeStarted);
 
@@ -1238,7 +1235,31 @@ learningAnalytics.directive('laLearningCurvesWithinGameplays', function(utils){
 
                 point = [];
                 point[0] = tryNumber;
-                point[1] = la.game.learningOutcomes[outcome].value;
+
+                if (outcome === "_custom_")
+                {
+                    var formula2 = formula + " ";
+                    listOutcomes = Object.keys(la.game.learningOutcomes);
+                    for (o in listOutcomes) {
+                        var outcome2 = la.game.learningOutcomes[listOutcomes[o]];
+
+                        formula2 = formula2.replace(listOutcomes[o], outcome2.value);
+                    }
+
+                    if (formula2.match(/[a-z]/i))
+                    {
+                        formula = "error, score not found";
+                        return null;
+                    }
+
+                    var formulaParsed = Parser.evaluate(formula2);
+
+                    point[1] = formulaParsed;                    
+                }
+                else
+                {
+                    point[1] = la.game.learningOutcomes[outcome].value;
+                }          
 
                 var points = [];
                 points[0] = point;
@@ -1248,7 +1269,16 @@ learningAnalytics.directive('laLearningCurvesWithinGameplays', function(utils){
                         tryNumber++;
                         point = [];
                         point[0] = tryNumber;
-                        point[1] = dataset[k].finalScores[outcome];
+                        if (outcome === "_custom_")
+                        {
+                            var pt1 = utils.getValueForCustomFormula(dataset[k].finalScores, formula);
+                            console.log(pt1);
+                            point[1] = pt1;
+                        }
+                        else
+                        {
+                            point[1] = dataset[k].finalScores[outcome];
+                        }
 
                         points.push(point);
                     }
@@ -1266,15 +1296,16 @@ learningAnalytics.directive('laLearningCurvesWithinGameplays', function(utils){
         return data;
     }
 
-    function draw(element, characteristic, data, outcome){
+    function draw(element, characteristic, data, outcome, formula){
         // draw chart in containerLearningCurveBy + characteristic
+        var title = (outcome === "_custom_")? formula : outcome;
         element.highcharts({
             title: {
                 text: 'Learning curve by ' + characteristic,
                 x: -20 //center
             },
             subtitle: {
-                text: outcome,
+                text: title,
                 x: -20
             },
             xAxis: {
@@ -1311,12 +1342,13 @@ learningAnalytics.directive('laLearningCurvesWithinGameplays', function(utils){
         scope: {
             la: '=la',
             outcome: '=outcome',
-            characteristic: '=characteristic'
+            characteristic: '=characteristic',
+            formula: '=formula'
         },
         link: function (scope, element) {
-            scope.$watchGroup(['la', 'characteristic', 'outcome'], function (){
-                var data = process(scope.la, scope.characteristic, scope.outcome);
-                draw(element, scope.characteristic, data, scope.outcome);
+            scope.$watchGroup(['la', 'characteristic', 'outcome', 'formula'], function (){
+                var data = process(scope.la, scope.characteristic, scope.outcome, scope.formula);
+                draw(element, scope.characteristic, data, scope.outcome, scope.formula);
             });
         
         }

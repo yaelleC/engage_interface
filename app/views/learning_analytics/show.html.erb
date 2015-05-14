@@ -72,14 +72,14 @@ Learning Analytics
 		<p>
 			<select id="lo7" ng-model="loFinalScoresOutcome">
 				<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
-				<option value="custom">custom formula</option>
+				<option value="_custom_">custom formula</option>
 			</select>
 			<input type="radio" ng-model="finalScoresView" value="gameplay">All gameplays
 			<input type="radio" ng-model="finalScoresView" value="playerFirst">First 
 			<input type="radio" ng-model="finalScoresView" value="playerLast">Last 
 			<input type="radio" ng-model="finalScoresView" value="playerBest">Best 
 			<br/>
-			<span id="customFormula" ng-show="loFinalScoresOutcome == 'custom'">
+			<span id="customFormula" ng-show="loFinalScoresOutcome == '_custom_'">
 				<input type="text" ng-model="customFormulaFinalScore">
 				<i> Available scores:</i>
 				<span ng-repeat="o in getLearningOutcomesList()"> - <b>{{ o }}</b> </span>
@@ -103,12 +103,19 @@ Learning Analytics
 		<p>
 			<select id="lo9" ng-model="loLearningCurvesWithinGameplaysOutcome">
 				<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
+				<option value="_custom_">custom formula</option>
 			</select>
+			<br/>
+			<span ng-show="loLearningCurvesWithinGameplaysOutcome == '_custom_'">
+				<input type="text" ng-model="customFormulaLearningCurve">
+				<i> Available scores:</i>
+				<span ng-repeat="o in getLearningOutcomesList()"> - <b>{{ o }}</b> </span>
+			</span>
 		</p>
 		<br/>
 		<tabset>
 		    <tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
-		      <div la-learning-curves-within-gameplays la="LA" characteristic="c" outcome="loLearningCurvesWithinGameplaysOutcome"></div>
+		      <div la-learning-curves-within-gameplays la="LA" characteristic="c" outcome="loLearningCurvesWithinGameplaysOutcome" formula="customFormulaLearningCurve"></div>
 		    </tab>
 		</tabset>
 	</div>
