@@ -72,13 +72,19 @@ Learning Analytics
 		<p>
 			<select id="lo7" ng-model="loFinalScoresOutcome">
 				<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
+				<option value="custom">custom formula</option>
 			</select>
 			<input type="radio" ng-model="finalScoresView" value="gameplay">All gameplays
 			<input type="radio" ng-model="finalScoresView" value="playerFirst">First 
 			<input type="radio" ng-model="finalScoresView" value="playerLast">Last 
 			<input type="radio" ng-model="finalScoresView" value="playerBest">Best 
-
 			<br/>
+			<span id="customFormula" ng-show="loFinalScoresOutcome == 'custom'">
+				<input type="text" ng-model="customFormulaFinalScore">
+				<i> Available scores:</i>
+				<span ng-repeat="o in getLearningOutcomesList()"> - <b>{{ o }}</b> </span>
+				<br/>
+			</span>
 			<i>Calculate best gameplays based on:</i>
 			<select ng-model="loFinalScoresBestOutcome">
 				<option  ng-repeat="o in getLearningOutcomesList()" value="{{o}}">{{o}}</option>
@@ -87,7 +93,7 @@ Learning Analytics
 		
 		<tabset>
 		    <tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
-		      <div la-final-scores la="LA" characteristic="c" bestoutcome="loFinalScoresBestOutcome" outcome="loFinalScoresOutcome" view="finalScoresView"></div>
+		      <div la-final-scores la="LA" characteristic="c" bestoutcome="loFinalScoresBestOutcome" outcome="loFinalScoresOutcome" view="finalScoresView" formula="customFormulaFinalScore"></div>
 		    </tab>
 		</tabset>
 	</div>
@@ -236,46 +242,6 @@ Learning Analytics
 		    	</ul>
 		    </div>
 		</script>
-		
-		<!--<div class="col-md-6">
-			<h5>Earned by</h5>
-			<ul>
-			</ul>
-		</div>
-		<div class="col-md-6">
-			<h5>Not earned by</h5>
-			<div la-badge-detailed la="LA" badge="badgeDetailed" earned=""></div>
-		</div>
-
-		<tabset>
-		    <tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
-				<div la-badges la="LA" characteristic="c"></div>
-		    </tab>
-		</tabset>-->
-	</div>
-
-	<div class="col-md-6 blockLA blockScoreStat">
-		<h4>Custom formula</h4>
-		<p>
-			<select id="lo9" ng-model="loLearningCurvesOutcome">
-				<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
-			</select>
-			<input type="radio" ng-model="customView" value="gameplay">All gameplays
-			<input type="radio" ng-model="customView" value="playerFirst">First 
-			<input type="radio" ng-model="customView" value="playerLast">Last 
-			<input type="radio" ng-model="customView" value="playerBest">Best 
-
-			<br/>
-			<i>Calculate best gameplays based on:</i>
-			<select ng-model="loCustomBestOutcome">
-				<option  ng-repeat="o in getLearningOutcomesList()" value="{{o}}">{{o}}</option>
-			</select>
-		</p>
-		
-		<tabset>
-		    <tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
-		    </tab>
-		</tabset>
 	</div>
 
 	<script type="text/ng-template" id="myModalContent.html">

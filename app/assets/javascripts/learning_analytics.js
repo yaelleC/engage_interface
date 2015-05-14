@@ -287,6 +287,30 @@ learningAnalytics.factory('utils', function() {
             }
         }
         return dataset;
+    },
+
+    getValueForCustomFormula: function (arrayScores, formula)
+    {
+        listOutcomes = Object.keys(arrayScores);
+
+        if (listOutcomes.length < 1) {
+            return 0;
+        }
+
+        // save who earned the badge
+        for (o in listOutcomes) {
+            var outcome = arrayScores[listOutcomes[o]];
+
+            formula = formula.replace(listOutcomes[o], outcome);
+        }
+
+        if (formula.match(/[a-z]/i))
+        {
+            return "error, score not found";
+        }
+
+        var data = Parser.evaluate(formula);
+        return data;
     }
   };
 
@@ -842,7 +866,7 @@ learningAnalytics.directive('laHowManyTimes', function(utils){
 
 learningAnalytics.directive('laFinalScores', function(utils){
     // set the view
-    function process(la, view, characteristic, outcome, bestoutcome) {
+    function process(la, view, characteristic, outcome, bestoutcome, formula) {
         // set the view
         var dataset = [];
         var i, j, k;
@@ -893,12 +917,32 @@ learningAnalytics.directive('laFinalScores', function(utils){
                 categories[categories.length] = valueC;
 
                 scoresList = [];
-                scoresList[0] = dataset[j].finalScores[outcome];
+                if (outcome === "custom")
+                {
+                    var formulaParsed = utils.getValueForCustomFormula(dataset[j].finalScores, formula);
+                    scoresList[0] = formulaParsed;
+                    var formulaParsed_tostring = formulaParsed + " ";
+                    if (formulaParsed_tostring.match(/[a-z]/i))
+                    {
+                        return { data: null, categories: null, title: "error, score not found"};
+                    }
+                }
+                else
+                {
+                    scoresList[0] = dataset[j].finalScores[outcome];
+                }
 
                 for (k = j - 1; k >= 0; k--) {
                     if (dataset[k][characteristic] == characteristicValue) {
                         // if there is a new gp
-                        scoresList[scoresList.length] = dataset[k].finalScores[outcome];
+                        if (outcome === "custom")
+                        {
+                            scoresList[scoresList.length] = utils.getValueForCustomFormula(dataset[k].finalScores, formula);
+                        }
+                        else
+                        {
+                            scoresList[scoresList.length] = dataset[k].finalScores[outcome];
+                        }                                
                     }
                 }
                 data[data.length] = utils.getArrayStats(scoresList);
@@ -909,18 +953,27 @@ learningAnalytics.directive('laFinalScores', function(utils){
         scoresList = [];
 
         for (j = 0; j < dataset.length; j++) {
-            scoresList[j] = dataset[j].finalScores[outcome];
+            if (outcome === "custom")
+            {
+                scoresList[j] = utils.getValueForCustomFormula(dataset[j].finalScores, formula);
+            }
+            else
+            {
+                scoresList[j] = dataset[j].finalScores[outcome];
+            }
         }
 
         categories[categories.length] = "Total";
         data[data.length] = utils.getArrayStats(scoresList);
 
+        var title = (outcome === "custom")? formula : outcome;
+
         // draw bar chart
-        return { data: data, categories: categories};
+        return { data: data, categories: categories, title: title};
 
     }
 
-    function draw(element, characteristic, data, categories, outcome){
+    function draw(element, characteristic, data, categories, title){
         element.highcharts({
 
             chart: {
@@ -932,7 +985,7 @@ learningAnalytics.directive('laFinalScores', function(utils){
             },
 
             subtitle: {
-                text: outcome
+                text: title
             },
 
             legend: {
@@ -968,12 +1021,13 @@ learningAnalytics.directive('laFinalScores', function(utils){
             view: '=view',
             outcome: '=outcome',
             characteristic: '=characteristic',
-            bestoutcome: '=bestoutcome'
+            bestoutcome: '=bestoutcome',
+            formula: '=formula'
         },
         link: function (scope, element) {
-            scope.$watchGroup(['la', 'view', 'characteristic', 'outcome', 'bestoutcome'], function (){
-                var output = process(scope.la, scope.view, scope.characteristic, scope.outcome, scope.bestoutcome);
-                draw(element, scope.characteristic, output.data, output.categories, scope.outcome);
+            scope.$watchGroup(['la', 'view', 'characteristic', 'outcome', 'bestoutcome', 'formula'], function (){
+                var output = process(scope.la, scope.view, scope.characteristic, scope.outcome, scope.bestoutcome, scope.formula);
+                draw(element, scope.characteristic, output.data, output.categories, output.title);
             });
         
         }
@@ -2019,7 +2073,7 @@ learningAnalytics.directive('laBadges', function(utils){
             //initialise score
             var player = dataset[p];
             var c = (characteristic == "student") ? "idPlayer" : characteristic;
-            var characteristicValue = player[c];
+            var characteristicValue = (characteristic == "student") ? utils.getUsernameById(la, player[c]) : player[c] ;
             var idP = player.idPlayer;
 
 
@@ -2173,7 +2227,6 @@ learningAnalytics.directive('laBadgeDetailed', function(utils){
         var percentEarned = earnedBy.length * 100 / (la.players.length);
         series.push(percentEarned);
         data = {"percent": percentEarned, "earned": earnedBy, "not": notEarnedBy};
-        console.log(data);
         return data;
     }
 
