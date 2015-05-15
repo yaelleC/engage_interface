@@ -15,6 +15,7 @@
 //= require bootstrap
 //= require bootstrap-typeahead
 //= require ace
+//= require theme-monokai
 //= require mode-engage
 //= require angular
 //= require angular-resource
