@@ -2298,7 +2298,7 @@ learningAnalytics.directive('laBadgeDetailed', function(utils){
 });
 
 learningAnalytics.controller('LA_controller',
-    ['$scope', '$http', '$location', function ($scope, $http, $location) {
+    ['$scope', '$http', '$location', '$modal', function ($scope, $http, $location, $modal) {
         $scope.LA = {};
         $scope.uniquePlayers = function () {
             var players = [];
@@ -2392,6 +2392,60 @@ learningAnalytics.controller('LA_controller',
             if (!Object.getOwnPropertyNames($scope.LA).length){ return [] };
             return Object.keys($scope.LA.game.learningOutcomes);
         }
+
+        $scope.getSudentsWhoPlayed = function () {
+            var la = $scope.LA;
+            var students = [];
+            for (var i = la.players.length - 1; i >= 0; i--) 
+            {
+                if (la.players[i].student != null)
+                {
+                    var s = {"name": la.players[i].student.username, "id": la.players[i].idPlayer}
+                    students.push(s);
+                }
+                else
+                {
+                    if (la.players[i].name != null)
+                    {
+                        var s = {"name": la.players[i].name, "id": la.players[i].idPlayer}
+                        students.push(s);    
+                    }
+                    else if (la.players[i].username != null)
+                    {
+                        var s = {"name": la.players[i].username, "id": la.players[i].idPlayer}
+                        students.push(s);    
+                    }
+                    else if (la.players[i].firstname != null)
+                    {
+                        var s = {"name": la.players[i].firstname, "id": la.players[i].idPlayer}
+                        students.push(s);  
+                    }              
+                }
+            }
+            return students;
+        }
+
+        /**
+         * Open Feedback modal. 
+         */
+        $scope.openFeedbackModal = function (idPlayer) {
+            var modalInstance = $modal.open({
+                templateUrl: 'myModalContent.html',
+                //controller: 'feedbackCtrl',
+                size: 'lg',
+                scope: $scope
+            });
+
+            /*modalInstance.result.then(
+                function (feedback) {
+                    reaction.feedback.push({
+                        immediate: true,
+                        name: feedback
+                    });
+
+                }
+            );*/
+        };
 
         // Initialize the radio buttons
 

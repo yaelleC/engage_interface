@@ -11,9 +11,12 @@ Learning Analytics
 		Number of players: <b>{{ uniquePlayers().length }} </b>
 	</p>
 
-	<!-- <p>Students who played: <span ng-repeat="p in LA.players" ><b> {{ p.student.username }} </b> </span> -->
-
+	<p>Students who played: 
+		<span ng-repeat="p in getSudentsWhoPlayed()" ><b> {{ p }} </b> </span> 
 	</p>
+
+	<p><button class="btn btn-sm btn-default" ng-click="openFeedbackModal(0)">Generate player's reports</button></p>
+	
 
 	<div class="col-md-6 blockLA blockBasicInfo">
 		<h4>Who played this game?</h4>
@@ -253,11 +256,11 @@ Learning Analytics
 
 	<script type="text/ng-template" id="myModalContent.html">
 		<div class="modal-header">
-			<h3 class="modal-title">Feedback!</h3>
+			<h3 class="modal-title">Player&rsquo;s report {{ idPlayer }}</h3>
 		</div>
 		<div class="modal-body">
 			<div>
-				<h4>Add feedback</h4>
+				<h4>Badges</h4>
 				<form class="form-inline">
 					<div class="form-group" ng-submit="createFeedback(newFeedbackName, newFeedbackMessage, newFeedbackType)">
 						<input placeholder="name" type="text" ng-model="newFeedbackName" required class="form-control">
@@ -268,7 +271,7 @@ Learning Analytics
 				</form>
 			</div>
 			<div>
-				<h4>Positive Feedback</h4>
+				<h4>Basic numbers</h4>
 				<table class="table table-bordered">
 					<tbody>newFeedbackMessage
 						<tr ng-repeat="(name, feedback) in config.feedback" ng-if="feedback.type=='positive'">
@@ -280,34 +283,10 @@ Learning Analytics
 				</table>
 			</div>
 			<div>
-				<h4>Negative Feedback</h4>
+				<h4>Performance</h4>
 				<table class="table table-bordered">
 					<tbody>
 						<tr ng-repeat="(name, feedback) in config.feedback" ng-if="feedback.type=='negative'">
-							<td class="col-lg-2">{{name}}</td>
-							<td>{{feedback.message}}</td>
-							<td class="col-sm-1"><button class="btn btn-sm btn-default" ng-click="select(name)">select</button></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div>
-				<h4>Badge</h4>
-				<table class="table table-bordered">
-					<tbody>
-						<tr ng-repeat="(name, feedback) in config.feedback" ng-if="feedback.type=='badge'">
-							<td class="col-lg-2">{{name}}</td>
-							<td>{{feedback.message}}</td>
-							<td class="col-sm-1"><button class="btn btn-sm btn-default" ng-click="select(name)">select</button></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div>
-				<h4>End of Game</h4>
-				<table class="table table-bordered">
-					<tbody>
-						<tr ng-repeat="(name, feedback) in config.feedback" ng-if="feedback.final">
 							<td class="col-lg-2">{{name}}</td>
 							<td>{{feedback.message}}</td>
 							<td class="col-sm-1"><button class="btn btn-sm btn-default" ng-click="select(name)">select</button></td>
