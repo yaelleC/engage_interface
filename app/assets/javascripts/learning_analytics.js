@@ -2401,24 +2401,24 @@ learningAnalytics.controller('LA_controller',
                 if (la.players[i].student != null)
                 {
                     var s = {"name": la.players[i].student.username, "id": la.players[i].idPlayer}
-                    students.push(s);
+                    students.push(s.name);
                 }
                 else
                 {
                     if (la.players[i].name != null)
                     {
                         var s = {"name": la.players[i].name, "id": la.players[i].idPlayer}
-                        students.push(s);    
+                        students.push(s.name);    
                     }
                     else if (la.players[i].username != null)
                     {
                         var s = {"name": la.players[i].username, "id": la.players[i].idPlayer}
-                        students.push(s);    
+                        students.push(s.name);    
                     }
                     else if (la.players[i].firstname != null)
                     {
                         var s = {"name": la.players[i].firstname, "id": la.players[i].idPlayer}
-                        students.push(s);  
+                        students.push(s.name);  
                     }              
                 }
             }

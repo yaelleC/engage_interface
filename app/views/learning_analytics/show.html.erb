@@ -114,6 +114,7 @@ Learning Analytics
 				<i> Available scores:</i>
 				<span ng-repeat="o in getLearningOutcomesList()"> - <b>{{ o }}</b> </span>
 			</span>
+			<br/>
 		</p>
 		<br/>
 		<tabset>
@@ -158,7 +159,7 @@ Learning Analytics
 			<select ng-model="actionsCommonActions">
 				<option  ng-repeat="a in getActionList()" value="{{a}}">{{a}}</option>
 			</select>
-			Reaction = 
+			Reaction: 
 			<select ng-model="signLOCommonActions">
 				<option value="+">+</option>
 				<option value="-" selected>-</option>
@@ -166,13 +167,14 @@ Learning Analytics
 			<select ng-model="loCommonActions">
 				<option  ng-repeat="o in getLearningOutcomesList()" value="{{o}}">{{o}}</option>
 			</select>
-			<br/>
+		</p><p>
 			<i>Calculate best gameplays based on:</i>
 			<select ng-model="loCommonActionsBest">
 				<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
 			</select>
 		</p>
-		
+		<br/>
+		<br/>
 		<div la-common-actions la="LA" leastcommon="mostOrLeastCommon" sign="signLOCommonActions" outcome="loCommonActions" bestoutcome="loCommonActionsBest" action="actionsCommonActions"></div>
 	</div>
 
@@ -208,12 +210,14 @@ Learning Analytics
 				<option ng-repeat="f in getFeedbackTypes()" value="{{f}}">{{f}}</option>
 			</select>
 			feedback
-			<br/>
+		</p><p>
 			<i>Calculate best gameplays based on:</i>
 			<select ng-model="loCommonFeedack">
 				<option  ng-repeat="o in getLearningOutcomesList()" value="{{o}}">{{o}}</option>
 			</select>
 		</p>
+		<br/>
+		<br/>
 		<div la-common-feedback la="LA" outcome="loCommonFeedack" type="typeFeedback"></div>
 	</div>
 
