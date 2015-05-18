@@ -102,29 +102,6 @@ Learning Analytics
 	</div>
 	
 	<div class="col-md-6 blockLA blockScoreStat">
-		<h4>Learning curves between gameplays</h4>
-		<p>
-			<select id="lo9" ng-model="loLearningCurvesWithinGameplaysOutcome">
-				<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
-				<option value="_custom_">custom formula</option>
-			</select>
-			<br/>
-			<span ng-show="loLearningCurvesWithinGameplaysOutcome == '_custom_'">
-				<input type="text" ng-model="customFormulaLearningCurve">
-				<i> Available scores:</i>
-				<span ng-repeat="o in getLearningOutcomesList()"> - <b>{{ o }}</b> </span>
-			</span>
-			<br/>
-		</p>
-		<br/>
-		<tabset>
-		    <tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
-		      <div la-learning-curves-within-gameplays la="LA" characteristic="c" outcome="loLearningCurvesWithinGameplaysOutcome" formula="customFormulaLearningCurve"></div>
-		    </tab>
-		</tabset>
-	</div>
-
-	<div class="col-md-6 blockLA blockScoreStat">
 		<h4>Learning curves within game</h4>
 		<p>
 			<select id="lo8" ng-model="loLearningCurvesOutcome">
@@ -149,6 +126,26 @@ Learning Analytics
 		</tabset>
 	</div>
 
+	<div class="col-md-6 blockLA blockScoreStat">
+		<h4>Learning curves between gameplays</h4>
+		<p>
+			<select id="lo9" ng-model="loLearningCurvesWithinGameplaysOutcome">
+				<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
+				<option value="_custom_">custom formula</option>
+			</select>
+			<span ng-show="loLearningCurvesWithinGameplaysOutcome == '_custom_'">
+				<input type="text" ng-model="customFormulaLearningCurve">
+				<i> Available scores:</i>
+				<span ng-repeat="o in getLearningOutcomesList()"> - <b>{{ o }}</b> </span>
+			</span>
+		</p>
+		<tabset>
+		    <tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
+		      <div la-learning-curves-within-gameplays la="LA" characteristic="c" outcome="loLearningCurvesWithinGameplaysOutcome" formula="customFormulaLearningCurve"></div>
+		    </tab>
+		</tabset>
+	</div>
+
 	<div class="col-md-6 blockLA blockInteractions">
 		<h4>Most and least common actions </h4>
 		<p>
@@ -167,14 +164,13 @@ Learning Analytics
 			<select ng-model="loCommonActions">
 				<option  ng-repeat="o in getLearningOutcomesList()" value="{{o}}">{{o}}</option>
 			</select>
+		<br/><br/>
 		</p><p>
 			<i>Calculate best gameplays based on:</i>
 			<select ng-model="loCommonActionsBest">
 				<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
 			</select>
 		</p>
-		<br/>
-		<br/>
 		<div la-common-actions la="LA" leastcommon="mostOrLeastCommon" sign="signLOCommonActions" outcome="loCommonActions" bestoutcome="loCommonActionsBest" action="actionsCommonActions"></div>
 	</div>
 
