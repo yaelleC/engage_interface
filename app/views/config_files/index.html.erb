@@ -9,7 +9,7 @@
       <th>Config</th>
       <th>Game ID</th>
       <% if current_user.role.title == 'admin' %>
-      <th>Developer ID</th>
+        <th>Developer ID</th>
       <% end %>
       <th>Created</th>
       <th></th>
@@ -32,7 +32,6 @@
       <% end %>
       <td><%= config_file.created_at.to_formatted_s(:short) %></td>
       <td><%= link_to 'Show', config_file %></td>
-      <td><%= link_to 'Edit', edit_config_file_path(config_file) %></td>
       <td><%= link_to 'Destroy', config_file, method: :delete, data: { confirm: 'Are you sure?' } %></td>
     </tr>
   <% end %>
