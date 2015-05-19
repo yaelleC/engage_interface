@@ -70,7 +70,7 @@
             var idSG = $scope.gameSelected;
             var versions;
             angular.forEach(games, function (game) {
-                if (game.id === idSG) {
+                if (game.id == idSG) {
                     versions = game.versions;
                 }
             });
