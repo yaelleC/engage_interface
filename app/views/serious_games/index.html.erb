@@ -27,6 +27,7 @@
     <% if !current_user.developer.nil? %>
       <th>Access</th>
     <% end %>
+    <th>Play</th>
   </tr>
 
 <% @serious_games.each do |serious_game| %>
@@ -47,7 +48,12 @@
     <% if !current_user.developer.nil? %>
       <td><%= link_to 'Manage game access', edit_serious_game_path(serious_game) %></td>
     <% end %>
-    
+    <td>
+      <% if !serious_game.url.nil? && serious_game.url != "" %>
+        <%= link_to raw("<span class=\"glyphicon glyphicon-play-circle\"></span>"), serious_game.url, :class => 'btn btn-default', :target => "_blank" %>
+        <!-- glyphicon glyphicon-play-circle -->
+      <% end %>
+    </td>
   </tr>
 <% end %>
 </table>

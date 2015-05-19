@@ -23,21 +23,17 @@
 
 	    <ui-select multiple ng-model="$parent.teacherIds" theme="select2" style="width: 800px;">
 			<ui-select-match placeholder="Select teachers...">{{$item.username}} ({{$item.school.name}})</ui-select-match>
-			<ui-select-choices repeat="teacher.id as teacher in teachers | filter: $select.search">
-				{{teacher.username}} ({{teacher.school.name}})
-				<!-- <div ng-bind-html="person.name | highlight: $select.search"></div>
-				<small>
-				email: {{person.email}}
-				age: <span ng-bind-html="''+person.age | highlight: $select.search"></span>
-				</small> -->
-			</ui-select-choices>
-		</ui-select>
+  			<ui-select-choices repeat="teacher.id as teacher in teachers | filter: $select.search">
+  				{{teacher.username}} ({{teacher.school.name}})
+			   </ui-select-choices>
+		  </ui-select>
+    </div>
 
-	  	<p><button type="button" class="btn btn-primary btn-md" ng-click="save()">Give access</button></p>
-	  </div>
+    <br/>
+
+	  <p><button type="button" class="btn btn-primary btn-md" ng-click="save()">Give access</button></p>
 
 	<% end %>
-<%= link_to 'Back', serious_games_path %>
 </div>
   
 

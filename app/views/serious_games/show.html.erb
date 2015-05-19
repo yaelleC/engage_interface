@@ -20,6 +20,10 @@
   <% if !@serious_game.screenshot_url.nil? %>
     <div class="col-md-12">
       <%= image_tag @serious_game.screenshot_url, alt:@serious_game.name, size: "320x180" %>
+      <% if !@serious_game.url.nil? && @serious_game.url != "" %>
+        <%= link_to raw("<span class=\"glyphicon glyphicon-play-circle\"></span> Play game"), @serious_game.url, :class => 'btn btn-default btn-lg', :target => "_blank" %>
+      <% end %>
+      
     </div>
   <% end %>
 
