@@ -40,7 +40,7 @@
     <td><%= link_to 'Analytics', learning_analytics_path(id: serious_game.id, version: serious_game.version, teacher: @id ) %></td>
     <% if !current_user.developer.nil? %>
       <td><%= link_to 'Destroy', serious_game, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      <td><% if defined? serious_game.config_file %><%= link_to 'See', serious_game.config_file %><% end %></td>
+      <td><% if !serious_game.config_file.nil? %><%= link_to 'See', config_file_path(serious_game.config_file) %><% end %></td>
     <% end %>
     <% if !current_user.teacher.nil? %>
       <td><%= link_to 'View all versions', serious_game %></td>
