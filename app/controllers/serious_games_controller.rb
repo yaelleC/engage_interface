@@ -184,7 +184,8 @@ class SeriousGamesController < ApplicationController
     elsif !current_user.teacher.nil?
       @serious_game = current_user.teacher.serious_games.find(params[:id])
     end
-    @serious_game.destroy
+    #@serious_game.destroy
+    @serious_game.update_attribute("idDeveloper", 1);
 
     respond_to do |format|
       format.html { redirect_to serious_games_url }

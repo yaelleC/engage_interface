@@ -17,8 +17,8 @@
     <th>Description</th>
     <th>Gameplays</th>
     <th>Learning Analytics</th>
-    <!--<th></th>-->
     <% if !current_user.developer.nil? %>
+      <th></th>
       <th>Config file</th>
     <% end %>
     <% if !current_user.teacher.nil? %>
@@ -38,8 +38,8 @@
     <td><%= serious_game.description %></td>
     <td><%= serious_game.gameplays.count %></td>
     <td><%= link_to 'Analytics', learning_analytics_path(id: serious_game.id, version: serious_game.version ) %></td>
-    <!--<td><%= link_to 'Destroy', serious_game, method: :delete, data: { confirm: 'Are you sure?' } %></td>-->
     <% if !current_user.developer.nil? %>
+      <td><%= link_to 'Destroy', serious_game, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       <td><% if defined? serious_game.config_file %><%= link_to 'See', serious_game.config_file %><% end %></td>
     <% end %>
     <% if !current_user.teacher.nil? %>
