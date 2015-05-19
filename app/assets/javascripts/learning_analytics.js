@@ -2257,8 +2257,9 @@ learningAnalytics.directive('laBadgeDetailed', function(utils){
         }
 
         var percentEarned = earnedBy.length * 100 / (la.players.length);
-        series.push(percentEarned);
-        data = {"percent": percentEarned, "earned": earnedBy, "not": notEarnedBy};
+        //series.push(percentEarned);
+        var roundedPercent = Math.round(percentEarned * 100) / 100
+        data = {"percent": roundedPercent, "earned": earnedBy, "not": notEarnedBy};
         return data;
     }
 
