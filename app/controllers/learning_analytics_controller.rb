@@ -17,10 +17,13 @@ class LearningAnalyticsController < ApplicationController
       @serious_games = current_user.teacher.serious_games
                 .where("seriousgame.idTeacher = ? OR seriousgame.idTeacher IS NULL", current_user.teacher.id)
                 .order("created DESC")
+      @id = current_user.teacher.id
     elsif !current_user.developer.nil?
       @serious_games = current_user.developer.serious_games(:order => 'created DESC')
+      @id = 0
     else
-      @serious_games = []      
+      @serious_games = []     
+      @id = -1 
     end
     respond_to do |format|
       format.html # index.html.erb

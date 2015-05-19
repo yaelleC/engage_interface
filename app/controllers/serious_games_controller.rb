@@ -9,10 +9,12 @@ class SeriousGamesController < ApplicationController
     @serious_games = []
 
     if !current_user.developer.nil?
-      @serious_games = current_user.developer.serious_games(:order => 'created DESC')
-    elsif !current_user.teacher.nil?
-      @serious_games = current_user.teacher.serious_games.where("version = 0").order("created DESC")
-
+      @serious_games += current_user.developer.serious_games(:order => 'created DESC')
+      @id = 0
+    end
+    if !current_user.teacher.nil?
+      @serious_games += current_user.teacher.serious_games.where("version = 0").order("created DESC")
+      @id = current_user.teacher.id
     end
     respond_to do |format|
       format.html # index.html.erb
@@ -23,13 +25,12 @@ class SeriousGamesController < ApplicationController
   # GET /serious_games/1
   # GET /serious_games/1.json
   def show
-    if !current_user.developer.nil?
-      @serious_game = current_user.developer.serious_games.find(params[:id])
-      @versions = []
-    elsif !current_user.teacher.nil?
+    if !current_user.teacher.nil?
       @serious_game = current_user.teacher.serious_games.find(params[:id])
       @versions = current_user.teacher.serious_games.where("id = ? and (version = 0 OR seriousgame.idTeacher = ?)", params[:id], current_user.teacher.id).order("created ASC")
-      
+    elsif !current_user.developer.nil?
+      @serious_game = current_user.developer.serious_games.find(params[:id])
+      @versions = []
       #@versions = current_user.teacher.serious_games.select("id, name, GROUP_CONCAT(CONCAT(version, ' - ', IFNULL(nameVersion,'?'))) as versions").order("created DESC")
       
     end

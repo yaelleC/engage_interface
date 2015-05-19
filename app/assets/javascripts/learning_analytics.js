@@ -2458,8 +2458,13 @@ learningAnalytics.controller('LA_controller',
         $scope.customView = 'gameplay';
         
         // Get the learning analytics
-        var path = /learning_analytics\/(\d+)\/(\d+)/.exec($location.absUrl());
-        $http.get('http://146.191.107.189:8080/learninganalytics/seriousgame/' + path[1] + '/version/' + path[2])
+        var path = /learning_analytics\/(\d+)\/(\d+)\/(\d+)/.exec($location.absUrl());
+        var extraTeacher = "";
+        if (path[3] != 0)
+        {
+            extraTeacher = "/teacher/" + path[3];
+        }
+        $http.get('http://146.191.107.189:8080/learninganalytics/seriousgame/' + path[1] + '/version/' + path[2] + extraTeacher)
         //$http.get('http://docker:8080/learninganalytics/seriousgame/' + path[1] + '/version/' + path[2])
             .success(function (data) {
                 $scope.LA = data;

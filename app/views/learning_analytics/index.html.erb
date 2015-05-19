@@ -23,12 +23,12 @@ Learning Analytics
 
 	<% @serious_games.each do |serious_game| %>
 	  <tr>
-	    <td><%= link_to 'Analytics', learning_analytics_path(id: serious_game.id, version: serious_game.version ), :class=>"btn btn-info btn-sm" %></td>
+	    <td><%= link_to 'Analytics', learning_analytics_path(id: serious_game.id, version: serious_game.version, teacher: @id), :class=>"btn btn-info btn-sm" %></td>
 	    <td><%= serious_game.id %></td>
 	    <td><%= serious_game.created.to_formatted_s(:short) %></td>
 	    <td><%= serious_game.name %></td>
 	    <td><%= serious_game.description %></td>
-	    <td><%= serious_game.version %></td>
+	    <td><%= serious_game.version %><br/><%= serious_game.nameVersion %></td>
 	    <td><%= serious_game.gameplays.count %></td>
 	  </tr>
 	<% end %>
