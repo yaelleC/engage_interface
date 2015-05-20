@@ -2,7 +2,8 @@
 
 Learning Outcomes:
 ==================
-- update name in the rest of the document
+- update name in the rest of the document (or not editable)
+- add
 
 - OK: delete existing entries pointing to the LO
 - OK: add feedback values
@@ -17,6 +18,7 @@ Rules of the Game:
 - feeback in dropdown grouped by type [instead of textarea]
 - button manage feedback to edit type + message
 - Select multiple parameters (id 98)
+- Add rule
 
 - OK: Create Feedback
 - OK: Add remove feedback

@@ -8,7 +8,7 @@
     "use strict";
 
     // This create a new Angular modu)le called EnGAge
-    var engage = angular.module('EnGAge', ['ngResource', 'ui.bootstrap', 'xeditable']);
+    var engage = angular.module('EnGAge', ['ngResource', 'ui.bootstrap', 'xeditable', 'ui.select']);
 
     // xeditable options
     engage.run(function (editableOptions) {
@@ -202,7 +202,22 @@
             $scope.endWins = learningOutcomesByFeedback($scope.config, 'end_win');
             $scope.endLoses = learningOutcomesByFeedback($scope.config, 'end_lose');
             $scope.badges = feedbackByType($scope.config, 'badge');
-
+            $scope.listParamsUpdated = $scope.listParamsUpdated || {};
+            angular.forEach($scope.config.evidenceModel, function (evidence, name) {
+                $scope.listParamsUpdated[name] = $scope.listParamsUpdated[name] || {};
+                angular.forEach(evidence.listParams, function (paramList, paramName) {
+                    var newList = paramList.map(function (e) {
+                        var out = {};
+                        out[paramName] = e;
+                        return out;
+                    });
+                    // trick to avoid having ui-select showing existant items 
+                    // in the dropdown (because a new list was generated).
+                    if (!angular.equals($scope.listParamsUpdated[name][paramName], newList)) {
+                        $scope.listParamsUpdated[name][paramName] = newList;
+                    }
+                });
+            });
         }, true);
 
         /**

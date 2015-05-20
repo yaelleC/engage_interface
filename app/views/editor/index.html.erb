@@ -1,9 +1,6 @@
 <% content_for :title do %>
 Editor
 <% end %>
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2-bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2.min.css">
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.2/select2.min.js"></script>
 <div class="mainText container" ng-app="EnGAge">
 	<div ng-controller="GameCtrl">
 		<h1><span editable-text="config.seriousGame.name">{{config.seriousGame.name}}</span></h1>
@@ -78,7 +75,14 @@ Editor
 							<h4 ng-if="reaction.else == 'true'">{{ $index + 1}}. Any other <span ng-repeat="(param, type) in evidence.params">{{param}}{{$last ? '' : ', '}}</span></h4>
 							<div ng-if="reaction.else != 'true'">
 								<div><h4>{{ $index + 1}}. If the user selects one of the following <span ng-repeat="(param, type) in evidence.params">{{param}}{{$last ? '' : ', '}}</span></h4></div>
-								<div><span editable-select="reaction.values" e-multiple e-ng-options="s as s.country for s in reaction.values"><span ng-repeat="value in reaction.values">{{value.country}}{{$last ? '' : ', '}}</span></span></div>
+								<div ng-repeat="(param, type) in evidence.params">
+									 <ui-select multiple ng-model="reaction.values" theme="select2" style="width: 800px;">
+									    <ui-select-match placeholder="Select {{evidence.params[param]}}...">{{$item[param]}}</ui-select-match>
+									    <ui-select-choices repeat="c in listParamsUpdated[name][param] | filter: $select.search">
+									      {{c[param]}}
+									    </ui-select-choices>
+									 </ui-select>
+								</div>
 							</div>
 							<br/>
 							<div>

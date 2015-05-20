@@ -23,7 +23,7 @@ describe('Editor ', function () {
             $modalInstance, $modal,
             createController, createFeedbackController,
             newConfig;
-
+        console.log(config.evidenceModel)
         beforeEach(inject(function (_$controller_, _$rootScope_, _$httpBackend_, _$location_,  _$modal_) {
             $scope = _$rootScope_;
             $httpBackend = _$httpBackend_;
@@ -104,7 +104,7 @@ describe('Editor ', function () {
                         "expert_time",
                         "bronze_medal"
                     ];
-                    expect($scope.badges).toEqual(badges);
+                    expect($scope.badges.sort()).toEqual(badges.sort());
                 });
 
 
@@ -114,6 +114,11 @@ describe('Editor ', function () {
 
                 it('should parse idVersion from url', function () {
                     expect($scope.idVersion).toEqual("0");
+                });
+
+                it('should create a new listParams', function () {
+                    console.log(Object.keys($scope.config.evidenceModel));
+                    expect($scope.listParamsUpdated.countrySelectedAgain.country).toContain({ country: 'albania'});
                 });
 
             });
@@ -178,7 +183,7 @@ describe('Editor ', function () {
             describe('available Learning Outcomes', function () {
                 it('should return the list of learning outcome that could be added', function () {
                     createController();
-                    var reaction =  $scope.config.evidenceModel.countryReSelected.reactions[0],
+                    var reaction =  $scope.config.evidenceModel.countrySelectedAgain.reactions[0],
                         learningOutcomes = $scope.availableLearningOutcomes(reaction.marks),
                         expected = [ "lives", "eu_countries"];
                     expect(learningOutcomes.sort()).toEqual(expected.sort());
@@ -192,7 +197,7 @@ describe('Editor ', function () {
 
                 beforeEach(function () {
                     createController();
-                    reaction =  $scope.config.evidenceModel.countryReSelected.reactions[0];
+                    reaction =  $scope.config.evidenceModel.countrySelectedAgain.reactions[0];
                 });
 
                 it('should add new mark', function () {
@@ -219,10 +224,10 @@ describe('Editor ', function () {
                 });
 
                 it('should add new characteristic', function () {
-                    $scope.addPlayerChar();
+                    $scope.addPlayerCharacteristic();
                     expect($scope.config.player[$scope.config.player.length - 1]).toEqual({
                         "name": "name",
-                        "description": "question",
+                        "question": "question",
                         "type": "String"
                     });
                 });
