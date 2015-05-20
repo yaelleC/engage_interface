@@ -185,6 +185,18 @@
             $scope.newLoName = "";
         };
 
+        /**
+         * add player characteristic 
+         */
+        $scope.addPlayerCharacteristic = function () {
+            // Initialize the data
+            $scope.config.player.push({
+                name: "name",
+                question: "question",
+                type: "String"
+            });
+        };
+
         $scope.$watch('config', function () {
             // Get the list of learning outcome having end_win fb
             $scope.endWins = learningOutcomesByFeedback($scope.config, 'end_win');

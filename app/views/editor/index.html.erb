@@ -7,9 +7,28 @@ Editor
 <div class="mainText container" ng-app="EnGAge">
 	<div ng-controller="GameCtrl">
 		<h1><span editable-text="config.seriousGame.name">{{config.seriousGame.name}}</span></h1>
-		
 		<h3>Objective of the game</h3>
 		<div><span editable-textarea="config.seriousGame.description"  e-rows="3" e-cols="80">{{config.seriousGame.description}}</span></div>
+		<h3>Player characteristics</h3>
+		<div>
+			<table class="table table-bordered">
+				<tbody>
+					<tr ng-repeat="car in config.player">
+						<td>
+							<span editable-text="car.name" e-required>{{car.name}}</span>
+						</td>
+						<td class="col-lg-6">
+							<span editable-text="car.question" e-required>{{car.question}}</span>
+						</td>
+						<td class="col-lg-6">
+								<span editable-select="car.type" e-ng-options="s.value as s.text for s in [{value: 'Int', text: 'Number'}, {value: 'Char',text: 'Char'}, {value: 'String', text: 'text'}]" e-required>{{car.type}}</span>
+						</td>
+						<td><button type="button" class="btn btn-danger btn-sm" ng-click="config.player.splice($index, 1)">remove</button></td>
+					</tr>
+				</tbody>
+			</table>
+			<button type="button" class="btn btn-default btn-sm" ng-click="addPlayerCharacteristic()">add</button>
+		</div>
 		<h3>Scores / Learning outcomes</h3>
 		<div>
 			<accordion close-others="oneAtATime">
