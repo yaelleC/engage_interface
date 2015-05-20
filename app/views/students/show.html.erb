@@ -25,7 +25,7 @@
 
 <p>
   <b>Group</b>
-  <%=  @student.group.name%>
+  <%=  @student.groups.where("group.idTeacher = ?",  current_user.teacher.id).name%>
 </p>
 
 

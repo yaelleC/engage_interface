@@ -12,7 +12,14 @@ class AccessStudentGamesController < ApplicationController
     @groups = []
 
     if !current_user.teacher.nil?
-      @groups = current_user.teacher.groups
+      @groups = []
+
+      current_user.teacher.std_teacher.each do |s_t|
+        if !@groups.include?(s_t.group)
+          @groups.push(s_t.group)
+        end
+      end
+
       @games = current_user.teacher.serious_games
                 .select("id, name, GROUP_CONCAT(CONCAT(version, ' - ', IFNULL(nameVersion,'?'))) as versions")
                 .where("seriousgame.idTeacher = ? OR seriousgame.idTeacher IS NULL", current_user.teacher.id)
@@ -32,7 +39,7 @@ class AccessStudentGamesController < ApplicationController
           accessKey.store(a.idSG, a.versionPlayed)
         end
 
-        studentAccess = { "username" => s.username, "id" => s.id, "group" => s.group, "access" => accessKey }
+        studentAccess = { "username" => s.username, "id" => s.id, "group" => s.groups.where("group.idTeacher = ?",  current_user.teacher.id), "access" => accessKey }
 
         #@games.each do |g|
          # if !s.access_student_games.find_by_idSG(g.id).nil? 

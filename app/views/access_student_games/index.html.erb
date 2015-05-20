@@ -43,9 +43,9 @@
         <td> {{ studentAccess.username }} </td>
         <td ng-repeat="g in accessList.Games"> {{ gameAccessByStudent(studentAccess, g.idSG) }} </td> 
       </tr> -->
-      <tbody ng-repeat="(group, list) in accessList.StudentAccess | groupBy: 'group.name'">
+      <tbody ng-repeat="(group, list) in accessList.StudentAccess | groupBy: 'group[0].name'">
         <tr ng-repeat="studentAccess in list">
-          <td ng-if="$index == 0" rowspan="{{ list.length }}">{{ group  }}</td>
+          <td ng-if="$index == 0" rowspan="{{ list.length }}">{{ group }}</td>
           <td> {{ studentAccess.username }}</td>
           <td ng-repeat="g in accessList.Games">
             <span editable-select="studentAccess.access[g.id]"

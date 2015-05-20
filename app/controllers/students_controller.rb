@@ -8,7 +8,7 @@ class StudentsController < ApplicationController
       @groups = []
     else
       @students = current_user.teacher.students
-      @students.sort! { |a,b| a.group.name.downcase <=> b.group.name.downcase }
+      @students.sort! { |a,b| a.groups.where("group.idTeacher = ?",  current_user.teacher.id).name.downcase <=> b.groups.where("group.idTeacher = ?",  current_user.teacher.id).name.downcase }
       @groups = current_user.teacher.groups
 
       #current_user.teacher.students.each do |s|
@@ -71,14 +71,12 @@ class StudentsController < ApplicationController
   def create
     @student = Student.new(params[:student])
     @student.idSchool = current_user.teacher.idSchool 
-    #@student.password = 'none'
-    #@student.username = @student.user.username
-    #@student.user.role = Role.find_by_title('student')
     @student.idTeacher = current_user.teacher.id
 
     respond_to do |format|
       if @student.save
-          format.html { redirect_to @student, notice: 'Student was successfully created.' }
+          StdTeacher.create(idStd: @student.id, idTeacher: current_user.teacher.id, idGroup: @student.idGroup)
+          format.html { redirect_to students_path, notice: 'Student was successfully created.' }
           format.json { render json: @student, status: :created, location: @student }
       else
         format.html { render action: "new" }

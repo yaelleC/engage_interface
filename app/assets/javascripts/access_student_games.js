@@ -81,11 +81,13 @@
         $scope.updateTable = function (studentsAccess)
         {
             angular.forEach(studentsAccess, function (studentAccess) {
-                if (studentAccess.group.id.toString() === $scope.groupSelected || $scope.groupSelected == 'all') {
-                    if ($scope.versionSelected) {
-                        studentAccess.access[$scope.gameSelected] = $scope.versionSelected;
+                angular.forEach(studentAccess.group, function (group) {
+                    if (group.id.toString() === $scope.groupSelected || $scope.groupSelected == 'all') {
+                        if ($scope.versionSelected) {
+                            studentAccess.access[$scope.gameSelected] = $scope.versionSelected;
+                        }
                     }
-                }
+                });
             });
         }
 

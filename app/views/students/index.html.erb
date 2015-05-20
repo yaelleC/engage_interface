@@ -29,10 +29,13 @@
 <% group = -1 %>
 <% @students.each do |student| %>
   <tr>
-    <% if student.group.id != group %>
-        <% group = student.group.id %>
+    <% gps = student.groups.where("group.idTeacher = ?",  current_user.teacher.id) %>
+    <% if gps[0].nil? %>
+        <td></td>
+    <% elsif gps[0].id != group %>
+        <% group = gps[0].id %>
         <td rowspan="<%= @groups.find_by_id(group).students.count %>">
-            <%= student.group.name if not student.group.nil? %>
+            <%= gps[0].name if not gps[0].nil? %>
         </td>
     <% end %>
     <td><%= student.username %></td>
