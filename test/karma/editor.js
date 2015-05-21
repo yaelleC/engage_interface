@@ -212,6 +212,23 @@ describe('Editor ', function () {
 
             });
 
+            describe('add player characteristic', function () {
+
+                beforeEach(function () {
+                    createController();
+                });
+
+                it('should add new characteristic', function () {
+                    $scope.addPlayerChar();
+                    expect($scope.config.player[$scope.config.player.length - 1]).toEqual({
+                        "name": "name",
+                        "description": "question",
+                        "type": "String"
+                    });
+                });
+
+            });
+
             describe('save', function () {
                 beforeEach(function () {
                     createController();
