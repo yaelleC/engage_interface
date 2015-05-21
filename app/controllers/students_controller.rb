@@ -8,7 +8,7 @@ class StudentsController < ApplicationController
       @groups = []
     else
       @students = current_user.teacher.students
-      @students.sort! { |a,b| a.groups.where("group.idTeacher = ?",  current_user.teacher.id).name.downcase <=> b.groups.where("group.idTeacher = ?",  current_user.teacher.id).name.downcase }
+      @students.sort! { |a,b| a.groups.where("group.idTeacher = ?",  current_user.teacher.id)[0].name.downcase <=> b.groups.where("group.idTeacher = ?",  current_user.teacher.id)[0].name.downcase }
       @groups = current_user.teacher.groups
 
       #current_user.teacher.students.each do |s|
@@ -71,7 +71,6 @@ class StudentsController < ApplicationController
   def create
     @student = Student.new(params[:student])
     @student.idSchool = current_user.teacher.idSchool 
-    @student.idTeacher = current_user.teacher.id
 
     respond_to do |format|
       if @student.save
@@ -92,7 +91,8 @@ class StudentsController < ApplicationController
 
     respond_to do |format|
       if @student.update_attributes(params[:student])
-        format.html { redirect_to @student, notice: 'Student was successfully updated.' }
+        StdTeacher.where("idStd = ? AND idTeacher = ?", @student.id, current_user.teacher.id).update_all(idGroup: @student.idGroup)
+        format.html { redirect_to students_path, notice: 'Student was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -104,8 +104,9 @@ class StudentsController < ApplicationController
   # DELETE /students/1
   # DELETE /students/1.json
   def destroy
-    @student = current_user.teacher.students.find(params[:id])
-    @student.destroy
+    StdTeacher.where("idStd = ? AND idTeacher = ?", params[:id], current_user.teacher.id).delete_all
+    #@student = current_user.teacher.students.find(params[:id])
+    #@student.destroy
 
     respond_to do |format|
       format.html { redirect_to students_url }

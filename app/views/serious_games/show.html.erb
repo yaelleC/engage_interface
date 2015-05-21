@@ -79,7 +79,7 @@
             <option value="<%= v.version %>">version <%= v.version %> </option> 
         <% end %>
       </select>
-      <%= link_to 'Create', serious_games_path, :class => 'btn btn-xs btn-primary'%>
+      <%= link_to 'Create', editor_path(id: @serious_game.id, version: 0), :class => 'btn btn-xs btn-primary'%>
     </div>
 
 

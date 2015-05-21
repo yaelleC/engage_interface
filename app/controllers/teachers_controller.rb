@@ -54,7 +54,8 @@ class TeachersController < ApplicationController
         # create default groups for teachers
         @groupFrench = Group.create(idTeacher: @teacher.id, name: "French")
         @groupGeo = Group.create(idTeacher: @teacher.id, name: "Geography")
-        
+        @groupTeachers = Group.create(idTeacher: @teacher.id, name: "Teachers")
+
         # associate default students for teachers
         StdTeacher.create(idStd: 11, idTeacher: @teacher.id, idGroup: @groupGeo.id)
         StdTeacher.create(idStd: 12, idTeacher: @teacher.id, idGroup: @groupGeo.id)

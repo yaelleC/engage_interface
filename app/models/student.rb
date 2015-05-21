@@ -10,7 +10,7 @@ class Student < ActiveRecord::Base
   has_many :serious_games, through: :access_student_game, :foreign_key => :idStd
 
   accepts_nested_attributes_for :user
-  attr_accessible :dateBirth, :gender, :idSchool, :user_attributes, :id, :idTeacher, :idGroup, :password, :username
+  attr_accessible :dateBirth, :gender, :idSchool, :user_attributes, :id, :password, :username, :idGroup
 
   self.table_name = "student"
 end
