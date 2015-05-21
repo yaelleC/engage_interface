@@ -43,14 +43,24 @@ class TeachersController < ApplicationController
   # POST /teachers.json
   def create
     @teacher = Teacher.new(params[:teacher])
-    @teacher.email = 'none'
-    @teacher.password = 'none'
-    @teacher.name = 'none'
-    @teacher.surname = 'none'
     @teacher.user.role = Role.find_by_title('teacher')
     
     respond_to do |format|
       if @teacher.save
+        # give access to tutorial games
+        SgTeacher.create(idSG: 131, idTeacher: @teacher.id)
+        SgTeacher.create(idSG: 126, idTeacher: @teacher.id)
+
+        # create default groups for teachers
+        @groupFrench = Group.create(idTeacher: @teacher.id, name: "French")
+        @groupGeo = Group.create(idTeacher: @teacher.id, name: "Geography")
+        
+        # associate default students for teachers
+        StdTeacher.create(idStd: 11, idTeacher: @teacher.id, idGroup: @groupGeo.id)
+        StdTeacher.create(idStd: 12, idTeacher: @teacher.id, idGroup: @groupGeo.id)
+        StdTeacher.create(idStd: 14, idTeacher: @teacher.id, idGroup: @groupFrench.id)
+        StdTeacher.create(idStd: 15, idTeacher: @teacher.id, idGroup: @groupFrench.id)
+
         format.html { redirect_to login_path, notice: 'Teacher was successfully created.' }
         format.json { render json: @teacher, status: :created, location: @teacher }
       else
