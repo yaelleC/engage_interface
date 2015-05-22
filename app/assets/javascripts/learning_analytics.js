@@ -315,7 +315,7 @@ learningAnalytics.factory('utils', function() {
   return utils;
 });
 
-learningAnalytics.directive('laWhoPlayed', function(){
+learningAnalytics.directive('laWhoPlayed', function(utils){
     // set the view
     function process(la, view, characteristic) {
         var dataset = [];
@@ -355,7 +355,17 @@ learningAnalytics.directive('laWhoPlayed', function(){
         // find data to show in good format = array of ["value of characteristic", share]
         // check all characteristics values
         for (j = dataset.length - 1; j >= 0; j--) {
-            var characteristicValue = dataset[j][characteristic];
+            var characteristicValue = "";
+            var idP = -1;
+            if (characteristic === "student")
+            {
+                idP = dataset[j].idPlayer;
+                characteristicValue = utils.getUsernameById(la, idP);
+            }
+            else
+            {
+                characteristicValue = dataset[j][characteristic];
+            }
             nb = 0;
 
             var charInData = false;
@@ -370,8 +380,12 @@ learningAnalytics.directive('laWhoPlayed', function(){
             // if it's a new characteristic count how many times it appear
             if (!charInData) {
                 for (k = dataset.length - 1; k >= 0; k--) {
-                    if (dataset[k][characteristic] == characteristicValue) {
-                        nb = nb + 1
+                    if (characteristic === "student" && dataset[k].idPlayer == idP)
+                    {
+                        nb = nb + 1;
+                    }
+                    else if (dataset[k][characteristic] == characteristicValue) {
+                        nb = nb + 1;
                     }
                 }
                 data[data.length] = [characteristicValue + "", nb];

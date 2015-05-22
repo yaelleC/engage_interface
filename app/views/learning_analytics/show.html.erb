@@ -29,7 +29,7 @@ Learning Analytics
 			<input type="radio" ng-model="whoPlayedView" value="player">Unique players
 		</p>
 		<tabset>
-		    <tab ng-repeat="c in LA.game.playerCharacteristics" heading="By {{ c }}">
+		    <tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
 		      <div la-who-played la="LA" characteristic="c" view="whoPlayedView"></div>
 		    </tab>
 		</tabset>
