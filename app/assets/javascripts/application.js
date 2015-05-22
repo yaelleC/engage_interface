@@ -27,4 +27,5 @@
 //= require xeditable.min
 //= require select.min
 //= require parser
+//= require intro
 //= require_tree .

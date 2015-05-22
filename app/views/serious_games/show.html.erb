@@ -79,7 +79,7 @@
             <option value="<%= v.version %>">version <%= v.version %> </option> 
         <% end %>
       </select>
-      <%= link_to 'Create', editor_path(id: @serious_game.id, version: 0), :class => 'btn btn-xs btn-primary'%>
+      <button class="btn btn-xs btn-primary" onClick="goToEditor(<%= @serious_game.id %>)" >Create</button>
     </div>
 
 
@@ -87,7 +87,12 @@
 
 <div class="col-md-12"><%= link_to 'Back', serious_games_path, :class => 'btn btn-sm'%></div>
 
-
-  
-
 </div>
+
+<script>
+  function goToEditor(idSG) {
+    var version = $("#versionParent").val();
+
+    window.location.href = "/editor/index#/"+idSG+"/version/"+version;
+  }
+</script>

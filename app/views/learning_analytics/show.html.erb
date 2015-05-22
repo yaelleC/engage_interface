@@ -4,21 +4,25 @@ Learning Analytics
 <% end %>
 
 <div class="mainText container" ng-app="learningAnalytics" ng-controller="LA_controller">
-	<h1>Learning Analytics dashboard - <b> {{ LA.game.name }} </b></h1>
-	<p> 
-		Version : <b> {{ LA.game.version }} </b> - 
-		Number of gameplays: <b> {{ LA.gameplays.length }} </b> -  
-		Number of players: <b>{{ uniquePlayers().length }} </b>
-	</p>
+<br/>
+	<p><a class="btn btn-large btn-success" href="javascript:void(0);" onclick="javascript:introJs().start();">Take a tour</a></p>
+	<h1 data-step="1" data-intro="In this page, you can get all the information you need about the use of your game" >Learning Analytics dashboard - <b> {{ LA.game.name }} </b></h1>
+	<div data-step="2" data-intro="Here you can see how many times the game was played, and by how many players. You can also check that all your students played the game">
+		<p > 
+			Version : <b> {{ LA.game.version }} </b> - 
+			Number of gameplays: <b> {{ LA.gameplays.length }} </b> -  
+			Number of players: <b>{{ uniquePlayers().length }} </b>
+		</p>
 
-	<p>Students who played: 
-		<span ng-repeat="p in getSudentsWhoPlayed()" ><b> {{ p }} </b> </span> 
-	</p>
+		<p>Students who played: 
+			<span ng-repeat="p in getSudentsWhoPlayed()" ><b> {{ p }} </b> </span> 
+		</p>
+	</div>
 
-	<p><button class="btn btn-sm btn-default" ng-click="openFeedbackModal(0)">Generate player's reports</button></p>
+	<p  data-step="13" data-intro="For detailed reports about specific students, click this button. It will open a window for you to create a template of report and will let you generate a PDF file for each of your student based on the template."><button class="btn btn-sm btn-default" ng-click="openFeedbackModal(0)">Generate player's reports</button></p>
 	
 
-	<div class="col-md-6 blockLA blockBasicInfo">
+	<div class="col-md-6 blockLA blockBasicInfo" data-step="3" data-intro="Blue blocks give you general information  about the players and gameplays." data-position="right">
 		<h4>Who played this game?</h4>
 		<p>
 			<input type="radio" ng-model="whoPlayedView" value="gameplay">All gameplays
@@ -32,7 +36,7 @@ Learning Analytics
 	</div>
 
 	<div class="col-md-6 blockLA blockBasicInfo">
-		<h4>How many times students played?</h4>
+		<h4>How many times did the students play?</h4>
 		<p>
 			<input type="radio" ng-model="howManyTimesView" value="gameplay">All gameplays
 			<input type="radio" ng-model="howManyTimesView" value="player">Unique players
@@ -51,7 +55,7 @@ Learning Analytics
 			<input type="radio" ng-model="howLongView" value="player">Unique players
 		</p>
 		<tabset>
-		    <tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
+		    <tab data-step="7" data-intro="You can group the results by player characteristics or by student." ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
 		      <div la-how-long la="LA" characteristic="c" view="howLongView"></div>
 		    </tab>
 		</tabset>
@@ -70,9 +74,9 @@ Learning Analytics
 		</tabset>
 	</div>
 
-	<div class="col-md-6 blockLA blockScoreStat">
+	<div class="col-md-6 blockLA blockScoreStat" data-step="4" data-position="right" data-intro="Orange blocks give you further information about scores and progress of your students.">
 		<h4>Final scores</h4>
-		<p>
+		<p data-step="6" data-intro="For each graph you have refining options">
 			<select id="lo7" ng-model="loFinalScoresOutcome">
 				<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
 				<option value="_custom_">custom formula</option>
@@ -101,7 +105,7 @@ Learning Analytics
 		</tabset>
 	</div>
 	
-	<div class="col-md-6 blockLA blockScoreStat">
+	<div class="col-md-6 blockLA blockScoreStat" data-step="9" data-position="right" data-intro="This chart allows you to see how the students learned during a single gameplay. You can visualise the evolution of any score between the start of a game until the end.">
 		<h4>Learning curves within game</h4>
 		<p>
 			<select id="lo8" ng-model="loLearningCurvesOutcome">
@@ -126,7 +130,7 @@ Learning Analytics
 		</tabset>
 	</div>
 
-	<div class="col-md-6 blockLA blockScoreStat">
+	<div class="col-md-6 blockLA blockScoreStat" data-step="10" data-position="right" data-intro="This chart allows you to see the students overall progress. You can visualise the evolution of any score between the first and last time the student played.">
 		<h4>Learning curves between gameplays</h4>
 		<p>
 			<select id="lo9" ng-model="loLearningCurvesWithinGameplaysOutcome">
@@ -146,7 +150,7 @@ Learning Analytics
 		</tabset>
 	</div>
 
-	<div class="col-md-6 blockLA blockInteractions">
+	<div class="col-md-6 blockLA blockInteractions" data-step="11" data-position="right" data-intro="This chart allows you to see the most/least common actions. Select a reaction, for example losing points to visualise the mistakes or a score increase to see the correctly answered questions.">
 		<h4>Most and least common actions </h4>
 		<p>
 			<select ng-model="mostOrLeastCommon">
@@ -174,7 +178,7 @@ Learning Analytics
 		<div la-common-actions la="LA" leastcommon="mostOrLeastCommon" sign="signLOCommonActions" outcome="loCommonActions" bestoutcome="loCommonActionsBest" action="actionsCommonActions"></div>
 	</div>
 
-	<div class="col-md-6 blockLA blockInteractions">
+	<div class="col-md-6 blockLA blockInteractions" data-step="5" data-position="right" data-intro="Green blocks display more detailed information about the actions performed by your students, the feedback and badges received in the game.">
 		<h4>Detailed actions data</h4>
 		<p>
 			<select ng-model="actionDetailedAction">
@@ -214,10 +218,10 @@ Learning Analytics
 		</p>
 		<br/>
 		<br/>
-		<div la-common-feedback la="LA" outcome="loCommonFeedack" type="typeFeedback"></div>
+		<div la-common-feedback la="LA" outcome="loCommonFeedack" type="typeFeedback"  data-step="8" data-position="right" data-intro="Click on a group name to exclude/include it in the graph. <br/> When you have a graph that you find useful, you can use the icon on the top right corner to download it."></div>
 	</div>
 
-	<div class="col-md-6 blockLA blockInteractions">
+	<div class="col-md-6 blockLA blockInteractions" data-step="12" data-position="left" data-intro="You can also see which percentage of your students earned the different badges of the game. It's easy to identify which badges are too easy to obtained and which ones are too hard.">
 		<h4>Badges</h4>
 		
 		<tabset>

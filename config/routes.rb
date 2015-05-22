@@ -17,8 +17,6 @@ Assess4meInterface::Application.routes.draw do
 
   resources :access_student_games
 
-  get "editor/index#/:id/version/:version", to: "editor/index#/:id/version/:version" , as: 'editor'
-
   get "learning_analytics/:id/:version/:teacher", to: "learning_analytics#show" , as: 'learning_analytics'
   get "learning_analytics/index"
 
