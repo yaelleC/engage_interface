@@ -2450,6 +2450,9 @@ learningAnalytics.controller('LA_controller',
                 size: 'lg',
                 scope: $scope
             });
+        $scope.cancel = function () {
+            modalInstance.dismiss('cancel');
+          };
 
             /*modalInstance.result.then(
                 function (feedback) {
