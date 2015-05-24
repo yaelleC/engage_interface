@@ -46,12 +46,19 @@
          * @param  {String} name   feedback name
          * @return {Array}         list of learning outcomes
          */
-        learningOutcomesByFeedback = function (config, name) {
-            var result = [];
+        learningOutcomesByFeedback = function (config, type) {
+            var result = [],
+                feedback = [];
+            // extact all the feedback of a given type
+            angular.forEach($scope.config.feedback, function (fb, fbName) {
+                if (fb.final === type) {
+                    feedback.push(fbName);
+                }
+            });
             angular.forEach(config.learningOutcomes, function (learningOutcome, loname) {
                 angular.forEach(learningOutcome.feedbackTriggered, function (fbt, feedbackTriggeredIdx) {
                     angular.forEach(fbt.feedback, function (fb, feedbackIdx) {
-                        if (fb.name === name) {
+                        if (feedback.indexOf(fb.name) > -1) {
                             result.push({
                                 "learningOutcome": loname,
                                 "feedbackTriggeredIdx": feedbackTriggeredIdx,
@@ -199,8 +206,8 @@
 
         $scope.$watch('config', function () {
             // Get the list of learning outcome having end_win fb
-            $scope.endWins = learningOutcomesByFeedback($scope.config, 'end_win');
-            $scope.endLoses = learningOutcomesByFeedback($scope.config, 'end_lose');
+            $scope.endWins = learningOutcomesByFeedback($scope.config, 'win');
+            $scope.endLoses = learningOutcomesByFeedback($scope.config, 'lose');
             $scope.badges = feedbackByType($scope.config, 'badge');
             $scope.listParamsUpdated = $scope.listParamsUpdated || {};
             angular.forEach($scope.config.evidenceModel, function (evidence, name) {

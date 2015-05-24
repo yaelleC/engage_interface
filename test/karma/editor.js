@@ -23,7 +23,7 @@ describe('Editor ', function () {
             $modalInstance, $modal,
             createController, createFeedbackController,
             newConfig;
-        console.log(config.evidenceModel)
+
         beforeEach(inject(function (_$controller_, _$rootScope_, _$httpBackend_, _$location_,  _$modal_) {
             $scope = _$rootScope_;
             $httpBackend = _$httpBackend_;
@@ -117,7 +117,6 @@ describe('Editor ', function () {
                 });
 
                 it('should create a new listParams', function () {
-                    console.log(Object.keys($scope.config.evidenceModel));
                     expect($scope.listParamsUpdated.countrySelectedAgain.country).toContain({ country: 'albania'});
                 });
 
