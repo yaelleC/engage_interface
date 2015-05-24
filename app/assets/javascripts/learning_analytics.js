@@ -2526,21 +2526,32 @@ learningAnalytics.controller('reportCtrl', function ($scope, $modalInstance) {
 
     /* 
     * compares playerNum with class average
-    * if above average + 10% goal value => return 1
-    * if bellow average - 10% goal value => return -1
+    * if above average + 10%  => return 1
+    * if bellow average - 10%  => return -1
+    * if bellow average/2 => return -2
     * else => return 0
     */
-    $scope.compareToClass = function (average, playerNum, goalNum) {
-        var margin = 15 * goalNum / 100;
+    $scope.compareToClass = function (average, playerNum) {
+        var margin = 15 * average / 100;
         if (playerNum > average + margin)
         {
             return 1;
+        }
+        else if (playerNum < average/2)
+        {
+            return -2;
         }
         else if (playerNum < average - margin)
         {
             return -1;
         }
         return 0;
+    }
+    $scope.compareToClassBadges = function (average, playerEarned) {
+        var margin = 15 * average / 100;
+        var playerNum = playerEarned? 100 : 0;
+        
+        return $scope.compareToClass(average, playerNum);
     }
 
     $scope.classAverage= function (badgeId) {
@@ -2559,6 +2570,24 @@ learningAnalytics.controller('reportCtrl', function ($scope, $modalInstance) {
             }
         }
         return parseInt(sumPlayerNum / numPlayers);
+    }
+
+    $scope.averageBadgesEarned= function (badgeId) {
+        var playersWithBadge = 0;
+        var numPlayers = $scope.LA.players.length;
+        if (numPlayers == 0)
+        {
+            return 0;
+        }
+        for (var i = numPlayers - 1; i >= 0; i--) {
+            for (var j = $scope.LA.players[i].badges.length - 1; j >= 0; j--) {
+                if ($scope.LA.players[i].badges[j].id === badgeId && $scope.LA.players[i].badges[j].earned)
+                {
+                    playersWithBadge ++;
+                }
+            }
+        }
+        return parseInt(playersWithBadge * 100 / numPlayers);
     }
 
     $scope.getNumberGameplays = function(idPlayer)
@@ -2634,10 +2663,11 @@ learningAnalytics.controller('reportCtrl', function ($scope, $modalInstance) {
     $scope.studentSelected = $scope.getSudentsWhoPlayed()[0].idPlayer;
 
     $scope.badges = true;
-    $scope.nameBadges = false;
+    $scope.nameBadges = true;
     $scope.messageBadges = true;
-    $scope.progressBadges = true;
+    $scope.progressBadges = false;
     $scope.compareBadges = false;
+    $scope.percentEarnedBadge = true;
 
     $scope.numbers = true;
     $scope.timesPlayed = true;
