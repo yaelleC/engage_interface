@@ -293,24 +293,24 @@ Learning Analytics
 				</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h4><input type="checkbox" ng-model="numbers" id="numbers" checked> <span class="glyphicon glyphicon-info-sign"></span> Basic numbers</h4>
+						<h4><input type="checkbox" ng-model="numbers" id="numbers"> <span class="glyphicon glyphicon-info-sign"></span> Basic numbers</h4>
 					</div>
   					<div class="panel-body">
 						<p><i>Basic information about how many times the player played and the time he/she spent playing. This information can be compared to the class average.</i></p>
 						<table class="table table-bordered table-striped">
 							<tr><th></th><th>Information</th><th>Compare to class average?</th></tr>
 							<tr>
-								<td><input type="checkbox" id="timesPlayed" value="yes" checked /></td>
+								<td><input type="checkbox" id="timesPlayed" ng-model="timesPlayed"/></td>
 								<td>Number of times the player played</td>
-								<td><input type="checkbox" id="compareTimesPlayed" value="yes" checked /></td>
+								<td><input type="checkbox" id="compareTimesPlayed"  ng-model="compareTimesPlayed"/></td>
 							</tr><tr>
-								<td><input type="checkbox" id="timesWon" value="yes" checked /></td>
+								<td><input type="checkbox" id="timesWon"  ng-model="timesWon"/></td>
 								<td>Number of times the player won</td>
-								<td><input type="checkbox" id="compareTimesWon" value="yes" checked /></td>
+								<td><input type="checkbox" id="compareTimesWon"  ng-model="compareTimesWon"/></td>
 							</tr><tr>
-								<td><input type="checkbox" id="timeSpent" value="yes" checked /></td>
+								<td><input type="checkbox" id="timeSpent" ng-model="timeSpent"/></td>
 								<td>Total time spent by the player (in minutes)</td>
-								<td><input type="checkbox" id="compareTimeSpent" value="yes" checked /></td>
+								<td><input type="checkbox" id="compareTimeSpent" ng-model="compareTimeSpent" /></td>
 							</tr>
 						</table>
 					</div>
@@ -345,14 +345,15 @@ Learning Analytics
 				<p><select ng-model="studentSelected">
 					<option ng-repeat="player in getSudentsWhoPlayed()" value="{{ player.idPlayer }}">{{ player.student.username }}</option>
 				</select></p>
-				<div class="panel panel-default">
+				<div class="panel panel-default" ng-repeat="player in LA.players | filter:{idPlayer:studentSelected}">
 					<div class="panel-heading">
-						<h4 ng-repeat="player in LA.players | filter:{idPlayer:studentSelected}"><span class="glyphicon glyphicon-list-alt"></span> {{ player.student.username }}&rsquo;s report </h4>
+						<h4><span class="glyphicon glyphicon-list-alt"></span> {{ player.student.username }}&rsquo;s report </h4>
+						<p style="font-size: 75%;"><span ng-repeat="c in LA.game.playerCharacteristics"><i>{{ c }} : {{ player[c] }} . </i></span></p>
 					</div>
   					<div class="panel-body">
 						<div ng-show="badges">
 							<h5><span class="glyphicon glyphicon-certificate"></span> Badges</h5>
-							<table width="95%" ng-repeat="player in LA.players | filter:{idPlayer:studentSelected}">
+							<table width="95%" align="center">
 								<tr>
 									<td ng-repeat="badge in player.badges" align="center" >
 										<img height="45" ng-src="/badges/{{badge.name}}.png" alt="{{badge.message}}" ng-if="badge.earned == true"/> 
@@ -376,11 +377,11 @@ Learning Analytics
 								</tr>
 								<tr ng-if="compareBadges"> 
 									<td ng-repeat="badge in player.badges" style="font-size: 60%;" align="center">
-										<span  ng-switch="compareToClassBadge(badge.id, badge.playerNum, badge.goalNum)" </span>
+										<span  ng-switch="compareToClass(classAverage(badge.id), badge.playerNum, badge.goalNum)" </span>
 											<span class="label label-success" ng-switch-when="1">
 												average: {{ classAverage(badge.id) }}
 											</span>  
-											<span class="label label-warning" ng-switch-when="0">
+											<span class="label label-info" ng-switch-when="0">
 												average: {{ classAverage(badge.id) }}
 											</span>  
 											<span class="label label-danger" ng-switch-when="-1">
@@ -390,15 +391,67 @@ Learning Analytics
 									</td>
 								</tr>
 							</table>
-						</div><br/><div ng-show="numbers">
-							<h5><span class="glyphicon glyphicon-info-sign"></span> Basic numbers</h5>
-						</div><br/><div ng-show="performance">
+						</div><br/>
+						<div ng-show="numbers">
+							<h5><span class="glyphicon glyphicon-info-sign"></span> General information</h5>
+							<table width="95%" align="center">
+								<tr ng-show="timesPlayed" >
+									<td style="font-size: 80%;" >You played <b>{{ getNumberGameplays(player.idPlayer) }} times</b>.</td>
+									<td ng-show="compareTimesPlayed" style="font-size: 80%;" >
+										<span  ng-switch="compareToClass(getAverageNumberGameplays(), getNumberGameplays(player.idPlayer), getAverageNumberGameplays())" </span>
+											<span class="label label-success" ng-switch-when="1">
+												class average: {{ getAverageNumberGameplays() }}
+											</span>  
+											<span class="label label-info" ng-switch-when="0">
+												class average: {{ getAverageNumberGameplays() }}
+											</span>  
+											<span class="label label-danger" ng-switch-when="-1">
+												class average: {{ getAverageNumberGameplays() }}
+											</span>  
+										</span>
+									</td>
+								</tr>
+								<tr ng-show="timesWon" >
+									<td style="font-size: 80%;" >You won <b>{{ getNumberGameplaysWon(player.idPlayer) }} times</b>.</td>
+									<td ng-show="compareTimesWon" style="font-size: 80%;" >
+										<span  ng-switch="compareToClass(getAverageNumberGameplaysWon(), getNumberGameplaysWon(player.idPlayer), getAverageNumberGameplaysWon())" </span>
+											<span class="label label-success" ng-switch-when="1">
+												class average: {{ getAverageNumberGameplaysWon() }}
+											</span>  
+											<span class="label label-info" ng-switch-when="0">
+												class average: {{ getAverageNumberGameplaysWon() }}
+											</span>  
+											<span class="label label-danger" ng-switch-when="-1">
+												class average: {{ getAverageNumberGameplaysWon() }}
+											</span>  
+										</span>
+									</td>
+								</tr>
+								<tr ng-show="timeSpent">
+									<td style="font-size: 80%;" >You played <b>{{ getTimeSpent(player.idPlayer) }} minutes</b>.</td>
+									<td ng-show="compareTimeSpent" style="font-size: 80%;" >
+										<span  ng-switch="compareToClass(getAverageTimeSpent(), getTimeSpent(player.idPlayer), getAverageTimeSpent())" </span>
+											<span class="label label-success" ng-switch-when="1">
+												class average: {{ getAverageTimeSpent() }}
+											</span>  
+											<span class="label label-info" ng-switch-when="0">
+												class average: {{ getAverageTimeSpent() }}
+											</span>  
+											<span class="label label-danger" ng-switch-when="-1">
+												class average: {{ getAverageTimeSpent() }}
+											</span>  
+										</span>
+									</td>									
+								</tr>
+							</table
+						</div><br/>
+						<div ng-show="performance">
 							<h5><span class="glyphicon glyphicon-stats"></span> Performance</h5>
 						</div>
 					</div>
 				</div>
 				<br/>
-				<p><button class="btn btn-info btn-sm" ng-click="generate()">save player report</button></p>
+				<p><button class="btn btn-primary btn-sm" ng-click="generate()">save player report</button></p>
 			</div>
 			</div>
 		</div>
