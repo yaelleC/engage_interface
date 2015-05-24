@@ -74,14 +74,38 @@ Editor
 							<hr ng-if="! $first">
 							<h4 ng-if="reaction.else == 'true'">{{ $index + 1}}. Any other <span ng-repeat="(param, type) in evidence.params">{{param}}{{$last ? '' : ', '}}</span></h4>
 							<div ng-if="reaction.else != 'true'">
-								<div><h4>{{ $index + 1}}. If the user selects one of the following <span ng-repeat="(param, type) in evidence.params">{{param}}{{$last ? '' : ', '}}</span></h4></div>
-								<div ng-repeat="(param, type) in evidence.params">
-									 <ui-select multiple ng-model="reaction.values" theme="select2" style="width: 800px;">
-									    <ui-select-match placeholder="Select {{evidence.params[param]}}...">{{$item[param]}}</ui-select-match>
-									    <ui-select-choices repeat="c in listParamsUpdated[name][param] | filter: $select.search">
-									      {{c[param]}}
-									    </ui-select-choices>
-									 </ui-select>
+								<h4>
+									{{ $index + 1}}. If the user selects one of the following <span ng-repeat="(param, type) in evidence.params">{{param}}{{$last ? '' : ', '}}</span>
+								</h4>
+								<div ng-if="numberOfKeys(evidence.params)==1" ng-repeat="(param, type) in evidence.params">
+									<div ng-if="listParamsUpdated[name][param]">
+										 <ui-select multiple ng-model="reaction.values" theme="select2" style="width: 800px;">
+										    <ui-select-match placeholder="Select {{evidence.params[param]}}...">{{$item[param]}}</ui-select-match>
+										    <ui-select-choices repeat="c in listParamsUpdated[name][param] | filter: $select.search">
+										      {{c[param]}}
+										    </ui-select-choices>
+										 </ui-select>
+									</div>
+								</div>
+								<div ng-if="numberOfKeys(evidence.params) > 1">
+								<table class="table table-condensed">
+									<thead>
+										<tr>
+											<th class="col-xs-3" ng-repeat="(param, type) in evidence.params">{{param}}</th>
+											<th class="col-xs-1">Action</th>
+										</tr>
+									</thead>
+									<tbody>
+											<tr ng-repeat="val in reaction.values">
+												<td ng-repeat="(param, type) in evidence.params">
+													<span editable-text="val[param]" e-required>{{val[param] || ('add ' + param) }}</span>
+												</td>
+												<td><button class="btn btn-sm btn-danger" ng-click="reaction.values.splice($index, 1)">remove</button></td>
+											</tr>
+									</tbody>
+									
+								</table>
+								<button class="btn btn-sm btn-default" ng-click="reaction.values.push({})">Add entry</button>
 								</div>
 							</div>
 							<br/>

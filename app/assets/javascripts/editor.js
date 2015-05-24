@@ -242,6 +242,13 @@
             );
         };
 
+        /**
+         * return the number of keys. 
+         */
+        $scope.numberOfKeys = function (o) {
+            return Object.keys(o).length;
+        };
+
 
         /**
          * Save config
