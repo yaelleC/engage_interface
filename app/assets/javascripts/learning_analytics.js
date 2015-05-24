@@ -2524,10 +2524,52 @@ learningAnalytics.controller('reportCtrl', function ($scope, $modalInstance) {
         return players;
     }
 
-    $scope.classAverage = function (badgeId) {
+    /* 
+    * compares playerNum with class average
+    * if above average + 10% goal value => return 1
+    * if bellow average - 10% goal value => return -1
+    * else => return 0
+    */
+    $scope.compareToClassBadge = function (badgeId, playerNum, goalNum) {
+        var average = $scope.classAverage(badgeId);
+        var margin = 10 * goalNum / 100;
+        console.log("average for " + badgeId + " = " + average);
+        if (playerNum > average + margin)
+        {
+            return 1;
+        }
+        else if (playerNum < average - margin)
+        {
+            return -1;
+        }
         return 0;
     }
 
+    $scope.classAverage= function (badgeId) {
+        var sumPlayerNum = 0;
+        var numPlayers = $scope.LA.players.length;
+        console.log("badge: " + badgeId);
+        if (numPlayers == 0)
+        {
+            return 0;
+        }
+        for (var i = numPlayers - 1; i >= 0; i--) {
+            for (var j = $scope.LA.players[i].badges.length - 1; j >= 0; j--) {
+                if ($scope.LA.players[i].badges[j].id === badgeId)
+                {
+                    sumPlayerNum += $scope.LA.players[i].badges[j].playerNum;
+                    console.log("+ num = "+  $scope.LA.players[i].badges[j].playerNum);
+                }
+            }
+        }
+        return parseInt(sumPlayerNum / numPlayers);
+    }
+
     $scope.studentSelected = $scope.getSudentsWhoPlayed()[0].idPlayer;
+    $scope.badges = true;
+    $scope.nameBadges = false;
+    $scope.messageBadges = true;
+    $scope.progressBadges = true;
+    $scope.compareBadges = true;
 
 });

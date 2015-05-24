@@ -19,7 +19,7 @@ Learning Analytics
 		</p>
 	</div>
 
-	<p  data-step="13" data-intro="For detailed reports about specific students, click this button. It will open a window for you to create a template of report and will let you generate a PDF file for each of your student based on the template."><button class="btn btn-sm btn-default" ng-click="openFeedbackModal(0)">Generate player's reports</button></p>
+	<p  data-step="13" data-intro="For detailed reports about specific students, click this button. It will open a window for you to create a template of report and will let you generate a PDF file for each of your student based on the template."><button class="btn btn-sm btn-default" ng-click="openFeedbackModal(0)">Generate players' report</button></p>
 	
 <div class="row">
 	<div class="col-md-6 blockLA blockBasicInfo" data-step="3" data-intro="Blue blocks give you general information  about the players and gameplays." data-position="right">
@@ -273,15 +273,21 @@ Learning Analytics
 				<h3>Template</h3>
 				<div class="panel panel-default">
 					<div class="panel-heading">
-				        <h4><input type="checkbox" ng-model="badges" id="badges" checked> <span class="glyphicon glyphicon-certificate"></span> Badges</h4>
+				        <h4><input type="checkbox" ng-model="badges" id="badges" > <span class="glyphicon glyphicon-certificate"></span> Badges</h4>
 				    </div>
   					<div class="panel-body">
 						<p><i>All the badges available in the game, the ones earned by the player and the player&rsquo;s progress towards them. </i></p>
 						<p>
-							<input type="checkbox" ng-model="detailBadges" id="detailBadges" checked> Give details
+							<input type="checkbox" ng-model="nameBadges" id="nameBadges"> Name the badges
 						</p>
 						<p>
-							<input type="checkbox" ng-model="compareBadges" id="compareBadges" checked> Compare to class average
+							<input type="checkbox" ng-model="messageBadges" id="messageBadges"> Show badge message
+						</p>
+						<p>
+							<input type="checkbox" ng-model="progressBadges" id="progressBadges"> Show progress towards achievement 
+						</p>
+						<p>
+							<input type="checkbox" ng-model="compareBadges" id="compareBadges"> Compare to class average
 						</p>
 					</div>
 				</div>
@@ -339,37 +345,65 @@ Learning Analytics
 				<p><select ng-model="studentSelected">
 					<option ng-repeat="player in getSudentsWhoPlayed()" value="{{ player.idPlayer }}">{{ player.student.username }}</option>
 				</select></p>
-				<div ng-show="badges">
-					<h4><span class="glyphicon glyphicon-certificate"></span> Badges</h4>
-					<table width="95%" ng-repeat="player in LA.players | filter:{idPlayer:studentSelected}">
-						<tr>
-							<td ng-repeat="badge in player.badges">
-								<img height="32" ng-src="/badges/{{badge.name}}.png" alt="{{badge.message}}" ng-if="badge.earned == true"/> 
-								<img height="32" ng-src="/badges/lock_BW.png" alt="{{badge.message}}" ng-if="badge.earned != true"/>
-							</td>
-						</tr>
-						<tr ng-if="detailBadges">
-							<td ng-repeat="badge in player.badges">
-								<span style="font-size: 50%;"><br/> {{ badge.message }} <br/> ({{ badge.playerNum }} / {{ badge.goalNum }})  </span>
-						</tr>
-						<tr ng-if="compareBadges"> 
-							<td ng-repeat="badge in player.badges" style="font-size: 50%;">
-								<span class="label label-success" ng-if="classAverage(badge.id) < badge.playerNum">Above average ({{ classAverage(badge.id) }})</span>  
-								<span class="label label-warning" ng-if="classAverage(badge.id) == badge.playerNum">Consistent with average ({{ classAverage(badge.id) }})</span>  
-								<span class="label label-danger" ng-if="classAverage(badge.id) > badge.playerNum">Bellow average ({{ classAverage(badge.id) }})</span>  
-							</span>
-						</tr>
-					</table>
-				</div><div ng-show="numbers">
-					<h4><span class="glyphicon glyphicon-info-sign"></span> Basic numbers</h4>
-				</div><div ng-show="performance">
-					<h4><span class="glyphicon glyphicon-stats"></span> Performance</h4>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 ng-repeat="player in LA.players | filter:{idPlayer:studentSelected}"><span class="glyphicon glyphicon-list-alt"></span> {{ player.student.username }}&rsquo;s report </h4>
+					</div>
+  					<div class="panel-body">
+						<div ng-show="badges">
+							<h5><span class="glyphicon glyphicon-certificate"></span> Badges</h5>
+							<table width="95%" ng-repeat="player in LA.players | filter:{idPlayer:studentSelected}">
+								<tr>
+									<td ng-repeat="badge in player.badges" align="center" >
+										<img height="45" ng-src="/badges/{{badge.name}}.png" alt="{{badge.message}}" ng-if="badge.earned == true"/> 
+										<img height="45" ng-src="/badges/lock_BW.png" alt="{{badge.message}}" ng-if="badge.earned != true"/>
+									</td>
+								</tr>
+								<tr ng-if="nameBadges">
+									<td ng-repeat="badge in player.badges" align="center">
+										<span style="font-size: 65%;"><b>{{ badge.name.replace('_', ' ') }} </b></span>
+									</td>
+								</tr>
+								<tr ng-if="messageBadges">
+									<td ng-repeat="badge in player.badges" align="center">
+										<span style="font-size: 60%;">{{ badge.message }}</span>
+									</td>
+								</tr>
+								<tr ng-if="progressBadges">
+									<td ng-repeat="badge in player.badges" align="center">
+										<span style="font-size: 60%;">{{ badge.playerNum }} / {{ badge.goalNum }} </span>
+									</td>
+								</tr>
+								<tr ng-if="compareBadges"> 
+									<td ng-repeat="badge in player.badges" style="font-size: 60%;" align="center">
+										<span  ng-switch="compareToClassBadge(badge.id, badge.playerNum, badge.goalNum)" </span>
+											<span class="label label-success" ng-switch-when="1">
+												average: {{ classAverage(badge.id) }}
+											</span>  
+											<span class="label label-warning" ng-switch-when="0">
+												average: {{ classAverage(badge.id) }}
+											</span>  
+											<span class="label label-danger" ng-switch-when="-1">
+												average: {{ classAverage(badge.id) }}
+											</span>  
+										</span>
+									</td>
+								</tr>
+							</table>
+						</div><br/><div ng-show="numbers">
+							<h5><span class="glyphicon glyphicon-info-sign"></span> Basic numbers</h5>
+						</div><br/><div ng-show="performance">
+							<h5><span class="glyphicon glyphicon-stats"></span> Performance</h5>
+						</div>
+					</div>
 				</div>
+				<br/>
+				<p><button class="btn btn-info btn-sm" ng-click="generate()">save player report</button></p>
 			</div>
 			</div>
 		</div>
 		<div class="modal-footer">
-			<button class="btn btn-success" ng-click="generate()">generate reports</button>
+			<button class="btn btn-success" ng-click="generate()">generate reports for all students</button>
 			<button class="btn btn-warning" ng-click="cancel()">cancel</button>
 		</div>
 	</script>
