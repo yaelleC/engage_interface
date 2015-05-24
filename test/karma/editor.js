@@ -143,12 +143,13 @@ describe('Editor ', function () {
                 beforeEach(function () {
                     createController();
                     $scope.newLoName = "loName";
+                    $scope.newLoDesc = "loDesc";
                     $scope.addLearningOutcome();
                 });
 
                 it('should set default values for the new learning outcome', function () {
                     expect($scope.config.learningOutcomes.loName).toEqual({
-                        desc: "",
+                        desc: "loDesc",
                         feedbackTriggered: [],
                         value: 0
                     });
@@ -157,6 +158,7 @@ describe('Editor ', function () {
                 it('should reset the input field', function () {
                     $scope.addLearningOutcome("loName");
                     expect($scope.newLoName).toEqual("");
+                    expect($scope.newLoDesc).toEqual("");
                 });
             });
 

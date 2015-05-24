@@ -179,17 +179,16 @@
          */
         $scope.addLearningOutcome = function () {
             // Initialize the data
+            console.log('test')
             $scope.config.learningOutcomes[$scope.newLoName] = {
-                desc: "",
+                desc: $scope.newLoDesc,
                 feedbackTriggered: [],
                 value: 0
             };
 
-            // Make it editable
-            $scope.loInserted = $scope.newLoName;
-
             // Should reset new name field
             $scope.newLoName = "";
+            $scope.newLoDesc = "";
         };
 
         /**
