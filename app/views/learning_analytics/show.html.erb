@@ -269,62 +269,102 @@ Learning Analytics
 		<div class="modal-body">
 			<p><i>Here you can define a template for your students&rsquo; reports. You can see a preview of the reports on the right. Once you are ready, click the &rsquo;generate&rsquo; button in the bottom.</i></p>
 			<div class="row">
-			<div class="col-md-7">
+			<div class="col-md-5">
 				<h3>Template</h3>
-				<div>
-					<h4>Badges</h4>
-					<p><i>All the badges available in the game, the ones earned by the player and the player&rsquo;s progress towards them. </i></p>
-					<p>
-						<input type="checkbox" name="badges" value="yes" checked> Include badges
-						<input type="checkbox" name="compareBadges" value="yes" checked> Compare to class average
-					</p>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+				        <h4><input type="checkbox" ng-model="badges" id="badges" checked> <span class="glyphicon glyphicon-certificate"></span> Badges</h4>
+				    </div>
+  					<div class="panel-body">
+						<p><i>All the badges available in the game, the ones earned by the player and the player&rsquo;s progress towards them. </i></p>
+						<p>
+							<input type="checkbox" ng-model="detailBadges" id="detailBadges" checked> Give details
+						</p>
+						<p>
+							<input type="checkbox" ng-model="compareBadges" id="compareBadges" checked> Compare to class average
+						</p>
+					</div>
 				</div>
-				<div>
-					<h4>Basic numbers</h4>
-					<p><i>Basic information about how many times the player played and the time he/she spent playing. This information can be compared to the class average.</i></p>
-					<table class="table table-bordered table-striped">
-						<tr><th></th><th>Information</th><th>Compare to class average?</th></tr>
-						<tr>
-							<td><input type="checkbox" name="timesPlayed" value="yes" checked /></td>
-							<td>Number of times the player played</td>
-							<td><input type="checkbox" name="compareTimesPlayed" value="yes" checked /></td>
-						</tr><tr>
-							<td><input type="checkbox" name="timesWon" value="yes" checked /></td>
-							<td>Number of times the player won</td>
-							<td><input type="checkbox" name="compareTimesWon" value="yes" checked /></td>
-						</tr><tr>
-							<td><input type="checkbox" name="timeSpent" value="yes" checked /></td>
-							<td>Total time spent by the player (in minutes)</td>
-							<td><input type="checkbox" name="compareTimeSpent" value="yes" checked /></td>
-						</tr>
-					</table>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4><input type="checkbox" ng-model="numbers" id="numbers" checked> <span class="glyphicon glyphicon-info-sign"></span> Basic numbers</h4>
+					</div>
+  					<div class="panel-body">
+						<p><i>Basic information about how many times the player played and the time he/she spent playing. This information can be compared to the class average.</i></p>
+						<table class="table table-bordered table-striped">
+							<tr><th></th><th>Information</th><th>Compare to class average?</th></tr>
+							<tr>
+								<td><input type="checkbox" id="timesPlayed" value="yes" checked /></td>
+								<td>Number of times the player played</td>
+								<td><input type="checkbox" id="compareTimesPlayed" value="yes" checked /></td>
+							</tr><tr>
+								<td><input type="checkbox" id="timesWon" value="yes" checked /></td>
+								<td>Number of times the player won</td>
+								<td><input type="checkbox" id="compareTimesWon" value="yes" checked /></td>
+							</tr><tr>
+								<td><input type="checkbox" id="timeSpent" value="yes" checked /></td>
+								<td>Total time spent by the player (in minutes)</td>
+								<td><input type="checkbox" id="compareTimeSpent" value="yes" checked /></td>
+							</tr>
+						</table>
+					</div>
 				</div>
-				<div>
-					<h4>Performance</h4>
-					<p><i>More detailed information about the player&rsquo;s performance, his/her scores, actions... Some can be compared to the class average.</i></p>
-					<table class="table table-bordered table-striped">
-						<tr><th></th><th>Information</th><th>Compare to class average?</th></tr>
-						<tr>
-							<td><input type="checkbox" name="finalScore" value="yes" checked /></td>
-							<td>Final score box plot</td>
-							<td><input type="checkbox" name="compareFinalScore" value="yes" checked /></td>
-						</tr><tr>
-							<td><input type="checkbox" name="learningCurve" value="yes" checked /></td>
-							<td>Learning curve</td>
-							<td><input type="checkbox" name="compareLearningCurve" value="yes" checked /></td>
-						</tr><tr>
-							<td><input type="checkbox" name="commonActions" value="yes" checked /></td>
-							<td>Most common actions</td>
-							<td><input type="checkbox" name="compareCommonActions" value="yes" checked /></td>
-						</tr>
-					</table>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4><input type="checkbox" ng-model="performance" id="performance" checked> <span class="glyphicon glyphicon-stats"></span> Performance</h4>
+					</div>
+  					<div class="panel-body">
+						<p><i>More detailed information about the player&rsquo;s performance, his/her scores, actions... Some can be compared to the class average.</i></p>
+						<table class="table table-bordered table-striped">
+							<tr><th></th><th>Information</th><th>Compare to class average?</th></tr>
+							<tr>
+								<td><input type="checkbox" id="finalScore" value="yes" checked /></td>
+								<td>Final score box plot</td>
+								<td><input type="checkbox" id="compareFinalScore" value="yes" checked /></td>
+							</tr><tr>
+								<td><input type="checkbox" id="learningCurve" value="yes" checked /></td>
+								<td>Learning curve</td>
+								<td><input type="checkbox" id="compareLearningCurve" value="yes" checked /></td>
+							</tr><tr>
+								<td><input type="checkbox" id="commonActions" value="yes" checked /></td>
+								<td>Most common actions</td>
+								<td><input type="checkbox" id="compareCommonActions" value="yes" checked /></td>
+							</tr>
+						</table>
+					</div>
 				</div>
 			</div>
-			<div class="col-md-5">
+			<div class="col-md-7">
 				<h3>Preview</h3>
-				<select>
-					<option value="">--- select player to preview ---</option>
-				</select>
+				<p><select ng-model="studentSelected">
+					<option ng-repeat="player in getSudentsWhoPlayed()" value="{{ player.idPlayer }}">{{ player.student.username }}</option>
+				</select></p>
+				<div ng-show="badges">
+					<h4><span class="glyphicon glyphicon-certificate"></span> Badges</h4>
+					<table width="95%" ng-repeat="player in LA.players | filter:{idPlayer:studentSelected}">
+						<tr>
+							<td ng-repeat="badge in player.badges">
+								<img height="32" ng-src="/badges/{{badge.name}}.png" alt="{{badge.message}}" ng-if="badge.earned == true"/> 
+								<img height="32" ng-src="/badges/lock_BW.png" alt="{{badge.message}}" ng-if="badge.earned != true"/>
+							</td>
+						</tr>
+						<tr ng-if="detailBadges">
+							<td ng-repeat="badge in player.badges">
+								<span style="font-size: 50%;"><br/> {{ badge.message }} <br/> ({{ badge.playerNum }} / {{ badge.goalNum }})  </span>
+						</tr>
+						<tr ng-if="compareBadges"> 
+							<td ng-repeat="badge in player.badges" style="font-size: 50%;">
+								<span class="label label-success" ng-if="classAverage(badge.id) < badge.playerNum">Above average ({{ classAverage(badge.id) }})</span>  
+								<span class="label label-warning" ng-if="classAverage(badge.id) == badge.playerNum">Consistent with average ({{ classAverage(badge.id) }})</span>  
+								<span class="label label-danger" ng-if="classAverage(badge.id) > badge.playerNum">Bellow average ({{ classAverage(badge.id) }})</span>  
+							</span>
+						</tr>
+					</table>
+				</div><div ng-show="numbers">
+					<h4><span class="glyphicon glyphicon-info-sign"></span> Basic numbers</h4>
+				</div><div ng-show="performance">
+					<h4><span class="glyphicon glyphicon-stats"></span> Performance</h4>
+				</div>
 			</div>
 			</div>
 		</div>

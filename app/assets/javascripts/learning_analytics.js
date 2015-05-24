@@ -2440,30 +2440,7 @@ learningAnalytics.controller('LA_controller',
             return students;
         }
 
-        /**
-         * Open Feedback modal. 
-         */
-        $scope.openFeedbackModal = function (idPlayer) {
-            var modalInstance = $modal.open({
-                templateUrl: 'myModalContent.html',
-                //controller: 'feedbackCtrl',
-                size: 'lg',
-                scope: $scope
-            });
-        $scope.cancel = function () {
-            modalInstance.dismiss('cancel');
-          };
-
-            /*modalInstance.result.then(
-                function (feedback) {
-                    reaction.feedback.push({
-                        immediate: true,
-                        name: feedback
-                    });
-
-                }
-            );*/
-        };
+        
 
         // Initialize the radio buttons
 
@@ -2510,5 +2487,47 @@ learningAnalytics.controller('LA_controller',
                 $scope.badgeDetailed = $scope.LA.players[0].badges[0].name;
 
             });
+
+        /**
+         * Open Feedback modal. 
+         */
+        $scope.openFeedbackModal = function (idPlayer) {
+            var modalInstance = $modal.open({
+                templateUrl: 'myModalContent.html',
+                controller: 'reportCtrl',
+                size: 'lg',
+                scope: $scope
+            });
+        };
     }]
 );
+
+learningAnalytics.controller('reportCtrl', function ($scope, $modalInstance) {
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+
+    $scope.getSudentsWhoPlayed = function () {
+        var players = [];
+        for (var i = $scope.LA.gameplays.length - 1; i >= 0; i--) {
+            var alreadyIn = false;
+            for (var j = players.length - 1; j >= 0; j--) {
+                if ($scope.LA.gameplays[i].idPlayer == players[j].idPlayer) {
+                    alreadyIn = true;
+                }
+            }
+            if (!alreadyIn) {
+                players[players.length] = $scope.LA.gameplays[i];
+            }
+        }
+        return players;
+    }
+
+    $scope.classAverage = function (badgeId) {
+        return 0;
+    }
+
+    $scope.studentSelected = $scope.getSudentsWhoPlayed()[0].idPlayer;
+
+});
