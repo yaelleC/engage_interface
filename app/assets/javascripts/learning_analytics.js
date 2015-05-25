@@ -2727,6 +2727,13 @@ learningAnalytics.controller('reportCtrl', function ($scope, $modalInstance) {
     $scope.finalScoreScore = Object.keys($scope.LA.game.learningOutcomes)[0];
     $scope.learningCurve = true;
     $scope.learningCurveScore = Object.keys($scope.LA.game.learningOutcomes)[0];
+    $scope.commonActions = true;
+    $scope.compareCommonActions = true;
+    $scope.commonActionsLO = Object.keys($scope.LA.game.learningOutcomes)[0];
+    $scope.commonActionsActions = $scope.getActionList()[0];
+    $scope.commonActionsSign = "+";
+    $scope.commonActionsMostOrLeastCommon = "false";
+    $scope.commonActionsBestLO = Object.keys($scope.LA.game.learningOutcomes)[0];
 });
 
 
@@ -3126,6 +3133,269 @@ learningAnalytics.directive('reportLearningCurve', function(utils){
             scope.$watchGroup(['la', 'player', 'outcome', 'formula'], function (){
                 var data = process(scope.la, scope.outcome, scope.formula, scope.player);
                 draw(element, data, scope.outcome, scope.formula, scope.la);
+            });
+        
+        }
+    };
+});
+
+learningAnalytics.directive('reportCommonActions', function(utils){
+    // set the view
+    function process(la, action, outcome, sign, leastcommon, bestoutcome, player) {
+        //var i, j, k, nb;
+
+        //var totalTimeSpent, maxTimeSpent, minTimeSpent, timeS, avgTimeSpent;
+        
+        var dataset = utils.getGameplayDataset(la);
+        var datasetFirst = utils.getPlayerFirstDataset(la);
+        var datasetLast = utils.getPlayerLastDataset(la);
+        var datasetBest = utils.getPlayerBestDataset(la, bestoutcome);
+
+        if (dataset.length < 1) {
+            return 0;
+        }
+
+        // find data to show in good format = json : { categories:[c1, c2, ...], series: [{name:"...", data:[n1, n2, ..., n6]}, ...] }
+        var data;
+        var categories = [];
+        var series = [];
+ 
+        var paramFirst = {};
+        var paramLast = {};    
+        var paramBest = {}; 
+        var paramAll = {};   
+
+        var countAll = 0;
+        var countFirst = 0;
+        var countBest = 0;
+        var countLast = 0;  
+
+        // look for params of action to sort by
+        angular.forEach(dataset, function (d) {
+            angular.forEach(d.actions, function (a) {
+                if (a.action === action)
+                {
+                    countAll++;
+                    if (a.outcome === outcome &&( (a.mark < 0 && sign === "-") || (a.mark >= 0 && sign === "+")) )
+                    {
+                        var params = Object.keys(a.parameters);
+                        var p_toString = "";
+
+                        angular.forEach(params, function (p) {
+                            p_toString += "_" + a.parameters[p];
+                        });
+
+                        p_toString = p_toString.substring(1);
+
+                        if (paramAll[p_toString] != null)
+                        {
+                            paramAll[p_toString] += 1;
+                            paramLast[p_toString] = 0;
+                            paramBest[p_toString] = 0;
+                            paramFirst[p_toString] = 0;
+                        }
+                        else
+                        {
+                            paramAll[p_toString] = 1;
+                        }
+                    }
+                }
+            });
+        });
+
+        // look for params of action in FIRST
+        angular.forEach(datasetFirst, function (d) {
+            angular.forEach(d.actions, function (a) {
+                if (a.action === action)
+                {
+                    countFirst++;
+                    var params = Object.keys(a.parameters);
+                    var p_toString = "";
+
+                    angular.forEach(params, function (p) {
+                        p_toString += "_" + a.parameters[p];
+                    });
+
+                    p_toString = p_toString.substring(1);
+
+                    if (paramFirst[p_toString] != null)
+                    {
+                        paramFirst[p_toString] += 1;
+                    }
+                    else
+                    {
+                        paramFirst[p_toString] = 1;
+                    }
+                }
+            });
+        });
+
+
+        // look for params of action in LAST
+        angular.forEach(datasetLast, function (d) {
+            angular.forEach(d.actions, function (a) {
+                if (a.action === action)
+                {
+                    countLast++;
+                    var params = Object.keys(a.parameters);
+                    var p_toString = "";
+
+                    angular.forEach(params, function (p) {
+                        p_toString += "_" + a.parameters[p];
+                    });
+
+                    p_toString = p_toString.substring(1);
+
+                    if (paramLast[p_toString] != null)
+                    {
+                        paramLast[p_toString] += 1;
+                    }
+                    else
+                    {
+                        paramLast[p_toString] = 1;
+                    }
+                }
+            });
+        });
+
+        // look for params of action in BEST
+        angular.forEach(datasetBest, function (d) {
+            angular.forEach(d.actions, function (a) {
+                if (a.action === action)
+                {
+                    countBest++;
+                    var params = Object.keys(a.parameters);
+                    var p_toString = "";
+
+                    angular.forEach(params, function (p) {
+                        p_toString += "_" + a.parameters[p];
+                    });
+
+                    p_toString = p_toString.substring(1);
+
+                    if (paramBest[p_toString] != null)
+                    {
+                        paramBest[p_toString] += 1;
+                    }
+                    else
+                    {
+                        paramBest[p_toString] = 1;
+                    }
+                }
+            });
+        });
+
+        var array=[];
+
+        for(p in paramAll){
+         array.push([p.trim(),paramAll[p]]);
+        }
+
+        array.sort(function(a,b){return a[1] - b[1]});
+
+        var title = "...";
+
+        if (leastcommon === "true")
+        {
+            title = "Least common actions";
+        }
+        else if (leastcommon === "false")
+        {
+            array.reverse();
+            title = "Most common actions";
+        }
+
+        var allSerieData = [];
+        var firstSerieData = [];
+        var lastSerieData = [];
+        var bestSerieData = [];
+
+        var i = 0;
+        while ( i < 8 && i < array.length)
+        {
+            categories.push(array[i][0]);
+
+            firstSerieData.push(paramFirst[array[i][0]] * 100/datasetFirst.length);
+            lastSerieData.push(paramLast[array[i][0]] * 100/datasetLast.length);
+            bestSerieData.push(paramBest[array[i][0]] * 100/datasetBest.length);
+            allSerieData.push(array[i][1] * 100/dataset.length);
+
+            i++;
+        }
+
+        if (leastcommon === "true")
+        {
+            categories.reverse();
+            firstSerieData.reverse();
+            lastSerieData.reverse();
+            bestSerieData.reverse();
+            allSerieData.reverse();       
+        }
+
+        firstSerie = {"name": "First", "data": firstSerieData};
+        lastSerie = {"name": "Last", "data": lastSerieData};
+        bestSerie = {"name": "Best", "data": bestSerieData};
+        allSerie = {"name": "All", "data": allSerieData};
+        series.push(firstSerie);
+        series.push(lastSerie);
+        series.push(bestSerie);
+        series.push(allSerie);
+
+        // draw bar chart
+        data = {"categories": categories, "series": series, "title": title}
+        return data;
+
+    }
+
+    function draw(element, data){
+        element.highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: data.title
+            },
+            xAxis: {
+                categories: data.categories
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'selected (%)'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.2f} %</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.1,
+                    borderWidth: 0
+                }
+            },
+            series: data.series
+        });
+    }
+    
+    return {
+        scope: {
+            la: '=la',
+            action: '=action',
+            outcome: '=outcome',
+            sign: '=sign',
+            leastcommon: '=leastcommon',
+            bestoutcome: '=bestoutcome',
+            player: '=player'
+        },
+        link: function (scope, element) {
+            scope.$watchGroup(['la', 'action', 'outcome', 'sign', 'leastcommon', 'bestoutcome', 'player'], function (){
+                var data = process(scope.la, scope.action, scope.outcome, scope.sign, scope.leastcommon, scope.bestoutcome, scope.player);
+                draw(element, data);
             });
         
         }

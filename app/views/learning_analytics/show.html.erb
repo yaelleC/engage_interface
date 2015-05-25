@@ -358,7 +358,31 @@ Learning Analytics
 								<td></td>
 							</tr><tr>
 								<td><input type="checkbox" id="commonActions" ng-model="commonActions" /></td>
-								<td>Most common actions</td>
+								<td>
+									Most common actions
+									<p>
+										<select ng-model="commonActionsMostOrLeastCommon">
+											<option value="false">most common</option>
+											<option value="true">least common</option>
+										</select>
+										<select ng-model="commonActionsActions">
+											<option  ng-repeat="a in getActionList()" value="{{a}}">{{a}}</option>
+										</select>
+										Reaction: 
+										<select ng-model="commonActionsSign">
+											<option value="+">+</option>
+											<option value="-" selected>-</option>
+										</select>
+										<select ng-model="commonActionsLO">
+											<option  ng-repeat="o in getLearningOutcomesList()" value="{{o}}">{{o}}</option>
+										</select>
+									</p><p>
+										<i>Calculate best gameplays based on:</i>
+										<select ng-model="commonActionsBestLO">
+											<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
+										</select>
+									</p>
+								</td>
 								<td><input type="checkbox" id="compareCommonActions" ng-model="compareCommonActions" /></td>
 							</tr>
 						</table>
@@ -506,6 +530,8 @@ Learning Analytics
 							<div ng-show="finalScore" report-final-scores player="studentSelected" la="LA" outcome="finalScoreScore" formula="finalScoreFormula" compare="compareFinalScore" >
 							</div>
 							<div ng-show="learningCurve" report-learning-curve player="studentSelected" la="LA" outcome="learningCurveScore" formula="learningCurveFormula" >
+							</div>
+							<div ng-show="commonActions" report-common-actions player="studentSelected" la="LA" outcome="commonActionsLO" formula="learningCurveFormula" compare="compareCommonActions" action="commonActionsActions" sign="commonActionsSign" leastcommon="commonActionsMostOrLeastCommon" bestoutcome="commonActionsBestLO">
 							</div>
 						</div>
 					</div>
