@@ -368,7 +368,7 @@ Learning Analytics
 										<select ng-model="commonActionsActions">
 											<option  ng-repeat="a in getActionList()" value="{{a}}">{{a}}</option>
 										</select>
-										Reaction: 
+										<br/>Reaction: 
 										<select ng-model="commonActionsSign">
 											<option value="+">+</option>
 											<option value="-" selected>-</option>
@@ -381,6 +381,12 @@ Learning Analytics
 										<select ng-model="commonActionsBestLO">
 											<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
 										</select>
+									</p>
+									<p>
+										Show <select ng-model="commonActionsLimit" ng-options="l for l in Range(1, 15)"></select> results
+									</p>
+									<p>
+										Title: <input type="text" ng-model="commonActionsTitle">
 									</p>
 								</td>
 								<td><input type="checkbox" id="compareCommonActions" ng-model="compareCommonActions" /></td>
@@ -531,7 +537,7 @@ Learning Analytics
 							</div>
 							<div ng-show="learningCurve" report-learning-curve player="studentSelected" la="LA" outcome="learningCurveScore" formula="learningCurveFormula" >
 							</div>
-							<div ng-show="commonActions" report-common-actions player="studentSelected" la="LA" outcome="commonActionsLO" formula="learningCurveFormula" compare="compareCommonActions" action="commonActionsActions" sign="commonActionsSign" leastcommon="commonActionsMostOrLeastCommon" bestoutcome="commonActionsBestLO">
+							<div ng-show="commonActions" report-common-actions player="studentSelected" la="LA" outcome="commonActionsLO" formula="learningCurveFormula" compare="compareCommonActions" action="commonActionsActions" sign="commonActionsSign" leastcommon="commonActionsMostOrLeastCommon" bestoutcome="commonActionsBestLO" limit="commonActionsLimit" title="commonActionsTitle">
 							</div>
 						</div>
 					</div>
