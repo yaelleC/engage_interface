@@ -2725,6 +2725,8 @@ learningAnalytics.controller('reportCtrl', function ($scope, $modalInstance) {
     $scope.performance = true;
     $scope.finalScore = true;
     $scope.finalScoreScore = Object.keys($scope.LA.game.learningOutcomes)[0];
+    $scope.learningCurve = true;
+    $scope.learningCurveScore = Object.keys($scope.LA.game.learningOutcomes)[0];
 });
 
 
@@ -2896,7 +2898,7 @@ learningAnalytics.directive('reportFinalScores', function(utils){
                 }]
 
             });     
-/*
+    /*
         element.highcharts({
 
             chart: {
@@ -2972,7 +2974,7 @@ learningAnalytics.directive('reportFinalScores', function(utils){
             ]
 
         });
-*/
+    */
     }
     
     return {
@@ -2987,6 +2989,143 @@ learningAnalytics.directive('reportFinalScores', function(utils){
             scope.$watchGroup(['la', 'outcome', 'formula', 'player', 'compare'], function (){
                 var output = process(scope.la, scope.outcome, scope.formula, scope.player, scope.compare);
                 draw(element, output.data, output.categories, output.title, output.minAverageMax);
+            });
+        
+        }
+    };
+});
+
+
+learningAnalytics.directive('reportLearningCurve', function(utils){
+
+    function process(la, outcome, formula, player) {
+        var dataset = la.gameplays;
+
+        if (dataset.length < 1) {
+            return 0;
+        }
+
+        dataset.sort(utils.sortFunctionTimeStarted);
+
+        var characteristics = [];
+        var players = [];
+        // find data to show in good format
+        var data = [];
+
+        var tryNumber = 0;
+        var points = [];
+
+        // initialise score => starting value
+        var point = [];
+        point[0] = tryNumber;
+
+        if (outcome === "_custom_")
+        {
+            var formula2 = formula + " ";
+            listOutcomes = Object.keys(la.game.learningOutcomes);
+            for (o in listOutcomes) {
+                var outcome2 = la.game.learningOutcomes[listOutcomes[o]];
+
+                formula2 = formula2.replace(listOutcomes[o], outcome2.value);
+            }
+
+            if (formula2.match(/[a-z]/i))
+            {
+                formula = "error, score not found";
+                return null;
+            }
+
+            var formulaParsed = Parser.evaluate(formula2);
+
+            point[1] = formulaParsed;                    
+        }
+        else
+        {
+            point[1] = la.game.learningOutcomes[outcome].value;
+        }
+
+        points[0] = point;
+
+        // draw every line
+        for (var j = 0 ; j < dataset.length ; j++) {
+
+            if (dataset[j].idPlayer == player)
+            {
+                tryNumber++;
+                point = [];
+                point[0] = tryNumber;
+                if (outcome === "_custom_")
+                {
+                    var pt1 = utils.getValueForCustomFormula(dataset[j].finalScores, formula);
+                    point[1] = pt1;
+                }
+                else
+                {
+                    point[1] = dataset[j].finalScores[outcome];
+                }
+
+                points.push(point);
+            }
+        }
+        
+        data[data.length] = {"name": " ",
+                "data": points
+            };
+        return data;
+    }
+
+    function draw(element, data, outcome, formula, la){
+        var title = (outcome === "_custom_")? formula : la.game.learningOutcomes[outcome].desc;
+        element.highcharts({
+            title: {
+                text: 'Learning curve',
+                x: -20 //center
+            },
+            subtitle: {
+                text: title,
+                x: -20
+            },
+            xAxis: {
+                title: {
+                    text: 'number of gameplays'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'score'
+                },
+                plotLines: [
+                    {
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }
+                ]
+            },
+            tooltip: {
+                headerFormat: '<b>{series.name} : {point.y}</b><br/>'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: data
+        });
+    }
+    
+    return {
+        scope: {
+            la: '=la',
+            outcome: '=outcome',
+            player: '=player',
+            formula: '=formula'
+        },
+        link: function (scope, element) {
+            scope.$watchGroup(['la', 'player', 'outcome', 'formula'], function (){
+                var data = process(scope.la, scope.outcome, scope.formula, scope.player);
+                draw(element, data, scope.outcome, scope.formula, scope.la);
             });
         
         }

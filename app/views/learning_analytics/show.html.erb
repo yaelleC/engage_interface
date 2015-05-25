@@ -334,7 +334,7 @@ Learning Analytics
 										<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
 										<option value="_custom_">custom formula</option>
 									</select>
-									<span id="customFormula" ng-show="finalScoreScore == '_custom_'">
+									<span ng-show="finalScoreScore == '_custom_'">
 										<input type="text" ng-model="finalScoreFormula">
 										<i> Available scores:</i>
 										<span ng-repeat="o in getLearningOutcomesList()"> - <b>{{ o }}</b> </span>
@@ -344,8 +344,18 @@ Learning Analytics
 								<td><input type="checkbox" id="compareFinalScore" ng-model="compareFinalScore" /></td>
 							</tr><tr>
 								<td><input type="checkbox" id="learningCurve" ng-model="learningCurve" /></td>
-								<td>Learning curve</td>
-								<td><input type="checkbox" id="compareLearningCurve" ng-model="compareLearningCurve" /></td>
+								<td>Learning curve
+									<select ng-model="learningCurveScore">
+										<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
+										<option value="_custom_">custom formula</option>
+									</select>
+									<span ng-show="learningCurveScore == '_custom_'">
+										<input type="text" ng-model="learningCurveFormula">
+										<i> Available scores:</i>
+										<span ng-repeat="o in getLearningOutcomesList()"> - <b>{{ o }}</b> </span>
+										<br/>
+									</span></td>
+								<td></td>
 							</tr><tr>
 								<td><input type="checkbox" id="commonActions" ng-model="commonActions" /></td>
 								<td>Most common actions</td>
@@ -494,6 +504,8 @@ Learning Analytics
 						<div ng-show="performance">
 							<h5><span class="glyphicon glyphicon-stats"></span> Performance</h5>
 							<div ng-show="finalScore" report-final-scores player="studentSelected" la="LA" outcome="finalScoreScore" formula="finalScoreFormula" compare="compareFinalScore" >
+							</div>
+							<div ng-show="learningCurve" report-learning-curve player="studentSelected" la="LA" outcome="learningCurveScore" formula="learningCurveFormula" >
 							</div>
 						</div>
 					</div>
