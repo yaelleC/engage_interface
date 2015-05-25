@@ -2,6 +2,8 @@ var learningAnalytics = angular.module('learningAnalytics', ['ui.bootstrap']);
 
 learningAnalytics.factory('utils', function() {
     
+
+    var gameplayDataSet;
     var utils = {
    
     getUsernameById: function (la, id) {
@@ -34,16 +36,16 @@ learningAnalytics.factory('utils', function() {
     },
 
     getGameplayDataset: function (la) {
-        var dataset = [];
+        gameplayDataSet = [];
         for (var i = la.gameplays.length - 1; i >= 0; i--) {
             var idP = la.gameplays[i].idPlayer;
             for (var j = la.players.length - 1; j >= 0; j--) {
                 if (la.players[j].idPlayer == idP) {
-                    dataset[dataset.length] = $.extend(la.gameplays[i], la.players[j]);
+                    gameplayDataSet[gameplayDataSet.length] = $.extend(la.gameplays[i], la.players[j]);
                 }
             }
         }
-        return dataset;
+        return gameplayDataSet;
     },
     sortFunctionTimeStarted: function (a, b) {
         var timeStartedA = a.timeStarted;
@@ -65,6 +67,49 @@ learningAnalytics.factory('utils', function() {
         else {
             return arrayNumbersOrdered[Math.floor(arrayNumbersOrdered.length / 2)];
         }
+    },
+    getAverage : function (arrayNumbersOrdered) {
+        if (arrayNumbersOrdered.length === 0)
+        {
+            return 0;
+        }
+        var sumScore = 0;
+
+        for (var i = 0 ; i < arrayNumbersOrdered.length ; i++)
+        {
+            sumScore += arrayNumbersOrdered[i];
+        }
+
+        return Math.round(sumScore *100 / arrayNumbersOrdered.length)/100;
+    },
+    getMinAverageMax : function (arrayNumbers) {
+        
+        // if empty array return 0
+        if (arrayNumbers.length == 0) {
+            return [0, 0, 0];
+        }
+
+        // if only one number return it 5 times.
+        if (arrayNumbers.length == 1) {
+            var n = arrayNumbers[0];
+            return [n, n, n];
+        }
+
+        // otherwise
+        arrayNumbers.sort(function (a, b) {
+            return a - b
+        });
+
+        var arrayStats = [];
+        // minimum
+        arrayStats[0] = arrayNumbers[0];
+        // average
+        arrayStats[1] = this.getAverage(arrayNumbers);
+        // maximum
+        arrayStats[2] = arrayNumbers[arrayNumbers.length - 1];
+
+
+        return arrayStats;
     },
     getPlayerLastDataset: function (la) {
         var dataset = [];
@@ -2678,4 +2723,272 @@ learningAnalytics.controller('reportCtrl', function ($scope, $modalInstance) {
     $scope.compareTimeSpent = true;
 
     $scope.performance = true;
+    $scope.finalScore = true;
+    $scope.finalScoreScore = Object.keys($scope.LA.game.learningOutcomes)[0];
+});
+
+
+learningAnalytics.directive('reportFinalScores', function(utils){
+    // set the view
+    function process(la, outcome, formula, player, compare) {
+        console.log("outome: " + outcome + ", idPlayer: " + player);
+        var idPlayer = player;
+        // set the view
+        var dataset = [];
+        var i, j, k;
+        dataset = la.gameplays;
+
+        if (dataset.length < 1) {
+            return 0;
+        }
+
+        // find data to show in good format = array of {name:"...", data:[avg, max, min]}
+        var data = [];
+        if (compare)
+        {
+            var categories = ["You", "The class", "Compare"];
+        }
+        else
+        {
+            var categories = ["You", "..."];            
+        }
+
+        var scoresListPlayer = [];
+        var scoresListClass = [];
+
+        // get value for student
+        for (j = 0 ; j < dataset.length ; j++) {
+            if (outcome === "_custom_")
+            {
+                scoresListClass[j] = utils.getValueForCustomFormula(dataset[j].finalScores, formula);
+            }
+            else
+            {
+                scoresListClass[j] = dataset[j].finalScores[outcome];
+            }
+
+            if (dataset[j].idPlayer == idPlayer)
+            {
+                if (outcome === "_custom_")
+                {
+                    var formulaParsed = utils.getValueForCustomFormula(dataset[j].finalScores, formula);
+                    scoresListPlayer[scoresListPlayer.length] = formulaParsed;
+                    var formulaParsed_tostring = formulaParsed + " ";
+                    if (formulaParsed_tostring.match(/[a-z]/i))
+                    {
+                        return { data: null, categories: null, title: "error, score not found"};
+                    }
+                }
+                else
+                {
+                    scoresListPlayer[scoresListPlayer.length] = dataset[j].finalScores[outcome];
+                }
+ 
+            }
+        }
+
+        data[0] = utils.getArrayStats(scoresListPlayer);
+        if (compare)
+        {
+            data[1] = utils.getArrayStats(scoresListClass);
+        }
+
+        var title = (outcome === "_custom_")? formula : la.game.learningOutcomes[outcome].desc;
+
+        var minAverageMax = utils.getMinAverageMax(scoresListPlayer);
+        console.log("minAverageMax: " + minAverageMax);
+
+        // draw bar chart
+        return { data: data, categories: categories, title: title, minAverageMax: minAverageMax};
+
+    }
+
+    function draw(element, data, categories, title, minAverageMax){
+        element.highcharts({
+
+                chart: {
+                    type: 'boxplot'
+                },
+
+                title: {
+                    text: 'You score'
+                },
+
+                subtitle: {
+                    text: title
+                },
+
+                legend: {
+                    enabled: false
+                },
+
+                xAxis: {
+                    categories: categories,
+                    title: {
+                        text: ''
+                    }
+                },
+
+                yAxis: {
+                    title: {
+                        text: 'Score'
+                    },
+                    plotLines: [{
+                        value: minAverageMax[1],
+                        color: 'orange',
+                        width: 2,
+                        label: {
+                            text: 'Your average',
+                            align: 'right',
+                            style: {
+                                color: 'gray'
+                            }
+                        }
+                    },
+                    {
+                        value: minAverageMax[2],
+                        color: 'green',
+                        width: 2,
+                        label: {
+                            text: 'Your higher score',
+                            align: 'right',
+                            style: {
+                                color: 'gray'
+                            }
+                        }
+                    },
+                    {
+                        value: minAverageMax[0],
+                        color: 'red',
+                        width: 2,
+                        label: {
+                            text: 'Your lowest score',
+                            align: 'right',
+                            style: {
+                                color: 'gray'
+                            }
+                        }
+                    }]
+                },
+
+                series: [{
+                    name: 'Scores',
+                    data: data,
+                    tooltip: {
+                        headerFormat: '<em>You within {point.key}</em><br/>'
+                    }
+                }, {
+                    name: 'Your best',
+                    color: Highcharts.getOptions().colors[0],
+                    type: 'scatter',
+                    data: [ // x, y positions where 0 is the first category
+                        [data.length, minAverageMax[2]]
+                    ],
+                    marker: {
+                        symbol: 'circle',
+                        fillColor: 'grey',
+                        lineWidth: 1,
+                        lineColor: Highcharts.getOptions().colors[0]
+                    },
+                    tooltip: {
+                        pointFormat: '<b>{point.y}</b>'
+                    }
+                }]
+
+            });     
+/*
+        element.highcharts({
+
+            chart: {
+                type: 'boxplot'
+            },
+
+            title: {
+                text: 'Final score'
+            },
+
+            subtitle: {
+                text: title
+            },
+
+            legend: {
+                enabled: false
+            },
+
+            xAxis: {
+                categories: categories
+            },
+
+            yAxis: {
+                title: {
+                    text: 'Score'
+                },
+                plotlines: [{
+                        value: 1,
+                        color: 'orange',
+                        width: 2,
+                        label: {
+                            text: 'Your average',
+                            align: 'right',
+                            style: {
+                                color: 'gray'
+                            }
+                        }
+                    },
+                    {
+                        value: 2,
+                        color: 'green',
+                        width: 2,
+                        label: {
+                            text: 'Your higher score',
+                            align: 'right',
+                            style: {
+                                color: 'gray'
+                            }
+                        }
+                    },
+                    {
+                        value: 0,
+                        color: 'red',
+                        width: 2,
+                        label: {
+                            text: 'Your lowest score',
+                            align: 'right',
+                            style: {
+                                color: 'gray'
+                            }
+                        }
+                    }]
+            },
+
+            series: [
+                {
+                    name: 'Scores',
+                    data: data,
+                    tooltip: {
+                        headerFormat: '<em>Score for {point.key}</em><br/>'
+                    }
+                }
+            ]
+
+        });
+*/
+    }
+    
+    return {
+        scope: {
+            la: '=la',
+            outcome: '=outcome',
+            player: '=player',
+            formula: '=formula',
+            compare: '=compare'
+        },
+        link: function (scope, element) {
+            scope.$watchGroup(['la', 'outcome', 'formula', 'player', 'compare'], function (){
+                var output = process(scope.la, scope.outcome, scope.formula, scope.player, scope.compare);
+                draw(element, output.data, output.categories, output.title, output.minAverageMax);
+            });
+        
+        }
+    };
 });

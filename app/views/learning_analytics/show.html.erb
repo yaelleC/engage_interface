@@ -320,24 +320,36 @@ Learning Analytics
 				</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h4><input type="checkbox" ng-model="performance" id="performance" checked> <span class="glyphicon glyphicon-stats"></span> Performance</h4>
+						<h4><input type="checkbox" ng-model="performance" id="performance"> <span class="glyphicon glyphicon-stats"></span> Performance</h4>
 					</div>
   					<div class="panel-body">
 						<p><i>More detailed information about the player&rsquo;s performance, his/her scores, actions... Some can be compared to the class average.</i></p>
 						<table class="table table-bordered table-striped">
 							<tr><th></th><th>Information</th><th>Compare?</th></tr>
 							<tr>
-								<td><input type="checkbox" id="finalScore" value="yes" checked /></td>
-								<td>Final score box plot</td>
-								<td><input type="checkbox" id="compareFinalScore" value="yes" checked /></td>
+								<td><input type="checkbox" id="finalScore" ng-model="finalScore"/></td>
+								<td>
+									Final score box plot
+									<select ng-model="finalScoreScore">
+										<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
+										<option value="_custom_">custom formula</option>
+									</select>
+									<span id="customFormula" ng-show="finalScoreScore == '_custom_'">
+										<input type="text" ng-model="finalScoreFormula">
+										<i> Available scores:</i>
+										<span ng-repeat="o in getLearningOutcomesList()"> - <b>{{ o }}</b> </span>
+										<br/>
+									</span>
+								</td>
+								<td><input type="checkbox" id="compareFinalScore" ng-model="compareFinalScore" /></td>
 							</tr><tr>
-								<td><input type="checkbox" id="learningCurve" value="yes" checked /></td>
+								<td><input type="checkbox" id="learningCurve" ng-model="learningCurve" /></td>
 								<td>Learning curve</td>
-								<td><input type="checkbox" id="compareLearningCurve" value="yes" checked /></td>
+								<td><input type="checkbox" id="compareLearningCurve" ng-model="compareLearningCurve" /></td>
 							</tr><tr>
-								<td><input type="checkbox" id="commonActions" value="yes" checked /></td>
+								<td><input type="checkbox" id="commonActions" ng-model="commonActions" /></td>
 								<td>Most common actions</td>
-								<td><input type="checkbox" id="compareCommonActions" value="yes" checked /></td>
+								<td><input type="checkbox" id="compareCommonActions" ng-model="compareCommonActions" /></td>
 							</tr>
 						</table>
 					</div>
@@ -481,6 +493,8 @@ Learning Analytics
 						</div><br/>
 						<div ng-show="performance">
 							<h5><span class="glyphicon glyphicon-stats"></span> Performance</h5>
+							<div ng-show="finalScore" report-final-scores player="studentSelected" la="LA" outcome="finalScoreScore" formula="finalScoreFormula" compare="compareFinalScore" >
+							</div>
 						</div>
 					</div>
 				</div>
