@@ -76,78 +76,91 @@ Editor
 			<div>
 				<accordion close-others="oneAtATime">
 					<accordion-group  ng-repeat="(name, evidence) in config.evidenceModel" heading="{{ evidence.desc}}">
-						
 						<div ng-repeat="reaction in evidence.reactions">
-							<hr ng-if="! $first">
-							<h4 ng-if="reaction.else == 'true'">{{ $index + 1}}. Any other <span ng-repeat="(param, type) in evidence.params">{{param}}{{$last ? '' : ', '}}</span></h4>
-							<div ng-if="reaction.else != 'true'">
-								<h4>
+							<div ng-if="$index == evidence.reactions.length-1">
+								<br>
+								<button class="btn btn-sm btn-default" ng-click="addReaction(evidence)">add condition</button>
+								<br>
+							</div>
+							<div class="panel panel-info">
+								<div class="panel-heading">
+									<span ng-if="reaction.else == 'true'">{{ $index + 1}}. Any other <span ng-repeat="(param, type) in evidence.params">{{param}}{{$last ? '' : ', '}}</span></span>
+									<span ng-if="reaction.else != 'true'">
 									{{ $index + 1}}. If the user selects one of the following <span ng-repeat="(param, type) in evidence.params">{{param}}{{$last ? '' : ', '}}</span>
-								</h4>
-								<div ng-if="numberOfKeys(evidence.params)==1" ng-repeat="(param, type) in evidence.params">
-									<div ng-if="listParamsUpdated[name][param]">
-										 <ui-select multiple ng-model="reaction.values" theme="select2" style="width: 800px;">
-										    <ui-select-match placeholder="Select {{evidence.params[param]}}...">{{$item[param]}}</ui-select-match>
-										    <ui-select-choices repeat="c in listParamsUpdated[name][param] | filter: $select.search">
-										      {{c[param]}}
-										    </ui-select-choices>
-										 </ui-select>
+									</span>
+								</div>
+								<div class="panel-body">
+									<div ng-if="reaction.else != 'true'">
+										<div ng-if="numberOfKeys(evidence.params)==1" ng-repeat="(param, type) in evidence.params">
+											<div ng-if="listParamsUpdated[name][param]">
+												 <ui-select multiple ng-model="reaction.values" theme="select2" style="width: 800px;">
+												    <ui-select-match placeholder="Select {{evidence.params[param]}}...">{{$item[param]}}</ui-select-match>
+												    <ui-select-choices repeat="c in listParamsUpdated[name][param] | filter: $select.search">
+												      {{c[param]}}
+												    </ui-select-choices>
+												 </ui-select>
+											</div>
+										</div>
+										<div ng-if="numberOfKeys(evidence.params) > 1">
+										<table class="table table-condensed">
+											<thead>
+												<tr>
+													<th class="col-xs-3" ng-repeat="(param, type) in evidence.params">{{param}}</th>
+													<th class="col-xs-1">Action</th>
+												</tr>
+											</thead>
+											<tbody>
+													<tr ng-repeat="val in reaction.values">
+														<td ng-repeat="(param, type) in evidence.params">
+															<span editable-text="val[param]" e-required>{{val[param] || ('add ' + param) }}</span>
+														</td>
+														<td><button class="btn btn-sm btn-danger" ng-click="reaction.values.splice($index, 1)">remove</button></td>
+													</tr>
+											</tbody>
+											
+										</table>
+										<button class="btn btn-sm btn-default" ng-click="reaction.values.push({})">Add entry</button>
+										</div>
+									</div>
+									<br/>
+									<div>
+										<div><strong>scores to be updated:</strong></div>
+										<table class="table table-bordered">
+											<tbody>
+												<tr ng-repeat="mark in reaction.marks">
+													<td class="col-lg-6">{{config.learningOutcomes[mark.learningOutcome].desc}}</td>
+													<td><span editable-number="mark.mark" e-required>{{mark.mark}}</span></td>
+													<td class="col-sm-1"><button class="btn btn-sm btn-danger" ng-click="reaction.marks.splice($index, 1)">remove</button></td>
+												</tr>
+											</tbody>
+										</table>
+										<form class="form-inline" ng-if="availableLearningOutcomes(reaction.marks).length">
+											<div class="form-group">
+												<input id="newLearningOutcome" placeholder="new score update" type="text" ng-model="newLearningOutcome" typeahead-on-select="addMark(reaction, $item)" typeahead="lo for lo in  availableLearningOutcomes(reaction.marks) | filter:$viewValue | limitTo:8" class="form-control">
+											</div>
+										</form>
+									</div>
+									<br/>
+									<div>
+										<div><strong>feedback to trigger</strong></div>
+										<table class="table table-bordered">
+											<tbody>
+												<tr ng-repeat="fb in reaction.feedback">
+													<td class="col-lg-2"><span>{{config.feedback[fb.name].type}}</span></td>
+													<td class="col-lg-6"><span editable-textarea="config.feedback[fb.name].message" e-rows="2" e-cols="40">{{config.feedback[fb.name].message}}</span></td>
+													<td><span>triggered </span><span editable-select="fb.immediate" e-ng-options="s.value as s.text for s in [{value: true, text: 'immediately'}, {value: false, text: 'in the summative report'}]"><span ng-if="fb.immediate">immediately</span><span ng-if="!fb.immediate">in the summative report</span></span></td>
+													<td class="col-sm-1"><button class="btn btn-sm btn-danger" ng-click="reaction.feedback.splice($index, 1)">remove</button></td>
+												</tr>
+											</tbody>
+										</table>
+										<button class="btn btn-sm btn-link" ng-click="openFeedbackModal(reaction)">add feedback</button>
 									</div>
 								</div>
-								<div ng-if="numberOfKeys(evidence.params) > 1">
-								<table class="table table-condensed">
-									<thead>
-										<tr>
-											<th class="col-xs-3" ng-repeat="(param, type) in evidence.params">{{param}}</th>
-											<th class="col-xs-1">Action</th>
-										</tr>
-									</thead>
-									<tbody>
-											<tr ng-repeat="val in reaction.values">
-												<td ng-repeat="(param, type) in evidence.params">
-													<span editable-text="val[param]" e-required>{{val[param] || ('add ' + param) }}</span>
-												</td>
-												<td><button class="btn btn-sm btn-danger" ng-click="reaction.values.splice($index, 1)">remove</button></td>
-											</tr>
-									</tbody>
-									
-								</table>
-								<button class="btn btn-sm btn-default" ng-click="reaction.values.push({})">Add entry</button>
+								<div class="panel-footer" ng-if="!$last">			
+									<button  class="btn btn-sm btn-danger" ng-click="evidence.reactions.splice($index, 1)">delete condition</button>
 								</div>
 							</div>
 							<br/>
-							<div>
-								<div><strong>scores to be updated:</strong></div>
-								<table class="table table-bordered">
-									<tbody>
-										<tr ng-repeat="mark in reaction.marks">
-											<td class="col-lg-6">{{config.learningOutcomes[mark.learningOutcome].desc}}</td>
-											<td><span editable-number="mark.mark" e-required>{{mark.mark}}</span></td>
-											<td class="col-sm-1"><button class="btn btn-sm btn-danger" ng-click="reaction.marks.splice($index, 1)">remove</button></td>
-										</tr>
-									</tbody>
-								</table>
-								<form class="form-inline" ng-if="availableLearningOutcomes(reaction.marks).length">
-									<div class="form-group">
-										<input id="newLearningOutcome" placeholder="new score update" type="text" ng-model="newLearningOutcome" typeahead-on-select="addMark(reaction, $item)" typeahead="lo for lo in  availableLearningOutcomes(reaction.marks) | filter:$viewValue | limitTo:8" class="form-control">
-									</div>
-								</form>
-							</div>
-							<br/>
-							<div>
-								<div><strong>feedback to trigger</strong></div>
-								<table class="table table-bordered">
-									<tbody>
-										<tr ng-repeat="fb in reaction.feedback">
-											<td class="col-lg-2"><span>{{config.feedback[fb.name].type}}</span></td>
-											<td class="col-lg-6"><span editable-textarea="config.feedback[fb.name].message" e-rows="2" e-cols="40">{{config.feedback[fb.name].message}}</span></td>
-											<td><span>triggered </span><span editable-select="fb.immediate" e-ng-options="s.value as s.text for s in [{value: true, text: 'immediately'}, {value: false, text: 'in the summative report'}]"><span ng-if="fb.immediate">immediately</span><span ng-if="!fb.immediate">in the summative report</span></span></td>
-											<td class="col-sm-1"><button class="btn btn-sm btn-danger" ng-click="reaction.feedback.splice($index, 1)">remove</button></td>
-										</tr>
-									</tbody>
-								</table>
-								<button class="btn btn-sm btn-default" ng-click="openFeedbackModal(reaction)">add feedback</button>
-							</div>
 						</div>
 					</accordion-group>
 				</accordion>

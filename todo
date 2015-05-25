@@ -4,6 +4,7 @@ Learning Outcomes:
 ==================
 - update name in the rest of the document (or not editable)
 
+
 - OK: add
 - OK: delete existing entries pointing to the LO
 - OK: add feedback values
@@ -14,12 +15,12 @@ Learning Outcomes:
 
 Rules of the Game:
 ==================
+- Add rule section
 - 1 is added to LO_desc / x is substracted from LO_desc (integer)
-- feeback in dropdown grouped by type [instead of textarea]
-- button manage feedback to edit type + message
-- Select multiple parameters (id 98)
-- Add rule
 
+- OK: button manage feedback to edit type + message
+- OK: feeback in dropdown grouped by type [instead of textarea]
+- OK: Select multiple parameters (id 98)
 - OK: Create Feedback
 - OK: Add remove feedback
 - OK: display feeback type
@@ -31,6 +32,7 @@ Rules of the Game:
 
 End of Game
 ===========
+- Add end section (final: end) The game is ended when/if
 - OK:  change signs (>|<) into (greater than | lower than )
 
 Badges
@@ -43,3 +45,4 @@ Badges
 Other
 =====
 - add "make default" in a modal on save 
+- add "Adaptation bagde"

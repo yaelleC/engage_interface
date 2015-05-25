@@ -235,6 +235,25 @@ describe('Editor ', function () {
 
             });
 
+
+            describe('add evidence reaction', function () {
+
+                beforeEach(function () {
+                    createController();
+                });
+
+                it('should add new reaction', function () {
+                    $scope.addReaction($scope.config.evidenceModel.newCountrySelected);
+                    expect($scope.config.evidenceModel.newCountrySelected.reactions.length).toEqual(3);
+                    expect($scope.config.evidenceModel.newCountrySelected.reactions[1]).toEqual({
+                        feedback: [],
+                        marks: [],
+                        values: []
+                    });
+                });
+
+            });
+
             describe('save', function () {
                 beforeEach(function () {
                     createController();

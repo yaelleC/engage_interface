@@ -179,7 +179,6 @@
          */
         $scope.addLearningOutcome = function () {
             // Initialize the data
-            console.log('test')
             $scope.config.learningOutcomes[$scope.newLoName] = {
                 desc: $scope.newLoDesc,
                 feedbackTriggered: [],
@@ -200,6 +199,17 @@
                 name: "name",
                 question: "question",
                 type: "String"
+            });
+        };
+
+        /**
+         * add evidence reaction 
+         */
+        $scope.addReaction = function (evidence) {
+            evidence.reactions.splice(evidence.reactions.length - 1, 0, {
+                feedback: [],
+                marks: [],
+                values: []
             });
         };
 
