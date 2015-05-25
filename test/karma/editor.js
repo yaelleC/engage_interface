@@ -93,6 +93,10 @@ describe('Editor ', function () {
                     }]);
                 });
 
+                it('should filter learning outcomes having end fb', function () {
+                    expect($scope.end).toEqual([]);
+                });
+
                 it('should filter badges', function () {
                     var badges = [
                         "master_time",

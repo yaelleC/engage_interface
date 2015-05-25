@@ -217,6 +217,7 @@
             // Get the list of learning outcome having end_win fb
             $scope.endWins = learningOutcomesByFeedback($scope.config, 'win');
             $scope.endLoses = learningOutcomesByFeedback($scope.config, 'lose');
+            $scope.end = learningOutcomesByFeedback($scope.config, 'end');
             $scope.badges = feedbackByType($scope.config, 'badge');
             $scope.listParamsUpdated = $scope.listParamsUpdated || {};
             angular.forEach($scope.config.evidenceModel, function (evidence, name) {

@@ -198,6 +198,22 @@ Editor
 					</table>
 				</div>
 			</div>
+			<div>
+				<h4>The game is ended when/if:</h4>
+				<div>
+					<table class="table table-striped">
+						<tbody>
+							<tr ng-repeat="row in end">
+								<td class="col-md-4">
+									<span>{{config.learningOutcomes[row.learningOutcome].desc}}</span>
+									<span editable-select="config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign" e-ng-options="k as v for (k, v) in signs">{{signs[config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign]}}</span>
+									<span editable-number="config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].limit">{{config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].limit}}</span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 			<h3>Across gameplay badges</h3>
 			<div class="col-md-12">
 				<div class="media" ng-repeat="badge in badges">
@@ -250,7 +266,7 @@ Editor
 			<div>
 				<h4>Positive Feedback</h4>
 				<table class="table table-bordered">
-					<tbody>newFeedbackMessage
+					<tbody>
 						<tr ng-repeat="(name, feedback) in config.feedback" ng-if="feedback.type=='positive'">
 							<td class="col-lg-2">{{name}}</td>
 							<td>{{feedback.message}}</td>

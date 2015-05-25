@@ -15,9 +15,9 @@ Learning Outcomes:
 
 Rules of the Game:
 ==================
-- Add rule section
 - 1 is added to LO_desc / x is substracted from LO_desc (integer)
 
+- OK: Add/Rem rule section
 - OK: button manage feedback to edit type + message
 - OK: feeback in dropdown grouped by type [instead of textarea]
 - OK: Select multiple parameters (id 98)
