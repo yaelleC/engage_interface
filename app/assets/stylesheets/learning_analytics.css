@@ -42,3 +42,8 @@
 .blockAdvanced h4 {
 	color: #d9534f;
 }
+
+@media (min-width: 1500px)
+.modal-xl {
+  width: 1500px;
+}

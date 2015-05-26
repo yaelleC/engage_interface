@@ -359,7 +359,7 @@ Learning Analytics
 							</tr><tr>
 								<td><input type="checkbox" id="commonActions" ng-model="commonActions" /></td>
 								<td>
-									Most common actions
+									Correct answers
 									<p>
 										<select ng-model="commonActionsMostOrLeastCommon">
 											<option value="false">most common</option>
@@ -383,13 +383,48 @@ Learning Analytics
 										</select>
 									</p>
 									<p>
-										Show <select ng-model="commonActionsLimit" ng-options="l for l in Range(1, 15)"></select> results
+										Show <select ng-model="commonActionsLimit" ng-options="l for l in Range(1, 30)"></select> results
 									</p>
 									<p>
 										Title: <input type="text" ng-model="commonActionsTitle">
 									</p>
 								</td>
 								<td><input type="checkbox" id="compareCommonActions" ng-model="compareCommonActions" /></td>
+							
+							</tr><tr>
+								<td><input type="checkbox" id="commonActions2" ng-model="commonActions2" /></td>
+								<td>
+									Mistakes
+									<p>
+										<select ng-model="commonActionsMostOrLeastCommon2">
+											<option value="false">most common</option>
+											<option value="true">least common</option>
+										</select>
+										<select ng-model="commonActionsActions2">
+											<option  ng-repeat="a in getActionList()" value="{{a}}">{{a}}</option>
+										</select>
+										<br/>Reaction: 
+										<select ng-model="commonActionsSign2">
+											<option value="+">+</option>
+											<option value="-" selected>-</option>
+										</select>
+										<select ng-model="commonActionsLO2">
+											<option  ng-repeat="o in getLearningOutcomesList()" value="{{o}}">{{o}}</option>
+										</select>
+									</p><p>
+										<i>Calculate best gameplays based on:</i>
+										<select ng-model="commonActionsBestLO2">
+											<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
+										</select>
+									</p>
+									<p>
+										Show <select ng-model="commonActionsLimit2" ng-options="l for l in Range(1, 30)"></select> results
+									</p>
+									<p>
+										Title: <input type="text" ng-model="commonActionsTitle2">
+									</p>
+								</td>
+								<td><input type="checkbox" id="compareCommonActions2" ng-model="compareCommonActions2" /></td>
 							</tr>
 						</table>
 					</div>
@@ -471,9 +506,10 @@ Learning Analytics
 						</div><br/>
 						<div ng-show="numbers">
 							<h5><span class="glyphicon glyphicon-info-sign"></span> General information</h5>
-							<table width="95%" align="center">
+							<table width="90%">
 								<tr ng-show="timesPlayed" >
-									<td style="font-size: 80%;" >You played <b>{{ getNumberGameplays(player.idPlayer) }} times</b>.</td>
+									<td style="padding-right:10px;" align="right"><span class="glyphicon glyphicon-tower" aria-hidden="true"></span></td>
+									<td style="font-size: 80%;" > You played <b>{{ getNumberGameplays(player.idPlayer) }} times</b>.</td>
 									<td ng-show="compareTimesPlayed" style="font-size: 80%;" >
 										<span  ng-switch="compareToClass(getAverageNumberGameplays(), getNumberGameplays(player.idPlayer))" </span>
 											<span class="label label-success" ng-switch-when="1">
@@ -492,7 +528,8 @@ Learning Analytics
 									</td>
 								</tr>
 								<tr ng-show="timesWon" >
-									<td style="font-size: 80%;" >You won <b>{{ getNumberGameplaysWon(player.idPlayer) }} times</b>.</td>
+									<td style="padding-right:10px;" align="right"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></td>
+									<td style="font-size: 80%;" > You won <b>{{ getNumberGameplaysWon(player.idPlayer) }} times</b>.</td>
 									<td ng-show="compareTimesWon" style="font-size: 80%;" >
 										<span  ng-switch="compareToClass(getAverageNumberGameplaysWon(), getNumberGameplaysWon(player.idPlayer))" </span>
 											<span class="label label-success" ng-switch-when="1">
@@ -511,7 +548,8 @@ Learning Analytics
 									</td>
 								</tr>
 								<tr ng-show="timeSpent">
-									<td style="font-size: 80%;" >You played <b>{{ getTimeSpent(player.idPlayer) }} minutes</b>.</td>
+									<td style="padding-right:10px;" align="right"><span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span></td>
+									<td style="font-size: 80%;" > You played <b>{{ getTimeSpent(player.idPlayer) }} minutes</b>.</td>
 									<td ng-show="compareTimeSpent" style="font-size: 80%;" >
 										<span  ng-switch="compareToClass(getAverageTimeSpent(), getTimeSpent(player.idPlayer))" </span>
 											<span class="label label-success" ng-switch-when="1">
@@ -533,11 +571,16 @@ Learning Analytics
 						</div><br/>
 						<div ng-show="performance">
 							<h5><span class="glyphicon glyphicon-stats"></span> Performance</h5>
-							<div ng-show="finalScore" report-final-scores player="studentSelected" la="LA" outcome="finalScoreScore" formula="finalScoreFormula" compare="compareFinalScore" >
+							<div class="row">
+								<div class="col-md-6" ng-show="finalScore" report-final-scores player="studentSelected" la="LA" outcome="finalScoreScore" formula="finalScoreFormula" compare="compareFinalScore" >
+								</div>
+								<div class="col-md-6" ng-show="learningCurve" report-learning-curve player="studentSelected" la="LA" outcome="learningCurveScore" formula="learningCurveFormula" >
+								</div>
 							</div>
-							<div ng-show="learningCurve" report-learning-curve player="studentSelected" la="LA" outcome="learningCurveScore" formula="learningCurveFormula" >
+
+							<div ng-show="commonActions" report-common-actions player="studentSelected" la="LA" outcome="commonActionsLO" compare="compareCommonActions" action="commonActionsActions" sign="commonActionsSign" leastcommon="commonActionsMostOrLeastCommon" bestoutcome="commonActionsBestLO" limit="commonActionsLimit" title="commonActionsTitle">
 							</div>
-							<div ng-show="commonActions" report-common-actions player="studentSelected" la="LA" outcome="commonActionsLO" formula="learningCurveFormula" compare="compareCommonActions" action="commonActionsActions" sign="commonActionsSign" leastcommon="commonActionsMostOrLeastCommon" bestoutcome="commonActionsBestLO" limit="commonActionsLimit" title="commonActionsTitle">
+							<div ng-show="commonActions2" report-common-actions player="studentSelected" la="LA" outcome="commonActionsLO2" compare="compareCommonActions2" action="commonActionsActions2" sign="commonActionsSign2" leastcommon="commonActionsMostOrLeastCommon2" bestoutcome="commonActionsBestLO2" limit="commonActionsLimit2" title="commonActionsTitle2">
 							</div>
 						</div>
 					</div>

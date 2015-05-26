@@ -2743,6 +2743,14 @@ learningAnalytics.controller('reportCtrl', function ($scope, $modalInstance) {
     $scope.commonActionsMostOrLeastCommon = "false";
     $scope.commonActionsBestLO = Object.keys($scope.LA.game.learningOutcomes)[0];
     $scope.commonActionsLimit = 8;
+    $scope.commonActions2 = true;
+    $scope.compareCommonActions2 = true;
+    $scope.commonActionsLO2 = Object.keys($scope.LA.game.learningOutcomes)[0];
+    $scope.commonActionsActions2 = $scope.getActionList()[0];
+    $scope.commonActionsSign2 = "-";
+    $scope.commonActionsMostOrLeastCommon2 = "false";
+    $scope.commonActionsBestLO2 = Object.keys($scope.LA.game.learningOutcomes)[0];
+    $scope.commonActionsLimit2 = 8;
 });
 
 
@@ -3346,8 +3354,6 @@ learningAnalytics.directive('reportCommonActions', function(utils){
         series.push(lastSerie);
         series.push(bestSerie);
         series.push(allSerie);
-
-        console.log(series);
 
         // draw bar chart
         data = {"categories": categories, "series": series, "title": title}
