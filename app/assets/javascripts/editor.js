@@ -179,7 +179,6 @@
          */
         $scope.addLearningOutcome = function () {
             // Initialize the data
-            console.log('test')
             $scope.config.learningOutcomes[$scope.newLoName] = {
                 desc: $scope.newLoDesc,
                 feedbackTriggered: [],
@@ -203,10 +202,22 @@
             });
         };
 
+        /**
+         * add evidence reaction 
+         */
+        $scope.addReaction = function (evidence) {
+            evidence.reactions.splice(evidence.reactions.length - 1, 0, {
+                feedback: [],
+                marks: [],
+                values: []
+            });
+        };
+
         $scope.$watch('config', function () {
             // Get the list of learning outcome having end_win fb
             $scope.endWins = learningOutcomesByFeedback($scope.config, 'win');
             $scope.endLoses = learningOutcomesByFeedback($scope.config, 'lose');
+            $scope.end = learningOutcomesByFeedback($scope.config, 'end');
             $scope.badges = feedbackByType($scope.config, 'badge');
             $scope.listParamsUpdated = $scope.listParamsUpdated || {};
             angular.forEach($scope.config.evidenceModel, function (evidence, name) {

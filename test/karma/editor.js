@@ -93,6 +93,10 @@ describe('Editor ', function () {
                     }]);
                 });
 
+                it('should filter learning outcomes having end fb', function () {
+                    expect($scope.end).toEqual([]);
+                });
+
                 it('should filter badges', function () {
                     var badges = [
                         "master_time",
@@ -230,6 +234,25 @@ describe('Editor ', function () {
                         "name": "name",
                         "question": "question",
                         "type": "String"
+                    });
+                });
+
+            });
+
+
+            describe('add evidence reaction', function () {
+
+                beforeEach(function () {
+                    createController();
+                });
+
+                it('should add new reaction', function () {
+                    $scope.addReaction($scope.config.evidenceModel.newCountrySelected);
+                    expect($scope.config.evidenceModel.newCountrySelected.reactions.length).toEqual(3);
+                    expect($scope.config.evidenceModel.newCountrySelected.reactions[1]).toEqual({
+                        feedback: [],
+                        marks: [],
+                        values: []
                     });
                 });
 
