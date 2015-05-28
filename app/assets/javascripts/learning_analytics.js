@@ -2466,7 +2466,7 @@ learningAnalytics.controller('LA_controller',
                 {
                     if (la.players[i].name != null)
                     {
-                        var s = {"name": la.players[i].name, "id": la.players[i].idPlayer}
+                        var s = {"name": la.players[i].name + '-' + la.players[i].idPlayer, "id": la.players[i].idPlayer}
                         students.push(s.name);    
                     }
                     else if (la.players[i].username != null)
@@ -2530,6 +2530,49 @@ learningAnalytics.controller('LA_controller',
 
                 $scope.badgeDetailed = $scope.LA.players[0].badges[0].name;
 
+                // player report
+                $scope.studentSelected = $scope.getSudentsWhoPlayedReport()[0].idPlayer;
+
+                $scope.badges = true;
+                $scope.nameBadges = true;
+                $scope.messageBadges = true;
+                $scope.progressBadges = false;
+                $scope.compareBadges = false;
+                $scope.percentEarnedBadge = true;
+
+                $scope.numbers = true;
+                $scope.timesPlayed = true;
+                $scope.compareTimesPlayed = true;
+                $scope.timesWon = true;
+                $scope.compareTimesWon = true;
+                $scope.timeSpent = true;
+                $scope.compareTimeSpent = true;
+
+                $scope.performance = true;
+                $scope.finalScore = true;
+                $scope.compareFinalScore = true;
+                $scope.finalScoreScore = Object.keys($scope.LA.game.learningOutcomes)[0];
+                $scope.learningCurve = true;
+                $scope.learningCurveScore = Object.keys($scope.LA.game.learningOutcomes)[0];
+                $scope.commonActions = true;
+                $scope.compareCommonActions = true;
+                $scope.commonActionsLO = Object.keys($scope.LA.game.learningOutcomes)[0];
+                $scope.commonActionsActions = $scope.getActionList()[0];
+                $scope.commonActionsSign = "+";
+                $scope.commonActionsTitle = "Your correct answers";
+                $scope.commonActionsMostOrLeastCommon = "false";
+                $scope.commonActionsBestLO = Object.keys($scope.LA.game.learningOutcomes)[0];
+                $scope.commonActionsLimit = 8;
+                $scope.commonActions2 = true;
+                $scope.compareCommonActions2 = true;
+                $scope.commonActionsLO2 = Object.keys($scope.LA.game.learningOutcomes)[0];
+                $scope.commonActionsActions2 = $scope.getActionList()[0];
+                $scope.commonActionsSign2 = "-";
+                $scope.commonActionsTitle2 = "Your mistakes";
+                $scope.commonActionsMostOrLeastCommon2 = "false";
+                $scope.commonActionsBestLO2 = Object.keys($scope.LA.game.learningOutcomes)[0];
+                $scope.commonActionsLimit2 = 8;
+
             });
 
         /**
@@ -2543,216 +2586,194 @@ learningAnalytics.controller('LA_controller',
                 scope: $scope
             });
         };
-    }]
-);
 
-learningAnalytics.controller('reportCtrl', function ($scope, $modalInstance) {
+        $scope.generate = function() {
+                var printContents = document.getElementById("reportToPrint").innerHTML;
+                var originalContents = document.body.innerHTML;
 
-    $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
-    };
+                document.body.innerHTML = printContents;
 
-    $scope.getSudentsWhoPlayed = function () {
-        var players = [];
-        for (var i = $scope.LA.gameplays.length - 1; i >= 0; i--) {
-            var alreadyIn = false;
-            for (var j = players.length - 1; j >= 0; j--) {
-                if ($scope.LA.gameplays[i].idPlayer == players[j].idPlayer) {
-                    alreadyIn = true;
+                window.print();
+
+                document.body.innerHTML = originalContents;
+
+                /*
+                var printContents = document.getElementById("reportToPrint").innerHTML;
+                 var popupWin = window.open('', '_blank', 'width=300,height=300');
+                 popupWin.document.open()
+                 popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">' + printContents + '</html>');
+                 popupWin.document.close();
+                */
+        }
+
+        $scope.getSudentsWhoPlayedReport = function () {
+            var players = [];
+            for (var i = $scope.LA.gameplays.length - 1; i >= 0; i--) {
+                var alreadyIn = false;
+                for (var j = players.length - 1; j >= 0; j--) {
+                    if ($scope.LA.gameplays[i].idPlayer == players[j].idPlayer) {
+                        alreadyIn = true;
+                    }
+                }
+                if (!alreadyIn) {
+                    players[players.length] = $scope.LA.gameplays[i];
                 }
             }
-            if (!alreadyIn) {
-                players[players.length] = $scope.LA.gameplays[i];
+            return players;
+        }
+
+        /* 
+        * compares playerNum with class average
+        * if above average + 10%  => return 1
+        * if bellow average - 10%  => return -1
+        * if bellow average/2 => return -2
+        * else => return 0
+        */
+        $scope.compareToClass = function (average, playerNum) {
+            var margin = 15 * average / 100;
+            if (playerNum > average + margin)
+            {
+                return 1;
             }
-        }
-        return players;
-    }
-
-    /* 
-    * compares playerNum with class average
-    * if above average + 10%  => return 1
-    * if bellow average - 10%  => return -1
-    * if bellow average/2 => return -2
-    * else => return 0
-    */
-    $scope.compareToClass = function (average, playerNum) {
-        var margin = 15 * average / 100;
-        if (playerNum > average + margin)
-        {
-            return 1;
-        }
-        else if (playerNum < average/2)
-        {
-            return -2;
-        }
-        else if (playerNum < average - margin)
-        {
-            return -1;
-        }
-        return 0;
-    }
-    $scope.compareToClassBadges = function (average, playerEarned) {
-        var margin = 15 * average / 100;
-        var playerNum = playerEarned? 100 : 0;
-        
-        return $scope.compareToClass(average, playerNum);
-    }
-
-    $scope.classAverage= function (badgeId) {
-        var sumPlayerNum = 0;
-        var numPlayers = $scope.LA.players.length;
-        if (numPlayers == 0)
-        {
+            else if (playerNum < average/2)
+            {
+                return -2;
+            }
+            else if (playerNum < average - margin)
+            {
+                return -1;
+            }
             return 0;
         }
-        for (var i = numPlayers - 1; i >= 0; i--) {
-            for (var j = $scope.LA.players[i].badges.length - 1; j >= 0; j--) {
-                if ($scope.LA.players[i].badges[j].id === badgeId)
-                {
-                    sumPlayerNum += $scope.LA.players[i].badges[j].playerNum;
+        $scope.compareToClassBadges = function (average, playerEarned) {
+
+            if (average > 49 && !playerEarned)
+            {
+                return -1;
+            }
+            if (average < 50 && playerEarned)
+            {
+                return 1;
+            }
+            return 0;
+        }
+
+        $scope.classAverage= function (badgeId) {
+            var sumPlayerNum = 0;
+            var numPlayers = $scope.LA.players.length;
+            if (numPlayers == 0)
+            {
+                return 0;
+            }
+            for (var i = numPlayers - 1; i >= 0; i--) {
+                for (var j = $scope.LA.players[i].badges.length - 1; j >= 0; j--) {
+                    if ($scope.LA.players[i].badges[j].id === badgeId)
+                    {
+                        sumPlayerNum += $scope.LA.players[i].badges[j].playerNum;
+                    }
                 }
             }
+            return parseInt(sumPlayerNum / numPlayers);
         }
-        return parseInt(sumPlayerNum / numPlayers);
-    }
 
-    $scope.averageBadgesEarned= function (badgeId) {
-        var playersWithBadge = 0;
-        var numPlayers = $scope.LA.players.length;
-        if (numPlayers == 0)
-        {
-            return 0;
-        }
-        for (var i = numPlayers - 1; i >= 0; i--) {
-            for (var j = $scope.LA.players[i].badges.length - 1; j >= 0; j--) {
-                if ($scope.LA.players[i].badges[j].id === badgeId && $scope.LA.players[i].badges[j].earned)
-                {
-                    playersWithBadge ++;
+        $scope.averageBadgesEarned= function (badgeId) {
+            var playersWithBadge = 0;
+            var numPlayers = $scope.LA.players.length;
+            if (numPlayers == 0)
+            {
+                return 0;
+            }
+            for (var i = numPlayers - 1; i >= 0; i--) {
+                for (var j = $scope.LA.players[i].badges.length - 1; j >= 0; j--) {
+                    if ($scope.LA.players[i].badges[j].id === badgeId && $scope.LA.players[i].badges[j].earned)
+                    {
+                        playersWithBadge ++;
+                    }
                 }
             }
+            return parseInt(playersWithBadge * 100 / numPlayers);
         }
-        return parseInt(playersWithBadge * 100 / numPlayers);
-    }
 
-    $scope.getNumberGameplays = function(idPlayer)
-    {
-        var gameplays = 0;
-        for (var i = $scope.LA.gameplays.length - 1; i >= 0; i--) {
-            if ($scope.LA.gameplays[i].idPlayer == idPlayer) {
-                gameplays ++;
-            }
-        }
-        return gameplays;
-    }
-
-    $scope.getAverageNumberGameplays = function()
-    {
-        if ($scope.LA.players.length === 0)
+        $scope.getNumberGameplays = function(idPlayer)
         {
-            return 0;
-        }
-        return parseInt($scope.LA.gameplays.length / $scope.LA.players.length);
-    }
-
-    $scope.getNumberGameplaysWon = function(idPlayer)
-    {
-        var gameplaysWon = 0;
-        for (var i = $scope.LA.gameplays.length - 1; i >= 0; i--) {
-            if ($scope.LA.gameplays[i].idPlayer == idPlayer && $scope.LA.gameplays[i].won) {
-                gameplaysWon ++;
+            var gameplays = 0;
+            for (var i = $scope.LA.gameplays.length - 1; i >= 0; i--) {
+                if ($scope.LA.gameplays[i].idPlayer == idPlayer) {
+                    gameplays ++;
+                }
             }
+            return gameplays;
         }
-        return gameplaysWon;
-    }
 
-    $scope.getAverageNumberGameplaysWon = function()
-    {
-        if ($scope.LA.players.length === 0)
+        $scope.getAverageNumberGameplays = function()
         {
-            return 0;
-        }
-        var gameplaysWon = 0;
-        for (var i = $scope.LA.gameplays.length - 1; i >= 0; i--) {
-            if ($scope.LA.gameplays[i].won) {
-                gameplaysWon ++;
+            if ($scope.LA.players.length === 0)
+            {
+                return 0;
             }
+            return parseInt($scope.LA.gameplays.length / $scope.LA.players.length);
         }
-        return parseInt(gameplaysWon / $scope.LA.players.length);
-    }
 
-    $scope.getTimeSpent = function(idPlayer)
-    {
-        var timeSpent = 0;
-        for (var i = $scope.LA.gameplays.length - 1; i >= 0; i--) {
-            if ($scope.LA.gameplays[i].idPlayer == idPlayer) {
+        $scope.getNumberGameplaysWon = function(idPlayer)
+        {
+            var gameplaysWon = 0;
+            for (var i = $scope.LA.gameplays.length - 1; i >= 0; i--) {
+                if ($scope.LA.gameplays[i].idPlayer == idPlayer && $scope.LA.gameplays[i].won) {
+                    gameplaysWon ++;
+                }
+            }
+            return gameplaysWon;
+        }
+
+        $scope.getAverageNumberGameplaysWon = function()
+        {
+            if ($scope.LA.players.length === 0)
+            {
+                return 0;
+            }
+            var gameplaysWon = 0;
+            for (var i = $scope.LA.gameplays.length - 1; i >= 0; i--) {
+                if ($scope.LA.gameplays[i].won) {
+                    gameplaysWon ++;
+                }
+            }
+            return parseInt(gameplaysWon / $scope.LA.players.length);
+        }
+
+        $scope.getTimeSpent = function(idPlayer)
+        {
+            var timeSpent = 0;
+            for (var i = $scope.LA.gameplays.length - 1; i >= 0; i--) {
+                if ($scope.LA.gameplays[i].idPlayer == idPlayer) {
+                    timeSpent += $scope.LA.gameplays[i].timeSpent ;
+                }
+            }
+            return parseInt(timeSpent/60);
+        }
+
+        $scope.getAverageTimeSpent = function()
+        {
+            if ($scope.LA.players.length === 0)
+            {
+                return 0;
+            }
+            var timeSpent = 0;
+            for (var i = $scope.LA.gameplays.length - 1; i >= 0; i--) {
                 timeSpent += $scope.LA.gameplays[i].timeSpent ;
             }
+            return parseInt( (timeSpent/60) / $scope.LA.players.length);
         }
-        return parseInt(timeSpent/60);
-    }
 
-    $scope.getAverageTimeSpent = function()
-    {
-        if ($scope.LA.players.length === 0)
-        {
-            return 0;
-        }
-        var timeSpent = 0;
-        for (var i = $scope.LA.gameplays.length - 1; i >= 0; i--) {
-            timeSpent += $scope.LA.gameplays[i].timeSpent ;
-        }
-        return parseInt( (timeSpent/60) / $scope.LA.players.length);
-    }
+        $scope.Range = function(start, end) {
+            var result = [];
+            for (var i = start; i <= end; i++) {
+                result.push(i);
+            }
+            return result;
+        };
 
-    $scope.Range = function(start, end) {
-        var result = [];
-        for (var i = start; i <= end; i++) {
-            result.push(i);
-        }
-        return result;
-    };
-
-    $scope.studentSelected = $scope.getSudentsWhoPlayed()[0].idPlayer;
-
-    $scope.badges = true;
-    $scope.nameBadges = true;
-    $scope.messageBadges = true;
-    $scope.progressBadges = false;
-    $scope.compareBadges = false;
-    $scope.percentEarnedBadge = true;
-
-    $scope.numbers = true;
-    $scope.timesPlayed = true;
-    $scope.compareTimesPlayed = true;
-    $scope.timesWon = true;
-    $scope.compareTimesWon = true;
-    $scope.timeSpent = true;
-    $scope.compareTimeSpent = true;
-
-    $scope.performance = true;
-    $scope.finalScore = true;
-    $scope.compareFinalScore = true;
-    $scope.finalScoreScore = Object.keys($scope.LA.game.learningOutcomes)[0];
-    $scope.learningCurve = true;
-    $scope.learningCurveScore = Object.keys($scope.LA.game.learningOutcomes)[0];
-    $scope.commonActions = true;
-    $scope.compareCommonActions = true;
-    $scope.commonActionsLO = Object.keys($scope.LA.game.learningOutcomes)[0];
-    $scope.commonActionsActions = $scope.getActionList()[0];
-    $scope.commonActionsSign = "+";
-    $scope.commonActionsMostOrLeastCommon = "false";
-    $scope.commonActionsBestLO = Object.keys($scope.LA.game.learningOutcomes)[0];
-    $scope.commonActionsLimit = 8;
-    $scope.commonActions2 = true;
-    $scope.compareCommonActions2 = true;
-    $scope.commonActionsLO2 = Object.keys($scope.LA.game.learningOutcomes)[0];
-    $scope.commonActionsActions2 = $scope.getActionList()[0];
-    $scope.commonActionsSign2 = "-";
-    $scope.commonActionsMostOrLeastCommon2 = "false";
-    $scope.commonActionsBestLO2 = Object.keys($scope.LA.game.learningOutcomes)[0];
-    $scope.commonActionsLimit2 = 8;
-});
-
+    }]
+);
 
 learningAnalytics.directive('reportFinalScores', function(utils){
     // set the view
@@ -3188,10 +3209,10 @@ learningAnalytics.directive('reportCommonActions', function(utils){
         angular.forEach(dataset, function (d) {
             if (d.idPlayer == player)
             {
+                countAll++;
                 angular.forEach(d.actions, function (a) {
                     if (a.action === action)
                     {
-                        countAll++;
                         if (a.outcome === outcome &&( (a.mark < 0 && sign === "-") || (a.mark >= 0 && sign === "+")) )
                         {
                             var params = Object.keys(a.parameters);
@@ -3224,10 +3245,10 @@ learningAnalytics.directive('reportCommonActions', function(utils){
         angular.forEach(datasetFirst, function (d) {
             if (d.idPlayer == player)
             {
+                countFirst++;
                 angular.forEach(d.actions, function (a) {
                     if (a.action === action)
                     {
-                        countFirst++;
                         var params = Object.keys(a.parameters);
                         var p_toString = "";
 
@@ -3255,10 +3276,10 @@ learningAnalytics.directive('reportCommonActions', function(utils){
         angular.forEach(datasetLast, function (d) {
             if (d.idPlayer == player)
             {
+                countLast++;
                 angular.forEach(d.actions, function (a) {
                     if (a.action === action)
                     {
-                        countLast++;
                         var params = Object.keys(a.parameters);
                         var p_toString = "";
 
@@ -3285,10 +3306,10 @@ learningAnalytics.directive('reportCommonActions', function(utils){
         angular.forEach(datasetBest, function (d) {
             if (d.idPlayer == player)
             {
+                countBest++;
                 angular.forEach(d.actions, function (a) {
                     if (a.action === action)
                     {
-                        countBest++;
                         var params = Object.keys(a.parameters);
                         var p_toString = "";
 
@@ -3329,10 +3350,10 @@ learningAnalytics.directive('reportCommonActions', function(utils){
         {
             categories.push(array[i][0]);
 
-            firstSerieData.push(paramFirst[array[i][0]] * 100/datasetFirst.length);
-            lastSerieData.push(paramLast[array[i][0]] * 100/datasetLast.length);
-            bestSerieData.push(paramBest[array[i][0]] * 100/datasetBest.length);
-            allSerieData.push(array[i][1] * 100/dataset.length);
+            firstSerieData.push(paramFirst[array[i][0]] * 100/countFirst);
+            lastSerieData.push(paramLast[array[i][0]] * 100/countLast);
+            bestSerieData.push(paramBest[array[i][0]] * 100/countBest);
+            allSerieData.push(array[i][1] * 100/countAll);
 
             i++;
         }
