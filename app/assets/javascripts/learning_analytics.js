@@ -344,7 +344,7 @@ learningAnalytics.factory('utils', function() {
 
         for (o in listOutcomes) {
             var outcome = arrayScores[listOutcomes[o]];
-            formula = formula.replace(listOutcomes[o], outcome);
+            formula = this.replaceAll(listOutcomes[o], outcome, formula);
         }
 
         if (formula.match(/[a-z]/i))
@@ -354,6 +354,9 @@ learningAnalytics.factory('utils', function() {
 
         var data = Parser.evaluate(formula);
         return data;
+    },
+    replaceAll: function(find, replace, str) {
+      return str.replace(new RegExp(find, 'g'), replace);
     }
   };
 
@@ -1302,7 +1305,7 @@ learningAnalytics.directive('laLearningCurvesWithinGameplays', function(utils){
                     for (o in listOutcomes) {
                         var outcome2 = la.game.learningOutcomes[listOutcomes[o]];
 
-                        formula2 = formula2.replace(listOutcomes[o], outcome2.value);
+                        formula2 = utils.replaceAll(listOutcomes[o], outcome2.value, formula2);
                     }
 
                     if (formula2.match(/[a-z]/i))
@@ -3049,7 +3052,7 @@ learningAnalytics.directive('reportLearningCurve', function(utils){
 
         dataset.sort(utils.sortFunctionTimeStarted);
 
-        var characteristics = [];
+        var listScores = Object.keys($scope.LA.game.learningOutcomes);
         var players = [];
         // find data to show in good format
         var data = [];
@@ -3068,7 +3071,7 @@ learningAnalytics.directive('reportLearningCurve', function(utils){
             for (o in listOutcomes) {
                 var outcome2 = la.game.learningOutcomes[listOutcomes[o]];
 
-                formula2 = formula2.replace(listOutcomes[o], outcome2.value);
+                formula2 = utils.replaceAll(listOutcomes[o], outcome2.value, formula2);
             }
 
             if (formula2.match(/[a-z]/i))
@@ -3174,6 +3177,160 @@ learningAnalytics.directive('reportLearningCurve', function(utils){
     };
 });
 
+learningAnalytics.directive('reportAllLearningCurves', function(utils){
+
+    function process(la, formula, booleanformula, nameformula, player) {
+
+        var dataset = la.gameplays;
+
+        if (dataset.length < 1) {
+            return 0;
+        }
+
+        dataset.sort(utils.sortFunctionTimeStarted);
+
+        var listScores = Object.keys(la.game.learningOutcomes);
+
+        // find data to show in good format
+        var data = [];
+
+        var tryNumber = 0;
+        var pointsCustom = [];
+
+
+        // initialise score => starting value
+
+        if (booleanformula)
+        {
+            var point = [];
+            point[0] = tryNumber;
+
+            var formula2 = formula + " ";
+            listOutcomes = Object.keys(la.game.learningOutcomes);
+            for (o in listOutcomes) {
+                var outcome2 = la.game.learningOutcomes[listOutcomes[o]];
+
+                formula2 = utils.replaceAll(listOutcomes[o], outcome2.value,formula2);
+            }
+
+            if (formula2.match(/[a-z]/i))
+            {
+                nameFormula = "error, score not found";
+                return null;
+            }
+
+            var formulaParsed = Parser.evaluate(formula2);
+
+            point[1] = formulaParsed;     
+            pointsCustom[0] = point;            
+        }
+
+
+        var pointsScores = {"_desc": "JSON with list of scores value for each score"};
+
+        for (score in listScores)
+        {
+            var point = [];
+            point[0] = tryNumber;
+            point[1] = la.game.learningOutcomes[listScores[score]].value;
+
+            var points = [];
+            points[0] = point;
+
+            pointsScores[listScores[score]] = points;
+        }
+
+        // draw every line
+        for (var j = 0 ; j < dataset.length ; j++) {
+
+            if (dataset[j].idPlayer == player)
+            {
+                tryNumber++;
+                if (booleanformula)
+                {
+                    point = [];
+                    point[0] = tryNumber;
+                    point[1] = utils.getValueForCustomFormula(dataset[j].finalScores, formula);
+                    pointsCustom.push(point);      
+                }
+                for (score in listScores)
+                {
+                    point = [];
+                    point[0] = tryNumber;
+                    point[1] = dataset[j].finalScores[listScores[score]];
+                    pointsScores[listScores[score]].push(point);
+                }
+            }
+        }
+        
+        for (score in listScores)
+        {
+            data[data.length] = {"name": la.game.learningOutcomes[listScores[score]].desc, "data": pointsScores[listScores[score]] };
+        }
+        if (booleanformula)
+        {
+            data[data.length] = {"name": nameformula, "data": pointsCustom };
+        }
+        return data;
+    }
+
+    function draw(element, data){
+        element.highcharts({
+            title: {
+                text: 'Learning curve',
+                x: -20 //center
+            },
+            subtitle: {
+                text: "your performance over all your gameplays",
+                x: -20
+            },
+            xAxis: {
+                title: {
+                    text: 'number of gameplays'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'score'
+                },
+                plotLines: [
+                    {
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }
+                ]
+            },
+            tooltip: {
+                headerFormat: '<b>{series.name} : {point.y}</b><br/>'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: data
+        });
+    }
+    
+    return {
+        scope: {
+            la: '=la',
+            player: '=player',
+            formula: '=formula',
+            booleanformula: '=booleanformula',
+            nameformula: '=nameformula'
+        },
+        link: function (scope, element) {
+            scope.$watchGroup(['la', 'player', 'formula', 'booleanformula', 'nameformula'], function (){
+                var data = process(scope.la, scope.formula, scope.booleanformula, scope.nameformula, scope.player);
+                draw(element, data);
+            });
+        
+        }
+    };
+});
 learningAnalytics.directive('reportCommonActions', function(utils){
     // set the view
     function process(la, action, outcome, sign, leastcommon, bestoutcome, player, limit, title) {

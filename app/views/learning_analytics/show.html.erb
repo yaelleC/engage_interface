@@ -20,7 +20,7 @@ Learning Analytics
 	<tabset>
 	<tab heading="Learning analytics">
 	
-	<div class="row">
+	<div class="row-fluid">
 		<div class="col-md-6 blockLA blockBasicInfo" data-step="3" data-intro="Blue blocks give you general information  about the players and gameplays." data-position="right">
 			<h4>Who played this game?</h4>
 			<p>
@@ -46,7 +46,7 @@ Learning Analytics
 			</tabset>
 		</div>
 	</div>
-	<div class="row">
+	<div class="row-fluid">
 		<div class="col-md-6 blockLA blockBasicInfo">
 			<h4>How long was the game played?</h4>
 			<p>
@@ -72,7 +72,7 @@ Learning Analytics
 			</tabset>
 		</div>
 	</div>
-	<div class="row">
+	<div class="row-fluid">
 		<div class="col-md-6 blockLA blockScoreStat" data-step="4" data-position="right" data-intro="Orange blocks give you further information about scores and progress of your students.">
 			<h4>Final scores</h4>
 			<p data-step="6" data-intro="For each graph you have refining options">
@@ -128,7 +128,7 @@ Learning Analytics
 			</tabset>
 		</div>
 	</div>
-	<div class="row">
+	<div class="row-fluid">
 		<div class="col-md-6 blockLA blockScoreStat" data-step="10" data-position="right" data-intro="This chart allows you to see the students overall progress. You can visualise the evolution of any score between the first and last time the student played.">
 			<h4>Learning curves between gameplays</h4>
 			<p>
@@ -176,7 +176,7 @@ Learning Analytics
 			<div la-common-actions la="LA" leastcommon="mostOrLeastCommon" sign="signLOCommonActions" outcome="loCommonActions" bestoutcome="loCommonActionsBest" action="actionsCommonActions"></div>
 		</div>
 	</div>
-	<div class="row">
+	<div class="row-fluid">
 		<div class="col-md-6 blockLA blockInteractions" data-step="5" data-position="right" data-intro="Green blocks display more detailed information about the actions performed by your students, the feedback and badges received in the game.">
 			<h4>Detailed actions data</h4>
 			<p>
@@ -215,10 +215,11 @@ Learning Analytics
 					<option  ng-repeat="o in getLearningOutcomesList()" value="{{o}}">{{o}}</option>
 				</select>
 			</p>
+			<br/>
 			<div la-common-feedback la="LA" outcome="loCommonFeedack" type="typeFeedback"  data-step="8" data-position="right" data-intro="Click on a group name to exclude/include it in the graph. <br/> When you have a graph that you find useful, you can use the icon on the top right corner to download it."></div>
 		</div>
 	</div>
-	<div class="row">
+	<div class="row-fluid">
 		<div class="col-md-6 blockLA blockInteractions" data-step="12" data-position="left" data-intro="You can also see which percentage of your students earned the different badges of the game. It's easy to identify which badges are too easy to obtained and which ones are too hard.">
 			<h4>Badges</h4>
 			
@@ -246,7 +247,7 @@ Learning Analytics
 	<div>
 		<h2>Players&rsquo; report</h2>
 		<p><i>Here you can define a template for your students&rsquo; reports. You can see a preview of the reports on the right. Once you are ready, click the &rsquo;save report&rsquo; button .</i></p>
-		<div class="row">
+		<div class="row-fluid">
 			<div class="col-md-5">
 				<h3>Template</h3>
 				<div class="panel panel-default">
@@ -305,7 +306,7 @@ Learning Analytics
 					<div class="panel-body">
 						<p><i>More detailed information about the player&rsquo;s performance, his/her scores, actions... Some can be compared to the class average.</i></p>
 						<table class="table table-bordered table-striped">
-							<tr><th></th><th>Information</th><th>Compare?</th></tr>
+							<tr><th></th><th>Information</th></tr>
 							<tr>
 								<td><input type="checkbox" id="finalScore" ng-model="finalScore"/></td>
 								<td>
@@ -315,29 +316,35 @@ Learning Analytics
 										<option value="_custom_">custom formula</option>
 									</select>
 									<span ng-show="finalScoreScore == '_custom_'">
-										<input type="text" ng-model="finalScoreFormula">
+										<input type="text" value="" ng-model="finalScoreFormula">
 										<i> Available scores:</i>
 										<span ng-repeat="o in getLearningOutcomesList()"> - <b>{{ o }}</b> </span>
 										<br/>
 									</span>
+									<p>
+										<input type="checkbox" id="compareFinalScore" ng-model="compareFinalScore" />
+										Compare to class?
+									</p>
 								</td>
-								<td><input type="checkbox" id="compareFinalScore" ng-model="compareFinalScore" /></td>
 							</tr>
 							<tr>
 								<td><input type="checkbox" id="learningCurve" ng-model="learningCurve" /></td>
 								<td>Learning curve
-									<select ng-model="learningCurveScore">
+									<!--<select ng-model="learningCurveScore">
 										<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
 										<option value="_custom_">custom formula</option>
-									</select>
-									<span ng-show="learningCurveScore == '_custom_'">
-										<input type="text" ng-model="learningCurveFormula">
+									</select>-->
+									<br/>
+									<input type="checkbox" id="learningCurveCustomFormula" ng-model="learningCurveCustomFormula" />Add custom score
+									<span ng-show="learningCurveCustomFormula">
+										<input type="text" value="" ng-model="learningCurveFormula">
+										<br/>
 										<i> Available scores:</i>
 										<span ng-repeat="o in getLearningOutcomesList()"> - <b>{{ o }}</b> </span>
 										<br/>
+										<input type="text" ng-model="learningCurveNameFormula">
 									</span>
 								</td>
-								<td></td>
 							</tr>
 							<tr>
 								<td><input type="checkbox" id="commonActions" ng-model="commonActions" /></td>
@@ -373,7 +380,6 @@ Learning Analytics
 										Title: <input type="text" ng-model="commonActionsTitle">
 									</p>
 								</td>
-								<td><input type="checkbox" id="compareCommonActions" ng-model="compareCommonActions" /></td>
 							</tr>
 							<tr>
 								<td><input type="checkbox" id="commonActions2" ng-model="commonActions2" /></td>
@@ -409,7 +415,6 @@ Learning Analytics
 										Title: <input type="text" ng-model="commonActionsTitle2">
 									</p>
 								</td>
-								<td><input type="checkbox" id="compareCommonActions2" ng-model="compareCommonActions2" /></td>
 							</tr>
 						</table>
 					</div>
@@ -565,7 +570,7 @@ Learning Analytics
 								<div ng-show="finalScore" report-final-scores player="studentSelected" la="LA" outcome="finalScoreScore" formula="finalScoreFormula" compare="compareFinalScore" >
 								</div>
 								
-								<div ng-show="learningCurve" report-learning-curve player="studentSelected" la="LA" outcome="learningCurveScore" formula="learningCurveFormula" >
+								<div ng-show="learningCurve" report-all-learning-curves player="studentSelected" la="LA" booleanformula="learningCurveCustomFormula" nameformula="learningCurveNameFormula" formula="learningCurveFormula" >
 								</div>
 								
 								<div ng-show="commonActions" report-common-actions player="studentSelected" la="LA" outcome="commonActionsLO" compare="compareCommonActions" action="commonActionsActions" sign="commonActionsSign" leastcommon="commonActionsMostOrLeastCommon" bestoutcome="commonActionsBestLO" limit="commonActionsLimit" title="commonActionsTitle">
