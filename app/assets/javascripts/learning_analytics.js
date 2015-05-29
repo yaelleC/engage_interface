@@ -2555,6 +2555,7 @@ learningAnalytics.controller('LA_controller',
                 $scope.finalScore = true;
                 $scope.compareFinalScore = true;
                 $scope.finalScoreScore = Object.keys($scope.LA.game.learningOutcomes)[0];
+                $scope.finalScoreTitle = $scope.LA.game.learningOutcomes[$scope.finalScoreScore].desc;
                 $scope.learningCurve = true;
                 $scope.learningCurveScore = Object.keys($scope.LA.game.learningOutcomes)[0];
                 $scope.commonActions = true;
@@ -2782,7 +2783,7 @@ learningAnalytics.controller('LA_controller',
 
 learningAnalytics.directive('reportFinalScores', function(utils){
     // set the view
-    function process(la, outcome, formula, player, compare) {
+    function process(la, outcome, formula, player, compare, title) {
         var idPlayer = player;
         // set the view
         var dataset = [];
@@ -2844,7 +2845,7 @@ learningAnalytics.directive('reportFinalScores', function(utils){
             data[1] = utils.getArrayStats(scoresListClass);
         }
 
-        var title = (outcome === "_custom_")? formula : la.game.learningOutcomes[outcome].desc;
+        //var title = (outcome === "_custom_")? formula : la.game.learningOutcomes[outcome].desc;
 
         var minAverageMax = utils.getMinAverageMax(scoresListPlayer);
 
@@ -3031,11 +3032,12 @@ learningAnalytics.directive('reportFinalScores', function(utils){
             outcome: '=outcome',
             player: '=player',
             formula: '=formula',
-            compare: '=compare'
+            compare: '=compare',
+            title: '=title'
         },
         link: function (scope, element) {
-            scope.$watchGroup(['la', 'outcome', 'formula', 'player', 'compare'], function (){
-                var output = process(scope.la, scope.outcome, scope.formula, scope.player, scope.compare);
+            scope.$watchGroup(['la', 'outcome', 'formula', 'player', 'compare', 'title'], function (){
+                var output = process(scope.la, scope.outcome, scope.formula, scope.player, scope.compare, scope.title);
                 draw(element, output.data, output.categories, output.title, output.minAverageMax);
             });
         

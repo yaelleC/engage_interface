@@ -13,7 +13,7 @@ Learning Analytics
 			Number of players: <b>{{ uniquePlayers().length }} </b>
 		</p>
 		<p>Students who played:
-			<span ng-repeat="p in getSudentsWhoPlayed()" ><b> {{ p }} </b> </span>
+			<span ng-repeat="p in getSudentsWhoPlayed()" ><b> {{ p }}{{$last ? '' : ', '}} </b> </span>
 		</p>
 	</div>
 	<!--<p  data-step="13" data-intro="For detailed reports about specific students, click this button. It will open a window for you to create a template of report and will let you generate a PDF file for each of your student based on the template."><button class="btn btn-sm btn-default" ng-click="openFeedbackModal(0)">Generate players' report</button></p>-->
@@ -320,7 +320,10 @@ Learning Analytics
 										<i> Available scores:</i>
 										<span ng-repeat="o in getLearningOutcomesList()"> - <b>{{ o }}</b> </span>
 										<br/>
-									</span>
+									</span>									
+									<p>
+										Title: <input type="text" ng-model="finalScoreTitle">
+									</p>
 									<p>
 										<input type="checkbox" id="compareFinalScore" ng-model="compareFinalScore" />
 										Compare to class?
@@ -431,8 +434,12 @@ Learning Analytics
 				<div id="reportToPrint">
 					<h3 align="center">{{ LA.game.name }} - Gameplay report</h3>
 					<h5 align="center"><%= current_user.teacher.user.username =%></h5>
-					<h5 align="center" style="page-break-after:always">Generated on <b> {{date | date:'dd MMM yyyy' }} at {{ date | date:'HH:mm'}}</b></h5>
-					<div class="panel panel-default" ng-repeat="player in LA.players | filter:{idPlayer:studentSelected}" style="page-break-after:always">
+					<h5 align="center">Generated on <b> {{date | date:'dd MMM yyyy' }} at {{ date | date:'HH:mm'}}</b></h5>
+
+					<h5 align="center">Report for: 
+						<span  ng-repeat="player in LA.players | filter:{idPlayer:studentSelected}" >{{ ($first || $last) ? '' : ', ' }}{{ ($last && !$first) ? ' and ' : '' }}{{player.student.username}}</span>
+					</h5>
+					<div class="panel panel-default" ng-repeat="player in LA.players | filter:{idPlayer:studentSelected}" style="page-break-before:always">
 						<div class="panel-heading">
 							<h4><span class="glyphicon glyphicon-list-alt"></span> {{ player.student.username }}{{ player.name }}&rsquo;s report </h4>
 							<p style="font-size: 75%;"><span ng-repeat="c in LA.game.playerCharacteristics"><i>{{ c }} : {{ player[c] }} . </i></span></p>
@@ -569,7 +576,7 @@ Learning Analytics
 							<div ng-show="performance">
 								<h5><span class="glyphicon glyphicon-stats"></span> Performance</h5>
 								<input type="hidden" ng-model="player.idPlayer">
-								<div ng-show="finalScore" report-final-scores player="player.idPlayer" la="LA" outcome="finalScoreScore" formula="finalScoreFormula" compare="compareFinalScore" >
+								<div ng-show="finalScore" report-final-scores player="player.idPlayer" la="LA" outcome="finalScoreScore" formula="finalScoreFormula" compare="compareFinalScore" title="finalScoreTitle">
 								</div>
 								
 								<div ng-show="learningCurve" report-all-learning-curves player="player.idPlayer" la="LA" booleanformula="learningCurveCustomFormula" nameformula="learningCurveNameFormula" formula="learningCurveFormula" >
