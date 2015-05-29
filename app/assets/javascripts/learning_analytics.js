@@ -1467,13 +1467,13 @@ learningAnalytics.directive('laCommonActions', function(utils){
                         if (paramAll[p_toString] != null)
                         {
                             paramAll[p_toString] += 1;
-                            paramLast[p_toString] = 0;
-                            paramBest[p_toString] = 0;
-                            paramFirst[p_toString] = 0;
                         }
                         else
                         {
                             paramAll[p_toString] = 1;
+                            paramLast[p_toString] = 0;
+                            paramBest[p_toString] = 0;
+                            paramFirst[p_toString] = 0;
                         }
                     }
                 }
@@ -3335,6 +3335,7 @@ learningAnalytics.directive('reportAllLearningCurves', function(utils){
         }
     };
 });
+
 learningAnalytics.directive('reportCommonActions', function(utils){
     // set the view
     function process(la, action, outcome, sign, leastcommon, bestoutcome, player, limit, title) {
@@ -3388,13 +3389,13 @@ learningAnalytics.directive('reportCommonActions', function(utils){
                             if (paramAll[p_toString] != null)
                             {
                                 paramAll[p_toString] += 1;
-                                paramLast[p_toString] = 0;
-                                paramBest[p_toString] = 0;
-                                paramFirst[p_toString] = 0;
                             }
                             else
                             {
                                 paramAll[p_toString] = 1;
+                                paramLast[p_toString] = 0;
+                                paramBest[p_toString] = 0;
+                                paramFirst[p_toString] = 0;
                             }
                         }
                     }
@@ -3408,7 +3409,7 @@ learningAnalytics.directive('reportCommonActions', function(utils){
             {
                 countFirst++;
                 angular.forEach(d.actions, function (a) {
-                    if (a.action === action)
+                    if ((a.action === action) && (a.outcome === outcome &&( (a.mark < 0 && sign === "-") || (a.mark >= 0 && sign === "+")) ))
                     {
                         var params = Object.keys(a.parameters);
                         var p_toString = "";
@@ -3439,7 +3440,7 @@ learningAnalytics.directive('reportCommonActions', function(utils){
             {
                 countLast++;
                 angular.forEach(d.actions, function (a) {
-                    if (a.action === action)
+                    if ((a.action === action) && (a.outcome === outcome &&( (a.mark < 0 && sign === "-") || (a.mark >= 0 && sign === "+")) ))
                     {
                         var params = Object.keys(a.parameters);
                         var p_toString = "";
@@ -3469,7 +3470,7 @@ learningAnalytics.directive('reportCommonActions', function(utils){
             {
                 countBest++;
                 angular.forEach(d.actions, function (a) {
-                    if (a.action === action)
+                    if ((a.action === action) && (a.outcome === outcome &&( (a.mark < 0 && sign === "-") || (a.mark >= 0 && sign === "+")) ))
                     {
                         var params = Object.keys(a.parameters);
                         var p_toString = "";
@@ -3506,10 +3507,18 @@ learningAnalytics.directive('reportCommonActions', function(utils){
         var lastSerieData = [];
         var bestSerieData = [];
 
+        console.log(paramAll);
+        console.log(paramFirst);
+        console.log(paramLast);
+        console.log(paramBest);
+
         var i = 0;
         while ( i < limit && i < array.length)
         {
             categories.push(array[i][0]);
+
+            console.log("numbers: " + paramFirst[array[i][0]] + ", " + paramLast[array[i][0]] + ", " + paramBest[array[i][0]] + ", " + array[i][1]);
+            console.log("divided by: " + countFirst + ", " + countLast + ", " + countBest + ", " + countAll);
 
             firstSerieData.push(paramFirst[array[i][0]] * 100/countFirst);
             lastSerieData.push(paramLast[array[i][0]] * 100/countLast);
@@ -3519,7 +3528,7 @@ learningAnalytics.directive('reportCommonActions', function(utils){
             i++;
         }
 
-        if (leastcommon === "true")
+        if (leastcommon == "false")
         {
             categories.reverse();
             firstSerieData.reverse();
@@ -3536,6 +3545,8 @@ learningAnalytics.directive('reportCommonActions', function(utils){
         series.push(lastSerie);
         series.push(bestSerie);
         series.push(allSerie);
+
+        console.log(series);
 
         // draw bar chart
         data = {"categories": categories, "series": series, "title": title}
