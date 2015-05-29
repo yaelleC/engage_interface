@@ -3308,7 +3308,11 @@ learningAnalytics.directive('reportAllLearningCurves', function(utils){
                 layout: 'vertical',
                 align: 'right',
                 verticalAlign: 'middle',
-                borderWidth: 0
+                borderWidth: 0,
+                width: 150,
+                itemStyle: {
+                    width: 135 // or whatever
+                }
             },
             series: data
         });
