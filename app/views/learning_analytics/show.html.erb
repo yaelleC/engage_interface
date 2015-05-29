@@ -429,8 +429,10 @@ Learning Analytics
 					</select> <button class="btn btn-primary btn-sm" ng-click="generate()">save report</button>
 				</p>
 				<div id="reportToPrint">
-					<h3>{{ LA.game.name }} - Gameplay report</h3>
-					<div class="panel panel-default" ng-repeat="player in LA.players | filter:{idPlayer:studentSelected}">
+					<h3 align="center">{{ LA.game.name }} - Gameplay report</h3>
+					<h5 align="center"><%= current_user.teacher.user.username =%></h5>
+					<h5 align="center" style="page-break-after:always">Generated on <b> {{date | date:'dd MMM yyyy' }} at {{ date | date:'HH:mm'}}</b></h5>
+					<div class="panel panel-default" ng-repeat="player in LA.players | filter:{idPlayer:studentSelected}" style="page-break-after:always">
 						<div class="panel-heading">
 							<h4><span class="glyphicon glyphicon-list-alt"></span> {{ player.student.username }}{{ player.name }}&rsquo;s report </h4>
 							<p style="font-size: 75%;"><span ng-repeat="c in LA.game.playerCharacteristics"><i>{{ c }} : {{ player[c] }} . </i></span></p>
@@ -566,17 +568,17 @@ Learning Analytics
 							</div><br/>
 							<div ng-show="performance">
 								<h5><span class="glyphicon glyphicon-stats"></span> Performance</h5>
-								
-								<div ng-show="finalScore" report-final-scores player="studentSelected" la="LA" outcome="finalScoreScore" formula="finalScoreFormula" compare="compareFinalScore" >
+								<input type="hidden" ng-model="player.idPlayer">
+								<div ng-show="finalScore" report-final-scores player="player.idPlayer" la="LA" outcome="finalScoreScore" formula="finalScoreFormula" compare="compareFinalScore" >
 								</div>
 								
-								<div ng-show="learningCurve" report-all-learning-curves player="studentSelected" la="LA" booleanformula="learningCurveCustomFormula" nameformula="learningCurveNameFormula" formula="learningCurveFormula" >
+								<div ng-show="learningCurve" report-all-learning-curves player="player.idPlayer" la="LA" booleanformula="learningCurveCustomFormula" nameformula="learningCurveNameFormula" formula="learningCurveFormula" >
 								</div>
 								
-								<div ng-show="commonActions" report-common-actions player="studentSelected" la="LA" outcome="commonActionsLO" compare="compareCommonActions" action="commonActionsActions" sign="commonActionsSign" leastcommon="commonActionsMostOrLeastCommon" bestoutcome="commonActionsBestLO" limit="commonActionsLimit" title="commonActionsTitle">
+								<div ng-show="commonActions" report-common-actions player="player.idPlayer" la="LA" outcome="commonActionsLO" compare="compareCommonActions" action="commonActionsActions" sign="commonActionsSign" leastcommon="commonActionsMostOrLeastCommon" bestoutcome="commonActionsBestLO" limit="commonActionsLimit" title="commonActionsTitle">
 								</div>
 								
-								<div ng-show="commonActions2" report-common-actions player="studentSelected" la="LA" outcome="commonActionsLO2" compare="compareCommonActions2" action="commonActionsActions2" sign="commonActionsSign2" leastcommon="commonActionsMostOrLeastCommon2" bestoutcome="commonActionsBestLO2" limit="commonActionsLimit2" title="commonActionsTitle2">
+								<div ng-show="commonActions2" report-common-actions player="player.idPlayer" la="LA" outcome="commonActionsLO2" compare="compareCommonActions2" action="commonActionsActions2" sign="commonActionsSign2" leastcommon="commonActionsMostOrLeastCommon2" bestoutcome="commonActionsBestLO2" limit="commonActionsLimit2" title="commonActionsTitle2">
 								</div>
 							</div>
 						</div>

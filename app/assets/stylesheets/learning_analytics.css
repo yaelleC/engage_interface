@@ -47,3 +47,10 @@
 .modal-xl {
   width: 1500px;
 }
+@media print {  
+  @page {
+    size: 210mm 297mm ; /* landscape */
+    /* you can also specify margins here: */
+    margin: 15mm;
+  }
+}

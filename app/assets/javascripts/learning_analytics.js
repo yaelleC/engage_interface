@@ -2625,6 +2625,8 @@ learningAnalytics.controller('LA_controller',
             return players;
         }
 
+        $scope.date = new Date();
+
         /* 
         * compares playerNum with class average
         * if above average + 10%  => return 1
@@ -2859,7 +2861,7 @@ learningAnalytics.directive('reportFinalScores', function(utils){
                 },
 
                 title: {
-                    text: 'You score'
+                    text: 'Your score'
                 },
 
                 subtitle: {
