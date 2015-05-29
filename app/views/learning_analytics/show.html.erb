@@ -158,6 +158,7 @@ Learning Analytics
 				<select ng-model="actionsCommonActions">
 					<option  ng-repeat="a in getActionList()" value="{{a}}">{{a}}</option>
 				</select>
+				<br/>
 				Reaction:
 				<select ng-model="signLOCommonActions">
 					<option value="+">+</option>
@@ -215,6 +216,7 @@ Learning Analytics
 					<option  ng-repeat="o in getLearningOutcomesList()" value="{{o}}">{{o}}</option>
 				</select>
 			</p>
+			<br/>
 			<br/>
 			<div la-common-feedback la="LA" outcome="loCommonFeedack" type="typeFeedback"  data-step="8" data-position="right" data-intro="Click on a group name to exclude/include it in the graph. <br/> When you have a graph that you find useful, you can use the icon on the top right corner to download it."></div>
 		</div>
