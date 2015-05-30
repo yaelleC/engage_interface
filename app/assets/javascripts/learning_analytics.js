@@ -2,8 +2,6 @@ var learningAnalytics = angular.module('learningAnalytics', ['ui.bootstrap']);
 
 learningAnalytics.factory('utils', function() {
     
-
-    var gameplayDataSet;
     var utils = {
    
     getUsernameById: function (la, id) {
@@ -2458,29 +2456,29 @@ learningAnalytics.controller('LA_controller',
         $scope.getSudentsWhoPlayed = function () {
             var la = $scope.LA;
             var students = [];
-            for (var i = la.players.length - 1; i >= 0; i--) 
+            for (i in la.players) 
             {
+                console.log(la.players[i]);
                 if (la.players[i].student != null)
                 {
-                    var s = {"name": la.players[i].student.username, "id": la.players[i].idPlayer}
-                    students.push(s.name);
+                    students[students.length] = la.players[i];
                 }
                 else
                 {
                     if (la.players[i].name != null)
                     {
-                        var s = {"name": la.players[i].name + '-' + la.players[i].idPlayer, "id": la.players[i].idPlayer}
-                        students.push(s.name);    
+                        var s = {"name": la.players[i].name, "id": la.players[i].idPlayer};
+                        students[students.length] = s;
                     }
                     else if (la.players[i].username != null)
                     {
-                        var s = {"name": la.players[i].username, "id": la.players[i].idPlayer}
-                        students.push(s.name);    
+                        var s = {"name": la.players[i].username, "id": la.players[i].idPlayer};
+                        students[students.length] = s;    
                     }
                     else if (la.players[i].firstname != null)
                     {
-                        var s = {"name": la.players[i].firstname, "id": la.players[i].idPlayer}
-                        students.push(s.name);  
+                        var s = {"name": la.players[i].firstname, "id": la.players[i].idPlayer};
+                        students[students.length] = s;  
                     }              
                 }
             }
@@ -3511,19 +3509,11 @@ learningAnalytics.directive('reportCommonActions', function(utils){
         var lastSerieData = [];
         var bestSerieData = [];
 
-        console.log(paramAll);
-        console.log(paramFirst);
-        console.log(paramLast);
-        console.log(paramBest);
-
         var i = 0;
         while ( i < limit && i < array.length)
         {
             categories.push(array[i][0]);
-
-            console.log("numbers: " + paramFirst[array[i][0]] + ", " + paramLast[array[i][0]] + ", " + paramBest[array[i][0]] + ", " + array[i][1]);
-            console.log("divided by: " + countFirst + ", " + countLast + ", " + countBest + ", " + countAll);
-
+            
             firstSerieData.push(paramFirst[array[i][0]] * 100/countFirst);
             lastSerieData.push(paramLast[array[i][0]] * 100/countLast);
             bestSerieData.push(paramBest[array[i][0]] * 100/countBest);
@@ -3549,8 +3539,6 @@ learningAnalytics.directive('reportCommonActions', function(utils){
         series.push(lastSerie);
         series.push(bestSerie);
         series.push(allSerie);
-
-        console.log(series);
 
         // draw bar chart
         data = {"categories": categories, "series": series, "title": title}
