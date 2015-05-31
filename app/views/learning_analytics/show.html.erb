@@ -6,15 +6,14 @@ Learning Analytics
 	<br/>
 	<p><a class="btn btn-large btn-success" href="javascript:void(0);" onclick="javascript:introJs().start();">Take a tour</a></p>
 	<h1 data-step="1" data-intro="In this page, you can get all the information you need about the use of your game" >Learning Analytics dashboard - <b> {{ LA.game.name }} </b></h1>
-	<div data-step="2" data-intro="Here you can see how many times the game was played, and by how many players. You can also check that all your students played the game">
+	<div data-step="2" data-intro="Here you can see how many times the game was played, and by how many players. You can also check that all your students played the game. Click on a checkbox to include/exclude a player from the results set.">
 		<p >
 			Version : <b> {{ LA.game.version }} </b> -
 			Number of gameplays: <b> {{ LA.gameplays.length }} </b> -
 			Number of players: <b>{{ uniquePlayers().length }} </b>
 		</p>
-		<p>Students who played:
-			<pre ng-repeat="p in getSudentsWhoPlayed()">{{p}}</pre>
-			<span ng-repeat="p in getSudentsWhoPlayed()" ><input type="checkbox" ng-model="p.selected"><b> {{ p.student.username }}{{$last ? '' : ', '}} </b> </span>
+		<p>Players included in the results:
+			<span ng-repeat="p in getSudentsWhoPlayed()" ><input type="checkbox" ng-click="filterGameplays()" ng-model="p.selected"><b> {{ p.student.username || p.name || "player" + p.idPlayer  }}{{$last ? '' : ', '}} </b> </span>
 		</p>
 	</div>
 	<!--<p  data-step="13" data-intro="For detailed reports about specific students, click this button. It will open a window for you to create a template of report and will let you generate a PDF file for each of your student based on the template."><button class="btn btn-sm btn-default" ng-click="openFeedbackModal(0)">Generate players' report</button></p>-->

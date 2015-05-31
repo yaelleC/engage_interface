@@ -2360,6 +2360,8 @@ learningAnalytics.directive('laBadgeDetailed', function(utils){
 learningAnalytics.controller('LA_controller',
     ['$scope', '$http', '$location', '$modal', function ($scope, $http, $location, $modal) {
         $scope.LA = {};
+        var gameplays;
+        var players;
         $scope.uniquePlayers = function () {
             var players = [];
             for (var i = $scope.LA.gameplays.length - 1; i >= 0; i--) {
@@ -2454,38 +2456,70 @@ learningAnalytics.controller('LA_controller',
         }
 
         $scope.getSudentsWhoPlayed = function () {
-            var la = $scope.LA;
-            var students = [];
-            for (i in la.players) 
+           var students = [];
+            for (i in players) 
             {
-                console.log(la.players[i]);
-                if (la.players[i].student != null)
+                if (players[i].student != null)
                 {
-                    students[students.length] = la.players[i];
+                    students[students.length] = players[i];
                 }
                 else
                 {
-                    if (la.players[i].name != null)
+                    if (players[i].name != null)
                     {
-                        var s = {"name": la.players[i].name, "id": la.players[i].idPlayer};
-                        students[students.length] = s;
+                        var s = {"name": players[i].name, "id": players[i].idPlayer};
+                        students[students.length] = players[i];
                     }
-                    else if (la.players[i].username != null)
+                    else if (players[i].username != null)
                     {
-                        var s = {"name": la.players[i].username, "id": la.players[i].idPlayer};
-                        students[students.length] = s;    
+                        var s = {"name": players[i].username, "id": players[i].idPlayer};
+                        students[students.length] = players[i];   
                     }
-                    else if (la.players[i].firstname != null)
+                    else if (players[i].firstname != null)
                     {
-                        var s = {"name": la.players[i].firstname, "id": la.players[i].idPlayer};
-                        students[students.length] = s;  
+                        var s = {"name": players[i].firstname, "id": players[i].idPlayer};
+                        students[students.length] = players[i];  
                     }              
                 }
             }
             return students;
         }
 
-        
+        $scope.filterGameplays = function() 
+        {
+            var filteredGameplays = angular.copy(gameplays);
+            var filteredPlayers = angular.copy(players);
+
+            var students = $scope.getSudentsWhoPlayed();
+
+            for (i in filteredGameplays)
+            {
+                for (s in students)
+                {
+                    if (students[s].idPlayer == filteredGameplays[i].idPlayer
+                            && !students[s].selected)
+                    {
+                        filteredGameplays.splice(i, 1);
+                    }
+                }
+            }
+
+            for (p in filteredPlayers)
+            {
+                for (s in students)
+                {
+                    if (students[s].idPlayer == filteredPlayers[p].idPlayer
+                            && !students[s].selected)
+                    {
+                        filteredPlayers.splice(p, 1);
+                    }
+                }
+            }
+
+            $scope.LA.gameplays = angular.copy(filteredGameplays);
+            $scope.LA.players = angular.copy(filteredPlayers);
+            $scope.LA = angular.copy($scope.LA);
+        }
 
         // Initialize the radio buttons
 
@@ -2504,10 +2538,14 @@ learningAnalytics.controller('LA_controller',
         {
             extraTeacher = "/teacher/" + path[3];
         }
+
+
         $http.get('http://146.191.107.189:8080/learninganalytics/seriousgame/' + path[1] + '/version/' + path[2] + extraTeacher)
         //$http.get('http://docker:8080/learninganalytics/seriousgame/' + path[1] + '/version/' + path[2])
             .success(function (data) {
                 $scope.LA = data;
+                gameplays = angular.copy($scope.LA.gameplays);
+                players = angular.copy($scope.LA.players);
                 // update the select boxes
 
                 var listStudents = $scope.getSudentsWhoPlayed();
@@ -2527,7 +2565,7 @@ learningAnalytics.controller('LA_controller',
                 $scope.loLearningCurveBestOutcome = $scope.getLearningOutcomesList()[0]; 
                 $scope.loCustomBestOutcome = $scope.getLearningOutcomesList()[0]; 
 
-                $scope.signLOCommonActions = "-";
+                $scope.signLOCommonActions = "+";
                 $scope.mostOrLeastCommon = "false";
 
                 $scope.actionsCommonActions = $scope.getActionList()[0];
