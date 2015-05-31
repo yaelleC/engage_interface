@@ -2509,6 +2509,13 @@ learningAnalytics.controller('LA_controller',
             .success(function (data) {
                 $scope.LA = data;
                 // update the select boxes
+
+                var listStudents = $scope.getSudentsWhoPlayed();
+                for (i in listStudents)
+                {
+                    listStudents[i].selected = true;
+                }
+
                 $scope.loFinalScoresOutcome = $scope.getLearningOutcomesList()[0];
                 $scope.loLearningCurvesOutcome = $scope.getLearningOutcomesList()[0];
                 $scope.loLearningCurvesWithinGameplaysOutcome = $scope.getLearningOutcomesList()[0];

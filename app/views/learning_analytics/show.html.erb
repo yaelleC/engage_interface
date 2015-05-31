@@ -13,13 +13,8 @@ Learning Analytics
 			Number of players: <b>{{ uniquePlayers().length }} </b>
 		</p>
 		<p>Students who played:
-			<span ng-repeat="p in getSudentsWhoPlayed()" ><b> {{ p.student.username }}{{$last ? '' : ', '}} </b> </span>
-		</p>
-		<p>
-			Students to exclude: 
-			<span ng-repeat="p in getSudentsWhoPlayed()" >
-				<input type="checkbox" ng-model="p.id"> {{ p.student.username }} 
-			</span>
+			<pre ng-repeat="p in getSudentsWhoPlayed()">{{p}}</pre>
+			<span ng-repeat="p in getSudentsWhoPlayed()" ><input type="checkbox" ng-model="p.selected"><b> {{ p.student.username }}{{$last ? '' : ', '}} </b> </span>
 		</p>
 	</div>
 	<!--<p  data-step="13" data-intro="For detailed reports about specific students, click this button. It will open a window for you to create a template of report and will let you generate a PDF file for each of your student based on the template."><button class="btn btn-sm btn-default" ng-click="openFeedbackModal(0)">Generate players' report</button></p>-->
