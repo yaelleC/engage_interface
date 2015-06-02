@@ -215,6 +215,7 @@
 
         $scope.$watch('config', function () {
             // Get the list of learning outcome having end_win fb
+            //$scope.config.seriousGame.idTeacher = $scope.idTeacher;
             $scope.endWins = learningOutcomesByFeedback($scope.config, 'win');
             $scope.endLoses = learningOutcomesByFeedback($scope.config, 'lose');
             $scope.end = learningOutcomesByFeedback($scope.config, 'end');
@@ -271,6 +272,8 @@
          * Save config
          */
         $scope.save = function () {
+            $scope.submittingVersion = true;
+            $scope.config.seriousGame.idTeacher = $scope.idTeacher;
             $scope.config.$createVersion(
                 {
                     action: 'createVersion',
@@ -282,6 +285,11 @@
                     $scope.idVersion = data.seriousGame.version;
                     path[3] = $scope.idVersion;
                     $location.path(path.join('/'));
+                    $scope.submittingVersion = false;
+                    alert("Your new version has been saved");
+                },
+                function (data) {
+                    alert("Sorry, something went wrong, try again");
                 }
             );
 

@@ -111,10 +111,17 @@
         };
 
         /**
-         * Save config
+         * Save new table
          */
         $scope.save = function () {
-            $scope.accessList.$save(  );
+            $scope.accessList.$save( 
+                function () {                    
+                    alert("Your changes have been saved");
+                },
+                function () {                    
+                    alert("Sorry, something went wrong, try again");
+                }
+             );
 
         }
     });

@@ -1,7 +1,7 @@
 <% content_for :title do %>
 Editor
 <% end %>
-<div class="mainText container" ng-app="EnGAge">
+<div class="mainText container" ng-app="EnGAge" ng-init="idTeacher=<%= current_user.teacher.id %>" >
 	<div ng-controller="GameCtrl">
 		<h1><span editable-text="config.seriousGame.name">{{config.seriousGame.name}}</span></h1>
 		<h3>Objective of the game</h3>
@@ -248,12 +248,13 @@ Editor
 			</div>
 			<h3>Save your new game</h3>
 			<div class="col-md-6">
-				<div class="form-group">
-					<input nginit="config.seriousGame.idTeacher=<%= current_user.teacher.id %>" type="text" ng-model="config.seriousGame.idTeacher" required class="form-control" ng-hide>
-					Version name: <input placeholder="name" type="text" ng-model="config.seriousGame.nameVersion" required class="form-control">
-					Description: <textarea placeholder="Summarise the changes you made to the game." type="text" ng-model="config.seriousGame.comments" required class="form-control" cols="25" rows="3"></textarea>
-				</div>
-				<button class="btn btn-primary" ng-click="save()">save</button> 
+				<form name="submitVersion" ng-submit="save()">
+					<div class="form-group">
+						Version title: <input placeholder="name" type="text" ng-model="config.seriousGame.nameVersion" required class="form-control">
+						Description: <textarea placeholder="Summarise the changes you made to the game." type="text" ng-model="config.seriousGame.comments" required class="form-control" cols="25" rows="3"></textarea>
+					</div>
+					<button type="submit" ng-disabled="submitVersion.$invalid || submittingVersion" class="btn btn-primary">save</button> 
+				</form>
 			</div>
 		</div>
 		<script type="text/ng-template" id="myModalContent.html">
