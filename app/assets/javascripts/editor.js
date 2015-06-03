@@ -213,9 +213,48 @@
             });
         };
 
+        $scope.getFinalFeedback = function(end)
+        {
+            var endFeedback = "";
+            angular.forEach($scope.config.feedback, function (fb, fbName) {
+                if (fb.final === end) {
+                    endFeedback = fbName;
+                }
+            });
+            return endFeedback;
+        };
+
+        /**
+        * add a winning feedback to LO
+        **/
+        $scope.addEnd = function (lo, sign, limit, end) {
+            // TODO find feedback that is final: win
+            // var endWinFeedback = $scope.config.feedback
+            var endFeedback = $scope.getFinalFeedback(end);
+
+            if (endFeedback != "")
+            {     
+                var loObject = $scope.config.learningOutcomes[lo];
+
+                loObject.feedbackTriggered.push({   
+                    sign: sign + "", 
+                    limit: limit, 
+                    feedback: [{ 
+                        immediate: true, 
+                        name: endFeedback 
+                    }]    
+                });
+            }
+        };
+
         $scope.$watch('config', function () {
             // Get the list of learning outcome having end_win fb
             //$scope.config.seriousGame.idTeacher = $scope.idTeacher;
+            $scope.loEndingCondition = "";
+            $scope.signEndingCondition = ">";
+            $scope.limitEndingCondition = "";
+            $scope.endEndingCondition = "win";
+
             $scope.endWins = learningOutcomesByFeedback($scope.config, 'win');
             $scope.endLoses = learningOutcomesByFeedback($scope.config, 'lose');
             $scope.end = learningOutcomesByFeedback($scope.config, 'end');
@@ -251,11 +290,26 @@
 
             modalInstance.result.then(
                 function (feedback) {
-                    reaction.feedback.push({
-                        immediate: true,
-                        name: feedback
-                    });
-
+                    if (reaction.hasOwnProperty('feedback'))
+                    {
+                        reaction.feedback.push({
+                            immediate: true,
+                            name: feedback
+                        });
+                    }
+                    else if (reaction.hasOwnProperty('feedbackTriggered'))
+                    {
+                        reaction.feedbackTriggered.push({                        
+                            sign: ">",
+                            limit: 1,
+                            feedback: [
+                                {
+                                    immediate: true,
+                                    name: feedback
+                                }
+                            ]                
+                        })
+                    }
                 }
             );
         };

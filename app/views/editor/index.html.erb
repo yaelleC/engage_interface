@@ -73,9 +73,11 @@ Editor
 									<td>
 										<span>triggered </span><span editable-select="fb.feedback[0].immediate" e-ng-options="s.value as s.text for s in [{value: true, text: 'immediately'}, {value: false, text: 'in the summative report'}]"><span ng-if="fb.feedback[0].immediate">immediately</span><span ng-if="!fb.feedback[0].immediate">in the summative report</span></span>
 									</td>
+									<td class="col-sm-1"><button class="btn btn-sm btn-danger" ng-click="lo.feedbackTriggered.splice($index, 1)">remove</button></td>
 								</tr>
 							</tbody>
 						</table>
+						<button class="btn btn-sm btn-link" ng-click="openFeedbackModal(lo)">add feedback</button>
 						</dd>
 					</dl>
 					
@@ -203,46 +205,70 @@ Editor
 				</accordion>
 			</div>
 			<h3>End of the game</h3>
-			<div>
+			<div ng-if='getFinalFeedback("win") != ""'>
 				<h4>The game is won when/if:</h4>
 				<div>
+					
 					<table class="table table-striped">
 						<tbody>
 							<tr ng-repeat="row in endWins">
 								<td class="col-md-4">
-									<span>{{config.learningOutcomes[row.learningOutcome].desc}}</span>
+									<span><b>{{ row.learningOutcome }}</b> - </span>
+									<span>{{config.learningOutcomes[row.learningOutcome].desc}}</span> is 
 									<span editable-select="config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign" e-ng-options="k as v for (k, v) in signs">{{signs[config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign]}}</span>
 									<span editable-number="config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].limit">{{config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].limit}}</span>
 								</td>
+								<td class="col-sm-1"><button class="btn btn-sm btn-danger" ng-click="config.learningOutcomes[row.learningOutcome].feedbackTriggered.splice(row.feedbackTriggeredIdx, 1)">remove</button></td>
 							</tr>
 						</tbody>
 					</table>
+
+					<!--<form class="form-inline" name="addWinningCondition" ng-submit="addEnd(loWinningCondition, signWinningCondition, limitWinningCondition, 'win')">
+						<div class="form-group">
+							<input id="newEndingWin" placeholder="score" type="text" ng-model="loWinningCondition" typeahead="lo for lo in  availableLearningOutcomes(endWins) | filter:$viewValue | limitTo:8" class="form-control">
+							<select ng-options="k as v for (k, v) in signs" ng-model="signWinningCondition" required class="form-control"></select>
+							<input placeholder="limit" type="text" ng-model="limitWinningCondition" required class="form-control">
+						</div>
+						<button type="submit" class="btn btn-info">add winning condition</button> 
+					</form>-->
 				</div>
 			</div>
-			<div>
+			<div ng-if='getFinalFeedback("lose") != ""'>
 				<h4>The game is lost when/if:</h4>
 				<div>
 					<table class="table table-striped">
 						<tbody>
 							<tr ng-repeat="row in endLoses">
 								<td class="col-md-4">
-									<span>{{config.learningOutcomes[row.learningOutcome].desc}}</span>
+									<span><b>{{ row.learningOutcome }}</b> - </span>
+									<span>{{config.learningOutcomes[row.learningOutcome].desc}}</span> is 
 									<span editable-select="config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign" e-ng-options="k as v for (k, v) in signs">{{signs[config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign]}}</span>
 									<span editable-number="config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].limit">{{config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].limit}}</span>
 								</td>
+								<td class="col-sm-1"><button class="btn btn-sm btn-danger" ng-click="config.learningOutcomes[row.learningOutcome].feedbackTriggered.splice(row.feedbackTriggeredIdx, 1)">remove</button></td>
 							</tr>
 						</tbody>
 					</table>
+
+					<!--<form class="form-inline" name="addLosingCondition" ng-submit="addEnd(loLosingCondition, signLosingCondition, limitLosingCondition, 'lose')">
+						<div class="form-group">
+							<input id="newEndingLose" placeholder="score" type="text" ng-model="loLosingCondition" typeahead="lo for lo in  availableLearningOutcomes(endLoses) | filter:$viewValue | limitTo:8" class="form-control">
+							<select ng-options="k as v for (k, v) in signs" ng-model="signLosingCondition" required class="form-control"></select>
+							<input placeholder="limit" type="text" ng-model="limitLosingCondition" required class="form-control">
+						</div>
+						<button type="submit" class="btn btn-info">add losing condition</button> 
+					</form>-->
 				</div>
 			</div>
-			<div>
+			<div ng-if='getFinalFeedback("end") != ""'>
 				<h4>The game is ended when/if:</h4>
 				<div>
 					<table class="table table-striped">
 						<tbody>
 							<tr ng-repeat="row in end">
 								<td class="col-md-4">
-									<span>{{config.learningOutcomes[row.learningOutcome].desc}}</span>
+									<span><b>{{ row.learningOutcome }}</b> - </span>
+									<span>{{config.learningOutcomes[row.learningOutcome].desc}}</span> is 
 									<span editable-select="config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign" e-ng-options="k as v for (k, v) in signs">{{signs[config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign]}}</span>
 									<span editable-number="config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].limit">{{config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].limit}}</span>
 								</td>
@@ -251,6 +277,20 @@ Editor
 					</table>
 				</div>
 			</div>
+
+			<form class="form-inline" name="addEndingCondition" ng-submit="addEnd(loEndingCondition, signEndingCondition, limitEndingCondition, endEndingCondition)">
+				<div class="form-group">
+					<input id="newEnding" placeholder="score" type="text" ng-model="loEndingCondition" typeahead="lo for lo in  availableLearningOutcomes(end) | filter:$viewValue | limitTo:8" class="form-control">
+					<select ng-options="k as v for (k, v) in signs" ng-model="signEndingCondition" required class="form-control"></select>
+					<input placeholder="limit" type="text" ng-model="limitEndingCondition" required class="form-control">
+					<select ng-model="endEndingCondition" required class="form-control">
+						<option value="win" ng-if='getFinalFeedback("win") != ""'>Win</option>
+						<option value="lose" ng-if='getFinalFeedback("lose") != ""'>Lose</option>
+						<option value="end" ng-if='getFinalFeedback("end") != ""'>End</option>
+					</select>
+				</div>
+				<button type="submit" class="btn btn-info">add ending condition</button> 
+			</form>
 			<h3>Across gameplay badges</h3>
 			<div class="col-md-12">
 				<div class="media" ng-repeat="badge in badges">
@@ -295,7 +335,8 @@ Editor
 			</div>
 		</div>
 		<script type="text/ng-template" id="myModalContent.html">
-		<div class="modal-header">
+		<div class="modal-header">		
+			<button type="button" class="close" aria-label="Close" ng-click="cancel()"><span aria-hidden="true">&times;</span></button>
 			<h3 class="modal-title">Feedback!</h3>
 		</div>
 		<div class="modal-body">
