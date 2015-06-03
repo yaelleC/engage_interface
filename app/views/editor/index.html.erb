@@ -44,7 +44,26 @@ Editor
 						<dd>
 						<table class="table table-bordered">
 							<tbody>
-								<tr ng-repeat="fb in lo.feedbackTriggered">
+								<tr ng-repeat="fb in lo.feedbackTriggered" ng-show="!config.feedback[fb.feedback[0].name].hasOwnProperty('final')">
+									<td class="col-xs-1">
+										<span  ng-switch="config.feedback[fb.feedback[0].name].type">
+											<span class="label label-success" ng-switch-when="positive">
+												{{ fb.feedback[0].name }}
+											</span>
+											<span class="label label-info" ng-switch-when="hint">
+												{{ fb.feedback[0].name }}
+											</span>
+											<span class="label label-warning" ng-switch-when="adaptation">
+												{{ fb.feedback[0].name }}
+											</span>
+											<span class="label label-danger" ng-switch-when="negative">
+												{{ fb.feedback[0].name }}
+											</span>
+											<span class="label" ng-switch-default>
+												{{ fb.feedback[0].name }}
+											</span>
+										</span>
+									</td>
 									<td>
 										<span><span editable-select="fb.sign" e-required e-ng-options="k as v for (k, v) in signs">{{signs[fb.sign]}}</span> <span editable-number="fb.limit" e-required>{{fb.limit}}</span></span>
 									</td>
@@ -146,7 +165,25 @@ Editor
 										<table class="table table-bordered">
 											<tbody>
 												<tr ng-repeat="fb in reaction.feedback">
-													<td class="col-lg-2"><span>{{config.feedback[fb.name].type}}</span></td>
+													<td class="col-lg-2">
+														<span  ng-switch="config.feedback[fb.name].type">
+															<span class="label label-success" ng-switch-when="positive">
+																{{ fb.name }}
+															</span>
+															<span class="label label-info" ng-switch-when="hint">
+																{{ fb.name }}
+															</span>
+															<span class="label label-warning" ng-switch-when="adaptation">
+																{{ fb.name }}
+															</span>
+															<span class="label label-danger" ng-switch-when="negative">
+																{{ fb.name }}
+															</span>
+															<span class="label" ng-switch-default>
+																{{ fb.name }}
+															</span>
+														</span>
+													</td>
 													<td class="col-lg-6"><span editable-textarea="config.feedback[fb.name].message" e-rows="2" e-cols="40">{{config.feedback[fb.name].message}}</span></td>
 													<td><span>triggered </span><span editable-select="fb.immediate" e-ng-options="s.value as s.text for s in [{value: true, text: 'immediately'}, {value: false, text: 'in the summative report'}]"><span ng-if="fb.immediate">immediately</span><span ng-if="!fb.immediate">in the summative report</span></span></td>
 													<td class="col-sm-1"><button class="btn btn-sm btn-danger" ng-click="reaction.feedback.splice($index, 1)">remove</button></td>
