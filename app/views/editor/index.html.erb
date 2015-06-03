@@ -44,7 +44,7 @@ Editor
 						<dd>
 						<table class="table table-bordered">
 							<tbody>
-								<tr ng-repeat="fb in lo.feedbackTriggered" ng-show="!config.feedback[fb.feedback[0].name].hasOwnProperty('final')">
+								<tr ng-repeat="fb in lo.feedbackTriggered" ng-if="!config.feedback[fb.feedback[0].name].hasOwnProperty('final')">
 									<td class="col-xs-1">
 										<span  ng-switch="config.feedback[fb.feedback[0].name].type">
 											<span class="label label-success" ng-switch-when="positive">
@@ -59,7 +59,7 @@ Editor
 											<span class="label label-danger" ng-switch-when="negative">
 												{{ fb.feedback[0].name }}
 											</span>
-											<span class="label" ng-switch-default>
+											<span class="label label-default" ng-switch-default>
 												{{ fb.feedback[0].name }}
 											</span>
 										</span>
@@ -165,7 +165,7 @@ Editor
 										<table class="table table-bordered">
 											<tbody>
 												<tr ng-repeat="fb in reaction.feedback">
-													<td class="col-lg-2">
+													<td class="col-xs-1">
 														<span  ng-switch="config.feedback[fb.name].type">
 															<span class="label label-success" ng-switch-when="positive">
 																{{ fb.name }}
@@ -179,7 +179,7 @@ Editor
 															<span class="label label-danger" ng-switch-when="negative">
 																{{ fb.name }}
 															</span>
-															<span class="label" ng-switch-default>
+															<span class="label label-default" ng-switch-default>
 																{{ fb.name }}
 															</span>
 														</span>
@@ -335,7 +335,31 @@ Editor
 				</table>
 			</div>
 			<div>
-				<h4>Badge</h4>
+				<h4>Adaptation</h4>
+				<table class="table table-bordered">
+					<tbody>
+						<tr ng-repeat="(name, feedback) in config.feedback" ng-if="feedback.type=='adaptation'">
+							<td class="col-lg-2">{{name}}</td>
+							<td>{{feedback.message}}</td>
+							<td class="col-sm-1"><button class="btn btn-sm btn-default" ng-click="select(name)">select</button></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div>
+				<h4>Hints</h4>
+				<table class="table table-bordered">
+					<tbody>
+						<tr ng-repeat="(name, feedback) in config.feedback" ng-if="feedback.type=='hint'">
+							<td class="col-lg-2">{{name}}</td>
+							<td>{{feedback.message}}</td>
+							<td class="col-sm-1"><button class="btn btn-sm btn-default" ng-click="select(name)">select</button></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!--<div>
+				<h4>Badges</h4>
 				<table class="table table-bordered">
 					<tbody>
 						<tr ng-repeat="(name, feedback) in config.feedback" ng-if="feedback.type=='badge'">
@@ -345,7 +369,7 @@ Editor
 						</tr>
 					</tbody>
 				</table>
-			</div>
+			</div>-->
 			<div>
 				<h4>End of Game</h4>
 				<table class="table table-bordered">

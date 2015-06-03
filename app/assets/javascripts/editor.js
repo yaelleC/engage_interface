@@ -314,7 +314,7 @@
             numberGameplays: "the number of games played",
         };
 
-        $scope.feedbackTypes = ['positive', 'negative'];
+        $scope.feedbackTypes = ['positive', 'negative', 'hint'];
         $scope.newFeedbackType = $scope.feedbackTypes[0];
 
         // parse URL
