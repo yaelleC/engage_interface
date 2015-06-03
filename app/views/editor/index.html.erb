@@ -157,7 +157,7 @@ Editor
 										</table>
 										<form class="form-inline" ng-if="availableLearningOutcomes(reaction.marks).length">
 											<div class="form-group">
-												<input id="newLearningOutcome" placeholder="new score update" type="text" ng-model="newLearningOutcome" typeahead-on-select="addMark(reaction, $item)" typeahead="lo for lo in  availableLearningOutcomes(reaction.marks) | filter:$viewValue | limitTo:8" class="form-control">
+												<input id="newLearningOutcome" placeholder="type score to add" type="text" ng-model="newLearningOutcome" typeahead-on-select="addMark(reaction, $item)" typeahead="lo for lo in  availableLearningOutcomes(reaction.marks) | filter:$viewValue | limitTo:8" class="form-control">
 											</div>
 										</form>
 									</div>
