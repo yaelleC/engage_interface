@@ -680,13 +680,8 @@ learningAnalytics.directive('laHowLong', function(utils){
 
         var totalTimeSpent, maxTimeSpent, minTimeSpent, timeS, avgTimeSpent;
         // set the view
-        var dataset = [];
-        if (view == "gameplay") {
-            dataset = utils.getGameplayDataset(la);
-        }
-        else if (view == "player") {
-            dataset = utils.getPlayerDataset(la);
-        }
+        var dataset = utils.getGameplayDataset(la);
+        
 
         if (dataset.length < 1) {
             return 0;
@@ -733,11 +728,16 @@ learningAnalytics.directive('laHowLong', function(utils){
                         }
                     }
                 }
-                avgTimeSpent = Math.round(totalTimeSpent / nb);
                 var valueC = (characteristicValue!= null && characteristicValue.username != null)?
                                 characteristicValue.username :
                                 characteristicValue;
-                data[data.length] = {"name": valueC, "data": [avgTimeSpent/60, maxTimeSpent/60, minTimeSpent/60] };
+                if (view == "total") {
+                    data[data.length] = {"name": valueC, "data": [Math.round(totalTimeSpent/60)] };            
+                }
+                else if (view == "average") {
+                    avgTimeSpent = Math.round(totalTimeSpent / nb);
+                    data[data.length] = {"name": valueC, "data": [avgTimeSpent/60, maxTimeSpent/60, minTimeSpent/60] };         
+                }                
             }
         }
 
@@ -756,9 +756,15 @@ learningAnalytics.directive('laHowLong', function(utils){
                 minTimeSpent = timeS;
             }
         }
+        if (view == "total") {
+            avgTimeSpent = Math.round(totalTimeSpent / data.length);
+            data[data.length] = {"name": "average", "data": [avgTimeSpent/60] };               
+        }
+        else if (view == "average") {
+            avgTimeSpent = Math.round(totalTimeSpent / nb);
+            data[data.length] = {"name": "all", "data": [avgTimeSpent/60, maxTimeSpent/60, minTimeSpent/60] };            
+        }
 
-        avgTimeSpent = Math.round(totalTimeSpent / nb);
-        data[data.length] = {"name": "all", "data": [avgTimeSpent/60, maxTimeSpent/60, minTimeSpent/60] };
 
         // draw bar chart
         return data;
@@ -807,8 +813,14 @@ learningAnalytics.directive('laHowLong', function(utils){
             characteristic: '=characteristic'
         },
         link: function (scope, element) {
-            var categories = ["average", "max", "min"];
             scope.$watchGroup(['la', 'view', 'characteristic'], function (){
+                var categories = [];
+                if (scope.view == "total") {
+                    categories = ["total time spent"];                 
+                }
+                else if (scope.view == "average") {
+                    categories = ["average", "max", "min"];          
+                }
                 var data = process(scope.la, scope.view, scope.characteristic, categories);
                 draw(element, scope.characteristic, data, categories);
             });
@@ -2524,7 +2536,7 @@ learningAnalytics.controller('LA_controller',
         // Initialize the radio buttons
 
         $scope.whoPlayedView = 'gameplay';
-        $scope.howLongView = 'gameplay';
+        $scope.howLongView = 'total';
         $scope.whenView = 'gameplay';
         $scope.howManyTimesView = 'gameplay';
         $scope.finalScoresView = 'gameplay';

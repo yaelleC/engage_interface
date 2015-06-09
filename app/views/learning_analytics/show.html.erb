@@ -50,8 +50,8 @@ Learning Analytics
 		<div class="col-md-6 blockLA blockBasicInfo">
 			<h4>How long was the game played?</h4>
 			<p>
-				<input type="radio" ng-model="howLongView" value="gameplay">All gameplays
-				<input type="radio" ng-model="howLongView" value="player">Unique players
+				<input type="radio" ng-model="howLongView" value="total">Total time
+				<input type="radio" ng-model="howLongView" value="average">Average gameplay time
 			</p>
 			<tabset>
 			<tab data-step="7" data-intro="You can group the results by player characteristics or by student." ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
@@ -245,7 +245,7 @@ Learning Analytics
 	
 	</tab>
 
-	<tab heading="Gameplay reports" data-step="13" data-intro="For detailed reports about specific students, open this view. It will allow you to create a template of report and will let you generate a PDF file for a student or the class based on the template." >
+	<tab heading="Player reports" data-step="13" data-intro="For detailed reports about specific students, open this view. It will allow you to create a template of report and will let you generate a PDF file for a student or the class based on the template." >
 	<div>
 		<h2>Players&rsquo; report</h2>
 		<p><i>Here you can define a template for your students&rsquo; reports. You can see a preview of the reports on the right. Once you are ready, click the &rsquo;save report&rsquo; button .</i></p>
