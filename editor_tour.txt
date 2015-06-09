@@ -1,0 +1,11 @@
+1. Title: Welcome to EngAGe assessment editor, in this page you can modify any of your game's assessment
+
+2. Player characteristics: modify the questions asked by your game on the first gameplay. You will be able to refine the learning analytics based on these characteristics.
+
+3. Scores: Modify the game scores, you can create new ones if you need more detailed information, change the starting values and the feedback that they trigger when reaching a threashold value.
+
+4. Rules: In this section, you can modify the assessment's logic. The actions available in the game were decided when the game was created so you can't add any, but you can modify the values each action takes, the way scores are updated as a result and how feedback are triggered.
+
+5. End: If the end of the game is related to assessment, you will be able to modify it. Select a score and a limit value for specifying a winning, losing and/or ending condition.
+
+6. Badges: Here, you can modify the player's badges, they can be earned based on time spent, scores and number of gameplays. Because the badges are linked to an image in the game, you cannot modify the list. However you can use any of the badges provided and change the conditions for a player to earned them.
