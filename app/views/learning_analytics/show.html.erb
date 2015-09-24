@@ -435,7 +435,7 @@ Learning Analytics
 				</p>
 				<div id="reportToPrint">
 					<h3 align="center">{{ LA.game.name }} - Gameplay report</h3>
-					<h5 align="center"><%= current_user.teacher.user.username =%></h5>
+					<h5 align="center"><% if not current_user.teacher.nil? %>  <%= current_user.teacher.user.username =%> <% end %></h5>
 					<h5 align="center">Generated on <b> {{date | date:'dd MMM yyyy' }} at {{ date | date:'HH:mm'}}</b></h5>
 
 					<h5 align="center">Report for: 
