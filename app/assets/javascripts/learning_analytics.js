@@ -2956,7 +2956,7 @@ learningAnalytics.directive('reportFinalScores', function(utils){
                         color: 'green',
                         width: 2,
                         label: {
-                            text: 'Your higher score',
+                            text: 'Your highest score',
                             align: 'right',
                             style: {
                                 color: 'gray'
@@ -3046,7 +3046,7 @@ learningAnalytics.directive('reportFinalScores', function(utils){
                         color: 'green',
                         width: 2,
                         label: {
-                            text: 'Your higher score',
+                            text: 'Your highest score',
                             align: 'right',
                             style: {
                                 color: 'gray'
