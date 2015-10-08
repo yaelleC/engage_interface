@@ -124,7 +124,7 @@
 
       <div class="bnfContainer">
         <pre class="pre-scrollable">player ::= 'Player' 
-  ( Identifier ':' Type )+
+  ( Identifier Type StringLiteral)+
 'End'
 
 Type ::= 'String' | 'Int' | 'Char' | 'Bool' | 'Float' | 'Text'</pre>
@@ -159,9 +159,9 @@ Type ::= 'String' | 'Int' | 'Char' | 'Bool' | 'Float' | 'Text'</pre>
 
       <div class="codeContainer">
       <pre rel="Player" class="pre-scrollable"><code><span class="keyWdOptional">Player</span>
-  name: <span class="keyWdType">String</span>
-  age: <span class="keyWdType">Int</span>
-  gender: <span class="keyWdType">Char</span>
+  name <span class="keyWdType">String</span><span class="inputString">"What's your name?"</span>
+  age <span class="keyWdType">Int</span><span class="inputString">"How old are you?"</span>
+  gender <span class="keyWdType">Char</span><span class="inputString">"Are you a boy or a girl?"</span>
 <span class="keyWdOptional">End</span></code></pre></div>
 
 
@@ -216,7 +216,7 @@ Type ::= 'String' | 'Int' | 'Char' | 'Bool' | 'Float' | 'Text'</pre>
   ( Identifier StringLiteral (TypeFeedback)? )+
 'End'
 
-TypeFeedback ::= 'positive' | 'negative' | 'neutral' | 'badge' | 'hint'</pre>
+TypeFeedback ::= 'positive' | 'negative' | 'badge' | 'hint' | 'adaptation' | 'win' | 'lose' | 'end'</pre>
 
 <button type="button" class="btn btn-xs" data-toggle="collapse" data-target="#imgBNF-Fdbk">
   Show/Hide the diagram
@@ -233,7 +233,7 @@ TypeFeedback ::= 'positive' | 'negative' | 'neutral' | 'badge' | 'hint'</pre>
             <tr><th>Parameter</th><th>Compuslory or optional</th><th>Input value format</th></tr>
             <tr><td>Identificator of feedback</td><td>Compuslory</td><td>Alphanumerical string</td></tr>
             <tr><td>Message of feedback</td><td>Compuslory</td><td>String<br/>Square brackets can be used to retrieve parameters of the action that triggered the feedback.</td></tr>
-            <tr><td>Type of feedback</td><td>Optional, default value is <span class="keyWdType">neutral</span></td><td><span class="keyWdType">positive</span>, <span class="keyWdType">negative</span>, <span class="keyWdType">neutral</span>, <span class="keyWdType">badge</span> or <span class="keyWdType">hint</span></td></tr>
+            <tr><td>Type of feedback</td><td>Optional, default value is <span class="keyWdType">neutral</span></td><td><span class="keyWdType">positive</span>, <span class="keyWdType">negative</span>, <span class="keyWdType">badge</span>, <span class="keyWdType">hint</span>, <span class="keyWdType">adaptation</span>, <span class="keyWdType">win</span>, <span class="keyWdType">lose</span> or <span class="keyWdType">end</span></td></tr>
           </table>
         </div>
         <div class="col-md-1"></div></div>
@@ -243,7 +243,8 @@ TypeFeedback ::= 'positive' | 'negative' | 'neutral' | 'badge' | 'hint'</pre>
       <pre class="pre-scrollable"><code><span class="keyWdCompulsory">Feedback-messages</span>
   myFeedback1 <span class="inputString">"Well done, correct answer!" </span><span class="keyWdType">positive</span>
   myFeedback2 <span class="inputString">"Not quite! [param1] did not go with [param2]. Try again!" </span><span class="keyWdType">negative</span>
-  myBadge <span class="inputString">"Congratulations! You earn the level 1 badge!" </span><span class="keyWdType">badge </span>
+  endWin <span class="inputString">"Congratulations! You won!" </span><span class="keyWdType">win </span>
+  speedGame <span class="inputString">"You are good, lets increase the challenge!" </span><span class="keyWdType">adaptation </span>
 <span class="keyWdCompulsory">End</span></code></pre></div>
 
 
@@ -254,10 +255,12 @@ TypeFeedback ::= 'positive' | 'negative' | 'neutral' | 'badge' | 'hint'</pre>
 
       <div class="bnfContainer">
       <pre class="pre-scrollable">evidence-model ::= 'Evidence-model' 
-  ( Action Consequence+ When 'End')+
+  ( Action Description Consequence+ When 'End')+
 'End'
 
 Action ::= Identifier '(' (Type Identifier)* ')'
+
+Description ::= StringLiteral (Id-parameter 'in' '{' Identifier (',' Identifier)* '}')*
 
 Consequence ::= (Id-LearningOutcome '->')? ('+'|'-') Int
   ((value (',' value)*)+ | 'others')
@@ -289,6 +292,7 @@ Type ::= 'String' | 'Int' | 'Char' | 'Bool' | 'Float' | 'Text'</pre>
           <table class="table table-hover table-bordered table-striped">
             <tr><th>Parameter</th><th>Description</th></tr>
             <tr><td>Action</td><td>an Alphanumerical string to identify the action and then the list of the parameters it takes (if any)</td></tr>
+            <tr><td>Description</td><td>a string to describe the action (when it happens, what it does...) and optional lists of value for one or several of the predefined action parameter</td></tr>
             <tr><td>Consequence</td><td>Optional specification of the outcome (if none are specified, all the scores are updated) and points to be added or subtracted  to its score.<br/>List of possible values of the parameters are then entered, following the same order as in the definition of the action.<br/>The keyword <span class="keyWdType">others</span> could be used instead of the list of values and as a final item for an action.</td></tr>
             <tr><td>When</td><td>Optional, specify the cases (if any) where a feedback should be triggered.</td><td></td></tr>
           </table>
@@ -298,14 +302,17 @@ Type ::= 'String' | 'Int' | 'Char' | 'Bool' | 'Float' | 'Text'</pre>
       <h5><b>Example</b></h5>
       <div class="codeContainer">
       <pre rel="evidenceModel" class="pre-scrollable"><code><span class="keyWdCompulsory">Evidence-model</span>
-  translation (<span class="keyWdType">String</span> english, <span class="keyWdType">String</span> french)
+  translation (<span class="keyWdType">String</span> image, <span class="keyWdType">String</span> french)
+  <span class="inputString">"When a player writes a French word associated with an image."</span>
+  <span class="comments">// The list of images available in the game </span>
+  image <span class="keyWdType">in {</span> dog, cat, rabbit, frog, monkey, seagull, eagle <span class="keyWdType">}</span>
     vocabulary <span class="keyWdChar">-></span> <span class="inputInt">+1</span>
-      Dog, Chien
-      Cat, Chat
+      dog, Chien
+      cat, Chat
     <span class="keyWdCompulsory">End</span>
     vocabulary <span class="keyWdChar">-></span> <span class="inputInt">+2</span>
-      Seagull, Mouette
-      Eagle, Aigle
+      seagull, Mouette
+      eagle, Aigle
     <span class="keyWdCompulsory">End</span>
     vocabulary <span class="keyWdChar">-></span> <span class="inputInt">-1</span>, lives <span class="keyWdChar">-></span> <span class="inputInt">-1</span>
       <span class="keyWdType">others</span>
@@ -398,7 +405,7 @@ OutcomeFeedback ::= ( 'sumScore' | 'averageScore' | 'maxScore' | 'minScore') sco
 <span class="keyWdCompulsory">End</span>
 
 <span class="keyWdOptional">Player</span>
-  <span class="comments">/* Describe a typical player's characteristics using the following model: "characteristic : type"
+  <span class="comments">/* Describe a typical player's characteristics using the following model: "characteristic type question?"
    Types can be Char, String, Text, Int, Float, Bool */
 <span class="keyWdOptional">End</span>
 
@@ -419,6 +426,7 @@ OutcomeFeedback ::= ( 'sumScore' | 'averageScore' | 'maxScore' | 'minScore') sco
 <span class="keyWdCompulsory">Evidence-model</span>
   <span class="comments">/* Define your meaningful actions and the consequences for them
    action-name(type1 param1, type2 param2...)
+   "description of the action"
      id-learningOutcome -> (optional if only one learning outcome) +/- nbPoints
        valueParam1, valueParam2 ... OR 'others'
      'When' section to define feedback triggered */
@@ -467,7 +475,12 @@ OutcomeFeedback ::= ( 'sumScore' | 'averageScore' | 'maxScore' | 'minScore') sco
       <p>Once you create a serious game in the database, you will be given an id, you will need this id to refer, during the gameplay, to your configuration file. 
       All the functions detailed here are web services hosted at "146.191.107.189:8080".</p>
 
-      <p>If you are using Unity to create your game, you can use this <a href="../codeFiles/EngAGe.cs" target="_blank">EngAGe.cs </a>file to help with the web services calls.</p>
+      <p>If you are using Unity to create your game, you can use this <a href="https://github.com/yaelleUWS/engage-unity/blob/master/EngAGe.cs" target="_blank">EngAGe.cs </a>file to help with the web services calls.</p>
+      <p>If you are using Phaser, or any other javascript based engine, you can use this <a href="https://github.com/yaelleUWS/engagejs" target="_blank">EngAGeJS </a>.</p>
+
+      <p>If you prefer to read APIs, go to EngAGe's API page: <a href="http://146.191.107.189/apiDoc/index.html">here</a>.</p>
+
+      <p><b><i>Note:</i></b> In EngAGe, there is a difference between 'student' and 'player'. A student is associated with a teacher and is enrolled in a course. A player is someone playing a game. Therefore, a student is a player when he/she plays the game but someone playing a public game as a guest is a player and not a student. </p>
 
 <!--
       <div class="codeContainer">
