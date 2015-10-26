@@ -3,7 +3,13 @@ Assess4meInterface::Application.routes.draw do
 
   resources :teachers
   resources :developers
-  resources :students
+
+  resources :students do 
+    collection do
+      get 'csv'
+      post 'createcsv'
+    end
+  end
 
   resources :groups
 

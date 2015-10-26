@@ -1,5 +1,9 @@
+require 'csv'
+
 class StudentsController < ApplicationController
   filter_resource_access
+  filter_access_to :csv, :require => :create
+  filter_access_to :createcsv, :require => :create
   # GET /students
   # GET /students.json
   def index
@@ -55,6 +59,16 @@ class StudentsController < ApplicationController
     end
   end
 
+  # GET /students/csv
+  def csv
+    @groups = current_user.teacher.groups
+
+    respond_to do |format|
+      format.html # csv.html.erb
+    end
+  end
+
+
   # GET /students/1/edit
   def edit
     if current_user.teacher.nil?
@@ -81,6 +95,23 @@ class StudentsController < ApplicationController
         format.html { render action: "new" }
         format.json { render json: @student.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  # POST /students
+  # POST /students.json
+  def createcsv
+    
+    CSV.foreach(params[:file].path, headers: true) do |row|
+      @student = Student.new(row.to_hash)
+      @student.idSchool = current_user.teacher.idSchool 
+      @student.idGroup = params[:idGroup]
+      @student.save
+      StdTeacher.create!(idStd: @student.id, idTeacher: current_user.teacher.id, idGroup: @student.idGroup)
+    end
+    
+    respond_to do |format|
+      format.html { redirect_to students_path, notice: 'Students successfully created.' }
     end
   end
 
