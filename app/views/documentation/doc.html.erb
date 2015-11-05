@@ -262,7 +262,7 @@ Action ::= Identifier '(' (Type Identifier)* ')'
 
 Description ::= StringLiteral (Id-parameter 'in' '{' Identifier (',' Identifier)* '}')*
 
-Consequence ::= (Id-LearningOutcome '->')? ('+'|'-') Int
+Consequence ::= (Id-LearningOutcome '->')?  Int
   ((value (',' value)*)+ | 'others')
 'End'
 
@@ -304,13 +304,13 @@ Type ::= 'String' | 'Int' | 'Char' | 'Bool' | 'Float' | 'Text'</pre>
       <pre rel="evidenceModel" class="pre-scrollable"><code><span class="keyWdCompulsory">Evidence-model</span>
   translation (<span class="keyWdType">String</span> image, <span class="keyWdType">String</span> french)
   <span class="inputString">"When a player writes a French word associated with an image."</span>
-  <span class="comments">// The list of images available in the game </span>
+  <span class="comments">/* The list of images available in the game */</span>
   image <span class="keyWdType">in {</span> dog, cat, rabbit, frog, monkey, seagull, eagle <span class="keyWdType">}</span>
-    vocabulary <span class="keyWdChar">-></span> <span class="inputInt">+1</span>
+    vocabulary <span class="keyWdChar">-></span> <span class="inputInt">1</span>
       dog, Chien
       cat, Chat
     <span class="keyWdCompulsory">End</span>
-    vocabulary <span class="keyWdChar">-></span> <span class="inputInt">+2</span>
+    vocabulary <span class="keyWdChar">-></span> <span class="inputInt">2</span>
       seagull, Mouette
       eagle, Aigle
     <span class="keyWdCompulsory">End</span>
@@ -318,9 +318,9 @@ Type ::= 'String' | 'Int' | 'Char' | 'Bool' | 'Float' | 'Text'</pre>
       <span class="keyWdType">others</span>
     <span class="keyWdCompulsory">End</span>
     <span class="keyWdOptional">When</span>
-      <span class="comments">// for any positive point obtained, correct-translation feedback is triggered </span>
+      <span class="comments">/* for any positive point obtained, correct-translation feedback is triggered */ </span>
       <span class="keyWdType">any</span>(<span class="inputInt">+</span>) : correct-translation
-      <span class="comments">// for any negative point obtained, wrong-translation feedback is triggered </span>
+      <span class="comments">/* for any negative point obtained, wrong-translation feedback is triggered */</span>
       <span class="keyWdType">any</span>(<span class="inputInt">-</span>) : wrong-translation
     <span class="keyWdCompulsory">End</span>
   <span class="keyWdCompulsory">End</span>
