@@ -29,7 +29,9 @@ Learning Analytics
 	    <td><%= serious_game.name %></td>
 	    <td><%= serious_game.description %></td>
 	    <td><%= serious_game.version %><br/><%= serious_game.nameVersion %></td>
-	    <td><%= serious_game.gameplays.count %></td>
+
+	    <td><%=   	@numGPversionList[@index]    	%></td>
+	    <% @index += 1 %>
 	  </tr>
 	<% end %>
 	</table>

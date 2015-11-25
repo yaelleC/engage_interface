@@ -18,6 +18,19 @@ class LearningAnalyticsController < ApplicationController
                 .where("seriousgame.idTeacher = ? OR seriousgame.idTeacher IS NULL", current_user.teacher.id)
                 .order("created DESC")
       @id = current_user.teacher.id
+      @numGPversionList = []
+      @index = 0
+      
+      @serious_games.each do |serious_game|
+        numGPversion = 0
+        serious_game.gameplays.each do |gp|
+          if gp.version == serious_game.version
+            numGPversion += 1
+          end
+        end
+        @numGPversionList.push(numGPversion)
+      end
+
     elsif !current_user.developer.nil?
       @serious_games = current_user.developer.serious_games(:order => 'created DESC')
       @id = 0
