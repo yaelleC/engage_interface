@@ -6,9 +6,9 @@ rails:
   dns: localhost
   # environment:
   #   RAILS_ENV: production
-  # volumes:
+  volumes:
     # - "Gemfile:/usr/src/app/Gemfile"
-    # - "./app:/usr/src/app/app"
+     - "/c/Users/Yaelle/Documents/PhD/engage_interface/app:/usr/src/app/app"
     # - "./config:/usr/src/app/config"
     # - "./db:/usr/src/app/db"
     # - "./log:/usr/src/app/log"
