@@ -9,11 +9,11 @@ rails:
   volumes:
     # - "Gemfile:/usr/src/app/Gemfile"
      - "/c/Users/Yaelle/Documents/PhD/engage_interface/app:/usr/src/app/app"
-    # - "./config:/usr/src/app/config"
-    # - "./db:/usr/src/app/db"
-    # - "./log:/usr/src/app/log"
-    # - "./script:/usr/src/app/script"
-    # - "./public:/usr/src/app/public"
+    # - "/c/Users/Yaelle/Documents/PhD/engage_interface/config:/usr/src/app/config"
+    # - "/c/Users/Yaelle/Documents/PhD/engage_interface/db:/usr/src/app/db"
+    # - "/c/Users/Yaelle/Documents/PhD/engage_interface/log:/usr/src/app/log"
+    # - "/c/Users/Yaelle/Documents/PhD/engage_interface/script:/usr/src/app/script"
+    # - "/c/Users/Yaelle/Documents/PhD/engage_interface/public:/usr/src/app/public"
     # - "Gemfile.lock:/usr/src/app/Gemfile.lock"
   links:
     - "mysql:mysql"

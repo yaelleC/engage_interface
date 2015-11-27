@@ -1,0 +1,23 @@
+<% content_for :title do %>New teachers from CSV<% end %>
+
+<div class="mainText container">
+<h1>Create teachers from CSV</h1>
+
+<p>Please import a csv file containing (only) the following columns: username, email and password.</p>
+
+<%= form_tag createcsv_teachers_path, multipart: true do %>
+  
+  <div class="form-group">
+    <%= label_tag :School %>
+    <%= select_tag(:idSchool, options_from_collection_for_select(@schools, "id", "name"), :class => 'form-control') %>
+  </div>
+  <div class="form-group">
+  	<%= file_field_tag :file , :class => 'form-control' %>
+  </div>
+  <div class="form-group">
+  	<%= submit_tag "Import CSV", :class => 'btn btn-primary' %>
+  </div>
+<% end %>
+
+<%= link_to 'Back', teachers_path, :class => 'btn' %>
+</div>

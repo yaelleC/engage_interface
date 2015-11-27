@@ -1,7 +1,13 @@
 Assess4meInterface::Application.routes.draw do
   get "editor/index"
 
-  resources :teachers
+  resources :teachers do 
+    collection do
+      get 'csv'
+      post 'createcsv'
+    end
+  end
+  
   resources :developers
 
   resources :students do 

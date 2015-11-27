@@ -1,5 +1,11 @@
+require 'csv'
+
 class TeachersController < ApplicationController
   filter_resource_access
+  filter_access_to :csv, :require => :create
+  filter_access_to :createcsv, :require => :create
+
+
   # GET /teachers
   # GET /teachers.json
   def index
@@ -31,6 +37,16 @@ class TeachersController < ApplicationController
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @teacher }
+    end
+  end
+
+
+  # GET /teachers/csv
+  def csv
+    @schools = School.all
+
+    respond_to do |format|
+      format.html # csv.html.erb
     end
   end
 
@@ -67,6 +83,58 @@ class TeachersController < ApplicationController
       else
         format.html { render action: "new" }
         format.json { render json: @teacher.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+
+  # POST /teachers
+  # POST /teachers.json
+  def createcsv
+
+    @schools = School.all
+    errors = "";
+    
+    CSV.foreach(params[:file].path, headers: true) do |row|
+      p = "password"
+      passwd = row.to_hash[p.to_sym]
+
+      # create the teacher account
+      @teacher = Teacher.new
+      @teacher.user = User.new(row.to_hash)
+      @teacher.user.password_confirmation = passwd
+      @teacher.user.role = Role.find_by_title('teacher')
+      @teacher.idSchool = params[:idSchool]
+
+      if @teacher.save
+
+        # create default groups for teachers
+        @groupTeachers = Group.create(idTeacher: @teacher.id, name: "Teachers")
+
+        # create a student account for the teacher
+        @student = Student.new
+        @student.username = @teacher.user.username
+        @student.password = @teacher.user.username
+        @student.idSchool = @teacher.idSchool 
+        @student.idGroup = @groupTeachers.id
+        @student.save
+
+        if @student.save
+          StdTeacher.create!(idStd: @student.id, idTeacher: @teacher.id, idGroup: @student.idGroup)
+        else
+          errors = "{error: 'error while creating student/teacher association'}"
+        end
+      else
+        errors = "{error: 'error while creating teacher account'}"
+      end
+    end
+    
+    respond_to do |format|
+      if errors == ""
+        format.html { redirect_to teachers_path, notice: 'Teachers successfully created.' }
+      else
+        format.html { render action: "csv" }
+        format.json { render json: errors, status: :unprocessable_entity }
       end
     end
   end
