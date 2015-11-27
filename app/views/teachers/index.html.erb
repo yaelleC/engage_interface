@@ -12,8 +12,9 @@
       <th>Email</th>
       <th>School</th>
       <th>Students created</th>
+      <th>Game access</th>
       <th>Versions created</th>
-      <th colspan="2"></th>
+      <!--<th colspan="2"></th>-->
     </tr>
   </thead>
 
@@ -30,13 +31,19 @@
         </td>
 
         <td>
+          <% teacher.serious_games.where("seriousgame.version = 0").each do |sg| %>
+            <%= sg.id %><br/>
+          <% end %>
+        </td>
+
+        <td>
           <% teacher.serious_games.where("seriousgame.idTeacher = ?", teacher.id).order("id ASC").each do |sg| %>
             <%= sg.id %>.<%= sg.version %><br/>
           <% end %>
         </td>
 
-        <td><%= link_to 'Edit', edit_teacher_path(teacher) %></td>
-        <td><%= link_to 'Destroy', teacher, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <!--<td><%= link_to 'Edit', edit_teacher_path(teacher) %></td>
+        <td><%= link_to 'Destroy', teacher, method: :delete, data: { confirm: 'Are you sure?' } %></td>-->
       </tr>
     <% end %>
   </tbody>
