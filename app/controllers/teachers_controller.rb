@@ -96,17 +96,20 @@ class TeachersController < ApplicationController
     errors = "";
     
     CSV.foreach(params[:file].path, headers: true) do |row|
-      p = "password"
-      passwd = row.to_hash[p.to_sym]
+
+      teacherInfo = row.to_hash 
 
       # create the teacher account
       @teacher = Teacher.new
-      @teacher.user = User.new(row.to_hash)
-      @teacher.user.password_confirmation = passwd
+      @teacher.user = User.new(teacherInfo)
+      @teacher.user.password_confirmation = teacherInfo["password"]
       @teacher.user.role = Role.find_by_title('teacher')
       @teacher.idSchool = params[:idSchool]
 
       if @teacher.save
+
+        # give game access to teacher
+        SgTeacher.create(idSG: params[:idSG], idTeacher: @teacher.id)
 
         # create default groups for teachers
         @groupTeachers = Group.create(idTeacher: @teacher.id, name: "Teachers")
@@ -114,18 +117,24 @@ class TeachersController < ApplicationController
         # create a student account for the teacher
         @student = Student.new
         @student.username = @teacher.user.username
-        @student.password = @teacher.user.username
+        @student.password = teacherInfo["password"]
         @student.idSchool = @teacher.idSchool 
         @student.idGroup = @groupTeachers.id
         @student.save
 
         if @student.save
+
+          # create a student/teacher association
           StdTeacher.create!(idStd: @student.id, idTeacher: @teacher.id, idGroup: @student.idGroup)
+
+          # give game access to student          
+          AccessStudentGame.create(idSG: params[:idSG], idStd: @student.id, versionPlayed: 0)
+
         else
-          errors = "{error: 'error while creating student/teacher association'}"
+          errors += "error while creating student account for teacher : " + teacherInfo["username"] + "<br/>"
         end
       else
-        errors = "{error: 'error while creating teacher account'}"
+        errors += "error while creating teacher account for " + teacherInfo["username"]+ "<br/>"
       end
     end
     
@@ -133,8 +142,7 @@ class TeachersController < ApplicationController
       if errors == ""
         format.html { redirect_to teachers_path, notice: 'Teachers successfully created.' }
       else
-        format.html { render action: "csv" }
-        format.json { render json: errors, status: :unprocessable_entity }
+        format.html { redirect_to teachers_path, notice: errors }
       end
     end
   end

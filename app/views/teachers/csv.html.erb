@@ -12,6 +12,10 @@
     <%= select_tag(:idSchool, options_from_collection_for_select(@schools, "id", "name"), :class => 'form-control') %>
   </div>
   <div class="form-group">
+    <%= label_tag :IdGameAccess %>
+    <%= text_field_tag(:idSG, 'Enter a game ID here...', :class => 'form-control') %>
+  </div>
+  <div class="form-group">
   	<%= file_field_tag :file , :class => 'form-control' %>
   </div>
   <div class="form-group">
