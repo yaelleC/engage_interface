@@ -12,68 +12,88 @@ Learning Analytics
 			Number of gameplays: <b> {{ LA.gameplays.length }} </b> -
 			Number of players: <b>{{ uniquePlayers().length }} </b>
 		</p>
-		<p>Players included in the results:
-			<span ng-repeat="p in getSudentsWhoPlayed()" ><input type="checkbox" ng-click="filterGameplays()" ng-model="p.selected"><b> {{ p.student.username || p.name || "player" + p.idPlayer  }}{{$last ? '' : ', '}} </b> </span>
-		</p>
+
+		<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+		  <div class="panel panel-default">
+		    <div class="panel-heading" role="tab" id="headingOne">
+		      <h4 class="panel-title">
+		        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+		          Players included in the results:
+		        </a>
+		      </h4>
+		    </div>
+		    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+		      <div class="panel-body">
+		        <span ng-repeat="p in getSudentsWhoPlayed()" ><input type="checkbox" ng-click="filterGameplays()" ng-model="p.selected"> {{ p.student.username || p.name || "player" + p.idPlayer  }}{{$last ? '' : ', '}}  </span>
+		      </div>
+		    </div>
+		  </div>
+		</div>			
+
 	</div>
 	<!--<p  data-step="13" data-intro="For detailed reports about specific students, click this button. It will open a window for you to create a template of report and will let you generate a PDF file for each of your student based on the template."><button class="btn btn-sm btn-default" ng-click="openFeedbackModal(0)">Generate players' report</button></p>-->
 	<tabset>
-	<tab heading="Learning analytics">
 	
-	<div class="row-fluid">
-		<div class="col-md-6 blockLA blockBasicInfo" data-step="3" data-intro="Blue blocks give you general information  about the players and gameplays." data-position="right">
-			<h4>Who played this game?</h4>
-			<p>
-				<input type="radio" ng-model="whoPlayedView" value="gameplay">All gameplays
-				<input type="radio" ng-model="whoPlayedView" value="player">Unique players
-			</p>
-			<tabset>
-			<tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
-			<div la-who-played la="LA" characteristic="c" view="whoPlayedView"></div>
-			</tab>
-			</tabset>
+
+	<tab heading="General Information">
+
+		<div class="row-fluid">
+			<div class="col-md-6 blockLA blockBasicInfo" data-step="3" data-intro="Blue blocks give you general information  about the players and gameplays." data-position="right">
+				<h4>Who played this game?</h4>
+				<p>
+					<input type="radio" ng-model="whoPlayedView" value="gameplay">All gameplays
+					<input type="radio" ng-model="whoPlayedView" value="player">Unique players
+				</p>
+				<tabset>
+				<tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
+				<div la-who-played la="LA" characteristic="c" view="whoPlayedView"></div>
+				</tab>
+				</tabset>
+			</div>
+			<div class="col-md-6 blockLA blockBasicInfo">
+				<h4>How many times did the students play?</h4>
+				<p>
+					<input type="radio" ng-model="howManyTimesView" value="gameplay">All gameplays
+					<input type="radio" ng-model="howManyTimesView" value="player">Unique players
+				</p>
+				<tabset>
+				<tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
+				<div la-how-many-times la="LA" characteristic="c" view="howManyTimesView"></div>
+				</tab>
+				</tabset>
+			</div>
 		</div>
-		<div class="col-md-6 blockLA blockBasicInfo">
-			<h4>How many times did the students play?</h4>
-			<p>
-				<input type="radio" ng-model="howManyTimesView" value="gameplay">All gameplays
-				<input type="radio" ng-model="howManyTimesView" value="player">Unique players
-			</p>
-			<tabset>
-			<tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
-			<div la-how-many-times la="LA" characteristic="c" view="howManyTimesView"></div>
-			</tab>
-			</tabset>
+		<div class="row-fluid">
+			<div class="col-md-12 blockLA blockBasicInfo">
+				<h4>How long was the game played?</h4>
+				<p>
+					<input type="radio" ng-model="howLongView" value="total">Total time
+					<input type="radio" ng-model="howLongView" value="average">Average gameplay time
+				</p>
+				<tabset>
+				<tab data-step="7" data-intro="You can group the results by player characteristics or by student." ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
+				<div la-how-long la="LA" characteristic="c" view="howLongView"></div>
+				</tab>
+				</tabset>
+			</div>
+			<div class="col-md-12 blockLA blockBasicInfo">
+				<h4>When did the students played?</h4>
+				<p>
+					<input type="radio" ng-model="whenView" value="gameplay">All gameplays
+					<input type="radio" ng-model="whenView" value="player">Unique players
+				</p>
+				<tabset>
+				<tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
+				<div la-when la="LA" characteristic="c" view="whenView"></div>
+				</tab>
+				</tabset>
+			</div>
 		</div>
-	</div>
-	<div class="row-fluid">
-		<div class="col-md-6 blockLA blockBasicInfo">
-			<h4>How long was the game played?</h4>
-			<p>
-				<input type="radio" ng-model="howLongView" value="total">Total time
-				<input type="radio" ng-model="howLongView" value="average">Average gameplay time
-			</p>
-			<tabset>
-			<tab data-step="7" data-intro="You can group the results by player characteristics or by student." ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
-			<div la-how-long la="LA" characteristic="c" view="howLongView"></div>
-			</tab>
-			</tabset>
-		</div>
-		<div class="col-md-6 blockLA blockBasicInfo">
-			<h4>When did the students played?</h4>
-			<p>
-				<input type="radio" ng-model="whenView" value="gameplay">All gameplays
-				<input type="radio" ng-model="whenView" value="player">Unique players
-			</p>
-			<tabset>
-			<tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
-			<div la-when la="LA" characteristic="c" view="whenView"></div>
-			</tab>
-			</tabset>
-		</div>
-	</div>
-	<div class="row-fluid">
-		<div class="col-md-6 blockLA blockScoreStat" data-step="4" data-position="right" data-intro="Orange blocks give you further information about scores and progress of your students.">
+
+	</tab>
+
+	<tab heading="Scores">
+		<div class="col-md-12 blockLA blockScoreStat" data-step="4" data-position="right" data-intro="Orange blocks give you further information about scores and progress of your students.">
 			<h4>Final scores</h4>
 			<p data-step="6" data-intro="For each graph you have refining options">
 				<select id="lo7" ng-model="loFinalScoresOutcome">
@@ -104,7 +124,7 @@ Learning Analytics
 			</tabset>
 		</div>
 		
-		<div class="col-md-6 blockLA blockScoreStat" data-step="9" data-position="right" data-intro="This chart allows you to see how the students learned during a single gameplay. You can visualise the evolution of any score between the start of a game until the end.">
+		<div class="col-md-12 blockLA blockScoreStat" data-step="9" data-position="right" data-intro="This chart allows you to see how the students learned during a single gameplay. You can visualise the evolution of any score between the start of a game until the end.">
 			<h4>Learning curves within game</h4>
 			<p>
 				<select id="lo8" ng-model="loLearningCurvesOutcome">
@@ -127,9 +147,8 @@ Learning Analytics
 			</tab>
 			</tabset>
 		</div>
-	</div>
-	<div class="row-fluid">
-		<div class="col-md-6 blockLA blockScoreStat" data-step="10" data-position="right" data-intro="This chart allows you to see the students overall progress. You can visualise the evolution of any score between the first and last time the student played.">
+
+		<div class="col-md-12 blockLA blockScoreStat" data-step="10" data-position="right" data-intro="This chart allows you to see the students overall progress. You can visualise the evolution of any score between the first and last time the student played.">
 			<h4>Learning curves between gameplays</h4>
 			<p>
 				<select id="lo9" ng-model="loLearningCurvesWithinGameplaysOutcome">
@@ -148,7 +167,10 @@ Learning Analytics
 			</tab>
 			</tabset>
 		</div>
-		<div class="col-md-6 blockLA blockInteractions" data-step="11" data-position="right" data-intro="This chart allows you to see the most/least common actions. Select a reaction, for example losing points to visualise the mistakes or a score increase to see the correctly answered questions.">
+	</tab>
+
+	<tab heading="Actions and Feedback">
+		<div class="col-md-12 blockLA blockInteractions" data-step="11" data-position="right" data-intro="This chart allows you to see the most/least common actions. Select a reaction, for example losing points to visualise the mistakes or a score increase to see the correctly answered questions.">
 			<h4>Most and least common actions </h4>
 			<p>
 				<select ng-model="mostOrLeastCommon">
@@ -176,427 +198,430 @@ Learning Analytics
 			</p>
 			<div la-common-actions la="LA" leastcommon="mostOrLeastCommon" sign="signLOCommonActions" outcome="loCommonActions" bestoutcome="loCommonActionsBest" action="actionsCommonActions"></div>
 		</div>
-	</div>
-	<div class="row-fluid">
-		<div class="col-md-6 blockLA blockInteractions" data-step="5" data-position="right" data-intro="Green blocks display more detailed information about the actions performed by your students, the feedback and badges received in the game.">
-			<h4>Detailed actions data</h4>
-			<p>
-				<select ng-model="actionDetailedAction">
-					<option  ng-repeat="a in getActionList()" value="{{a}}">{{a}}</option>
-				</select>
-				<select ng-model="paramDetailedAction">
-					<option  ng-repeat="p in getParamsAction()" value="{{p}}">{{p}}</option>
-				</select>
+		<div class="row-fluid">
+			<div class="col-md-12 blockLA blockInteractions" data-step="5" data-position="right" data-intro="Green blocks display more detailed information about the actions performed by your students, the feedback and badges received in the game.">
+				<h4>Detailed actions data</h4>
+				<p>
+					<select ng-model="actionDetailedAction">
+						<option  ng-repeat="a in getActionList()" value="{{a}}">{{a}}</option>
+					</select>
+					<select ng-model="paramDetailedAction">
+						<option  ng-repeat="p in getParamsAction()" value="{{p}}">{{p}}</option>
+					</select>
+					<br/>
+					<i>Calculate best gameplays based on:</i>
+					<select ng-model="loDetailedAction">
+						<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
+					</select>
+				</p>
+				
+				<tabset>
+				<tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
+				<div la-detailed-action la="LA" characteristic="c" outcome="loDetailedAction" action="actionDetailedAction" param="paramDetailedAction"></div>
+				</tab>
+				</tabset>
+			</div>
+			<div class="col-md-12 blockLA blockInteractions">
+				<h4>Feedback</h4>
+				<p>
+					Show
+					<select ng-model="typeFeedback">
+						<option value="All">All</option>
+						<option ng-repeat="f in getFeedbackTypes()" value="{{f}}">{{f}}</option>
+					</select>
+					feedback
+				</p>
+				<p>
+					<i>Calculate best gameplays based on:</i>
+					<select ng-model="loCommonFeedack">
+						<option  ng-repeat="o in getLearningOutcomesList()" value="{{o}}">{{o}}</option>
+					</select>
+				</p>
 				<br/>
-				<i>Calculate best gameplays based on:</i>
-				<select ng-model="loDetailedAction">
-					<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
-				</select>
-			</p>
-			
-			<tabset>
-			<tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
-			<div la-detailed-action la="LA" characteristic="c" outcome="loDetailedAction" action="actionDetailedAction" param="paramDetailedAction"></div>
-			</tab>
-			</tabset>
-		</div>
-		<div class="col-md-6 blockLA blockInteractions">
-			<h4>Feedback</h4>
-			<p>
-				Show
-				<select ng-model="typeFeedback">
-					<option value="All">All</option>
-					<option ng-repeat="f in getFeedbackTypes()" value="{{f}}">{{f}}</option>
-				</select>
-				feedback
-			</p>
-			<p>
-				<i>Calculate best gameplays based on:</i>
-				<select ng-model="loCommonFeedack">
-					<option  ng-repeat="o in getLearningOutcomesList()" value="{{o}}">{{o}}</option>
-				</select>
-			</p>
-			<br/>
-			<br/>
-			<div la-common-feedback la="LA" outcome="loCommonFeedack" type="typeFeedback"  data-step="8" data-position="right" data-intro="Click on a group name to exclude/include it in the graph. <br/> When you have a graph that you find useful, you can use the icon on the top right corner to download it."></div>
-		</div>
-	</div>
-	<div class="row-fluid">
-		<div class="col-md-6 blockLA blockInteractions" data-step="12" data-position="left" data-intro="You can also see which percentage of your students earned the different badges of the game. It's easy to identify which badges are too easy to obtained and which ones are too hard.">
-			<h4>Badges</h4>
-			
-			<tabset>
-			<tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
-			<div la-badges la="LA" characteristic="c"></div>
-			</tab>
-			</tabset>
-		</div>
-		<div class="col-md-6 blockLA blockInteractions">
-			<h4>Badges detailed</h4>
-			<p>
-				<select ng-model="badgeDetailed">
-					<option ng-repeat="b in LA.players[0].badges" value="{{b.name}}">{{b.name}}</option>
-				</select>
-			</p>
-			<div la-badge-detailed la="LA" badge="badgeDetailed">
+				<br/>
+				<div la-common-feedback la="LA" outcome="loCommonFeedack" type="typeFeedback"  data-step="8" data-position="right" data-intro="Click on a group name to exclude/include it in the graph. <br/> When you have a graph that you find useful, you can use the icon on the top right corner to download it."></div>
 			</div>
 		</div>
-	</div>
-	
+	</tab>
+
+	<tab heading="Badges">
+
+		<div class="row-fluid">
+			<div class="col-md-6 blockLA blockInteractions" data-step="12" data-position="left" data-intro="You can also see which percentage of your students earned the different badges of the game. It's easy to identify which badges are too easy to obtained and which ones are too hard.">
+				<h4>Badges</h4>
+				
+				<tabset>
+				<tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
+				<div la-badges la="LA" characteristic="c"></div>
+				</tab>
+				</tabset>
+			</div>
+			<div class="col-md-6 blockLA blockInteractions">
+				<h4>Badges detailed</h4>
+				<p>
+					<select ng-model="badgeDetailed">
+						<option ng-repeat="b in LA.players[0].badges" value="{{b.name}}">{{b.name}}</option>
+					</select>
+				</p>
+				<div la-badge-detailed la="LA" badge="badgeDetailed">
+				</div>
+			</div>
+		</div>
 	</tab>
 
 	<tab heading="Player reports" data-step="13" data-intro="For detailed reports about specific students, open this view. It will allow you to create a template of report and will let you generate a PDF file for a student or the class based on the template." >
-	<div>
-		<h2>Players&rsquo; report</h2>
-		<p><i>Here you can define a template for your students&rsquo; reports. You can see a preview of the reports on the right. Once you are ready, click the &rsquo;save report&rsquo; button .</i></p>
-		<div class="row-fluid">
-			<div class="col-md-5">
-				<h3>Template</h3>
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h4><input type="checkbox" ng-model="badges" id="badges" > <span class="glyphicon glyphicon-certificate"></span> Badges</h4>
-					</div>
-					<div class="panel-body">
-						<p><i>All the badges available in the game, the ones earned by the player and the player&rsquo;s progress towards them. </i></p>
-						<p>
-							<input type="checkbox" ng-model="nameBadges" id="nameBadges"> Name the badges
-						</p>
-						<p>
-							<input type="checkbox" ng-model="messageBadges" id="messageBadges"> Show badge message
-						</p>
-						<p>
-							<input type="checkbox" ng-model="progressBadges" id="progressBadges"> Show progress towards achievement
-						</p>
-						<p>
-							<input type="checkbox" ng-model="compareBadges" id="compareBadges"> Compare to class average
-						</p>
-						<p>
-							<input type="checkbox" ng-model="percentEarnedBadge" id="percentEarnedBadge"> Show percentage of students who earned the badge
-						</p>
-					</div>
-				</div>
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h4><input type="checkbox" ng-model="numbers" id="numbers"> <span class="glyphicon glyphicon-info-sign"></span> General information</h4>
-					</div>
-					<div class="panel-body">
-						<p><i>Basic information about how many times the player played and the time he/she spent playing. This information can be compared to the class average.</i></p>
-						<table class="table table-bordered table-striped">
-							<tr><th></th><th>Information</th><th>Compare?</th></tr>
-							<tr>
-								<td><input type="checkbox" id="timesPlayed" ng-model="timesPlayed"/></td>
-								<td>Number of times the player played</td>
-								<td><input type="checkbox" id="compareTimesPlayed" ng-model="compareTimesPlayed"/></td>
-							</tr>
-							<tr>
-								<td><input type="checkbox" id="timesWon"  ng-model="timesWon"/></td>
-								<td>Number of times the player won</td>
-								<td><input type="checkbox" id="compareTimesWon" ng-model="compareTimesWon"/></td>
-							</tr>
-							<tr>
-								<td><input type="checkbox" id="timeSpent" ng-model="timeSpent"/></td>
-								<td>Total time spent by the player (in minutes)</td>
-								<td><input type="checkbox" id="compareTimeSpent" ng-model="compareTimeSpent" /></td>
-							</tr>
-						</table>
-					</div>
-				</div>
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h4><input type="checkbox" ng-model="performance" id="performance"> <span class="glyphicon glyphicon-stats"></span> Performance</h4>
-					</div>
-					<div class="panel-body">
-						<p><i>More detailed information about the player&rsquo;s performance, his/her scores, actions... Some can be compared to the class average.</i></p>
-						<table class="table table-bordered table-striped">
-							<tr><th></th><th>Information</th></tr>
-							<tr>
-								<td><input type="checkbox" id="finalScore" ng-model="finalScore"/></td>
-								<td>
-									Final score box plot
-									<select ng-model="finalScoreScore">
-										<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
-										<option value="_custom_">custom formula</option>
-									</select>
-									<span ng-show="finalScoreScore == '_custom_'">
-										<input type="text" value="" ng-model="finalScoreFormula">
-										<i> Available scores:</i>
-										<span ng-repeat="o in getLearningOutcomesList()"> - <b>{{ o }}</b> </span>
-										<br/>
-									</span>									
-									<p>
-										Title: <input type="text" ng-model="finalScoreTitle">
-									</p>
-									<p>
-										<input type="checkbox" id="compareFinalScore" ng-model="compareFinalScore" />
-										Compare to class?
-									</p>
-								</td>
-							</tr>
-							<tr>
-								<td><input type="checkbox" id="learningCurve" ng-model="learningCurve" /></td>
-								<td>Learning curve
-									<!--<select ng-model="learningCurveScore">
-										<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
-										<option value="_custom_">custom formula</option>
-									</select>-->
-									<br/>
-									<input type="checkbox" id="learningCurveCustomFormula" ng-model="learningCurveCustomFormula" />Add custom score
-									<span ng-show="learningCurveCustomFormula">
-										<input type="text" value="" ng-model="learningCurveFormula">
-										<br/>
-										<i> Available scores:</i>
-										<span ng-repeat="o in getLearningOutcomesList()"> - <b>{{ o }}</b> </span>
-										<br/>
-										<input type="text" ng-model="learningCurveNameFormula">
-									</span>
-								</td>
-							</tr>
-							<tr>
-								<td><input type="checkbox" id="commonActions" ng-model="commonActions" /></td>
-								<td>
-									Correct answers
-									<p>
-										<select ng-model="commonActionsMostOrLeastCommon">
-											<option value="false">most common</option>
-											<option value="true">least common</option>
-										</select>
-										<select ng-model="commonActionsActions">
-											<option  ng-repeat="a in getActionList()" value="{{a}}">{{a}}</option>
-										</select>
-										<br/>Reaction:
-										<select ng-model="commonActionsSign">
-											<option value="+">+</option>
-											<option value="-" selected>-</option>
-										</select>
-										<select ng-model="commonActionsLO">
-											<option  ng-repeat="o in getLearningOutcomesList()" value="{{o}}">{{o}}</option>
-										</select>
-									</p>
-									<p>
-										<i>Calculate best gameplays based on:</i>
-										<select ng-model="commonActionsBestLO">
-											<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
-										</select>
-									</p>
-									<p>
-										Show <select ng-model="commonActionsLimit" ng-options="l for l in Range(1, 30)"></select> results
-									</p>
-									<p>
-										Title: <input type="text" ng-model="commonActionsTitle">
-									</p>
-								</td>
-							</tr>
-							<tr>
-								<td><input type="checkbox" id="commonActions2" ng-model="commonActions2" /></td>
-								<td>
-									Mistakes
-									<p>
-										<select ng-model="commonActionsMostOrLeastCommon2">
-											<option value="false">most common</option>
-											<option value="true">least common</option>
-										</select>
-										<select ng-model="commonActionsActions2">
-											<option  ng-repeat="a in getActionList()" value="{{a}}">{{a}}</option>
-										</select>
-										<br/>Reaction:
-										<select ng-model="commonActionsSign2">
-											<option value="+">+</option>
-											<option value="-" selected>-</option>
-										</select>
-										<select ng-model="commonActionsLO2">
-											<option  ng-repeat="o in getLearningOutcomesList()" value="{{o}}">{{o}}</option>
-										</select>
-									</p>
-									<p>
-										<i>Calculate best gameplays based on:</i>
-										<select ng-model="commonActionsBestLO2">
-											<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
-										</select>
-									</p>
-									<p>
-										Show <select ng-model="commonActionsLimit2" ng-options="l for l in Range(1, 30)"></select> results
-									</p>
-									<p>
-										Title: <input type="text" ng-model="commonActionsTitle2">
-									</p>
-								</td>
-							</tr>
-						</table>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-7">
-				<h3>Preview</h3>
-				<p>
-					<select ng-model="studentSelected">
-						<option ng-repeat="player in getSudentsWhoPlayedReport()" value="{{ player.idPlayer }}">{{ player.student.username }}{{ player.name }}</option>
-						<option value="">All</option>
-					</select> <button class="btn btn-primary btn-sm" ng-click="generate()">save report</button>
-				</p>
-				<div id="reportToPrint">
-					<h3 align="center">{{ LA.game.name }} - Gameplay report</h3>
-					<h5 align="center"><% if not current_user.teacher.nil? %>  <%= current_user.teacher.user.username =%> <% end %></h5>
-					<h5 align="center">Generated on <b> {{date | date:'dd MMM yyyy' }} at {{ date | date:'HH:mm'}}</b></h5>
-
-					<h5 align="center">Report for: 
-						<span  ng-repeat="player in LA.players | filter:{idPlayer:studentSelected}" >{{ ($first || $last) ? '' : ', ' }}{{ ($last && !$first) ? ' and ' : '' }}{{player.student.username}}</span>
-					</h5>
-					<div class="panel panel-default" ng-repeat="player in LA.players | filter:{idPlayer:studentSelected}" style="page-break-before:always">
+		<div>
+			<h2>Players&rsquo; report</h2>
+			<p><i>Here you can define a template for your students&rsquo; reports. You can see a preview of the reports on the right. Once you are ready, click the &rsquo;save report&rsquo; button .</i></p>
+			<div class="row-fluid">
+				<div class="col-md-5">
+					<h3>Template</h3>
+					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h4><span class="glyphicon glyphicon-list-alt"></span> {{ player.student.username }}{{ player.name }}&rsquo;s report </h4>
-							<p style="font-size: 75%;"><span ng-repeat="c in LA.game.playerCharacteristics"><i>{{ c }} : {{ player[c] }} . </i></span></p>
+							<h4><input type="checkbox" ng-model="badges" id="badges" > <span class="glyphicon glyphicon-certificate"></span> Badges</h4>
 						</div>
 						<div class="panel-body">
-							<div ng-show="badges">
-								<h5><span class="glyphicon glyphicon-certificate"></span> Badges</h5>
-								<table width="95%" align="center" style="background-color: white;">
-									<tr>
-										<td ng-repeat="badge in player.badges" align="center" >
-											<img height="45" ng-src="/badges/{{badge.name}}.png" alt="{{badge.message}}" ng-if="badge.earned == true"/>
-											<img height="45" ng-src="/badges/lock_BW.png" alt="{{badge.message}}" ng-if="badge.earned != true"/>
-										</td>
-									</tr>
-									<tr ng-if="nameBadges">
-										<td ng-repeat="badge in player.badges" align="center">
-											<span style="font-size: 65%;"><b>{{ badge.name.replace('_', ' ') }} </b></span>
-										</td>
-									</tr>
-									<tr ng-if="messageBadges">
-										<td ng-repeat="badge in player.badges" align="center">
-											<span style="font-size: 60%;">{{ badge.message }}</span>
-										</td>
-									</tr>
-									<tr ng-if="progressBadges">
-										<td ng-repeat="badge in player.badges" align="center">
-											<span style="font-size: 60%;">{{ badge.playerNum }} / {{ badge.goalNum }} </span>
-										</td>
-									</tr>
-									<tr ng-if="compareBadges">
-										<td ng-repeat="badge in player.badges" style="font-size: 60%;" align="center">
-											<span  ng-switch="compareToClass(classAverage(badge.id), badge.playerNum)">
-												<span class="label label-success" ng-switch-when="1">
-													Class average: {{ classAverage(badge.id) }}
-												</span>
-												<span class="label label-success" ng-switch-when="0">
-													Class average: {{ classAverage(badge.id) }}
-												</span>
-												<span class="label label-warning" ng-switch-when="-1">
-													Class average: {{ classAverage(badge.id) }}
-												</span>
-												<span class="label label-danger" ng-switch-when="-2">
-													Class average: {{ classAverage(badge.id) }}
-												</span>
-											</span>
-										</td>
-									</tr>
-									<tr ng-if="percentEarnedBadge">
-										<td ng-repeat="badge in player.badges" style="font-size: 65%;" align="center">
-											<span  ng-switch="compareToClassBadges(averageBadgesEarned(badge.id), badge.earned)">
-												<span class="label label-success" ng-switch-when="1">
-													<i> earned by {{ averageBadgesEarned(badge.id) }} &percnt; </i>
-												</span>
-												<span class="label label-success" ng-switch-when="0">
-													<i> earned by {{ averageBadgesEarned(badge.id) }} &percnt; </i>
-												</span>
-												<span class="label label-warning" ng-switch-when="-1">
-													<i> earned by {{ averageBadgesEarned(badge.id) }} &percnt; </i>
-												</span>
-												<span class="label label-danger" ng-switch-when="-2">
-													<i> earned by {{ averageBadgesEarned(badge.id) }} &percnt; </i>
-												</span>
-											</span>
-										</td>
-									</tr>
-								</table>
+							<p><i>All the badges available in the game, the ones earned by the player and the player&rsquo;s progress towards them. </i></p>
+							<p>
+								<input type="checkbox" ng-model="nameBadges" id="nameBadges"> Name the badges
+							</p>
+							<p>
+								<input type="checkbox" ng-model="messageBadges" id="messageBadges"> Show badge message
+							</p>
+							<p>
+								<input type="checkbox" ng-model="progressBadges" id="progressBadges"> Show progress towards achievement
+							</p>
+							<p>
+								<input type="checkbox" ng-model="compareBadges" id="compareBadges"> Compare to class average
+							</p>
+							<p>
+								<input type="checkbox" ng-model="percentEarnedBadge" id="percentEarnedBadge"> Show percentage of students who earned the badge
+							</p>
+						</div>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4><input type="checkbox" ng-model="numbers" id="numbers"> <span class="glyphicon glyphicon-info-sign"></span> General information</h4>
+						</div>
+						<div class="panel-body">
+							<p><i>Basic information about how many times the player played and the time he/she spent playing. This information can be compared to the class average.</i></p>
+							<table class="table table-bordered table-striped">
+								<tr><th></th><th>Information</th><th>Compare?</th></tr>
+								<tr>
+									<td><input type="checkbox" id="timesPlayed" ng-model="timesPlayed"/></td>
+									<td>Number of times the player played</td>
+									<td><input type="checkbox" id="compareTimesPlayed" ng-model="compareTimesPlayed"/></td>
+								</tr>
+								<tr>
+									<td><input type="checkbox" id="timesWon"  ng-model="timesWon"/></td>
+									<td>Number of times the player won</td>
+									<td><input type="checkbox" id="compareTimesWon" ng-model="compareTimesWon"/></td>
+								</tr>
+								<tr>
+									<td><input type="checkbox" id="timeSpent" ng-model="timeSpent"/></td>
+									<td>Total time spent by the player (in minutes)</td>
+									<td><input type="checkbox" id="compareTimeSpent" ng-model="compareTimeSpent" /></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4><input type="checkbox" ng-model="performance" id="performance"> <span class="glyphicon glyphicon-stats"></span> Performance</h4>
+						</div>
+						<div class="panel-body">
+							<p><i>More detailed information about the player&rsquo;s performance, his/her scores, actions... Some can be compared to the class average.</i></p>
+							<table class="table table-bordered table-striped">
+								<tr><th></th><th>Information</th></tr>
+								<tr>
+									<td><input type="checkbox" id="finalScore" ng-model="finalScore"/></td>
+									<td>
+										Final score box plot
+										<select ng-model="finalScoreScore">
+											<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
+											<option value="_custom_">custom formula</option>
+										</select>
+										<span ng-show="finalScoreScore == '_custom_'">
+											<input type="text" value="" ng-model="finalScoreFormula">
+											<i> Available scores:</i>
+											<span ng-repeat="o in getLearningOutcomesList()"> - <b>{{ o }}</b> </span>
+											<br/>
+										</span>									
+										<p>
+											Title: <input type="text" ng-model="finalScoreTitle">
+										</p>
+										<p>
+											<input type="checkbox" id="compareFinalScore" ng-model="compareFinalScore" />
+											Compare to class?
+										</p>
+									</td>
+								</tr>
+								<tr>
+									<td><input type="checkbox" id="learningCurve" ng-model="learningCurve" /></td>
+									<td>Learning curve
+										<!--<select ng-model="learningCurveScore">
+											<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
+											<option value="_custom_">custom formula</option>
+										</select>-->
+										<br/>
+										<input type="checkbox" id="learningCurveCustomFormula" ng-model="learningCurveCustomFormula" />Add custom score
+										<span ng-show="learningCurveCustomFormula">
+											<input type="text" value="" ng-model="learningCurveFormula">
+											<br/>
+											<i> Available scores:</i>
+											<span ng-repeat="o in getLearningOutcomesList()"> - <b>{{ o }}</b> </span>
+											<br/>
+											<input type="text" ng-model="learningCurveNameFormula">
+										</span>
+									</td>
+								</tr>
+								<tr>
+									<td><input type="checkbox" id="commonActions" ng-model="commonActions" /></td>
+									<td>
+										Correct answers
+										<p>
+											<select ng-model="commonActionsMostOrLeastCommon">
+												<option value="false">most common</option>
+												<option value="true">least common</option>
+											</select>
+											<select ng-model="commonActionsActions">
+												<option  ng-repeat="a in getActionList()" value="{{a}}">{{a}}</option>
+											</select>
+											<br/>Reaction:
+											<select ng-model="commonActionsSign">
+												<option value="+">+</option>
+												<option value="-" selected>-</option>
+											</select>
+											<select ng-model="commonActionsLO">
+												<option  ng-repeat="o in getLearningOutcomesList()" value="{{o}}">{{o}}</option>
+											</select>
+										</p>
+										<p>
+											<i>Calculate best gameplays based on:</i>
+											<select ng-model="commonActionsBestLO">
+												<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
+											</select>
+										</p>
+										<p>
+											Show <select ng-model="commonActionsLimit" ng-options="l for l in Range(1, 30)"></select> results
+										</p>
+										<p>
+											Title: <input type="text" ng-model="commonActionsTitle">
+										</p>
+									</td>
+								</tr>
+								<tr>
+									<td><input type="checkbox" id="commonActions2" ng-model="commonActions2" /></td>
+									<td>
+										Mistakes
+										<p>
+											<select ng-model="commonActionsMostOrLeastCommon2">
+												<option value="false">most common</option>
+												<option value="true">least common</option>
+											</select>
+											<select ng-model="commonActionsActions2">
+												<option  ng-repeat="a in getActionList()" value="{{a}}">{{a}}</option>
+											</select>
+											<br/>Reaction:
+											<select ng-model="commonActionsSign2">
+												<option value="+">+</option>
+												<option value="-" selected>-</option>
+											</select>
+											<select ng-model="commonActionsLO2">
+												<option  ng-repeat="o in getLearningOutcomesList()" value="{{o}}">{{o}}</option>
+											</select>
+										</p>
+										<p>
+											<i>Calculate best gameplays based on:</i>
+											<select ng-model="commonActionsBestLO2">
+												<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
+											</select>
+										</p>
+										<p>
+											Show <select ng-model="commonActionsLimit2" ng-options="l for l in Range(1, 30)"></select> results
+										</p>
+										<p>
+											Title: <input type="text" ng-model="commonActionsTitle2">
+										</p>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-7">
+					<h3>Preview</h3>
+					<p>
+						<select ng-model="studentSelected">
+							<option ng-repeat="player in getSudentsWhoPlayedReport()" value="{{ player.idPlayer }}">{{ player.student.username }}{{ player.name }}</option>
+							<option value="">All</option>
+						</select> <button class="btn btn-primary btn-sm" ng-click="generate()">save report</button>
+					</p>
+					<div id="reportToPrint">
+						<h3 align="center">{{ LA.game.name }} - Gameplay report</h3>
+						<h5 align="center"><% if not current_user.teacher.nil? %>  <%= current_user.teacher.user.username =%> <% end %></h5>
+						<h5 align="center">Generated on <b> {{date | date:'dd MMM yyyy' }} at {{ date | date:'HH:mm'}}</b></h5>
+
+						<h5 align="center">Report for: 
+							<span  ng-repeat="player in LA.players | filter:{idPlayer:studentSelected}" >{{ ($first || $last) ? '' : ', ' }}{{ ($last && !$first) ? ' and ' : '' }}{{player.student.username}}</span>
+						</h5>
+						<div class="panel panel-default" ng-repeat="player in LA.players | filter:{idPlayer:studentSelected}" style="page-break-before:always">
+							<div class="panel-heading">
+								<h4><span class="glyphicon glyphicon-list-alt"></span> {{ player.student.username }}{{ player.name }}&rsquo;s report </h4>
+								<p style="font-size: 75%;"><span ng-repeat="c in LA.game.playerCharacteristics"><i>{{ c }} : {{ player[c] }} . </i></span></p>
 							</div>
-							<br/>
-							<div ng-show="numbers">
-								<h5><span class="glyphicon glyphicon-info-sign"></span> General information</h5>
-								<table width="90%">
-									<tr ng-show="timesPlayed" >
-										<td style="padding-right:10px;" align="right"><span class="glyphicon glyphicon-tower" aria-hidden="true"></span></td>
-										<td style="font-size: 80%;" > You played <b>{{ getNumberGameplays(player.idPlayer) }} times</b>.</td>
-										<td ng-show="compareTimesPlayed" style="font-size: 80%;" >
-											<span  ng-switch="compareToClass(getAverageNumberGameplays(), getNumberGameplays(player.idPlayer))" >
-												<span class="label label-success" ng-switch-when="1">
-													class average: {{ getAverageNumberGameplays() }}
+							<div class="panel-body">
+								<div ng-show="badges">
+									<h5><span class="glyphicon glyphicon-certificate"></span> Badges</h5>
+									<table width="95%" align="center" style="background-color: white;">
+										<tr>
+											<td ng-repeat="badge in player.badges" align="center" >
+												<img height="45" ng-src="/badges/{{badge.name}}.png" alt="{{badge.message}}" ng-if="badge.earned == true"/>
+												<img height="45" ng-src="/badges/lock_BW.png" alt="{{badge.message}}" ng-if="badge.earned != true"/>
+											</td>
+										</tr>
+										<tr ng-if="nameBadges">
+											<td ng-repeat="badge in player.badges" align="center">
+												<span style="font-size: 65%;"><b>{{ badge.name.replace('_', ' ') }} </b></span>
+											</td>
+										</tr>
+										<tr ng-if="messageBadges">
+											<td ng-repeat="badge in player.badges" align="center">
+												<span style="font-size: 60%;">{{ badge.message }}</span>
+											</td>
+										</tr>
+										<tr ng-if="progressBadges">
+											<td ng-repeat="badge in player.badges" align="center">
+												<span style="font-size: 60%;">{{ badge.playerNum }} / {{ badge.goalNum }} </span>
+											</td>
+										</tr>
+										<tr ng-if="compareBadges">
+											<td ng-repeat="badge in player.badges" style="font-size: 60%;" align="center">
+												<span  ng-switch="compareToClass(classAverage(badge.id), badge.playerNum)">
+													<span class="label label-success" ng-switch-when="1">
+														Class average: {{ classAverage(badge.id) }}
+													</span>
+													<span class="label label-success" ng-switch-when="0">
+														Class average: {{ classAverage(badge.id) }}
+													</span>
+													<span class="label label-warning" ng-switch-when="-1">
+														Class average: {{ classAverage(badge.id) }}
+													</span>
+													<span class="label label-danger" ng-switch-when="-2">
+														Class average: {{ classAverage(badge.id) }}
+													</span>
 												</span>
-												<span class="label label-success" ng-switch-when="0">
-													class average: {{ getAverageNumberGameplays() }}
+											</td>
+										</tr>
+										<tr ng-if="percentEarnedBadge">
+											<td ng-repeat="badge in player.badges" style="font-size: 65%;" align="center">
+												<span  ng-switch="compareToClassBadges(averageBadgesEarned(badge.id), badge.earned)">
+													<span class="label label-success" ng-switch-when="1">
+														<i> earned by {{ averageBadgesEarned(badge.id) }} &percnt; </i>
+													</span>
+													<span class="label label-success" ng-switch-when="0">
+														<i> earned by {{ averageBadgesEarned(badge.id) }} &percnt; </i>
+													</span>
+													<span class="label label-warning" ng-switch-when="-1">
+														<i> earned by {{ averageBadgesEarned(badge.id) }} &percnt; </i>
+													</span>
+													<span class="label label-danger" ng-switch-when="-2">
+														<i> earned by {{ averageBadgesEarned(badge.id) }} &percnt; </i>
+													</span>
 												</span>
-												<span class="label label-warning" ng-switch-when="-1">
-													class average: {{ getAverageNumberGameplays() }}
-												</span>
-												<span class="label label-danger" ng-switch-when="-2">
-													class average: {{ getAverageNumberGameplays() }}
-												</span>
-											</span>
-										</td>
-									</tr>
-									<tr ng-show="timesWon" >
-										<td style="padding-right:10px;" align="right"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></td>
-										<td style="font-size: 80%;" > You won <b>{{ getNumberGameplaysWon(player.idPlayer) }} times</b>.</td>
-										<td ng-show="compareTimesWon" style="font-size: 80%;" >
-											<span  ng-switch="compareToClass(getAverageNumberGameplaysWon(), getNumberGameplaysWon(player.idPlayer))">
-												<span class="label label-success" ng-switch-when="1">
-													class average: {{ getAverageNumberGameplaysWon() }}
-												</span>
-												<span class="label label-success" ng-switch-when="0">
-													class average: {{ getAverageNumberGameplaysWon() }}
-												</span>
-												<span class="label label-warning" ng-switch-when="-1">
-													class average: {{ getAverageNumberGameplaysWon() }}
-												</span>
-												<span class="label label-danger" ng-switch-when="-2">
-													class average: {{ getAverageNumberGameplaysWon() }}
-												</span>
-											</span>
-										</td>
-									</tr>
-									<tr ng-show="timeSpent">
-										<td style="padding-right:10px;" align="right"><span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span></td>
-										<td style="font-size: 80%;" > You played <b>{{ getTimeSpent(player.idPlayer) }} minutes</b>.</td>
-										<td ng-show="compareTimeSpent" style="font-size: 80%;" >
-											<span  ng-switch="compareToClass(getAverageTimeSpent(), getTimeSpent(player.idPlayer))">
-												<span class="label label-success" ng-switch-when="1">
-													class average: {{ getAverageTimeSpent() }}
-												</span>
-												<span class="label label-success" ng-switch-when="0">
-													class average: {{ getAverageTimeSpent() }}
-												</span>
-												<span class="label label-warning" ng-switch-when="-1">
-													class average: {{ getAverageTimeSpent() }}
-												</span>
-												<span class="label label-danger" ng-switch-when="-2">
-													class average: {{ getAverageTimeSpent() }}
-												</span>
-											</span>
-										</td>
-									</tr>
-								</table>
-							</div><br/>
-							<div ng-show="performance">
-								<h5><span class="glyphicon glyphicon-stats"></span> Performance</h5>
-								<input type="hidden" ng-model="player.idPlayer">
-								<div ng-show="finalScore" report-final-scores player="player.idPlayer" la="LA" outcome="finalScoreScore" formula="finalScoreFormula" compare="compareFinalScore" title="finalScoreTitle">
+											</td>
+										</tr>
+									</table>
 								</div>
-								
-								<div ng-show="learningCurve" report-all-learning-curves player="player.idPlayer" la="LA" booleanformula="learningCurveCustomFormula" nameformula="learningCurveNameFormula" formula="learningCurveFormula" >
-								</div>
-								
-								<div ng-show="commonActions" report-common-actions player="player.idPlayer" la="LA" outcome="commonActionsLO" compare="compareCommonActions" action="commonActionsActions" sign="commonActionsSign" leastcommon="commonActionsMostOrLeastCommon" bestoutcome="commonActionsBestLO" limit="commonActionsLimit" title="commonActionsTitle">
-								</div>
-								
-								<div ng-show="commonActions2" report-common-actions player="player.idPlayer" la="LA" outcome="commonActionsLO2" compare="compareCommonActions2" action="commonActionsActions2" sign="commonActionsSign2" leastcommon="commonActionsMostOrLeastCommon2" bestoutcome="commonActionsBestLO2" limit="commonActionsLimit2" title="commonActionsTitle2">
+								<br/>
+								<div ng-show="numbers">
+									<h5><span class="glyphicon glyphicon-info-sign"></span> General information</h5>
+									<table width="90%">
+										<tr ng-show="timesPlayed" >
+											<td style="padding-right:10px;" align="right"><span class="glyphicon glyphicon-tower" aria-hidden="true"></span></td>
+											<td style="font-size: 80%;" > You played <b>{{ getNumberGameplays(player.idPlayer) }} times</b>.</td>
+											<td ng-show="compareTimesPlayed" style="font-size: 80%;" >
+												<span  ng-switch="compareToClass(getAverageNumberGameplays(), getNumberGameplays(player.idPlayer))" >
+													<span class="label label-success" ng-switch-when="1">
+														class average: {{ getAverageNumberGameplays() }}
+													</span>
+													<span class="label label-success" ng-switch-when="0">
+														class average: {{ getAverageNumberGameplays() }}
+													</span>
+													<span class="label label-warning" ng-switch-when="-1">
+														class average: {{ getAverageNumberGameplays() }}
+													</span>
+													<span class="label label-danger" ng-switch-when="-2">
+														class average: {{ getAverageNumberGameplays() }}
+													</span>
+												</span>
+											</td>
+										</tr>
+										<tr ng-show="timesWon" >
+											<td style="padding-right:10px;" align="right"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></td>
+											<td style="font-size: 80%;" > You won <b>{{ getNumberGameplaysWon(player.idPlayer) }} times</b>.</td>
+											<td ng-show="compareTimesWon" style="font-size: 80%;" >
+												<span  ng-switch="compareToClass(getAverageNumberGameplaysWon(), getNumberGameplaysWon(player.idPlayer))">
+													<span class="label label-success" ng-switch-when="1">
+														class average: {{ getAverageNumberGameplaysWon() }}
+													</span>
+													<span class="label label-success" ng-switch-when="0">
+														class average: {{ getAverageNumberGameplaysWon() }}
+													</span>
+													<span class="label label-warning" ng-switch-when="-1">
+														class average: {{ getAverageNumberGameplaysWon() }}
+													</span>
+													<span class="label label-danger" ng-switch-when="-2">
+														class average: {{ getAverageNumberGameplaysWon() }}
+													</span>
+												</span>
+											</td>
+										</tr>
+										<tr ng-show="timeSpent">
+											<td style="padding-right:10px;" align="right"><span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span></td>
+											<td style="font-size: 80%;" > You played <b>{{ getTimeSpent(player.idPlayer) }} minutes</b>.</td>
+											<td ng-show="compareTimeSpent" style="font-size: 80%;" >
+												<span  ng-switch="compareToClass(getAverageTimeSpent(), getTimeSpent(player.idPlayer))">
+													<span class="label label-success" ng-switch-when="1">
+														class average: {{ getAverageTimeSpent() }}
+													</span>
+													<span class="label label-success" ng-switch-when="0">
+														class average: {{ getAverageTimeSpent() }}
+													</span>
+													<span class="label label-warning" ng-switch-when="-1">
+														class average: {{ getAverageTimeSpent() }}
+													</span>
+													<span class="label label-danger" ng-switch-when="-2">
+														class average: {{ getAverageTimeSpent() }}
+													</span>
+												</span>
+											</td>
+										</tr>
+									</table>
+								</div><br/>
+								<div ng-show="performance">
+									<h5><span class="glyphicon glyphicon-stats"></span> Performance</h5>
+									<input type="hidden" ng-model="player.idPlayer">
+									<div ng-show="finalScore" report-final-scores player="player.idPlayer" la="LA" outcome="finalScoreScore" formula="finalScoreFormula" compare="compareFinalScore" title="finalScoreTitle">
+									</div>
+									
+									<div ng-show="learningCurve" report-all-learning-curves player="player.idPlayer" la="LA" booleanformula="learningCurveCustomFormula" nameformula="learningCurveNameFormula" formula="learningCurveFormula" >
+									</div>
+									
+									<div ng-show="commonActions" report-common-actions player="player.idPlayer" la="LA" outcome="commonActionsLO" compare="compareCommonActions" action="commonActionsActions" sign="commonActionsSign" leastcommon="commonActionsMostOrLeastCommon" bestoutcome="commonActionsBestLO" limit="commonActionsLimit" title="commonActionsTitle">
+									</div>
+									
+									<div ng-show="commonActions2" report-common-actions player="player.idPlayer" la="LA" outcome="commonActionsLO2" compare="compareCommonActions2" action="commonActionsActions2" sign="commonActionsSign2" leastcommon="commonActionsMostOrLeastCommon2" bestoutcome="commonActionsBestLO2" limit="commonActionsLimit2" title="commonActionsTitle2">
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</div> <!-- end of report to print -->
+					</div> <!-- end of report to print -->
+				</div>
 			</div>
 		</div>
-	</div>
 	</tab>
+
 	</tabset>
 
 	<script type="text/ng-template" id="badgeDetail.html">

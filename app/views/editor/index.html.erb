@@ -5,337 +5,8 @@ Editor
 	<div ng-controller="GameCtrl">
 		<br/><p><a class="btn btn-large btn-success" href="javascript:void(0);" onclick="javascript:introJs().start();">Take a tour</a></p>
 		<h1 data-step="1" data-intro="Welcome to EngAGe assessment editor, in this page you can modify your game's assessment"><span editable-text="config.seriousGame.name">{{config.seriousGame.name}}</span></h1>
-		<h3>Game's description</h3>
+
 		<div>
-			<p>
-				<span editable-textarea="config.seriousGame.description"  e-rows="3" e-cols="80">{{config.seriousGame.description}}</span>
-			</p>
-			<p>The game is suitable for players between <span editable-text="config.seriousGame.ageMin">{{config.seriousGame.ageMin}}</span> and <span editable-text="config.seriousGame.ageMax">{{config.seriousGame.ageMax}}</span> years old.</p>
-			<p>Keywords: <span editable-text="config.seriousGame.subject">{{config.seriousGame.subject}}</span></p>
-		</div>
-		<div data-step="2" data-position="top" data-intro="Modify here the questions asked by your game on the first gameplay. You will be able to refine the learning analytics based on these characteristics.">
-			<h3>Player characteristics</h3>
-			<table class="table table-bordered">
-				<tbody>
-					<tr ng-repeat="car in config.player">
-						<td>
-							<span editable-text="car.name" e-required>{{car.name}}</span>
-						</td>
-						<td class="col-lg-6">
-							<span editable-text="car.question" e-required>{{car.question}}</span>
-						</td>
-						<td class="col-lg-6">
-								<span editable-select="car.type" e-ng-options="s.value as s.text for s in [{value: 'Int', text: 'Number'}, {value: 'Char',text: 'Char'}, {value: 'String', text: 'text'}]" e-required>{{car.type}}</span>
-						</td>
-						<td><button type="button" class="btn btn-danger btn-sm" ng-click="config.player.splice($index, 1)">remove</button></td>
-					</tr>
-				</tbody>
-			</table>
-			<button type="button" class="btn btn-default btn-sm" ng-click="addPlayerCharacteristic()">add</button>
-		</div>
-		<div>
-			<div data-step="3" data-position="top" data-intro="Modify here the game scores, you can create new ones (if you need more detailed information), change the starting values and the feedback that they trigger when reaching a threashold value.">
-			<h3>Scores / Learning outcomes</h3>
-			<accordion close-others="oneAtATime">
-				<accordion-group  ng-repeat="(name, lo) in config.learningOutcomes">
-					<accordion-heading>
-			           <span><strong>{{ name }}:</strong> {{ lo.desc }}</span>
-			        </accordion-heading>
-					<dl class="dl-horizontal">
-						<dt>name</dt>
-						<dd>{{name}}</dd>
-						<dt>description</dt>
-						<dd><span editable-textarea="lo.desc" e-placeholder="description" e-rows="2" e-cols="40" e-required>{{lo.desc}}</span></dd>
-						<dt>initial value</dt>
-						<dd><span editable-number="lo.value" e-name="value" e-required>{{lo.value}}</span></dd>
-						<dt>feedback</dt>
-						<dd>
-						<table class="table table-bordered">
-							<tbody>
-								<tr ng-repeat="fb in lo.feedbackTriggered" ng-if="!config.feedback[fb.feedback[0].name].hasOwnProperty('final')">
-									<td class="col-xs-1">
-										<span  ng-switch="config.feedback[fb.feedback[0].name].type">
-											<span class="label label-success" ng-switch-when="positive">
-												{{ fb.feedback[0].name }}
-											</span>
-											<span class="label label-info" ng-switch-when="hint">
-												{{ fb.feedback[0].name }}
-											</span>
-											<span class="label label-warning" ng-switch-when="adaptation">
-												{{ fb.feedback[0].name }}
-											</span>
-											<span class="label label-danger" ng-switch-when="negative">
-												{{ fb.feedback[0].name }}
-											</span>
-											<span class="label label-default" ng-switch-default>
-												{{ fb.feedback[0].name }}
-											</span>
-										</span>
-									</td>
-									<td>
-										<span><span editable-select="fb.sign" e-required e-ng-options="k as v for (k, v) in signs">{{signs[fb.sign]}}</span> <span editable-number="fb.limit" e-required>{{fb.limit}}</span></span>
-									</td>
-									<td class="col-lg-6">
-										<span editable-textarea="config.feedback[fb.feedback[0].name].message" e-rows="2" e-cols="40">{{config.feedback[fb.feedback[0].name].message}}</span>
-									</td>
-									<td>
-										<span>triggered </span><span editable-select="fb.feedback[0].immediate" e-ng-options="s.value as s.text for s in [{value: true, text: 'immediately'}, {value: false, text: 'in the summative report'}]"><span ng-if="fb.feedback[0].immediate">immediately</span><span ng-if="!fb.feedback[0].immediate">in the summative report</span></span>
-									</td>
-									<td class="col-sm-1"><button class="btn btn-sm btn-danger" ng-click="lo.feedbackTriggered.splice($index, 1)">remove</button></td>
-								</tr>
-							</tbody>
-						</table>
-						<button class="btn btn-sm btn-link" ng-click="openFeedbackModal(lo)">add feedback</button>
-						</dd>
-					</dl>
-					
-					<button type="button" class="btn btn-danger btn-sm" ng-click="deleteLearningOutcome(name)">remove</button>
-				</accordion-group>
-			</accordion>
-			<form class="form-inline" ng-submit="addLearningOutcome()">
-				<div class="form-group">
-					<input placeholder="name" type="text" ng-model="newLoName" required class="form-control">
-					<input placeholder="description" type="text" ng-model="newLoDesc" required class="form-control">
-					<button type="submit" class="btn btn-default">create score</button>
-				</div>
-			</form>
-			</div>
-			
-			<div data-step="4" data-position="top" data-intro="In this section, you can modify the assessment's logic. The actions available in the game were decided when the game was created so you can't add any, but you can modify the values each action takes, the way scores are updated as a result and how feedback are triggered.">
-				<h3>Rules of the game</h3>
-				<accordion close-others="oneAtATime">
-					<accordion-group  ng-repeat="(name, evidence) in config.evidenceModel">
-					<accordion-heading>
-			           <span><b>{{ name }}</b> - {{ evidence.desc}}</span>
-			        </accordion-heading>
-						<div ng-repeat="reaction in evidence.reactions">
-							<div ng-if="$index == evidence.reactions.length-1">
-								<br>
-								<button class="btn btn-sm btn-default" ng-click="addReaction(evidence)">add condition</button>
-								<br>
-							</div>
-							<div class="panel panel-info">
-								<div class="panel-heading">
-									<span ng-if="reaction.else == 'true'">{{ $index + 1}}. Any other <span ng-repeat="(param, type) in evidence.params">{{param}}{{$last ? '' : ', '}}</span></span>
-									<span ng-if="reaction.else != 'true'">
-									{{ $index + 1}}. If the user selects one of the following <span ng-repeat="(param, type) in evidence.params">{{param}}{{$last ? '' : ', '}}</span>
-									</span>
-								</div>
-								<div class="panel-body">
-									<div ng-if="reaction.else != 'true'">
-										<div ng-if="numberOfKeys(evidence.params)==1" ng-repeat="(param, type) in evidence.params">
-											<div ng-if="listParamsUpdated[name][param]">
-												 <ui-select multiple ng-model="reaction.values" theme="select2" style="width: 800px;">
-												    <ui-select-match placeholder="Select {{evidence.params[param]}}...">{{$item[param]}}</ui-select-match>
-												    <ui-select-choices repeat="c in listParamsUpdated[name][param] | filter: $select.search">
-												      {{c[param]}}
-												    </ui-select-choices>
-												 </ui-select>
-											</div>
-										</div>
-										<div ng-if="numberOfKeys(evidence.params) > 1">
-										<table class="table table-condensed">
-											<thead>
-												<tr>
-													<th class="col-xs-3" ng-repeat="(param, type) in evidence.params">{{param}}</th>
-													<th class="col-xs-1">Action</th>
-												</tr>
-											</thead>
-											<tbody>
-													<tr ng-repeat="val in reaction.values">
-														<td ng-repeat="(param, type) in evidence.params">
-															<span editable-text="val[param]" e-required>{{val[param] || ('add ' + param) }}</span>
-														</td>
-														<td><button class="btn btn-sm btn-danger" ng-click="reaction.values.splice($index, 1)">remove</button></td>
-													</tr>
-											</tbody>
-											
-										</table>
-										<button class="btn btn-sm btn-default" ng-click="reaction.values.push({})">Add entry</button>
-										</div>
-									</div>
-									<br/>
-									<div>
-										<div><strong>scores to be updated:</strong></div>
-										<table class="table table-bordered">
-											<tbody>
-												<tr ng-repeat="mark in reaction.marks">
-													<td class="col-lg-6">{{config.learningOutcomes[mark.learningOutcome].desc}}</td>
-													<td><span editable-number="mark.mark" e-required>{{mark.mark}}</span></td>
-													<td class="col-sm-1"><button class="btn btn-sm btn-danger" ng-click="reaction.marks.splice($index, 1)">remove</button></td>
-												</tr>
-											</tbody>
-										</table>
-										<form class="form-inline" ng-if="availableLearningOutcomes(reaction.marks).length">
-											<div class="form-group">
-												<input id="newLearningOutcome" placeholder="type score to add" type="text" ng-model="newLearningOutcome" typeahead-on-select="addMark(reaction, $item)" typeahead="lo for lo in  availableLearningOutcomes(reaction.marks) | filter:$viewValue | limitTo:8" class="form-control">
-											</div>
-										</form>
-									</div>
-									<br/>
-									<div>
-										<div><strong>feedback to trigger</strong></div>
-										<table class="table table-bordered">
-											<tbody>
-												<tr ng-repeat="fb in reaction.feedback">
-													<td class="col-xs-1">
-														<span  ng-switch="config.feedback[fb.name].type">
-															<span class="label label-success" ng-switch-when="positive">
-																{{ fb.name }}
-															</span>
-															<span class="label label-info" ng-switch-when="hint">
-																{{ fb.name }}
-															</span>
-															<span class="label label-warning" ng-switch-when="adaptation">
-																{{ fb.name }}
-															</span>
-															<span class="label label-danger" ng-switch-when="negative">
-																{{ fb.name }}
-															</span>
-															<span class="label label-default" ng-switch-default>
-																{{ fb.name }}
-															</span>
-														</span>
-													</td>
-													<td class="col-lg-6"><span editable-textarea="config.feedback[fb.name].message" e-rows="2" e-cols="40">{{config.feedback[fb.name].message}}</span></td>
-													<td><span>triggered </span><span editable-select="fb.immediate" e-ng-options="s.value as s.text for s in [{value: true, text: 'immediately'}, {value: false, text: 'in the summative report'}]"><span ng-if="fb.immediate">immediately</span><span ng-if="!fb.immediate">in the summative report</span></span></td>
-													<td class="col-sm-1"><button class="btn btn-sm btn-danger" ng-click="reaction.feedback.splice($index, 1)">remove</button></td>
-												</tr>
-											</tbody>
-										</table>
-										<button class="btn btn-sm btn-link" ng-click="openFeedbackModal(reaction)">add feedback</button>
-									</div>
-								</div>
-								<div class="panel-footer" ng-if="!$last">			
-									<button  class="btn btn-sm btn-danger" ng-click="evidence.reactions.splice($index, 1)">delete condition</button>
-								</div>
-							</div>
-							<br/>
-						</div>
-					</accordion-group>
-				</accordion>
-			</div>
-			<div data-step="5" data-position="top" data-intro="If the end of the game is related to assessment, you will be able to modify it. Select a score and a limit value for specifying a winning, losing and/or ending condition.">
-			<h3>End of the game</h3>
-			<div ng-if='getFinalFeedback("win") != ""'>
-				<h4>The game is won when/if:</h4>
-				<div>
-					
-					<table class="table table-striped">
-						<tbody>
-							<tr ng-repeat="row in endWins">
-								<td class="col-md-4">
-									<span><b>{{ row.learningOutcome }}</b> - </span>
-									<span>{{config.learningOutcomes[row.learningOutcome].desc}}</span> is 
-									<span editable-select="config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign" e-ng-options="k as v for (k, v) in signs">{{signs[config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign]}}</span>
-									<span editable-number="config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].limit">{{config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].limit}}</span>
-								</td>
-								<td class="col-sm-1"><button class="btn btn-sm btn-danger" ng-click="config.learningOutcomes[row.learningOutcome].feedbackTriggered.splice(row.feedbackTriggeredIdx, 1)">remove</button></td>
-							</tr>
-						</tbody>
-					</table>
-
-					<!--<form class="form-inline" name="addWinningCondition" ng-submit="addEnd(loWinningCondition, signWinningCondition, limitWinningCondition, 'win')">
-						<div class="form-group">
-							<input id="newEndingWin" placeholder="score" type="text" ng-model="loWinningCondition" typeahead="lo for lo in  availableLearningOutcomes(endWins) | filter:$viewValue | limitTo:8" class="form-control">
-							<select ng-options="k as v for (k, v) in signs" ng-model="signWinningCondition" required class="form-control"></select>
-							<input placeholder="limit" type="text" ng-model="limitWinningCondition" required class="form-control">
-						</div>
-						<button type="submit" class="btn btn-info">add winning condition</button> 
-					</form>-->
-				</div>
-			</div>
-			<div ng-if='getFinalFeedback("lose") != ""'>
-				<h4>The game is lost when/if:</h4>
-				<div>
-					<table class="table table-striped">
-						<tbody>
-							<tr ng-repeat="row in endLoses">
-								<td class="col-md-4">
-									<span><b>{{ row.learningOutcome }}</b> - </span>
-									<span>{{config.learningOutcomes[row.learningOutcome].desc}}</span> is 
-									<span editable-select="config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign" e-ng-options="k as v for (k, v) in signs">{{signs[config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign]}}</span>
-									<span editable-number="config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].limit">{{config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].limit}}</span>
-								</td>
-								<td class="col-sm-1"><button class="btn btn-sm btn-danger" ng-click="config.learningOutcomes[row.learningOutcome].feedbackTriggered.splice(row.feedbackTriggeredIdx, 1)">remove</button></td>
-							</tr>
-						</tbody>
-					</table>
-
-					<!--<form class="form-inline" name="addLosingCondition" ng-submit="addEnd(loLosingCondition, signLosingCondition, limitLosingCondition, 'lose')">
-						<div class="form-group">
-							<input id="newEndingLose" placeholder="score" type="text" ng-model="loLosingCondition" typeahead="lo for lo in  availableLearningOutcomes(endLoses) | filter:$viewValue | limitTo:8" class="form-control">
-							<select ng-options="k as v for (k, v) in signs" ng-model="signLosingCondition" required class="form-control"></select>
-							<input placeholder="limit" type="text" ng-model="limitLosingCondition" required class="form-control">
-						</div>
-						<button type="submit" class="btn btn-info">add losing condition</button> 
-					</form>-->
-				</div>
-			</div>
-			<div ng-if='getFinalFeedback("end") != ""'>
-				<h4>The game is ended when/if:</h4>
-				<div>
-					<table class="table table-striped">
-						<tbody>
-							<tr ng-repeat="row in end">
-								<td class="col-md-4">
-									<span><b>{{ row.learningOutcome }}</b> - </span>
-									<span>{{config.learningOutcomes[row.learningOutcome].desc}}</span> is 
-									<span editable-select="config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign" e-ng-options="k as v for (k, v) in signs">{{signs[config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign]}}</span>
-									<span editable-number="config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].limit">{{config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].limit}}</span>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-
-			<form class="form-inline" name="addEndingCondition" ng-submit="addEnd(loEndingCondition, signEndingCondition, limitEndingCondition, endEndingCondition)">
-				<div class="form-group">
-					<input id="newEnding" placeholder="score" type="text" ng-model="loEndingCondition" typeahead="lo for lo in  availableLearningOutcomes(end) | filter:$viewValue | limitTo:8" class="form-control">
-					<select ng-options="k as v for (k, v) in signs" ng-model="signEndingCondition" required class="form-control"></select>
-					<input placeholder="limit" type="text" ng-model="limitEndingCondition" required class="form-control">
-					<select ng-model="endEndingCondition" required class="form-control">
-						<option value="win" ng-if='getFinalFeedback("win") != ""'>Win</option>
-						<option value="lose" ng-if='getFinalFeedback("lose") != ""'>Lose</option>
-						<option value="end" ng-if='getFinalFeedback("end") != ""'>End</option>
-					</select>
-				</div>
-				<button type="submit" class="btn btn-info">add ending condition</button> 
-			</form>
-			</div>
-			<div data-step="6" data-position="top" data-intro="Here, you can modify the player's badges, they can be earned based on time spent, scores and number of gameplays. Because the badges are linked to an image in the game, you cannot modify the list. However you can use any of the badges provided and change the conditions for a player to earned them." class="col-md-12">
-				<h3>Across gameplay badges</h3>
-				<div class="media" ng-repeat="badge in badges">
-					<div class="media-left">
-						<a href="#"><img class="media-object" ng-src="/badges/{{badge}}.png" alt="{{badge}}"></a>
-					</div>
-					<div class="media-body">
-						<h4 class="media-heading">{{badge}}:</h4>
-						<span ng-repeat="m in config.badgeModel | filter:badge">
-							<span>won when </span>
-							<span editable-select="m.function" e-required e-ng-options="k as v for (k, v) in badgeFeedback">{{badgeFeedback[m.function]}} </span>
-							<span ng-if="m.function.indexOf('Score') > -1"  editable-select="m.outcome" e-required e-ng-options="k as v.desc for (k, v) in config.learningOutcomes">
-								<span ng-if="m.outcome">'{{m.outcome}}' ({{config.learningOutcomes[m.outcome].desc}}) </span>
-								<span ng-if="!m.outcome">select a score </span>
-							</span>
-							<span>is </span>
-							<span ng-switch="m.sign" editable-select="m.sign" e-required e-ng-options="k as v for (k, v) in signs">
-								<span ng-switch-when=">">greater than </span>
-								<span ng-switch-when="<">lower than </span>
-								<span ng-switch-default>{{m.sign}} </span>
-							</span>
-							<span editable-number="m.limit" e-required>{{m.limit}} </span>
-							<span ng-if="m.function.indexOf('Time') > -1">minutes</span>
-						</span>
-						<br/>
-						<strong>message: </strong><span editable-textarea="config.feedback[badge].message" e-rows="2" e-cols="40" >{{config.feedback[badge].message}}</span>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-12">
-				<hr/>
-			</div>
 			<div data-step="7" data-position="top" data-intro="Once you are ready, save your game version. You can, then, visit the game access page to associate the newly created version to your classes." class="col-md-12" class="col-md-6">
 				<h3>Save your new game</h3>
 				<form name="submitVersion" ng-submit="save()">
@@ -345,7 +16,354 @@ Editor
 					</div>
 					<button type="submit" ng-disabled="submitVersion.$invalid || submittingVersion" class="btn btn-primary">save</button> 
 				</form>
+				<br/>
 			</div>
+
+			<tabset>
+				<tab heading="Game and Player" data-step="2" data-position="top" data-intro="Modify here the questions asked by your game on the first gameplay. You will be able to refine the learning analytics based on these characteristics.">
+					<h3>Game's description</h3>
+					<div>
+						<p>
+							<span editable-textarea="config.seriousGame.description"  e-rows="3" e-cols="80">{{config.seriousGame.description}}</span>
+						</p>
+						<p>The game is suitable for players between <span editable-text="config.seriousGame.ageMin">{{config.seriousGame.ageMin}}</span> and <span editable-text="config.seriousGame.ageMax">{{config.seriousGame.ageMax}}</span> years old.</p>
+						<p>Keywords: <span editable-text="config.seriousGame.subject">{{config.seriousGame.subject}}</span></p>
+					</div>
+					<div>
+					<h3>Player characteristics</h3>
+						<table class="table table-bordered">
+							<tbody>
+								<tr ng-repeat="car in config.player">
+									<td>
+										<span editable-text="car.name" e-required>{{car.name}}</span>
+									</td>
+									<td class="col-lg-6">
+										<span editable-text="car.question" e-required>{{car.question}}</span>
+									</td>
+									<td class="col-lg-6">
+											<span editable-select="car.type" e-ng-options="s.value as s.text for s in [{value: 'Int', text: 'Number'}, {value: 'Char',text: 'Char'}, {value: 'String', text: 'text'}]" e-required>{{car.type}}</span>
+									</td>
+									<td><button type="button" class="btn btn-danger btn-sm" ng-click="config.player.splice($index, 1)">remove</button></td>
+								</tr>
+							</tbody>
+						</table>
+						<button type="button" class="btn btn-default btn-sm" ng-click="addPlayerCharacteristic()">add</button>
+					</div>
+				</tab>
+
+				<tab heading="Scores" data-step="3" data-position="top" data-intro="Modify here the game scores, you can create new ones (if you need more detailed information), change the starting values and the feedback that they trigger when reaching a threashold value.">
+					<div>
+						<h3>Scores / Learning outcomes</h3>
+						<accordion close-others="oneAtATime">
+							<accordion-group  ng-repeat="(name, lo) in config.learningOutcomes">
+								<accordion-heading>
+						           <span><strong>{{ name }}:</strong> {{ lo.desc }}</span>
+						        </accordion-heading>
+								<dl class="dl-horizontal">
+									<dt>name</dt>
+									<dd>{{name}}</dd>
+									<dt>description</dt>
+									<dd><span editable-textarea="lo.desc" e-placeholder="description" e-rows="2" e-cols="40" e-required>{{lo.desc}}</span></dd>
+									<dt>initial value</dt>
+									<dd><span editable-number="lo.value" e-name="value" e-required>{{lo.value}}</span></dd>
+									<dt>feedback</dt>
+									<dd>
+									<table class="table table-bordered">
+										<tbody>
+											<tr ng-repeat="fb in lo.feedbackTriggered" ng-if="!config.feedback[fb.feedback[0].name].hasOwnProperty('final')">
+												<td class="col-xs-1">
+													<span  ng-switch="config.feedback[fb.feedback[0].name].type">
+														<span class="label label-success" ng-switch-when="positive">
+															{{ fb.feedback[0].name }}
+														</span>
+														<span class="label label-info" ng-switch-when="hint">
+															{{ fb.feedback[0].name }}
+														</span>
+														<span class="label label-warning" ng-switch-when="adaptation">
+															{{ fb.feedback[0].name }}
+														</span>
+														<span class="label label-danger" ng-switch-when="negative">
+															{{ fb.feedback[0].name }}
+														</span>
+														<span class="label label-default" ng-switch-default>
+															{{ fb.feedback[0].name }}
+														</span>
+													</span>
+												</td>
+												<td>
+													<span><span editable-select="fb.sign" e-required e-ng-options="k as v for (k, v) in signs">{{signs[fb.sign]}}</span> <span editable-number="fb.limit" e-required>{{fb.limit}}</span></span>
+												</td>
+												<td class="col-lg-6">
+													<span editable-textarea="config.feedback[fb.feedback[0].name].message" e-rows="2" e-cols="40">{{config.feedback[fb.feedback[0].name].message}}</span>
+												</td>
+												<td>
+													<span>triggered </span><span editable-select="fb.feedback[0].immediate" e-ng-options="s.value as s.text for s in [{value: true, text: 'immediately'}, {value: false, text: 'in the summative report'}]"><span ng-if="fb.feedback[0].immediate">immediately</span><span ng-if="!fb.feedback[0].immediate">in the summative report</span></span>
+												</td>
+												<td class="col-sm-1"><button class="btn btn-sm btn-danger" ng-click="lo.feedbackTriggered.splice($index, 1)">remove</button></td>
+											</tr>
+										</tbody>
+									</table>
+									<button class="btn btn-sm btn-link" ng-click="openFeedbackModal(lo)">add feedback</button>
+									</dd>
+								</dl>
+								
+								<button type="button" class="btn btn-danger btn-sm" ng-click="deleteLearningOutcome(name)">remove</button>
+							</accordion-group>
+						</accordion>
+						<form class="form-inline" ng-submit="addLearningOutcome()">
+							<div class="form-group">
+								<input placeholder="name" type="text" ng-model="newLoName" required class="form-control">
+								<input placeholder="description" type="text" ng-model="newLoDesc" required class="form-control">
+								<button type="submit" class="btn btn-default">create score</button>
+							</div>
+						</form>
+					</div>
+				</tab>
+
+				<tab heading="Rules of the game" data-step="4" data-position="top" data-intro="In this section, you can modify the assessment's logic. The actions available in the game were decided when the game was created so you can't add any, but you can modify the values each action takes, the way scores are updated as a result and how feedback are triggered.">
+					<div>
+						<h3>Rules of the game</h3>
+						<accordion close-others="oneAtATime">
+							<accordion-group  ng-repeat="(name, evidence) in config.evidenceModel">
+							<accordion-heading>
+					           <span><b>{{ name }}</b> - {{ evidence.desc}}</span>
+					        </accordion-heading>
+								<div ng-repeat="reaction in evidence.reactions">
+									<div ng-if="$index == evidence.reactions.length-1">
+										<br>
+										<button class="btn btn-sm btn-default" ng-click="addReaction(evidence)">add condition</button>
+										<br>
+									</div>
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											<span ng-if="reaction.else == 'true'">{{ $index + 1}}. Any other <span ng-repeat="(param, type) in evidence.params">{{param}}{{$last ? '' : ', '}}</span></span>
+											<span ng-if="reaction.else != 'true'">
+											{{ $index + 1}}. If the user selects one of the following <span ng-repeat="(param, type) in evidence.params">{{param}}{{$last ? '' : ', '}}</span>
+											</span>
+										</div>
+										<div class="panel-body">
+											<div ng-if="reaction.else != 'true'">
+												<div ng-if="numberOfKeys(evidence.params)==1" ng-repeat="(param, type) in evidence.params">
+													<div ng-if="listParamsUpdated[name][param]">
+														 <ui-select multiple ng-model="reaction.values" theme="select2" style="width: 800px;">
+														    <ui-select-match placeholder="Select {{evidence.params[param]}}...">{{$item[param]}}</ui-select-match>
+														    <ui-select-choices repeat="c in listParamsUpdated[name][param] | filter: $select.search">
+														      {{c[param]}}
+														    </ui-select-choices>
+														 </ui-select>
+													</div>
+												</div>
+												<div ng-if="numberOfKeys(evidence.params) > 1">
+												<table class="table table-condensed">
+													<thead>
+														<tr>
+															<th class="col-xs-3" ng-repeat="(param, type) in evidence.params">{{param}}</th>
+															<th class="col-xs-1">Action</th>
+														</tr>
+													</thead>
+													<tbody>
+															<tr ng-repeat="val in reaction.values">
+																<td ng-repeat="(param, type) in evidence.params">
+																	<span editable-text="val[param]" e-required>{{val[param] || ('add ' + param) }}</span>
+																</td>
+																<td><button class="btn btn-sm btn-danger" ng-click="reaction.values.splice($index, 1)">remove</button></td>
+															</tr>
+													</tbody>
+													
+												</table>
+												<button class="btn btn-sm btn-default" ng-click="reaction.values.push({})">Add entry</button>
+												</div>
+											</div>
+											<br/>
+											<div>
+												<div><strong>scores to be updated:</strong></div>
+												<table class="table table-bordered">
+													<tbody>
+														<tr ng-repeat="mark in reaction.marks">
+															<td class="col-lg-6">{{config.learningOutcomes[mark.learningOutcome].desc}}</td>
+															<td><span editable-number="mark.mark" e-required>{{mark.mark}}</span></td>
+															<td class="col-sm-1"><button class="btn btn-sm btn-danger" ng-click="reaction.marks.splice($index, 1)">remove</button></td>
+														</tr>
+													</tbody>
+												</table>
+												<form class="form-inline" ng-if="availableLearningOutcomes(reaction.marks).length">
+													<div class="form-group">
+														<input id="newLearningOutcome" placeholder="type score to add" type="text" ng-model="newLearningOutcome" typeahead-on-select="addMark(reaction, $item)" typeahead="lo for lo in  availableLearningOutcomes(reaction.marks) | filter:$viewValue | limitTo:8" class="form-control">
+													</div>
+												</form>
+											</div>
+											<br/>
+											<div>
+												<div><strong>feedback to trigger</strong></div>
+												<table class="table table-bordered">
+													<tbody>
+														<tr ng-repeat="fb in reaction.feedback">
+															<td class="col-xs-1">
+																<span  ng-switch="config.feedback[fb.name].type">
+																	<span class="label label-success" ng-switch-when="positive">
+																		{{ fb.name }}
+																	</span>
+																	<span class="label label-info" ng-switch-when="hint">
+																		{{ fb.name }}
+																	</span>
+																	<span class="label label-warning" ng-switch-when="adaptation">
+																		{{ fb.name }}
+																	</span>
+																	<span class="label label-danger" ng-switch-when="negative">
+																		{{ fb.name }}
+																	</span>
+																	<span class="label label-default" ng-switch-default>
+																		{{ fb.name }}
+																	</span>
+																</span>
+															</td>
+															<td class="col-lg-6"><span editable-textarea="config.feedback[fb.name].message" e-rows="2" e-cols="40">{{config.feedback[fb.name].message}}</span></td>
+															<td><span>triggered </span><span editable-select="fb.immediate" e-ng-options="s.value as s.text for s in [{value: true, text: 'immediately'}, {value: false, text: 'in the summative report'}]"><span ng-if="fb.immediate">immediately</span><span ng-if="!fb.immediate">in the summative report</span></span></td>
+															<td class="col-sm-1"><button class="btn btn-sm btn-danger" ng-click="reaction.feedback.splice($index, 1)">remove</button></td>
+														</tr>
+													</tbody>
+												</table>
+												<button class="btn btn-sm btn-link" ng-click="openFeedbackModal(reaction)">add feedback</button>
+											</div>
+										</div>
+										<div class="panel-footer" ng-if="!$last">			
+											<button  class="btn btn-sm btn-danger" ng-click="evidence.reactions.splice($index, 1)">delete condition</button>
+										</div>
+									</div>
+									<br/>
+								</div>
+							</accordion-group>
+						</accordion>
+					</div>
+				</tab>
+
+				<tab heading="End of the game" data-step="5" data-position="top" data-intro="If the end of the game is related to assessment, you will be able to modify it. Select a score and a limit value for specifying a winning, losing and/or ending condition.">
+					<div>
+					<h3>End of the game</h3>
+					<div ng-if='getFinalFeedback("win") != ""'>
+						<h4>The game is won when/if:</h4>
+						<div>
+							
+							<table class="table table-striped">
+								<tbody>
+									<tr ng-repeat="row in endWins">
+										<td class="col-md-4">
+											<span><b>{{ row.learningOutcome }}</b> - </span>
+											<span>{{config.learningOutcomes[row.learningOutcome].desc}}</span> is 
+											<span editable-select="config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign" e-ng-options="k as v for (k, v) in signs">{{signs[config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign]}}</span>
+											<span editable-number="config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].limit">{{config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].limit}}</span>
+										</td>
+										<td class="col-sm-1"><button class="btn btn-sm btn-danger" ng-click="config.learningOutcomes[row.learningOutcome].feedbackTriggered.splice(row.feedbackTriggeredIdx, 1)">remove</button></td>
+									</tr>
+								</tbody>
+							</table>
+
+							<!--<form class="form-inline" name="addWinningCondition" ng-submit="addEnd(loWinningCondition, signWinningCondition, limitWinningCondition, 'win')">
+								<div class="form-group">
+									<input id="newEndingWin" placeholder="score" type="text" ng-model="loWinningCondition" typeahead="lo for lo in  availableLearningOutcomes(endWins) | filter:$viewValue | limitTo:8" class="form-control">
+									<select ng-options="k as v for (k, v) in signs" ng-model="signWinningCondition" required class="form-control"></select>
+									<input placeholder="limit" type="text" ng-model="limitWinningCondition" required class="form-control">
+								</div>
+								<button type="submit" class="btn btn-info">add winning condition</button> 
+							</form>-->
+						</div>
+					</div>
+					<div ng-if='getFinalFeedback("lose") != ""'>
+						<h4>The game is lost when/if:</h4>
+						<div>
+							<table class="table table-striped">
+								<tbody>
+									<tr ng-repeat="row in endLoses">
+										<td class="col-md-4">
+											<span><b>{{ row.learningOutcome }}</b> - </span>
+											<span>{{config.learningOutcomes[row.learningOutcome].desc}}</span> is 
+											<span editable-select="config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign" e-ng-options="k as v for (k, v) in signs">{{signs[config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign]}}</span>
+											<span editable-number="config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].limit">{{config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].limit}}</span>
+										</td>
+										<td class="col-sm-1"><button class="btn btn-sm btn-danger" ng-click="config.learningOutcomes[row.learningOutcome].feedbackTriggered.splice(row.feedbackTriggeredIdx, 1)">remove</button></td>
+									</tr>
+								</tbody>
+							</table>
+
+							<!--<form class="form-inline" name="addLosingCondition" ng-submit="addEnd(loLosingCondition, signLosingCondition, limitLosingCondition, 'lose')">
+								<div class="form-group">
+									<input id="newEndingLose" placeholder="score" type="text" ng-model="loLosingCondition" typeahead="lo for lo in  availableLearningOutcomes(endLoses) | filter:$viewValue | limitTo:8" class="form-control">
+									<select ng-options="k as v for (k, v) in signs" ng-model="signLosingCondition" required class="form-control"></select>
+									<input placeholder="limit" type="text" ng-model="limitLosingCondition" required class="form-control">
+								</div>
+								<button type="submit" class="btn btn-info">add losing condition</button> 
+							</form>-->
+						</div>
+					</div>
+					<div ng-if='getFinalFeedback("end") != ""'>
+						<h4>The game is ended when/if:</h4>
+						<div>
+							<table class="table table-striped">
+								<tbody>
+									<tr ng-repeat="row in end">
+										<td class="col-md-4">
+											<span><b>{{ row.learningOutcome }}</b> - </span>
+											<span>{{config.learningOutcomes[row.learningOutcome].desc}}</span> is 
+											<span editable-select="config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign" e-ng-options="k as v for (k, v) in signs">{{signs[config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].sign]}}</span>
+											<span editable-number="config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].limit">{{config.learningOutcomes[row.learningOutcome].feedbackTriggered[row.feedbackTriggeredIdx].limit}}</span>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<form class="form-inline" name="addEndingCondition" ng-submit="addEnd(loEndingCondition, signEndingCondition, limitEndingCondition, endEndingCondition)">
+						<div class="form-group">
+							<input id="newEnding" placeholder="score" type="text" ng-model="loEndingCondition" typeahead="lo for lo in  availableLearningOutcomes(end) | filter:$viewValue | limitTo:8" class="form-control">
+							<select ng-options="k as v for (k, v) in signs" ng-model="signEndingCondition" required class="form-control"></select>
+							<input placeholder="limit" type="text" ng-model="limitEndingCondition" required class="form-control">
+							<select ng-model="endEndingCondition" required class="form-control">
+								<option value="win" ng-if='getFinalFeedback("win") != ""'>Win</option>
+								<option value="lose" ng-if='getFinalFeedback("lose") != ""'>Lose</option>
+								<option value="end" ng-if='getFinalFeedback("end") != ""'>End</option>
+							</select>
+						</div>
+						<button type="submit" class="btn btn-info">add ending condition</button> 
+					</form>
+					</div>
+				</tab>
+
+				<tab heading="Badges" data-step="6" data-position="top" data-intro="Here, you can modify the player's badges, they can be earned based on time spent, scores and number of gameplays. Because the badges are linked to an image in the game, you cannot modify the list. However you can use any of the badges provided and change the conditions for a player to earned them.">
+					<div>
+						<h3>Across gameplay badges</h3>
+						<div class="media" ng-repeat="badge in badges">
+							<div class="media-left">
+								<a href="#"><img class="media-object" ng-src="/badges/{{badge}}.png" alt="{{badge}}"></a>
+							</div>
+							<div class="media-body">
+								<h4 class="media-heading">{{badge}}:</h4>
+								<span ng-repeat="m in config.badgeModel | filter:badge">
+									<span>won when </span>
+									<span editable-select="m.function" e-required e-ng-options="k as v for (k, v) in badgeFeedback">{{badgeFeedback[m.function]}} </span>
+									<span ng-if="m.function.indexOf('Score') > -1"  editable-select="m.outcome" e-required e-ng-options="k as v.desc for (k, v) in config.learningOutcomes">
+										<span ng-if="m.outcome">'{{m.outcome}}' ({{config.learningOutcomes[m.outcome].desc}}) </span>
+										<span ng-if="!m.outcome">select a score </span>
+									</span>
+									<span>is </span>
+									<span ng-switch="m.sign" editable-select="m.sign" e-required e-ng-options="k as v for (k, v) in signs">
+										<span ng-switch-when=">">greater than </span>
+										<span ng-switch-when="<">lower than </span>
+										<span ng-switch-default>{{m.sign}} </span>
+									</span>
+									<span editable-number="m.limit" e-required>{{m.limit}} </span>
+									<span ng-if="m.function.indexOf('Time') > -1">minutes</span>
+								</span>
+								<br/>
+								<strong>message: </strong><span editable-textarea="config.feedback[badge].message" e-rows="2" e-cols="40" >{{config.feedback[badge].message}}</span>
+							</div>
+						</div>
+					</div>
+				</tab>
+
+			</tabset>
+
+			<br/>
 		</div>
 		<script type="text/ng-template" id="myModalContent.html">
 		<div class="modal-header">		
