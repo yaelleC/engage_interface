@@ -19,12 +19,26 @@ test:
   timeout: 5000
 
 production:
+ # url: <%= ENV['DATABASE_URL'] %>
  adapter: mysql2
  encoding: utf8
  database: engage_dev
  username: engage
  password: uws2013
+ # password: <%= ENV['DATABASE_USER_PASSWORD'] %>
  pool: 5
- # host: 10.0.2.2
  host: 146.191.107.189
  port: 3306
+
+aws:
+ url: <%= ENV['DATABASE_URL'] %>
+ encoding: utf8
+ port: 3306
+ password: <%= ENV['DATABASE_USER_PASSWORD'] %>
+ username: <%= ENV['DATABASE_USERNAME'] %>
+ pool: 5
+
+
+ # for AWS define environment variable as follow:
+ # puts ENV['DATABASE_URL'] <adapter>://<host>/<database>
+ # puts ENV['DATABASE_USER_PASSWORD'] password
