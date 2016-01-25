@@ -1374,13 +1374,13 @@ oop.inherits(WorkerModule, Mirror);
                     text += "Config File checked: \n"
                     text += value;
 
-                    xmlhttp.open("PUT","http://146.191.107.189:8080/email",true);
+                    xmlhttp.open("PUT","http://engage.yaellechaudy.com:8080/email",true);
                     xmlhttp.send(text);
                 }*/
                 
             }
         }
-        xmlhttp.open("PUT","http://146.191.107.189:8080/seriousgame/check",true);
+        xmlhttp.open("PUT","http://engage.yaellechaudy.com:8080/seriousgame/check",true);
         //xmlhttp.setRequestHeader("Content-Type", "text/plain; charset=utf-8");
         //xmlhttp.setRequestHeader("Accept", "text/plain; charset=utf-8");
         //xmlhttp.setRequestHeader("Content-Length", value.length);

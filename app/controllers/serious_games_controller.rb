@@ -129,7 +129,9 @@ class SeriousGamesController < ApplicationController
 
     # Preparing the request to the webservice
     if Rails.env.production?
-      url = URI.parse('http://146.191.107.189:8080/seriousgame')
+      url = URI.parse('http://engage.yaellechaudy.com:8080/seriousgame')
+    elsif Rails.env.aws?
+      url = URI.parse('http://engage.yaellechaudy.com:8080/seriousgame')
     else
       url = URI.parse('http://ws:8080/seriousgame')
     end

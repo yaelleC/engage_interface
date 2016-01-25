@@ -61,14 +61,14 @@ describe('Editor ', function () {
             newConfig.seriousGame.version = 1;
 
             /* Mock call to the backend*/
-            $httpBackend.when('GET', 'http://146.191.107.189:8080/seriousgame/89/version/0').respond(config);
+            $httpBackend.when('GET', 'http://engage.yaellechaudy.com:8080/seriousgame/89/version/0').respond(config);
             $httpBackend.when('GET', 'myModalContent.html').respond("");
-            $httpBackend.when('POST', 'http://146.191.107.189:8080/seriousgame/89/createVersion').respond(newConfig);
+            $httpBackend.when('POST', 'http://engage.yaellechaudy.com:8080/seriousgame/89/createVersion').respond(newConfig);
         }));
 
         describe('Initialization', function () {
             it('should fetch config from webservice', function () {
-                $httpBackend.expectGET('http://146.191.107.189:8080/seriousgame/89/version/0');
+                $httpBackend.expectGET('http://engage.yaellechaudy.com:8080/seriousgame/89/version/0');
                 createController();
             });
 
@@ -264,7 +264,7 @@ describe('Editor ', function () {
                 });
                 it('should call the webservice to save the updated config', function () {
 
-                    $httpBackend.expectPOST('http://146.191.107.189:8080/seriousgame/89/createVersion');
+                    $httpBackend.expectPOST('http://engage.yaellechaudy.com:8080/seriousgame/89/createVersion');
                     $scope.save();
                     $httpBackend.flush();
                 });

@@ -257,7 +257,7 @@ End</textarea>
     {
       $.ajax({
           type: "PUT",
-          url: "http://146.191.107.189:8080/seriousgame/check",
+          url: "http://engage.yaellechaudy.com:8080/seriousgame/check",
           data: textarea.val(),
           contentType: "text/plain; charset=utf-8",
           dataType: "text",
@@ -280,7 +280,7 @@ End</textarea>
               var emailUser = $("#emailUser").val();
               $.ajax({
                   type: "PUT",
-                  url: "http://146.191.107.189:8080/seriousgame/checkAndEmail/\"" + emailUser + "\"",
+                  url: "http://engage.yaellechaudy.com:8080/seriousgame/checkAndEmail/\"" + emailUser + "\"",
                   data: textarea.val(),
                   contentType: "text/plain; charset=utf-8",
                   dataType: "text",

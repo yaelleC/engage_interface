@@ -20,7 +20,7 @@
     // This creates a angular resources to handle the communication with EnGAge backend.
     engage.factory('Config', function ($resource) {
         return $resource(
-            'http://146.191.107.189:8080/seriousgame/:idSeriousGame/:action/:idVersion',
+            'http://engage.yaellechaudy.com:8080/seriousgame/:idSeriousGame/:action/:idVersion',
             {action: 'version'},
             {
                 get: {method: 'GET'},

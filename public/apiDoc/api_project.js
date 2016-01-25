@@ -3,7 +3,7 @@ define({
   "version": "2.0",
   "description": "Documentation of EngAGe web services",
   "title": "EngAGe Web Services",
-  "url": "http://146.191.107.189:8080",
+  "url": "http://engage.yaellechaudy.com:8080",
   "sampleUrl": false,
   "apidoc": "0.2.0",
   "generator": {

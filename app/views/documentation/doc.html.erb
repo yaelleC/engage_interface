@@ -473,12 +473,12 @@ OutcomeFeedback ::= ( 'sumScore' | 'averageScore' | 'maxScore' | 'minScore') sco
       </div>
 
       <p>Once you create a serious game in the database, you will be given an id, you will need this id to refer, during the gameplay, to your configuration file. 
-      All the functions detailed here are web services hosted at "146.191.107.189:8080".</p>
+      All the functions detailed here are web services hosted at "http://engage.yaellechaudy.com:8080".</p>
 
       <p>If you are using Unity to create your game, you can use this <a href="https://github.com/yaelleUWS/engage-unity/blob/master/EngAGe.cs" target="_blank">EngAGe.cs </a>file to help with the web services calls.</p>
       <p>If you are using Phaser, or any other javascript based engine, you can use this <a href="https://github.com/yaelleUWS/engagejs" target="_blank">EngAGeJS </a>.</p>
 
-      <p>If you prefer to read APIs, go to EngAGe's API page: <a href="http://146.191.107.189/apiDoc/index.html">here</a>.</p>
+      <p>If you prefer to read APIs, go to EngAGe's API page: <a href="http://engage.yaellechaudy.com/apiDoc/index.html">here</a>.</p>
 
       <p><b><i>Note:</i></b> In EngAGe, there is a difference between 'student' and 'player'. A student is associated with a teacher and is enrolled in a course. A player is someone playing a game. Therefore, a student is a player when he/she plays the game but someone playing a public game as a guest is a player and not a student. </p>
 
@@ -499,7 +499,7 @@ using System.Collections.Generic;
 using System.Net;
 using SimpleJSON;
 
-private string baseURL = "http://146.191.107.189:8080";
+private string baseURL = "http://engage.yaellechaudy.com:8080";
 string URL = baseURL + "/SGaccess";
     
 string postDataString = 
@@ -524,7 +524,7 @@ import flash.net.URLRequestMethod;
 import flash.net.URLLoaderDataFormat;
 
 
-var url:String = "http://146.191.107.189:8080/ [write end of url here]";
+var url:String = "http://engage.yaellechaudy.com:8080/ [write end of url here]";
       
 var request:URLRequest = new URLRequest(url);
 
@@ -557,7 +557,7 @@ function handleResults(evt:Event):void
       <p>A teacher can modify your game’s assessment, thus creating a new version of the game. Before the player can start the game, you need to check their credential (username and password) and get the version the teacher decided they would play. You do so by invoking the <b>SGaccess</b> web service. It will also return a list of caracteristics you need to know about the player (based on the Player section of the configuration file).</p>
 
       <table class="table table-hover table-bordered table-striped">
-        <tr><td>URL</td><td><code>http://146.191.107.189:8080/SGaccess</td></code></tr>
+        <tr><td>URL</td><td><code>http://engage.yaellechaudy.com:8080/SGaccess</td></code></tr>
         <tr><td>Method</td><td>POST</td></tr>
         <tr><td>Consumes</td><td>
           JSON with three key/value:
@@ -638,7 +638,7 @@ function handleResults(evt:Event):void
       <p>On the start screen of your game, you might want to display the badges earned by the player logged in. To retrieve them, you need to call this web service:</p>
 
       <table class="table table-hover table-bordered table-striped">
-        <tr><td>URL</td><td><code>http://146.191.107.189:8080/badges/seriousgame/[idSG]/version/[version]/player/[idPlayer]</td></code></td></tr>
+        <tr><td>URL</td><td><code>http://engage.yaellechaudy.com:8080/badges/seriousgame/[idSG]/version/[version]/player/[idPlayer]</td></code></td></tr>
         <tr><td>Method</td><td>GET</td></tr>
         <tr><td>Consumes</td><td>Nothing, everything the web service needs is in the URL</td></tr>
         <tr><td>Produces</td><td>JSON array containing the badges earned (each badge is a JSON object with a message, an id, a name and a final boolean). For example:
@@ -663,7 +663,7 @@ function handleResults(evt:Event):void
       To retrieve this, you need to call this web service:</p>
 
       <table class="table table-hover table-bordered table-striped">
-        <tr><td>URL</td><td><code>http://146.191.107.189:8080/seriousgame/[idSG]/version/[version]</td></code></td></tr>
+        <tr><td>URL</td><td><code>http://engage.yaellechaudy.com:8080/seriousgame/[idSG]/version/[version]</td></code></td></tr>
         <tr><td>Method</td><td>GET</td></tr>
         <tr><td>Consumes</td><td>Nothing, everything the web service needs is in the URL</td></tr>
         <tr><td>Produces</td><td>JSON representing the configuration file. <br/> Example of the seriousgame section :
@@ -691,7 +691,7 @@ function handleResults(evt:Event):void
       <p>If successful, the web service returns the id of the gameplay created, save it as this id is a parameter of all the following functions.</p>
       
       <table class="table table-hover table-bordered table-striped">
-        <tr><td>URL</td><td><code>http://146.191.107.189:8080/gameplay/start</td></code></td></tr>
+        <tr><td>URL</td><td><code>http://engage.yaellechaudy.com:8080/gameplay/start</td></code></td></tr>
         <tr><td>Method</td><td>PUT</td></tr>
         <tr><td>Consumes</td><td>JSON object containing game and player data. <br/> Example of JSON for a known player:<div class="codeContainer"><pre rel="WScode" class="pre-scrollable"><code>{  "idSG": 92,
   "version": 0,
@@ -723,7 +723,7 @@ function handleResults(evt:Event):void
       <p>During the gameplay, you will want to assess every player's action, you can do so by invoking the <code>assess</code> web service as follow: </p>
 
       <table class="table table-hover table-bordered table-striped">
-        <tr><td>URL</td><td><code>http://146.191.107.189:8080/gameplay/[idGameplay]/assessAndScore]</td></code></td></tr>
+        <tr><td>URL</td><td><code>http://engage.yaellechaudy.com:8080/gameplay/[idGameplay]/assessAndScore]</td></code></td></tr>
         <tr><td>Method</td><td>PUT</td></tr>
         <tr><td>Consumes</td><td>JSON object containing the action name and a JSON of values for the parameters of the action. 
           <div class="codeContainer">
@@ -837,7 +837,7 @@ function handleResults(evt:Event):void
       <p>EngAGe also gives you access to the game's leader board. To retrieve it, you need to call this web service:</p>
 
       <table class="table table-hover table-bordered table-striped">
-        <tr><td>URL</td><td><code>http://146.191.107.189:8080/learninganalytics/leaderboard/seriousgame/[idSG]/version/[version]</td></code></td></tr>
+        <tr><td>URL</td><td><code>http://engage.yaellechaudy.com:8080/learninganalytics/leaderboard/seriousgame/[idSG]/version/[version]</td></code></td></tr>
         <tr><td>Method</td><td>GET</td></tr>
         <tr><td>Consumes</td><td>Nothing, everything the web service needs is in the URL</td></tr>
         <tr><td>Produces</td><td>JSON object containing an array of performance for each score of the game. The performances are in descending order and are composed of a name and a score. <br/> Example:
