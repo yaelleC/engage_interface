@@ -5,6 +5,10 @@
 
 <h1>Listing Teachers</h1>
 
+<p>There are presently <%= @teachers.count %> teachers in the database.</p>
+
+<p>Last 10 teachers added:</p>
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -19,7 +23,8 @@
   </thead>
 
   <tbody>
-    <% @teachers.each do |teacher| %>
+    <% (0..9).each do |i| %>
+      <% teacher =@teachersSorted[i] %>
       <tr>
         <td><%= teacher.user.username if not teacher.user.nil? %></td>
         <td><%= teacher.user.email if not teacher.user.nil? %></td>

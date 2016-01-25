@@ -10,6 +10,7 @@ class TeachersController < ApplicationController
   # GET /teachers.json
   def index
     @teachers = Teacher.all
+    @teachersSorted = @teachers.sort_by{|s| s[:id]}.reverse
 
     respond_to do |format|
       format.html # index.html.erb
@@ -94,6 +95,7 @@ class TeachersController < ApplicationController
 
     @schools = School.all
     errors = "";
+    teachersCreated = "";
     
     CSV.foreach(params[:file].path, headers: true) do |row|
 
@@ -130,19 +132,25 @@ class TeachersController < ApplicationController
           # give game access to student          
           AccessStudentGame.create(idSG: params[:idSG], idStd: @student.id, versionPlayed: 0)
 
+          teachersCreated += @teacher.user.username + ", "
+
         else
-          errors += "error while creating student account for teacher : " + teacherInfo["username"] + "<br/>"
+          errors += "error while creating student account for teacher : " + teacherInfo["username"] + " - "
         end
       else
-        errors += "error while creating teacher account for " + teacherInfo["username"]+ "<br/>"
+        errors += "error while creating teacher account for " + teacherInfo["username"]+ " - "
       end
     end
     
     respond_to do |format|
       if errors == ""
-        format.html { redirect_to teachers_path, notice: 'Teachers successfully created.' }
+        format.html { redirect_to teachers_path, :flash => { :success => 'Teachers '+ teachersCreated +' successfully created.' }}
       else
-        format.html { redirect_to teachers_path, notice: errors }
+        if teachersCreated == ""
+          format.html { redirect_to teachers_path, :flash => { :danger => errors } }
+        else
+          format.html { redirect_to teachers_path, :flash => { :danger => errors, :success => 'Teachers '+ teachersCreated +' successfully created.' } }
+        end
       end
     end
   end

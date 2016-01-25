@@ -4,10 +4,16 @@ class StudentsController < ApplicationController
   filter_resource_access
   filter_access_to :csv, :require => :create
   filter_access_to :createcsv, :require => :create
+
+
   # GET /students
   # GET /students.json
   def index
-    if current_user.teacher.nil?
+    if current_user.role.title == 'admin'
+      @students = Student.all
+      @studentsSorted = @students.sort_by{|s| s[:id]}.reverse
+      @groups = Group.all 
+    elsif current_user.teacher.nil?
       @students = []
       @groups = []
     else
@@ -101,17 +107,81 @@ class StudentsController < ApplicationController
   # POST /students
   # POST /students.json
   def createcsv
-    
-    CSV.foreach(params[:file].path, headers: true) do |row|
-      @student = Student.new(row.to_hash)
-      @student.idSchool = current_user.teacher.idSchool 
-      @student.idGroup = params[:idGroup]
-      @student.save
-      StdTeacher.create!(idStd: @student.id, idTeacher: current_user.teacher.id, idGroup: @student.idGroup)
+    if current_user.role.title == 'admin'
+      errors = "";
+      studentsCreated = "";
+      
+      CSV.foreach(params[:file].path, headers: true) do |row|
+
+        studentInfo = row.to_hash 
+
+        # check student username/password doesn't exist already
+        @student = Student.where(username: studentInfo["username"]).where(password: studentInfo["password"])
+        if ( @student.count > 0 )
+          errors += "student account already exists for " + studentInfo["username"] + " - " + studentInfo["password"] + " - "
+        else
+          # get the teacher
+          @user = User.where(username: studentInfo["teacherUsername"]).first
+          @teacher = Teacher.where(user_id: @user.id).first
+
+          # get or create the group
+          groupId = -1
+          @group = Group.where(idTeacher: @teacher.id).where(name: studentInfo["groupName"])
+          if ( @group.count > 0 )
+            groupId = @group.first.id
+          else
+            @group = Group.new(idTeacher: @teacher.id, name: studentInfo["groupName"])
+            if @group.save
+              groupId = @group.id
+            else
+              errors += "error while creating group: " + studentInfo["groupName"] + " - "
+            end
+          end
+
+          # create the student account
+          @student = Student.new
+          @student.username = studentInfo["username"]
+          @student.password = studentInfo["password"]
+
+
+          @student.idSchool = @teacher.idSchool 
+          @student.idGroup = groupId
+
+          if @student.save
+
+            # create a student/teacher association
+            StdTeacher.create!(idStd: @student.id, idTeacher: @teacher.id, idGroup: @student.idGroup)
+
+            # give game access to student          
+            AccessStudentGame.create(idSG: params[:idSG], idStd: @student.id, versionPlayed: 0)
+
+            studentsCreated += studentInfo["username"] + ", "
+
+          else
+            errors += "error while creating student account : " + studentInfo["username"] + " - "
+          end
+        end
+      end
+    else
+      CSV.foreach(params[:file].path, headers: true) do |row|
+        @student = Student.new(row.to_hash)
+        @student.idSchool = current_user.teacher.idSchool 
+        @student.idGroup = params[:idGroup]
+        @student.save
+        StdTeacher.create!(idStd: @student.id, idTeacher: current_user.teacher.id, idGroup: @student.idGroup)
+      end
     end
     
     respond_to do |format|
-      format.html { redirect_to students_path, notice: 'Students successfully created.' }
+      if errors == ""
+        format.html { redirect_to students_path, :flash => { :success => 'Students '+ studentsCreated +' successfully created.' }  }
+      else
+        if studentsCreated == ""
+          format.html { redirect_to students_path, :flash => { :danger => errors } }
+        else
+          format.html { redirect_to students_path, :flash => { :danger => errors, :success => 'Students '+ studentsCreated +' successfully created.' } }
+        end
+      end
     end
   end
 

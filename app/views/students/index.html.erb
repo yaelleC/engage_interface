@@ -3,6 +3,60 @@
 <div class="mainText container">
 <h1>Listing students</h1>
 
+<% if current_user.role.title == 'admin' %>
+
+<p>There are presently <%= @students.count %> students in the database.</p>
+
+<p>Last 10 students added:</p>
+
+<table class="table table-striped">
+  <tr>
+    <th>Group(s)</th>
+    <th>Teacher(s)</th>
+    <th>Username</th>
+    <th>Password</th>
+    <th>Date of birth</th>
+    <th>Gender</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <% (0..9).each do |i| %>
+      <tr>
+        <% student = @studentsSorted[i] %>
+        <td>
+            <% if student.groups.count < 4 %>
+                <% student.groups.each do |group| %><%= group.name %> <% end %>
+            <% else %>
+                <%= student.groups.count %> groups (<%= student.groups.first.name %> ... <%= student.groups.last.name %>)
+            <% end %>
+        </td>
+        <td>
+            <% if student.teachers.count < 4 %>
+                <% student.teachers.each do |teacher| %><%= teacher.user.username %> <% end %>
+            <% else %>
+                <%= student.teachers.count %> teachers (<%= student.teachers.first.user.username %> ... <%= student.teachers.last.user.username %>)
+            <% end %>
+        </td>
+        <td><%= student.username %></td>
+        <td><%= student.password %></td>
+        <td><%= student.dateBirth %></td>
+        <td><%= student.gender %></td>
+        <td><%= link_to 'Show', student %></td>
+        <td><%= link_to 'Edit', edit_student_path(student) %></td>
+        <td><%= link_to 'Destroy', student, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+  <% end %>
+</table>
+
+<p>
+    <%= link_to 'Create new Students from CSV', csv_students_path, :class => 'btn btn-primary'%>
+</p>
+<br/>
+
+<% else %>
+
 <p>Refine by group:
 
     <select id="refineByClass">
@@ -53,4 +107,6 @@
 
 <%= link_to 'New Student', new_student_path, :class => 'btn btn-primary'%>
 <%= link_to 'New Students from CSV', csv_students_path, :class => 'btn btn-primary'%>
+<% end %>
+
 </div>

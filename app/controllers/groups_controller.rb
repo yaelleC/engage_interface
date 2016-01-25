@@ -5,7 +5,9 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.json
   def index
-    if  !current_user.teacher.nil? 
+    if current_user.role.title == 'admin'
+      @groups = Group.all 
+    elsif  !current_user.teacher.nil? 
   	  @groups = current_user.teacher.groups
     else
       @groups = []
