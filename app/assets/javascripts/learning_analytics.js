@@ -673,6 +673,239 @@ learningAnalytics.directive('laWhen', function(utils){
     };
 });
 
+learningAnalytics.directive('laTimeline', function(utils){
+    // helper
+    function compareDate(a, b)
+    {
+        var aTime = a.timeStarted.split(" ")[0].split("-");
+        var da = Date.UTC(parseInt(aTime[0]), aTime[1]-1, aTime[2]);
+
+        var bTime = b.timeStarted.split(" ")[0].split("-");
+        var db = Date.UTC(parseInt(bTime[0]), bTime[1]-1, bTime[2]);
+
+        return (a-b);
+    }
+
+    // set the view
+    function process(la, characteristic, categories){
+        // set the view
+        var dataset = utils.getGameplayDataset(la);
+
+        if (dataset.length < 1) { return 0; }
+
+        // for each characteristic, draw an area chart
+        var data = [];
+                
+        // data by player
+        if (characteristic === "student")
+        {
+            // check all players
+            
+            for (var j = 0 ; j < la.players.length ; j++) {
+                var idP = la.players[j].idPlayer;
+
+                // initialise with todays date
+                var today = new Date();
+                var todayDay = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate() );
+
+                var days = [];
+                //days.push(todayDay);
+                var playerPerDay = [];
+                //playerPerDay.push(0);
+                
+                for (var k = dataset.length - 1; k >= 0; k--) {
+                    if (dataset[k].idPlayer === idP)
+                    {
+                        // if there is a new gp
+                        var timeStart = dataset[k].timeStarted;
+                        var date = timeStart.split(" ")[0].split("-");
+                        var dateJS = Date.UTC(parseInt(date[0]), parseInt(date[1])-1, parseInt(date[2])); 
+
+                        // enter date if not in array
+                        var indexOfDate = days.indexOf(dateJS);
+                        if ( indexOfDate == -1 )
+                        {
+                            days.push(dateJS);
+                            playerPerDay.push(1);
+                        }
+
+                        // otherwise increment count
+                        else
+                        {
+                            playerPerDay[indexOfDate]++;
+                        }
+                    }
+                };
+                
+                var dataHighchart = [];
+
+                for (var l = playerPerDay.length - 1; l >= 0; l--) {
+                    var dataDay = [days[l], playerPerDay[l]];
+                    dataHighchart.push(dataDay);
+                };
+
+                data[data.length] = {"type":"column", "name": utils.getUsernameById(la, idP), "data":dataHighchart };
+            };            
+        }
+        else {
+            // check all characteristics values
+            for (var j = dataset.length - 1; j >= 0; j--) {
+                var characteristicValue = dataset[j][characteristic];
+                var nb = 0;
+                    
+                var charInData = false;
+
+                // check if characteristic is already in the data array
+                for (var k = data.length - 1; k >= 0; k--) {
+                    if (data[k].name == characteristicValue)
+                    {
+                        charInData = true;
+                    }
+                };
+                
+                // if it's a new characteristic:
+                // count how many times it appear
+                if (!charInData)
+                {
+                    console.log("characteristic: " + characteristicValue);
+                    var timeStart = dataset[j].timeStarted;
+                    var date = timeStart.split(" ")[0].split("-");
+                    var dateJS = Date.UTC(parseInt(date[0]), parseInt(date[1])-1, parseInt(date[2])); 
+
+                    var days = [];
+                    days.push(dateJS);
+                    var playerPerDay = [];
+                    playerPerDay.push(1);
+
+                    for (var k = j - 1; k >= 0; k--) {
+                        if (dataset[k][characteristic] == characteristicValue)
+                        {
+                            // if there is a new gp
+                            var timeStart = dataset[k].timeStarted;
+                            var date = timeStart.split(" ")[0].split("-");
+                            var dateJS = Date.UTC(parseInt(date[0]), parseInt(date[1])-1, parseInt(date[2])); 
+
+                            // enter date if not in array
+                            var indexOfDate = days.indexOf(dateJS);
+                            if ( indexOfDate == -1 )
+                            {
+                                days.push(dateJS);
+                                playerPerDay.push(1);
+                            }
+
+                            // otherwise increment count
+                            else
+                            {
+                                playerPerDay[indexOfDate]++;
+                            }
+                        }
+                    };
+
+                    var dataHighchart = [];
+
+                    for (var l = playerPerDay.length - 1; l >= 0; l--) {
+                        var dataDay = [days[l], playerPerDay[l]];
+                        dataHighchart.push(dataDay);
+                    };
+
+                    console.log(dataHighchart);
+
+                    data[data.length] = {"type":"column", "name":characteristicValue, "data":dataHighchart };
+                };                  
+                
+            };
+        }
+
+        // add the total
+        var dataHighchart = [];  
+        var days = [];
+        var playerPerDay = [];
+        var nb = 0;
+
+        while (dataset.length > nb)
+        {
+            var timeStart = dataset[nb++].timeStarted;
+            var date = timeStart.split(" ")[0].split("-");
+
+            var year = parseInt(date[0]);
+            var month = parseInt(date[1])-1;
+            var day = parseInt(date[2]);
+
+            var dateJS = Date.UTC(year, month, day); 
+
+            // enter date if not in array
+            var indexOfDate = days.indexOf(dateJS);
+            if ( indexOfDate == -1 )
+            {
+                days.push(dateJS);
+                playerPerDay.push(1);
+            }
+            // otherwise increment count
+            else
+            {
+                playerPerDay[indexOfDate]++;
+            }
+        }
+
+
+        for (var l = playerPerDay.length - 1; l >= 0; l--) {
+            var dataDay = [days[l], playerPerDay[l]];
+            dataHighchart.push(dataDay);
+        };
+
+        data[data.length] = {"type":"spline", "name":"total", "data":dataHighchart, 
+                                marker: {
+                                lineWidth: 2,
+                                lineColor: Highcharts.getOptions().colors[data.length % 10],
+                                fillColor: 'white'
+                            } };   
+        return data
+    }
+
+    function draw(element, characteristic, data, categories){
+        // draw combined chart
+        element.highcharts({
+            chart: {
+                zoomType: 'x'
+            },
+            title: {
+                text: 'Gameplays timeline (by ' + characteristic + ')'
+            },
+            subtitle: {
+                text: document.ontouchstart === undefined ?
+                        'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+            },
+            xAxis: {
+                type: 'datetime',
+                title: {
+                    text: 'Date'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Number of players'
+                }
+            },
+            series: data
+        });
+    }
+    
+    return {
+        scope: {
+            la: '=la',
+            characteristic: '=characteristic'
+        },
+        link: function (scope, element) {
+            var categories = ["average", "max", "min"];
+            scope.$watchGroup(['la', 'characteristic'], function (){
+                var data = process(scope.la, scope.characteristic, categories);
+                draw(element, scope.characteristic, data, categories);
+            });
+        
+        }
+    };
+});
+
 learningAnalytics.directive('laHowLong', function(utils){
     // set the view
     function process(la, view, characteristic, categories) {

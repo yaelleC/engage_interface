@@ -88,6 +88,14 @@ Learning Analytics
 				</tab>
 				</tabset>
 			</div>
+			<div class="col-md-12 blockLA blockBasicInfo">
+				<h4>Timeline of gameplays</h4>
+				<tabset>
+				<tab ng-repeat="c in getExtraCharacteristics()" heading="By {{ c }}">
+				<div la-timeline la="LA" characteristic="c"></div>
+				</tab>
+				</tabset>
+			</div>
 		</div>
 
 	</tab>
