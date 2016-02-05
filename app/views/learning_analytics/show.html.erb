@@ -35,9 +35,9 @@ Learning Analytics
 	<tabset>
 	
 
-	<tab heading="General Information">
+	<tab heading="General Information" select="tabSelectedName = 'general'">
 
-		<div class="row-fluid">
+		<div class="row-fluid" ng-if="tabSelectedName == 'general'">
 			<div class="col-md-6 blockLA blockBasicInfo" data-step="3" data-intro="Blue blocks give you general information  about the players and gameplays." data-position="right">
 				<h4>Who played this game?</h4>
 				<p>
@@ -50,6 +50,7 @@ Learning Analytics
 				</tab>
 				</tabset>
 			</div>
+	
 			<div class="col-md-6 blockLA blockBasicInfo">
 				<h4>How many times did the students play?</h4>
 				<p>
@@ -63,7 +64,7 @@ Learning Analytics
 				</tabset>
 			</div>
 		</div>
-		<div class="row-fluid">
+		<div class="row-fluid" ng-if="tabSelectedName == 'general'">		
 			<div class="col-md-12 blockLA blockBasicInfo">
 				<h4>How long was the game played?</h4>
 				<p>
@@ -100,8 +101,8 @@ Learning Analytics
 
 	</tab>
 
-	<tab heading="Scores">
-		<div class="col-md-12 blockLA blockScoreStat" data-step="4" data-position="right" data-intro="Orange blocks give you further information about scores and progress of your students.">
+	<tab heading="Scores" select="tabSelectedName = 'scores'">
+		<div class="col-md-12 blockLA blockScoreStat" data-step="4" data-position="right" data-intro="Orange blocks give you further information about scores and progress of your students." ng-if="tabSelectedName == 'scores'">
 			<h4>Final scores</h4>
 			<p data-step="6" data-intro="For each graph you have refining options">
 				<select id="lo7" ng-model="loFinalScoresOutcome">
@@ -132,7 +133,7 @@ Learning Analytics
 			</tabset>
 		</div>
 		
-		<div class="col-md-12 blockLA blockScoreStat" data-step="9" data-position="right" data-intro="This chart allows you to see how the students learned during a single gameplay. You can visualise the evolution of any score between the start of a game until the end.">
+		<div class="col-md-12 blockLA blockScoreStat" data-step="9" data-position="right" data-intro="This chart allows you to see how the students learned during a single gameplay. You can visualise the evolution of any score between the start of a game until the end." ng-if="tabSelectedName == 'scores'">
 			<h4>Learning curves within game</h4>
 			<p>
 				<select id="lo8" ng-model="loLearningCurvesOutcome">
@@ -156,7 +157,7 @@ Learning Analytics
 			</tabset>
 		</div>
 
-		<div class="col-md-12 blockLA blockScoreStat" data-step="10" data-position="right" data-intro="This chart allows you to see the students overall progress. You can visualise the evolution of any score between the first and last time the student played.">
+		<div class="col-md-12 blockLA blockScoreStat" data-step="10" data-position="right" data-intro="This chart allows you to see the students overall progress. You can visualise the evolution of any score between the first and last time the student played." ng-if="tabSelectedName == 'scores'">
 			<h4>Learning curves between gameplays</h4>
 			<p>
 				<select id="lo9" ng-model="loLearningCurvesWithinGameplaysOutcome">
@@ -177,8 +178,8 @@ Learning Analytics
 		</div>
 	</tab>
 
-	<tab heading="Actions and Feedback">
-		<div class="col-md-12 blockLA blockInteractions" data-step="11" data-position="right" data-intro="This chart allows you to see the most/least common actions. Select a reaction, for example losing points to visualise the mistakes or a score increase to see the correctly answered questions.">
+	<tab heading="Actions and Feedback" select="tabSelectedName='actions'">
+		<div class="col-md-12 blockLA blockInteractions" data-step="11" data-position="right" data-intro="This chart allows you to see the most/least common actions. Select a reaction, for example losing points to visualise the mistakes or a score increase to see the correctly answered questions." ng-if="tabSelectedName == 'actions'">
 			<h4>Most and least common actions </h4>
 			<p>
 				<select ng-model="mostOrLeastCommon">
@@ -206,7 +207,7 @@ Learning Analytics
 			</p>
 			<div la-common-actions la="LA" leastcommon="mostOrLeastCommon" sign="signLOCommonActions" outcome="loCommonActions" bestoutcome="loCommonActionsBest" action="actionsCommonActions"></div>
 		</div>
-		<div class="row-fluid">
+		<div class="row-fluid"  ng-if="tabSelectedName == 'actions'">
 			<div class="col-md-12 blockLA blockInteractions" data-step="5" data-position="right" data-intro="Green blocks display more detailed information about the actions performed by your students, the feedback and badges received in the game.">
 				<h4>Detailed actions data</h4>
 				<p>
@@ -252,9 +253,9 @@ Learning Analytics
 		</div>
 	</tab>
 
-	<tab heading="Badges">
+	<tab heading="Badges" select="tabSelectedName='badges'">
 
-		<div class="row-fluid">
+		<div class="row-fluid"  ng-if="tabSelectedName == 'badges'">
 			<div class="col-md-6 blockLA blockInteractions" data-step="12" data-position="left" data-intro="You can also see which percentage of your students earned the different badges of the game. It's easy to identify which badges are too easy to obtained and which ones are too hard.">
 				<h4>Badges</h4>
 				
@@ -277,8 +278,9 @@ Learning Analytics
 		</div>
 	</tab>
 
-	<tab heading="Player reports" data-step="13" data-intro="For detailed reports about specific students, open this view. It will allow you to create a template of report and will let you generate a PDF file for a student or the class based on the template." >
-		<div>
+	<tab heading="Player reports" data-step="13" data-intro="For detailed reports about specific students, open this view. It will allow you to create a template of report and will let you generate a PDF file for a student or the class based on the template." select="tabSelectedName='reports'">
+
+		<div ng-if="tabSelectedName == 'reports'">
 			<h2>Players&rsquo; report</h2>
 			<p><i>Here you can define a template for your students&rsquo; reports. You can see a preview of the reports on the right. Once you are ready, click the &rsquo;save report&rsquo; button .</i></p>
 			<div class="row-fluid">

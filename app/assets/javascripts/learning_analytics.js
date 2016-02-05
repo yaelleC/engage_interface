@@ -1,7 +1,10 @@
 var learningAnalytics = angular.module('learningAnalytics', ['ui.bootstrap']);
 
 learningAnalytics.factory('utils', function() {
-    
+    var getPlayerLastDatasetResult = [];
+    var getGameplayDatasetResult = [];
+    var getPlayerFirstDatasetResult = [];
+    var getPlayerDatasetResult = [];
     var utils = {
    
     getUsernameById: function (la, id) {
@@ -34,6 +37,9 @@ learningAnalytics.factory('utils', function() {
     },
 
     getGameplayDataset: function (la) {
+        if (getGameplayDatasetResult.length){
+            return getGameplayDatasetResult;
+        }
         gameplayDataSet = [];
         for (var i = la.gameplays.length - 1; i >= 0; i--) {
             var idP = la.gameplays[i].idPlayer;
@@ -43,6 +49,7 @@ learningAnalytics.factory('utils', function() {
                 }
             }
         }
+        getGameplayDatasetResult = gameplayDataSet;
         return gameplayDataSet;
     },
     sortFunctionTimeStarted: function (a, b) {
@@ -110,6 +117,9 @@ learningAnalytics.factory('utils', function() {
         return arrayStats;
     },
     getPlayerLastDataset: function (la) {
+        if (getPlayerLastDatasetResult.length > 0){
+            return getPlayerLastDatasetResult;
+        }
         var dataset = [];
         var i, j;
         for (i = la.gameplays.length - 1; i >= 0; i--) {
@@ -151,9 +161,13 @@ learningAnalytics.factory('utils', function() {
                 }
             }
         }
+        getPlayerLastDatasetResult = dataset;
         return dataset;
     },
     getPlayerFirstDataset: function (la) {
+        if (getPlayerFirstDatasetResult.length) {
+            return getPlayerFirstDatasetResult;
+        } 
         var dataset = [];
         var i, j;
         for (i = la.gameplays.length - 1; i >= 0; i--) {
@@ -195,6 +209,7 @@ learningAnalytics.factory('utils', function() {
                 }
             }
         }
+        getPlayerFirstDatasetResult = dataset;
         return dataset;
     },
     getPlayerBestDataset: function (la, outcome) {
@@ -280,6 +295,9 @@ learningAnalytics.factory('utils', function() {
         return arrayStats;
     }, 
     getPlayerDataset: function (la) {
+        if (getPlayerDatasetResult.length) {
+            return getPlayerDatasetResult;
+        } 
         var dataset = [];
         var i, j;
         for (i = la.gameplays.length - 1; i >= 0; i--) {
@@ -329,6 +347,7 @@ learningAnalytics.factory('utils', function() {
                 }
             }
         }
+        getPlayerDatasetResult = dataset;
         return dataset;
     },
 
@@ -767,7 +786,6 @@ learningAnalytics.directive('laTimeline', function(utils){
                 // count how many times it appear
                 if (!charInData)
                 {
-                    console.log("characteristic: " + characteristicValue);
                     var timeStart = dataset[j].timeStarted;
                     var date = timeStart.split(" ")[0].split("-");
                     var dateJS = Date.UTC(parseInt(date[0]), parseInt(date[1])-1, parseInt(date[2])); 
@@ -808,7 +826,6 @@ learningAnalytics.directive('laTimeline', function(utils){
                         dataHighchart.push(dataDay);
                     };
 
-                    console.log(dataHighchart);
 
                     data[data.length] = {"type":"column", "name":characteristicValue, "data":dataHighchart };
                 };                  
@@ -2798,17 +2815,17 @@ learningAnalytics.controller('LA_controller',
                 {
                     listStudents[i].selected = true;
                 }
-
-                $scope.loFinalScoresOutcome = $scope.getLearningOutcomesList()[0];
-                $scope.loLearningCurvesOutcome = $scope.getLearningOutcomesList()[0];
-                $scope.loLearningCurvesWithinGameplaysOutcome = $scope.getLearningOutcomesList()[0];
-                $scope.loCommonActions = $scope.getLearningOutcomesList()[0];
-                $scope.loDetailedAction = $scope.getLearningOutcomesList()[0];
-                $scope.loCommonActionsBest = $scope.getLearningOutcomesList()[0];
-                $scope.loCommonFeedack = $scope.getLearningOutcomesList()[0]; 
-                $scope.loFinalScoresBestOutcome = $scope.getLearningOutcomesList()[0]; 
-                $scope.loLearningCurveBestOutcome = $scope.getLearningOutcomesList()[0]; 
-                $scope.loCustomBestOutcome = $scope.getLearningOutcomesList()[0]; 
+                var leargninOutcome =  $scope.getLearningOutcomesList()[0];
+                $scope.loFinalScoresOutcome = leargninOutcome;
+                $scope.loLearningCurvesOutcome = leargninOutcome;
+                $scope.loLearningCurvesWithinGameplaysOutcome = leargninOutcome;
+                $scope.loCommonActions = leargninOutcome;
+                $scope.loDetailedAction = leargninOutcome;
+                $scope.loCommonActionsBest = leargninOutcome;
+                $scope.loCommonFeedack = leargninOutcome; 
+                $scope.loFinalScoresBestOutcome = leargninOutcome; 
+                $scope.loLearningCurveBestOutcome = leargninOutcome; 
+                $scope.loCustomBestOutcome = leargninOutcome; 
 
                 $scope.signLOCommonActions = "+";
                 $scope.mostOrLeastCommon = "false";
@@ -2864,7 +2881,6 @@ learningAnalytics.controller('LA_controller',
                 $scope.commonActionsMostOrLeastCommon2 = "false";
                 $scope.commonActionsBestLO2 = Object.keys($scope.LA.game.learningOutcomes)[0];
                 $scope.commonActionsLimit2 = 8;
-
             });
 
         /**
