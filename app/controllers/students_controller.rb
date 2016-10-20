@@ -67,7 +67,11 @@ class StudentsController < ApplicationController
 
   # GET /students/csv
   def csv
-    @groups = current_user.teacher.groups
+    if current_user.role.title == 'admin'
+      @groups = []
+    else
+      @groups = current_user.teacher.groups
+    end
 
     respond_to do |format|
       format.html # csv.html.erb
