@@ -24,7 +24,9 @@ Learning Analytics
 		    </div>
 		    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
 		      <div class="panel-body">
-		        <span ng-repeat="p in getSudentsWhoPlayed()" ><input type="checkbox" ng-click="filterGameplays()" ng-model="p.selected"> {{ p.student.username || p.name || "player" + p.idPlayer  }}{{$last ? '' : ', '}}  </span>
+		        <span ng-repeat="p in getSudentsWhoPlayed()" ><input type="checkbox" ng-click="" ng-model="p.selected"> {{ p.student.username || p.name || "player" + p.idPlayer  }}{{$last ? '' : ', '}}  </span>
+		        <br/>
+		        <button class="btn btn-primary btn-sm" ng-click="filterGameplays()">filter players</button>
 		      </div>
 		    </div>
 		  </div>
@@ -124,6 +126,12 @@ Learning Analytics
 				<select ng-model="loFinalScoresBestOutcome">
 					<option  ng-repeat="o in getLearningOutcomesList()" value="{{o}}">{{o}}</option>
 				</select>
+				<div>
+				    <ul>
+				        <li><button id="showAll" style="width:120px;">show all</button></li>
+				        <li><button id="hideAll"style="width:120px;">hide all</button></li>
+				    </ul>
+				</div>
 			</p>
 			
 			<tabset>
@@ -369,10 +377,6 @@ Learning Analytics
 								<tr>
 									<td><input type="checkbox" id="learningCurve" ng-model="learningCurve" /></td>
 									<td>Learning curve
-										<!--<select ng-model="learningCurveScore">
-											<option  ng-repeat="s in getLearningOutcomesList()" value="{{s}}">{{s}}</option>
-											<option value="_custom_">custom formula</option>
-										</select>-->
 										<br/>
 										<input type="checkbox" id="learningCurveCustomFormula" ng-model="learningCurveCustomFormula" />Add custom score
 										<span ng-show="learningCurveCustomFormula">
@@ -626,7 +630,7 @@ Learning Analytics
 								</div>
 							</div>
 						</div>
-					</div> <!-- end of report to print -->
+					</div> 
 				</div>
 			</div>
 		</div>
