@@ -2747,6 +2747,26 @@ learningAnalytics.controller('LA_controller',
             return students;
         }
 
+        $scope.selectAllPlayers = function()
+        {
+            var students = $scope.getSudentsWhoPlayed();
+
+            for (s in students)
+            {
+                students[s].selected = true;
+            }
+        }
+
+        $scope.deselectAllPlayers = function()
+        {
+            var students = $scope.getSudentsWhoPlayed();
+
+            for (s in students)
+            {
+                students[s].selected = false;
+            }
+        }
+
         $scope.filterGameplays = function() 
         {
             var filteredGameplays = angular.copy(gameplays);

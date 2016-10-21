@@ -24,8 +24,13 @@ Learning Analytics
 		    </div>
 		    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
 		      <div class="panel-body">
-		        <span ng-repeat="p in getSudentsWhoPlayed()" ><input type="checkbox" ng-click="" ng-model="p.selected"> {{ p.student.username || p.name || "player" + p.idPlayer  }}{{$last ? '' : ', '}}  </span>
-		        <br/>
+		      	<button class="btn btn-sm" ng-click="selectAllPlayers()">Select all</button>
+		      	<button class="btn btn-sm" ng-click="deselectAllPlayers()">Deselect all</button>
+		        <p><span ng-repeat="p in getSudentsWhoPlayed()" >
+		        	<input type="checkbox" ng-click="" ng-model="p.selected"> 
+		        		{{ p.student.username || p.name || "player" + p.idPlayer  }}{{$last ? '' : ', '}} 
+		        	</span>
+		        </p>
 		        <button class="btn btn-primary btn-sm" ng-click="filterGameplays()">filter players</button>
 		      </div>
 		    </div>
